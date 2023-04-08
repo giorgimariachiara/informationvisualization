@@ -73,14 +73,16 @@ def SumVisitors(listOfMuseums):
                     for idmuseo in listOfMuseums:
                         SQL = read_sql("SELECT SUM(A.Visitatori), B.Museo FROM Periodi AS A JOIN Musei AS B ON A.IDMuseo == B.id WHERE A.IDMuseo == '" + idmuseo + "';", con)
                         museums = concat([museums, SQL]) 
-                return  museums.to_csv("visitors.csv", index= False)
-    
+                return  museums
        
 list = ["idmuseo-0","idmuseo-1", "idmuseo-2","idmuseo-3", "idmuseo-4","idmuseo-5", "idmuseo-6", "idmuseo-7", "idmuseo-8", "idmuseo-9", "idmuseo-10", "idmuseo-11"]
-print(SumVisitors(list))
-variabile = SumVisitors(list)
-my_plot = sns.load_dataset(variabile)
-sns.displot(variabile, x="flipper_length_mm")
+risultato = SumVisitors(list)
+print(risultato)
+#print(risultato.to_csv("visitors.csv", index= False))
+#print(Periodi_DF.plot(kind='bar'))
+#variabile = SumVisitors(list)
+#my_plot = sns(variabile)
+#sns.displot(variabile, x="anni", binwidth=3)
 
 """
 SELECT sum(Visitatori) FROM Periodi WHERE IDMuseo == "idmuseo-0" (risultato: 202740)
