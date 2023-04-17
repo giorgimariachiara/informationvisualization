@@ -11,7 +11,7 @@ import csv
 import seaborn as sns
 import matplotlib.pyplot as plt
 csv_path = "./presenze_musei.csv"
-db_path = "nobel.db"
+db_path = "grammy.db"
 """
 if os.path.exists(csv_path):
     Musei_df = pd.read_csv(csv_path, delimiter=";", keep_default_na=False, dtype={
@@ -99,6 +99,8 @@ SELECT sum(Visitatori) FROM Periodi WHERE IDMuseo == "idmuseo-9" (167613)
 SELECT sum(Visitatori) FROM Periodi WHERE IDMuseo == "idmuseo-10" (38818) 
 SELECT sum(Visitatori) FROM Periodi WHERE IDMuseo == "idmuseo-11" (5134)
 
+SELECT COUNT(gender) FROM Nobel WHERE gender == "male" AND category ="http://data.nobelprize.org/terms/Physiology_or_Medicine"
+
 """
 
 #print("Musei_df_info:\n")
@@ -116,9 +118,9 @@ print(Musei_df.info())
 #print(DataCSV(csv))
 """
 
-df = pd.read_csv('Query.csv')
+df = pd.read_csv('the_grammy_awards.csv')
 print(df)
 with connect(db_path) as con:
                 df.to_sql(
-                    "Nobel", con, if_exists="replace", index=False)
+                    "Grammy_Awards", con, if_exists="replace", index=False)
                 con.commit() 
