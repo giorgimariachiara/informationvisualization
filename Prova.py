@@ -11,8 +11,8 @@ import csv
 import seaborn as sns
 import matplotlib.pyplot as plt
 csv_path = "./presenze_musei.csv"
-db_path = "musei.db"
-
+db_path = "nobel.db"
+"""
 if os.path.exists(csv_path):
     Musei_df = pd.read_csv(csv_path, delimiter=";", keep_default_na=False, dtype={
         "anno": "string",
@@ -49,7 +49,7 @@ if os.path.exists(csv_path):
     
 else:
     raise Exception(f"CSV file '{csv_path}' does not exist!") 
-
+"""
 
 """
 def getSumVisitors(idmuseo):
@@ -65,6 +65,7 @@ def getSumVisitors(idmuseo):
         else:
             raise TypeError("The input parameter publicationYear is not an integer!")
 """
+"""
 
 def SumVisitors(listOfMuseums):
         for el in listOfMuseums:
@@ -77,13 +78,13 @@ def SumVisitors(listOfMuseums):
        
 list = ["idmuseo-0","idmuseo-1", "idmuseo-2","idmuseo-3", "idmuseo-4","idmuseo-5", "idmuseo-6", "idmuseo-7", "idmuseo-8", "idmuseo-9", "idmuseo-10", "idmuseo-11"]
 risultato = SumVisitors(list)
-print(risultato)
+#print(risultato)
 #print(risultato.to_csv("visitors.csv", index= False))
 #print(Periodi_DF.plot(kind='bar'))
 #variabile = SumVisitors(list)
 #my_plot = sns(variabile)
 #sns.displot(variabile, x="anni", binwidth=3)
-
+"""
 """
 SELECT sum(Visitatori) FROM Periodi WHERE IDMuseo == "idmuseo-0" (risultato: 202740)
 SELECT sum(Visitatori) FROM Periodi WHERE IDMuseo == "idmuseo-1" (risultato: 756901)
@@ -114,3 +115,10 @@ print("publicationDF_CSV_info:\n")
 print(Musei_df.info())
 #print(DataCSV(csv))
 """
+
+df = pd.read_csv('Query.csv')
+print(df)
+with connect(db_path) as con:
+                df.to_sql(
+                    "Nobel", con, if_exists="replace", index=False)
+                con.commit() 
