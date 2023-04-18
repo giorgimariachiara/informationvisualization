@@ -106,6 +106,9 @@ SELECT sum(Visitatori) FROM Periodi WHERE IDMuseo == "idmuseo-11" (5134)
 
 SELECT COUNT(gender) FROM Nobel WHERE gender == "male" AND category ="http://data.nobelprize.org/terms/Physiology_or_Medicine"
 
+DELETE FROM "FEMALE INTENTIONAL HOMICIDE" WHERE UNODC== "Iso3_code";
+ALTER TABLE FACT
+RENAME COLUMN "Unnamed:6" TO Category;
 """
 
 #print("Musei_df_info:\n")
@@ -142,8 +145,8 @@ print(len(variabile))
                             "violent", con, if_exists="replace", index=False)
                             con.commit() 
 """
-files         = "./violentOffense.csv"
-csv_database = create_engine('sqlite:///csv_database.db', echo=False)
+files         = ".\intentional homicide\FemaleIntentionaHomicide.csv"
+csv_database = create_engine('sqlite:///FemaleIntentionalHomicide.db', echo=False)
 
 df = pd.read_csv(files, sep=";", dtype='unicode' )
 
@@ -155,7 +158,7 @@ for df in pd.read_csv(files, chunksize=chunksize, iterator=True, sep=";", dtype=
     df = df.rename(columns={c: c.replace(' ', '') for c in df.columns})
 df.index += j
 i+=1
-df.to_sql('FACT', csv_database, if_exists='append')
+df.to_sql('FEMALE INTENTIONAL HOMICIDE', csv_database, if_exists='append')
 j = df.index[-1] + 1
 end = time.time()
 print(end - start)
