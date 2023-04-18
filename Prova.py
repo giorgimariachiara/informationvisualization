@@ -145,8 +145,8 @@ print(len(variabile))
                             "violent", con, if_exists="replace", index=False)
                             con.commit() 
 """
-files         = ".\intentional homicide\FemaleIntentionaHomicide.csv"
-csv_database = create_engine('sqlite:///FemaleIntentionalHomicide.db', echo=False)
+files         = ".\intentional homicide\MaleIntentionaHomicide.csv"
+csv_database = create_engine('sqlite:///MaleIntentionalHomicide.db', echo=False)
 
 df = pd.read_csv(files, sep=";", dtype='unicode' )
 
@@ -158,7 +158,7 @@ for df in pd.read_csv(files, chunksize=chunksize, iterator=True, sep=";", dtype=
     df = df.rename(columns={c: c.replace(' ', '') for c in df.columns})
 df.index += j
 i+=1
-df.to_sql('FEMALE INTENTIONAL HOMICIDE', csv_database, if_exists='append')
+df.to_sql('MALE INTENTIONAL HOMICIDE', csv_database, if_exists='append')
 j = df.index[-1] + 1
 end = time.time()
 print(end - start)
