@@ -106,9 +106,13 @@ SELECT sum(Visitatori) FROM Periodi WHERE IDMuseo == "idmuseo-11" (5134)
 
 SELECT COUNT(gender) FROM Nobel WHERE gender == "male" AND category ="http://data.nobelprize.org/terms/Physiology_or_Medicine"
 
+DELETE FROM "FEMALE VIOLENT SEXUAL CRIME" WHERE UNODC== "06/06/2022";
 DELETE FROM "FEMALE INTENTIONAL HOMICIDE" WHERE UNODC== "Iso3_code";
-ALTER TABLE FACT
-RENAME COLUMN "Unnamed:6" TO Category;
+ALTER TABLE "VIOLENT OFFENSE"
+RENAME COLUMN "Unnamed:12" TO Source;
+
+ALTER TABLE "VIOLENT OFFENSE"
+DROP COLUMN "Unnamed:10";
 """
 
 #print("Musei_df_info:\n")
@@ -145,8 +149,8 @@ print(len(variabile))
                             "violent", con, if_exists="replace", index=False)
                             con.commit() 
 """
-files         = ".\intentional homicide\MaleIntentionaHomicide.csv"
-csv_database = create_engine('sqlite:///MaleIntentionalHomicide.db', echo=False)
+files         = ".\HDITrends.csv"
+csv_database = create_engine('sqlite:///HDI.db', echo=False)
 
 df = pd.read_csv(files, sep=";", dtype='unicode' )
 
@@ -158,7 +162,7 @@ for df in pd.read_csv(files, chunksize=chunksize, iterator=True, sep=";", dtype=
     df = df.rename(columns={c: c.replace(' ', '') for c in df.columns})
 df.index += j
 i+=1
-df.to_sql('MALE INTENTIONAL HOMICIDE', csv_database, if_exists='append')
+df.to_sql('HDI Trends', csv_database, if_exists='append')
 j = df.index[-1] + 1
 end = time.time()
 print(end - start)
