@@ -10,8 +10,13 @@ from pandas import concat, read_sql
 import csv
 import seaborn as sns
 import matplotlib.pyplot as plt
+from sqlalchemy import create_engine
+import sys
+import time
 csv_path = "./presenze_musei.csv"
-db_path = "grammy.db"
+db_path = "ciao.db"
+
+#files  = "./violentOffense.csv"
 """
 if os.path.exists(csv_path):
     Musei_df = pd.read_csv(csv_path, delimiter=";", keep_default_na=False, dtype={
@@ -116,11 +121,41 @@ publicationDF_CSV = read_csv(csv, keep_default_na=False)
 print("publicationDF_CSV_info:\n")
 print(Musei_df.info())
 #print(DataCSV(csv))
+for chunk in pd.read_csv("sample.txt", chunksize=2):
+    print(chunk)
+    print("-----")
 """
+"""
+def creadatabase(file):
+    lista = list() 
+    for chunk in pd.read_csv(file ,sep=';', chunksize=9909):
+            lista.append(chunk)
+            print(lista)
 
-df = pd.read_csv('the_grammy_awards.csv')
-print(df)
-with connect(db_path) as con:
-                df.to_sql(
-                    "Grammy_Awards", con, if_exists="replace", index=False)
-                con.commit() 
+variabile = creadatabase(files)
+print(len(variabile))
+#print(creadatabase(files))
+"""
+"""
+            with connect(db_path) as con:
+                            chunk.to_sql(
+                            "violent", con, if_exists="replace", index=False)
+                            con.commit() 
+"""
+files         = "./violentOffense.csv"
+csv_database = create_engine('sqlite:///csv_database.db', echo=False)
+
+df = pd.read_csv(files, sep=";", dtype='unicode' )
+
+start = time.time()
+chunksize = 100000
+i = 0
+j = 1
+for df in pd.read_csv(files, chunksize=chunksize, iterator=True, sep=";", dtype='unicode'):
+    df = df.rename(columns={c: c.replace(' ', '') for c in df.columns})
+df.index += j
+i+=1
+df.to_sql('FACT', csv_database, if_exists='append')
+j = df.index[-1] + 1
+end = time.time()
+print(end - start)
