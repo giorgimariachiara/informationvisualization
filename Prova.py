@@ -149,7 +149,7 @@ print(len(variabile))
                             "violent", con, if_exists="replace", index=False)
                             con.commit() 
 """
-files         = ".\HDITrends.csv"
+files         = ".\HDI.csv"
 csv_database = create_engine('sqlite:///HDI.db', echo=False)
 
 df = pd.read_csv(files, sep=";", dtype='unicode' )
