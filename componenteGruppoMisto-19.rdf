@@ -1,0 +1,67 @@
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://dati.camera.it/ocd/siComponeDi>	_:b20742014308742260 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4139>	<http://dati.camera.it/ocd/rif_leg>	<http://dati.camera.it/ocd/legislatura.rdf/repubblica_19> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4137>	<http://dati.camera.it/ocd/rif_gruppoParlamentare>	<http://dati.camera.it/ocd/gruppoParlamentare.rdf/gr4111> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4139>	<http://dati.camera.it/ocd/siComponeDi>	_:b19964415678902974 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://dati.camera.it/ocd/siComponeDi>	_:b20742014308813994 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://dati.camera.it/ocd/siComponeDi>	_:b20742014308755021 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://purl.org/dc/elements/1.1/date>	"20221019-20221027" .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://dati.camera.it/ocd/siComponeDi>	_:b20742014308826500 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://dati.camera.it/ocd/startDate>	"20221019" .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://dati.camera.it/ocd/rif_leg>	<http://dati.camera.it/ocd/legislatura.rdf/repubblica_19> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://dati.camera.it/ocd/siComponeDi>	_:b20742014308542021 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://purl.org/dc/elements/1.1/date>	"20221019-20221027" .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://dati.camera.it/ocd/endDate>	"20221027" .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://dati.camera.it/ocd/siComponeDi>	_:b20742014308715539 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://purl.org/dc/terms/alternative>	"M-NM(N-C-U-I)-M" .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4139>	<http://purl.org/dc/elements/1.1/date>	"20221019" .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://dati.camera.it/ocd/siComponeDi>	_:b20655613050315379 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://dati.camera.it/ocd/siComponeDi>	_:b20742014308838930 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4137>	<http://dati.camera.it/ocd/siComponeDi>	_:b20569214069366736 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4137>	<http://dati.camera.it/ocd/rif_leg>	<http://dati.camera.it/ocd/legislatura.rdf/repubblica_19> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4139>	<http://lod.xdams.org/ontologies/ods/modified>	"2022-10-20T12:00:11Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4137>	<http://dati.camera.it/ocd/siComponeDi>	_:b20569214069429572 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4139>	<http://www.w3.org/2000/01/rdf-schema#label>	"MISTO-+EUROPA (MISTO-+EUROPA) (19.10.2022"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://dati.camera.it/ocd/siComponeDi>	_:b20655613050445834 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4139>	<http://dati.camera.it/ocd/siComponeDi>	_:b19964415678938984 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://dati.camera.it/ocd/siComponeDi>	_:b20742014308779980 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://purl.org/dc/elements/1.1/title>	"MISTO-ALLEANZA VERDI E SINISTRA (MISTO-AVS) (19.10.2022-27.10.2022)" .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://dati.camera.it/ocd/siComponeDi>	_:b20742014308640217 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4137>	<http://purl.org/dc/elements/1.1/date>	"20221019" .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://www.w3.org/2000/01/rdf-schema#label>	"MISTO-NOI MODERATI (NOI CON L'ITALIA, CORAGGIO ITALIA, UDC, ITALIA AL CENTRO)-MAIE (M-NM(N-C-U-I)-M) (19.10.2022-27.10.2022)"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://dati.camera.it/ocd/siComponeDi>	_:b20655613050184188 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4137>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://dati.camera.it/ocd/componenteGruppoMisto> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://dati.camera.it/ocd/siComponeDi>	_:b20655613050688417 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://purl.org/dc/terms/alternative>	"MISTO-AVS" .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4137>	<http://dati.camera.it/ocd/siComponeDi>	_:b20569214069598358 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://dati.camera.it/ocd/siComponeDi>	_:b20655613050118682 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://dati.camera.it/ocd/rif_leg>	<http://dati.camera.it/ocd/legislatura.rdf/repubblica_19> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4139>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://dati.camera.it/ocd/componenteGruppoMisto> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://dati.camera.it/ocd/siComponeDi>	_:b20655613049944286 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://dati.camera.it/ocd/componenteGruppoMisto> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>	<http://dati.camera.it/ocd/componenteGruppoMisto> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://dati.camera.it/ocd/endDate>	"20221027" .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4137>	<http://purl.org/dc/elements/1.1/title>	"MISTO-MINORANZE LINGUISTICHE (MISTO-MIN.LING.) (19.10.2022" .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://dati.camera.it/ocd/siComponeDi>	_:b20742014308702231 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4139>	<http://dati.camera.it/ocd/siComponeDi>	_:b19964415678857148 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://lod.xdams.org/ontologies/ods/modified>	"2022-10-28T12:00:08Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4139>	<http://purl.org/dc/elements/1.1/title>	"MISTO-+EUROPA (MISTO-+EUROPA) (19.10.2022" .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4139>	<http://dati.camera.it/ocd/startDate>	"20221019" .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://dati.camera.it/ocd/rif_gruppoParlamentare>	<http://dati.camera.it/ocd/gruppoParlamentare.rdf/gr4111> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4137>	<http://purl.org/dc/terms/alternative>	"MISTO-MIN.LING." .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://dati.camera.it/ocd/siComponeDi>	_:b20742014308767377 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://dati.camera.it/ocd/siComponeDi>	_:b20742014308597533 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://lod.xdams.org/ontologies/ods/modified>	"2022-10-29T12:00:09Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://dati.camera.it/ocd/startDate>	"20221019" .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4137>	<http://dati.camera.it/ocd/siComponeDi>	_:b20569214069480843 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4137>	<http://lod.xdams.org/ontologies/ods/modified>	"2022-10-27T12:00:09Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4137>	<http://www.w3.org/2000/01/rdf-schema#label>	"MISTO-MINORANZE LINGUISTICHE (MISTO-MIN.LING.) (19.10.2022"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4139>	<http://purl.org/dc/terms/alternative>	"MISTO-+EUROPA" .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://www.w3.org/2000/01/rdf-schema#label>	"MISTO-ALLEANZA VERDI E SINISTRA (MISTO-AVS) (19.10.2022-27.10.2022)"^^<http://www.w3.org/2001/XMLSchema#string> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4139>	<http://dati.camera.it/ocd/rif_gruppoParlamentare>	<http://dati.camera.it/ocd/gruppoParlamentare.rdf/gr4111> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://dati.camera.it/ocd/siComponeDi>	_:b20655613050380618 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4137>	<http://dati.camera.it/ocd/startDate>	"20221019" .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4138>	<http://dati.camera.it/ocd/rif_gruppoParlamentare>	<http://dati.camera.it/ocd/gruppoParlamentare.rdf/gr4111> .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://dati.camera.it/ocd/siComponeDi>	_:b20655613050249888 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://dati.camera.it/ocd/siComponeDi>	_:b20655613050051730 .
+<http://dati.camera.it/ocd/componenteGruppoMisto.rdf/cgm4148>	<http://purl.org/dc/elements/1.1/title>	"MISTO-NOI MODERATI (NOI CON L'ITALIA, CORAGGIO ITALIA, UDC, ITALIA AL CENTRO)-MAIE (M-NM(N-C-U-I)-M) (19.10.2022-27.10.2022)" .
+
