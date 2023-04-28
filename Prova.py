@@ -253,5 +253,24 @@ SELECT DISTINCT ?nome ?legislatura where {
      
 """
 
+"""SELECT DISTINCT ?nome ?label where {
+  
+  ?nome foaf:gender "male".
+  ?nome ocd:rif_leg ?legislatura.
+  ?legislatura rdfs:label ?labelnome. 
+  ?legislatura dc:title ?label. 
+ } ORDER BY ?legislatura """
+
 df = sparql_dataframe.get(endpoint, queryuomini)
 print(df)
+
+#QUERY luoghi di nascita città 
+
+queryluoghinascita = """select distinct ?luogoNascital {
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri rdfs:label ?luogoNascita.
+  ?luogoNascitaUri dc:title ?luogoNascital.
+
+        } 
+     """
