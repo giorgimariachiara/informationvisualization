@@ -13,8 +13,12 @@ import matplotlib.pyplot as plt
 from sqlalchemy import create_engine
 import sys
 import time
-csv_path = "./presenze_musei.csv"
-db_path = "ciao.db"
+
+
+from SPARQLWrapper import SPARQLWrapper, JSON
+import sparql_dataframe
+
+
 
 #files  = "./violentOffense.csv"
 """
@@ -149,6 +153,8 @@ print(len(variabile))
                             "violent", con, if_exists="replace", index=False)
                             con.commit() 
 """
+
+"""
 files         = ".\HDI.csv"
 csv_database = create_engine('sqlite:///HDI.db', echo=False)
 
@@ -166,3 +172,86 @@ df.to_sql('HDI Trends', csv_database, if_exists='append')
 j = df.index[-1] + 1
 end = time.time()
 print(end - start)
+
+"""
+"""
+import rdflib.graph as g 
+graph = g.Graph()
+graph.parse('persona.rdf', format='rdf')
+
+print(graph.serialize(format='pretty-xml'))
+"""
+#QUERY TUTTE LE DONNE
+endpoint = "https://dati.camera.it/sparql"
+
+querydonne = """
+prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix foaf:<http://xmlns.com/foaf/0.1/>
+SELECT DISTINCT ?nome ?legislatura where {
+  
+  ?nome foaf:gender "female".
+  ?nome ocd:rif_leg ?legislatura. 
+ } ORDER BY ?legislatura
+     
+"""
+
+df = sparql_dataframe.get(endpoint, querydonne)
+print(df)
+
+#QUERY UOMINI FINO ALLA 16 LEGISLATURA
+queryuomini = """
+prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix foaf:<http://xmlns.com/foaf/0.1/>
+SELECT DISTINCT ?nome ?legislatura where {
+  
+  ?nome foaf:gender "male".
+  ?nome ocd:rif_leg ?legislatura. 
+ } ORDER BY ?legislatura
+     
+"""
+
+df = sparql_dataframe.get(endpoint, queryuomini)
+print(df)
+#QUERY UOMINI FINO ALLA 17 LEGISLATURA
+queryuomini = """
+prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix foaf:<http://xmlns.com/foaf/0.1/>
+SELECT DISTINCT ?nome ?legislatura where {
+  
+  ?nome foaf:gender "male".
+  ?nome ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_17>. 
+ } ORDER BY ?legislatura
+     
+"""
+
+df = sparql_dataframe.get(endpoint, queryuomini)
+print(df)
+#QUERY UOMINI FINO ALLA 18 LEGISLATURA
+queryuomini = """
+prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix foaf:<http://xmlns.com/foaf/0.1/>
+SELECT DISTINCT ?nome ?legislatura where {
+  
+  ?nome foaf:gender "male".
+  ?nome ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_18>. 
+ } ORDER BY ?legislatura
+     
+"""
+
+df = sparql_dataframe.get(endpoint, queryuomini)
+print(df)
+
+#QUERY UOMINI FINO ALLA 19 LEGISLATURA
+queryuomini = """
+prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix foaf:<http://xmlns.com/foaf/0.1/>
+SELECT DISTINCT ?nome ?legislatura where {
+  
+  ?nome foaf:gender "male".
+  ?nome ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_19>. 
+ } ORDER BY ?legislatura
+     
+"""
+
+df = sparql_dataframe.get(endpoint, queryuomini)
+print(df)
