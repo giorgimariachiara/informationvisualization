@@ -40,20 +40,11 @@ SELECT DISTINCT ?nome ?legislatura where {
 
 dffemale = sparql_dataframe.get(endpoint, querydonne)
 
-"""SELECT DISTINCT ?nome ?label where {
-  
-  ?nome foaf:gender "male".
-  ?nome ocd:rif_leg ?legislatura.
-  ?legislatura rdfs:label ?labelnome. 
-  ?legislatura dc:title ?label. 
- } ORDER BY ?legislatura """
-
-
-
 
 #QUERY LUOGHI NASCITA 
 
 querycittànascita = """select ?luogoNascital {
+  ?persona foaf:gender "female".
   ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
   ?nascita ocd:rif_luogo ?luogoNascitaUri.
   ?luogoNascitaUri rdfs:label ?luogoNascita.
@@ -138,10 +129,19 @@ dfnumeropresidentesse = sparql_dataframe.get(endpoint, querynumerocontopresident
 
 
 
+queryprova = """SELECT ?nome ?cognome ?luogonascita  where {
+  
+  ?persona foaf:gender "female".
+  ?persona foaf:firstName ?nome.
+  ?persona foaf:surname ?cognome. 
+
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita. 
+  ?nascita rdfs:label ?luogonascita. 
+  ?nascita ocd:rif_luogo ?luogo. 
+ } 
+"""
+dfprova = sparql_dataframe.get(endpoint, queryprova)
 
 
 
-
-
-
-print(dfpresidentessaconsiglio) 
+print(dffemale) 
