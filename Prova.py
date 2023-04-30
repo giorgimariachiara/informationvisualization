@@ -195,8 +195,8 @@ SELECT DISTINCT ?nome ?legislatura where {
      
 """
 
-df = sparql_dataframe.get(endpoint, querydonne)
-print(df)
+dfdonne = sparql_dataframe.get(endpoint, querydonne)
+
 
 #QUERY UOMINI FINO ALLA 16 LEGISLATURA
 queryuomini = """
@@ -210,46 +210,49 @@ SELECT DISTINCT ?nome ?legislatura where {
      
 """
 
-df = sparql_dataframe.get(endpoint, queryuomini)
-print(df)
+dfu = sparql_dataframe.get(endpoint, queryuomini)
+
+
 #QUERY UOMINI FINO ALLA 17 LEGISLATURA
-queryuomini = """
+queryuomini17 = """
 prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix foaf:<http://xmlns.com/foaf/0.1/>
-SELECT DISTINCT ?nome ?legislatura where {
+SELECT DISTINCT ?nome where {
   
   ?nome foaf:gender "male".
   ?nome ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_17>. 
- } ORDER BY ?legislatura
+ } 
      
 """
 
-df = sparql_dataframe.get(endpoint, queryuomini)
-print(df)
+dfuo = sparql_dataframe.get(endpoint, queryuomini17)
+
+
 #QUERY UOMINI FINO ALLA 18 LEGISLATURA
-queryuomini = """
+queryuomini18 = """
 prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix foaf:<http://xmlns.com/foaf/0.1/>
-SELECT DISTINCT ?nome ?legislatura where {
+SELECT DISTINCT ?nome where {
   
   ?nome foaf:gender "male".
   ?nome ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_18>. 
- } ORDER BY ?legislatura
+ } 
+
      
 """
 
-df = sparql_dataframe.get(endpoint, queryuomini)
-print(df)
+dfuom = sparql_dataframe.get(endpoint, queryuomini18)
+
 
 #QUERY UOMINI FINO ALLA 19 LEGISLATURA
-queryuomini = """
+queryuomini19 = """
 prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix foaf:<http://xmlns.com/foaf/0.1/>
-SELECT DISTINCT ?nome ?legislatura where {
+SELECT DISTINCT ?nome where {
   
   ?nome foaf:gender "male".
   ?nome ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_19>. 
- } ORDER BY ?legislatura
+ } 
      
 """
 
@@ -261,10 +264,10 @@ SELECT DISTINCT ?nome ?legislatura where {
   ?legislatura dc:title ?label. 
  } ORDER BY ?legislatura """
 
-df = sparql_dataframe.get(endpoint, queryuomini)
-print(df)
+dfuomi = sparql_dataframe.get(endpoint, queryuomini19)
 
-#QUERY luoghi di nascita città 
+
+#QUERY LUOGHI NASCITA 
 
 queryluoghinascita = """select distinct ?luogoNascital {
   ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
@@ -274,3 +277,57 @@ queryluoghinascita = """select distinct ?luogoNascital {
 
         } 
      """
+dfluoghinascita = sparql_dataframe.get(endpoint, queryluoghinascita)
+
+queryregioni = """
+    select ?regione ?persona{
+    ?persona foaf:gender "female".
+    ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+    ?nascita ocd:rif_luogo ?luogoNascitaUri.
+    ?luogoNascitaUri ocd:parentADM3 ?regione . 
+    
+    } """
+
+
+dfregioni = sparql_dataframe.get(endpoint, queryregioni)
+
+
+queryprova = """    select distinct ?persona  {
+    
+    ?persona ocd:rif_leg ?legislatura.
+    
+    
+    } ORDER BY ?legislatura
+
+"""
+
+dftr = sparql_dataframe.get(endpoint, queryprova)
+ 
+
+
+QUERYSOMMATUTTI = """SELECT DISTINCT ?nome ?legislatura where {{
+  
+  ?nome foaf:gender "female".
+  ?nome ocd:rif_leg ?legislatura. 
+ } 
+UNION 
+{?nome foaf:gender "male".
+  ?nome ocd:rif_leg ?legislatura. 
+  }}ORDER BY ?legislatura"""
+
+
+QUERYSOMMATUTTI0 = """SELECT DISTINCT ?nome where {{
+  
+  ?nome foaf:gender "female".
+  ?nome ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/costituente>. 
+ } 
+UNION 
+{?nome foaf:gender "male".
+  ?nome ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/costituente>. 
+  }}"""
+
+
+dfsommmatutti = sparql_dataframe.get(endpoint, QUERYSOMMATUTTI)
+
+dfsommmatutti0 = sparql_dataframe.get(endpoint, QUERYSOMMATUTTI0)
+
