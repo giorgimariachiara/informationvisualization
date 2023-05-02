@@ -13,6 +13,8 @@ import matplotlib.pyplot as plt
 from sqlalchemy import create_engine
 import sys
 import time
+import chart_studio
+chart_studio.tools.set_credentials_file(username='DemoAccount', api_key='lr1c37zw')
 
 
 from SPARQLWrapper import SPARQLWrapper, JSON
@@ -33,8 +35,9 @@ prefix foaf:<http://xmlns.com/foaf/0.1/>
 SELECT DISTINCT ?nome ?legislatura where {
   
   ?nome foaf:gender "female".
-  ?nome ocd:rif_leg ?legislatura. 
- } ORDER BY ?legislatura
+  ?nome ocd:rif_leg ?legislatural. 
+  ?legislatural dc:title ?legislatura. 
+ } ORDER BY ?legislatural
      
 """
 
@@ -126,9 +129,6 @@ WHERE {
 
 dfnumeropresidentesse = sparql_dataframe.get(endpoint, querynumerocontopresidentesseconsiglio)
 
-
-
-
 queryprova = """SELECT ?nome ?cognome ?luogonascita  where {
   
   ?persona foaf:gender "female".
@@ -142,6 +142,68 @@ queryprova = """SELECT ?nome ?cognome ?luogonascita  where {
 """
 dfprova = sparql_dataframe.get(endpoint, queryprova)
 
+#QUERY STUDI DONNE 
+
+querystudidonne = """prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix foaf:<http://xmlns.com/foaf/0.1/>
+
+SELECT DISTINCT ?descrizione (COUNT(?descrizione) as ?numero) where {
+  
+  ?nome foaf:gender "female".
+  ?nome ocd:rif_leg ?legislatural. 
+  ?nome dc:description ?descrizione.  
+ }
+group by ?descrizione
+"""
+dfstudidonne = sparql_dataframe.get(endpoint, querystudidonne)
+
+#QUERY TOTALE NUMERO STUDI DONNE 
+querytotstudidonne = """SELECT (sum(?numero)as ?totale) where {
+SELECT DISTINCT ?descrizione (COUNT(?descrizione) as ?numero) where {
+  
+  ?nome foaf:gender "female".
+  ?nome ocd:rif_leg ?legislatural. 
+  ?nome dc:description ?descrizione.  
+ }
+group by ?descrizione}
+"""
+
+dftotstudidonne = sparql_dataframe.get(endpoint, querytotstudidonne)
 
 
-print(dffemale) 
+#print(dftotstudidonne) 
+
+"""
+from dash import Dash, dcc, html, Input, Output
+import plotly.graph_objects as go
+
+app = Dash(__name__)
+
+
+app.layout = html.Div([
+    html.H4('Interactive color selection with simple Dash example'),
+    html.P("Select color:"),
+    dcc.Dropdown(
+        id="dropdown",
+        options=['Gold', 'MediumTurquoise', 'LightGreen'],
+        value='Gold',
+        clearable=False,
+    ),
+    dcc.Graph(id="graph"),
+])
+
+
+@app.callback(
+    Output("graph", "figure"), 
+    Input("dropdown", "value"))
+def display_color(color):
+    fig = go.Figure(
+        data=go.Bar(y=[2, 3, 1], # replace with your own data source
+                    marker_color=color))
+    return fig
+
+
+app.run_server(debug=True)
+"""
+
+print(dfstudidonne.to_csv('Studidonne.csv'))

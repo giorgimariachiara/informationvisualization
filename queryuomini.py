@@ -594,4 +594,31 @@ WHERE {
 
 dfnumeropresidenti = sparql_dataframe.get(endpoint, querynumerocontopresidenticonsiglio)
 
-print(dfcaricauomini)
+#QUERY STUDI UOMO 
+
+querystudiuomo ="""prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix foaf:<http://xmlns.com/foaf/0.1/>
+
+SELECT DISTINCT ?descrizione (COUNT(?descrizione) as ?numero) where {
+  
+  ?nome foaf:gender "male".
+  ?nome ocd:rif_leg ?legislatural. 
+  ?nome dc:description ?descrizione.  
+ }
+group by ?descrizione"""
+dfstudiuomo = sparql_dataframe.get(endpoint, querystudiuomo)
+
+#QUERY TOTALE NUMERO STUDI UOMO 
+
+querytotstudiuomo = """SELECT (sum(?numero)as ?totale) where {
+SELECT DISTINCT ?descrizione (COUNT(?descrizione) as ?numero) where {
+  
+  ?nome foaf:gender "male".
+  ?nome ocd:rif_leg ?legislatural. 
+  ?nome dc:description ?descrizione.  
+ }
+group by ?descrizione}"""
+
+
+dftotstudiuomo = sparql_dataframe.get(endpoint, querytotstudiuomo)
+print(dftotstudiuomo)
