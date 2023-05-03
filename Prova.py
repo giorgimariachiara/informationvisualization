@@ -205,5 +205,38 @@ def display_color(color):
 
 app.run_server(debug=True)
 """
+#TOTALE DONNE CON LAUREA 
 
-print(dfstudidonne.to_csv('Studidonne.csv'))
+querytotalenumerodonnelaurea ="""PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+
+SELECT (SUM(?numero) as ?totale) where {
+select (COUNT(?descrizione) as ?numero)
+
+where
+{?nome foaf:gender "female".
+  ?nome ocd:rif_leg ?legislatural. 
+  ?nome dc:description ?descrizione.  
+
+   FILTER regex(?descrizione, "^(Laurea|laurea)")}}
+"""
+
+dftotalenumerodonnelaurea = sparql_dataframe.get(endpoint, querytotalenumerodonnelaurea)
+
+#TOTALE DONNE SENZA LAUREA 
+querytotnonlaureadonne = """PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+
+SELECT (SUM(?numero) as ?totale) where {
+select (COUNT(?descrizione) as ?numero)
+
+where
+{?nome foaf:gender "female".
+  ?nome ocd:rif_leg ?legislatural. 
+  ?nome dc:description ?descrizione.  
+
+   FILTER regex(?descrizione, "^(?!.*Laurea|laurea)")}
+GROUP BY ?descrizione}"""
+
+dftotnumerononlaureadonne = sparql_dataframe.get(endpoint, querytotnonlaureadonne)
+print(dftotstudidonne)
