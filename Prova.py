@@ -239,4 +239,19 @@ where
 GROUP BY ?descrizione}"""
 
 dftotnumerononlaureadonne = sparql_dataframe.get(endpoint, querytotnonlaureadonne)
-print(dftotstudidonne)
+
+queryprovava = """
+SELECT ?nome
+
+where
+{?nome foaf:gender "female".
+  ?nome ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_05>. 
+ ?nome dc:description ?descrizione. 
+ 
+} 
+"""
+
+dfprovava = sparql_dataframe.get(endpoint, queryprovava)
+
+print(dftotnumerononlaureadonne)
+print(dftotalenumerodonnelaurea)
