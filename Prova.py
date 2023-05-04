@@ -253,5 +253,14 @@ where
 
 dfprovava = sparql_dataframe.get(endpoint, queryprovava)
 
-print(dftotnumerononlaureadonne)
-print(dftotalenumerodonnelaurea)
+endpointdbpedia = "https://dbpedia.org/sparql"
+
+queryregionidbpedia = """select ?regione ?point where {{
+?regione dbo:type dbr:Regions_of_Italy.
+?regione georss:point ?point } UNION {?regione dbo:type dbr:Autonomous_regions_with_special_statute.
+?regione georss:point ?point. } 
+UNION {?regione dbo:type dbr:Region_of_Italy .
+?regione georss:point ?point. }}"""
+
+dfregionidbpedia = sparql_dataframe.get(endpointdbpedia, queryregionidbpedia)
+print(dfregionidbpedia)
