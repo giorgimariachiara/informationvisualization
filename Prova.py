@@ -205,5 +205,62 @@ def display_color(color):
 
 app.run_server(debug=True)
 """
+#TOTALE DONNE CON LAUREA 
 
-print(dfstudidonne.to_csv('Studidonne.csv'))
+querytotalenumerodonnelaurea ="""PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+
+SELECT (SUM(?numero) as ?totale) where {
+select (COUNT(?descrizione) as ?numero)
+
+where
+{?nome foaf:gender "female".
+  ?nome ocd:rif_leg ?legislatural. 
+  ?nome dc:description ?descrizione.  
+
+   FILTER regex(?descrizione, "^(Laurea|laurea)")}}
+"""
+
+dftotalenumerodonnelaurea = sparql_dataframe.get(endpoint, querytotalenumerodonnelaurea)
+
+#TOTALE DONNE SENZA LAUREA 
+querytotnonlaureadonne = """PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+
+SELECT (SUM(?numero) as ?totale) where {
+select (COUNT(?descrizione) as ?numero)
+
+where
+{?nome foaf:gender "female".
+  ?nome ocd:rif_leg ?legislatural. 
+  ?nome dc:description ?descrizione.  
+
+   FILTER regex(?descrizione, "^(?!.*Laurea|laurea)")}
+GROUP BY ?descrizione}"""
+
+dftotnumerononlaureadonne = sparql_dataframe.get(endpoint, querytotnonlaureadonne)
+
+queryprovava = """
+SELECT ?nome
+
+where
+{?nome foaf:gender "female".
+  ?nome ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_05>. 
+ ?nome dc:description ?descrizione. 
+ 
+} 
+"""
+
+dfprovava = sparql_dataframe.get(endpoint, queryprovava)
+
+endpointdbpedia = "https://dbpedia.org/sparql"
+
+queryregionidbpedia = """select ?regione ?point where {{
+?regione dbo:type dbr:Regions_of_Italy.
+?regione georss:point ?point } UNION {?regione dbo:type dbr:Autonomous_regions_with_special_statute.
+?regione georss:point ?point. } 
+UNION {?regione dbo:type dbr:Region_of_Italy .
+?regione georss:point ?point. }}"""
+
+dfregionidbpedia = sparql_dataframe.get(endpointdbpedia, queryregionidbpedia)
+print(dfregionidbpedia)

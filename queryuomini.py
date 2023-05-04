@@ -621,4 +621,4 @@ group by ?descrizione}"""
 
 
 dftotstudiuomo = sparql_dataframe.get(endpoint, querytotstudiuomo)
-print(dftotstudiuomo)
+print()
