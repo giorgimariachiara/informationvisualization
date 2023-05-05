@@ -3,7 +3,17 @@ import sparql_dataframe
 
 endpoint = "https://dati.camera.it/sparql"
 
+#QUERY NUMERO TOTALE UOMINI
+querynumerototuomini = """
+SELECT (SUM(?totale) AS ?tot) WHERE {
+SELECT (COUNT(?nome) AS ?totale) where {
+  
+  ?nome foaf:gender "male".
+  ?nome ocd:rif_leg ?legislatural. 
+  ?legislatural dc:title ?legislatura. 
+ }}"""
 
+dfnumerototuomini = sparql_dataframe.get(endpoint, querynumerototuomini)
 #QUERY UOMINI ASSEMBLEA COSTITUENTE 
 queryuomini0 = """
 prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -621,4 +631,4 @@ group by ?descrizione}"""
 
 
 dftotstudiuomo = sparql_dataframe.get(endpoint, querytotstudiuomo)
-print()
+print(dfgruppoparuomini11)

@@ -43,6 +43,17 @@ SELECT DISTINCT ?nome ?legislatura where {
 
 dffemale = sparql_dataframe.get(endpoint, querydonne)
 
+#QUERY NUMERO TOTALE DONNE 
+querynumerototdonne = """
+SELECT (SUM(?totale) AS ?tot) WHERE {
+SELECT (COUNT(?nome) AS ?totale) where {
+  
+  ?nome foaf:gender "female".
+  ?nome ocd:rif_leg ?legislatural. 
+  ?legislatural dc:title ?legislatura. 
+ }}"""
+
+dfnumerototdonne = sparql_dataframe.get(endpoint, querynumerototdonne)
 
 #QUERY LUOGHI NASCITA 
 
@@ -262,5 +273,10 @@ queryregionidbpedia = """select ?regione ?point where {{
 UNION {?regione dbo:type dbr:Region_of_Italy .
 ?regione georss:point ?point. }}"""
 
+queryregioniwikidata = """select ?regione ?id where {{
+?regione wdt:P31 wd:Q16110.
+?regione wdt:P402 ?id } UNION {?regione wdt:P31 wd:Q1710033.
+?regione wdt:P402 ?id } 
+}"""
 dfregionidbpedia = sparql_dataframe.get(endpointdbpedia, queryregionidbpedia)
-print(dfregionidbpedia)
+print(dfgruppopardonne)
