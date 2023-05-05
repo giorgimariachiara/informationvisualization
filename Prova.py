@@ -295,4 +295,43 @@ dfregionidbpedia = sparql_dataframe.get(endpointdbpedia, queryregionidbpedia)
 
 
 #MARIMEKKO CHART 
+# Import libraries
+import pandas as pd
+import matplotlib.pyplot as plt
 
+# Load the data of Italian deputies and their education level
+deputies = pd.read_csv('deputies.csv')
+
+# Group the deputies data by gender and education level
+deputies_grouped = deputies.groupby(['gender', 'education']).size().reset_index(name='count')
+
+# Calculate the total number of deputies for each gender
+total_males = deputies[deputies['gender'] == 'M']['gender'].count()
+total_females = deputies[deputies['gender'] == 'F']['gender'].count()
+
+# Calculate the percentage of deputies for each gender and education level
+deputies_grouped['percentage'] = deputies_grouped.apply(lambda row: row['count'] / (total_males if row['gender'] == 'M' else total_females), axis=1)
+
+# Pivot the data to create a Marimekko chart
+deputies_pivot = deputies_grouped.pivot(index='gender', columns='education', values='percentage')
+
+# Sort the data by descending order of male percentages
+deputies_pivot = deputies_pivot.sort_values(by='M', ascending=False)
+
+# Create a stacked vertical bar chart
+fig, ax = plt.subplots(figsize=(10, 8))
+ax.bar(deputies_pivot.columns, deputies_pivot.loc['M'], color='b')
+ax.bar(deputies_pivot.columns, deputies_pivot.loc['F'], bottom=deputies_pivot.loc['M'], color='r')
+
+# Add labels and title
+ax.set_xlabel('Education Level')
+ax.set_ylabel('Percentage of Deputies')
+ax.set_title('Graduated Deputies in the Italian Chamber of Deputies by Gender')
+
+# Add percentage labels on the bars
+for i, v in enumerate(deputies_pivot.loc['M']):
+    ax.text(i, v/2, f'{round(v*100, 1)}%', color='white', ha='center', va='center', fontweight='bold')
+    ax.text(i, v+deputies_pivot.loc['F'][i]/2, f'{round(deputies_pivot.loc["F"][i]*100, 1)}%', color='white', ha='center', va='center', fontweight='bold')
+
+# Show the plot
+plt.show()
