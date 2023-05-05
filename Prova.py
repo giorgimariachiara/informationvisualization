@@ -55,6 +55,18 @@ SELECT (COUNT(?nome) AS ?totale) where {
 
 dfnumerototdonne = sparql_dataframe.get(endpoint, querynumerototdonne)
 
+
+querynumerototuomini = """
+SELECT (SUM(?totale) AS ?tot) WHERE {
+SELECT (COUNT(?nome) AS ?totale) where {
+  
+  ?nome foaf:gender "male".
+  ?nome ocd:rif_leg ?legislatural. 
+  ?legislatural dc:title ?legislatura. 
+ }}"""
+
+dfnumerototuomini = sparql_dataframe.get(endpoint, querynumerototuomini)
+
 #QUERY LUOGHI NASCITA 
 
 querycittànascita = """select ?luogoNascital {
@@ -279,4 +291,8 @@ queryregioniwikidata = """select ?regione ?id where {{
 ?regione wdt:P402 ?id } 
 }"""
 dfregionidbpedia = sparql_dataframe.get(endpointdbpedia, queryregionidbpedia)
-print(dfgruppopardonne)
+#print(dfnumerototdonne)
+
+
+#MARIMEKKO CHART 
+
