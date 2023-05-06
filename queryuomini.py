@@ -5,13 +5,12 @@ endpoint = "https://dati.camera.it/sparql"
 
 #QUERY NUMERO TOTALE UOMINI
 querynumerototuomini = """
-SELECT (SUM(?totale) AS ?tot) WHERE {
 SELECT (COUNT(?nome) AS ?totale) where {
   
   ?nome foaf:gender "male".
   ?nome ocd:rif_leg ?legislatural. 
   ?legislatural dc:title ?legislatura. 
- }}"""
+ }"""
 
 dfnumerototuomini = sparql_dataframe.get(endpoint, querynumerototuomini)
 #QUERY UOMINI ASSEMBLEA COSTITUENTE 
@@ -21,11 +20,12 @@ prefix foaf:<http://xmlns.com/foaf/0.1/>
 SELECT DISTINCT ?nome where {
   
   ?nome foaf:gender "male".
+  ?nome foaf:firstName ?name.
+  ?nome foaf:surname ?cognome . 
   ?nome ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/costituente>. 
  } 
      
 """
-
 dfmale0 = sparql_dataframe.get(endpoint, queryuomini0)
 
 #QUERY UOMINI LEGISLATURA 1  
@@ -618,17 +618,4 @@ SELECT DISTINCT ?descrizione (COUNT(?descrizione) as ?numero) where {
 group by ?descrizione"""
 dfstudiuomo = sparql_dataframe.get(endpoint, querystudiuomo)
 
-#QUERY TOTALE NUMERO STUDI UOMO 
-
-querytotstudiuomo = """SELECT (sum(?numero)as ?totale) where {
-SELECT DISTINCT ?descrizione (COUNT(?descrizione) as ?numero) where {
-  
-  ?nome foaf:gender "male".
-  ?nome ocd:rif_leg ?legislatural. 
-  ?nome dc:description ?descrizione.  
- }
-group by ?descrizione}"""
-
-
-dftotstudiuomo = sparql_dataframe.get(endpoint, querytotstudiuomo)
-print(dfgruppoparuomini11)
+print(dfmale0)

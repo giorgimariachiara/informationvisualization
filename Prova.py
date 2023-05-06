@@ -45,25 +45,25 @@ dffemale = sparql_dataframe.get(endpoint, querydonne)
 
 #QUERY NUMERO TOTALE DONNE 
 querynumerototdonne = """
-SELECT (SUM(?totale) AS ?tot) WHERE {
+
 SELECT (COUNT(?nome) AS ?totale) where {
   
   ?nome foaf:gender "female".
   ?nome ocd:rif_leg ?legislatural. 
   ?legislatural dc:title ?legislatura. 
- }}"""
+ }"""
 
 dfnumerototdonne = sparql_dataframe.get(endpoint, querynumerototdonne)
 
 
 querynumerototuomini = """
-SELECT (SUM(?totale) AS ?tot) WHERE {
+
 SELECT (COUNT(?nome) AS ?totale) where {
   
   ?nome foaf:gender "male".
   ?nome ocd:rif_leg ?legislatural. 
   ?legislatural dc:title ?legislatura. 
- }}"""
+ }"""
 
 dfnumerototuomini = sparql_dataframe.get(endpoint, querynumerototuomini)
 
@@ -81,12 +81,11 @@ querycittànascita = """select ?luogoNascital {
 dfcittànascita = sparql_dataframe.get(endpoint, querycittànascita)
 
 queryregioninascita = """
-    select ?regione ?persona{
-    ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-    ?nascita ocd:rif_luogo ?luogoNascitaUri.
-    ?luogoNascitaUri ocd:parentADM3 ?regione . 
-    
-    } """ 
+   select ?regione {
+  ?persona foaf:gender "female".
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri ocd:parentADM3 ?regione . } """ 
 
 
 dfregioninascita = sparql_dataframe.get(endpoint, queryregioninascita)
@@ -294,44 +293,159 @@ dfregionidbpedia = sparql_dataframe.get(endpointdbpedia, queryregionidbpedia)
 #print(dfnumerototdonne)
 
 
-#MARIMEKKO CHART 
+#QUERY TOTALE NUMERO STUDI UOMO 
+
+querytotstudiuomo = """SELECT (sum(?numero)as ?totale) where {
+SELECT DISTINCT ?descrizione (COUNT(?descrizione) as ?numero) where {
+  
+  ?nome foaf:gender "male".
+  ?nome ocd:rif_leg ?legislatural. 
+  ?nome dc:description ?descrizione.  
+ }
+group by ?descrizione}"""
+
+
+dftotstudiuomo = sparql_dataframe.get(endpoint, querytotstudiuomo)
+
 # Import libraries
 import pandas as pd
 import matplotlib.pyplot as plt
+# Import libraries
+import geopandas as gpd
+import matplotlib.pyplot as plt
 
-# Load the data of Italian deputies and their education level
-deputies = pd.read_csv('deputies.csv')
+prova = """select distinct ?persona ?legislatura {
+  ?persona foaf:gender "female".
+  ?persona ocd:rif_mandatoCamera ?mandato. 
+  ?mandato ocd:rif_leg ?legislatura. } ORDER BY ?legislatura"""
 
-# Group the deputies data by gender and education level
-deputies_grouped = deputies.groupby(['gender', 'education']).size().reset_index(name='count')
+#query informazioni donne nelle legislature ma se una ha partecipato in più legislature è presente più volte (numero totale di righe 3150)
+#se invece vediamo solo nome e cognome e non anche legislatura le righe diventano 905
+#secondo questa qiery per gli uomini sono nel primo caso e poi 
+q = """ 
+SELECT distinct (COUNT(?name ?cognome) as ?totale) where {
+  
+  ?persona foaf:gender "male".
+  ?persona foaf:firstName ?name. 
+  ?persona foaf:surname ?cognome . 
+  ?persona ocd:rif_mandatoCamera ?mandato. 
+  ?mandato ocd:rif_leg ?legislatura.
+ }"""
 
-# Calculate the total number of deputies for each gender
-total_males = deputies[deputies['gender'] == 'M']['gender'].count()
-total_females = deputies[deputies['gender'] == 'F']['gender'].count()
 
-# Calculate the percentage of deputies for each gender and education level
-deputies_grouped['percentage'] = deputies_grouped.apply(lambda row: row['count'] / (total_males if row['gender'] == 'M' else total_females), axis=1)
+#questa query dovrebbe contare calcolando solo nome e cognome (però potrebbero essere omonimi?)
+q2 = """SELECT (COUNT(DISTINCT CONCAT(COALESCE(?name, ''), COALESCE(?cognome, ''))) as ?count) where {
+  
+  ?persona foaf:gender "female".
+  ?persona foaf:firstName ?name. 
+  ?persona foaf:surname ?cognome . 
+  ?persona ocd:rif_mandatoCamera ?mandato. 
+  ?mandato ocd:rif_leg ?legislatura.
+ } """
+q3 = """
 
-# Pivot the data to create a Marimekko chart
-deputies_pivot = deputies_grouped.pivot(index='gender', columns='education', values='percentage')
+SELECT distinct ?name ?cognome where {
+  
+  ?nome foaf:gender "female".
+  ?nome foaf:firstName ?name.
+  ?nome foaf:surname ?cognome. 
+  ?nome ocd:rif_leg ?legislatural. 
+  ?legislatural dc:title ?legislatura. 
+ }"""
+provaaa = sparql_dataframe.get(endpoint, q3)
 
-# Sort the data by descending order of male percentages
-deputies_pivot = deputies_pivot.sort_values(by='M', ascending=False)
 
-# Create a stacked vertical bar chart
-fig, ax = plt.subplots(figsize=(10, 8))
-ax.bar(deputies_pivot.columns, deputies_pivot.loc['M'], color='b')
-ax.bar(deputies_pivot.columns, deputies_pivot.loc['F'], bottom=deputies_pivot.loc['M'], color='r')
+#prova map visualization il totale delle città per le donne è 905 qui sia se metto ?nome ?=cognome che se metto solo ?nome e il luogo mi da sempre 905 
 
-# Add labels and title
-ax.set_xlabel('Education Level')
-ax.set_ylabel('Percentage of Deputies')
-ax.set_title('Graduated Deputies in the Italian Chamber of Deputies by Gender')
+q4 = """select ?nome ?cognome ?città ?regione where {
+  ?persona foaf:gender "female".
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome. 
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri rdfs:label ?luogoNascita.
+  ?luogoNascitaUri dc:title ?città.
+ OPTIONAL { ?luogoNascitaUri ocd:parentADM3 ?regione .}
+}"""
+df = sparql_dataframe.get(endpoint, q4)
 
-# Add percentage labels on the bars
-for i, v in enumerate(deputies_pivot.loc['M']):
-    ax.text(i, v/2, f'{round(v*100, 1)}%', color='white', ha='center', va='center', fontweight='bold')
-    ax.text(i, v+deputies_pivot.loc['F'][i]/2, f'{round(deputies_pivot.loc["F"][i]*100, 1)}%', color='white', ha='center', va='center', fontweight='bold')
+"""
+geolocator =  Bing(api_key='Deputiescities')
+df['location'] = df['luogoNascital'].apply(geolocator.geocode)
+df['point'] = df['location'].apply(lambda loc: tuple(loc.point) if loc else None)
 
-# Show the plot
-plt.show()
+m = folium.Map(location=[45.5231, -122.6765], zoom_start=4)
+
+for index, row in df.iterrows():
+    if row['point'] is not None:
+        folium.Marker(location=row['point'], popup=row['Name']).add_to(m)
+
+m 
+"""
+"""
+import folium
+
+# Create a map centered on the first city in the DataFrame
+m = folium.Map(location=[df.loc[0, 'città'], df.loc[0, 'regione']])
+
+# Loop through each row in the DataFrame
+for index, row in df.iterrows():
+    # Check if the region is NaN (i.e. missing)
+    if pd.isna(row['regione']):
+        # If the region is missing, use only the city for the location
+        location = [row['città']]
+    else:
+        # Otherwise, use both the city and region for the location
+        location = [row['città'], row['regione']]
+    
+    # Create a marker for the person's location and add it to the map
+    tooltip = f"{row['nome']} {row['cognome']}"
+    folium.Marker(location=location, tooltip=tooltip).add_to(m)
+
+# Display the map
+m.save('map2.html')
+"""
+
+
+q4 = """select ?nome ?cognome ?città ?regione where {
+  ?persona foaf:gender "female".
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome. 
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri rdfs:label ?luogoNascita.
+  ?luogoNascitaUri dc:title ?città.
+ OPTIONAL { ?luogoNascitaUri ocd:parentADM3 ?regione .}
+}"""
+df = sparql_dataframe.get(endpoint, q4)
+# importing geopy library
+from geopy.geocoders import Nominatim
+import folium
+# calling the Nominatim tool
+loc = Nominatim(user_agent="location")
+lat=[]
+long=[]
+
+listacittà = df['città'].tolist()
+
+# entering the location name
+for elem in listacittà:
+    getLoc = loc.geocode(elem)
+    lat.append(getLoc.latitude)
+    long.append(getLoc.longitude)
+
+city_list=list(zip(lat, long))
+df_cord = pd.DataFrame(columns = ["Lat", "Long"])
+df_cord["Lat"]=lat
+df_cord["Long"]=long
+
+m = folium.Map(df_cord[['Lat', 'Long']].mean().values.tolist())
+
+for lat, lon in zip(df_cord['Lat'], df_cord['Long']):
+    folium.Marker([lat, lon]).add_to(m)
+
+sw = df_cord[['Lat', 'Long']].min().values.tolist()
+ne = df_cord[['Lat', 'Long']].max().values.tolist()
+
+m.fit_bounds([sw, ne])
+m.save("mappa2.html")

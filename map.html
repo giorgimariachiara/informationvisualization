@@ -25,7 +25,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_96758c8e0780a60a3e92ddfa965e25d5 {
+                #map_44d30f9396936529dd67c10017a666ce {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -39,18 +39,18 @@
 <body>
     
     
-            <div class="folium-map" id="map_96758c8e0780a60a3e92ddfa965e25d5" ></div>
+            <div class="folium-map" id="map_44d30f9396936529dd67c10017a666ce" ></div>
         
 </body>
 <script>
     
     
-            var map_96758c8e0780a60a3e92ddfa965e25d5 = L.map(
-                "map_96758c8e0780a60a3e92ddfa965e25d5",
+            var map_44d30f9396936529dd67c10017a666ce = L.map(
+                "map_44d30f9396936529dd67c10017a666ce",
                 {
-                    center: [41.0, 16.0],
+                    center: [37.7749, -122.4194],
                     crs: L.CRS.EPSG3857,
-                    zoom: 10,
+                    zoom: 4,
                     zoomControl: true,
                     preferCanvas: false,
                 }
@@ -60,10 +60,94 @@
 
         
     
-            var tile_layer_77037f89cf619a4c89bb932fe8cb1a16 = L.tileLayer(
+            var tile_layer_86c217d236f5b9287b88e46634887503 = L.tileLayer(
                 "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {"attribution": "Data by \u0026copy; \u003ca target=\"_blank\" href=\"http://openstreetmap.org\"\u003eOpenStreetMap\u003c/a\u003e, under \u003ca target=\"_blank\" href=\"http://www.openstreetmap.org/copyright\"\u003eODbL\u003c/a\u003e.", "detectRetina": false, "maxNativeZoom": 18, "maxZoom": 18, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
-            ).addTo(map_96758c8e0780a60a3e92ddfa965e25d5);
+            ).addTo(map_44d30f9396936529dd67c10017a666ce);
+        
+    
+            var marker_47cd17f7a62916efc1175309f89480b0 = L.marker(
+                [37.7749, -122.4194],
+                {}
+            ).addTo(map_44d30f9396936529dd67c10017a666ce);
+        
+    
+            marker_47cd17f7a62916efc1175309f89480b0.bindTooltip(
+                `<div>
+                     San Francisco
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ad4586ee5e036389ed0e8915a9e14ba2 = L.marker(
+                [40.7128, -74.006],
+                {}
+            ).addTo(map_44d30f9396936529dd67c10017a666ce);
+        
+    
+            marker_ad4586ee5e036389ed0e8915a9e14ba2.bindTooltip(
+                `<div>
+                     New York
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_e7b13bba7754822b055da7dee70b0aad = L.marker(
+                [41.8781, -87.6298],
+                {}
+            ).addTo(map_44d30f9396936529dd67c10017a666ce);
+        
+    
+            marker_e7b13bba7754822b055da7dee70b0aad.bindTooltip(
+                `<div>
+                     Chicago
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_4441c74680eb6e6069b03c15a678185e = L.marker(
+                [34.0522, -118.2437],
+                {}
+            ).addTo(map_44d30f9396936529dd67c10017a666ce);
+        
+    
+            marker_4441c74680eb6e6069b03c15a678185e.bindTooltip(
+                `<div>
+                     Los Angeles
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_7372346ceb2ba1288dd09e232eaf9488 = L.marker(
+                [48.8566, 2.3522],
+                {}
+            ).addTo(map_44d30f9396936529dd67c10017a666ce);
+        
+    
+            marker_7372346ceb2ba1288dd09e232eaf9488.bindTooltip(
+                `<div>
+                     Paris
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_6acd8bda980f805b1a8a1c49ec2c159c = L.marker(
+                [51.5072, -0.1276],
+                {}
+            ).addTo(map_44d30f9396936529dd67c10017a666ce);
+        
+    
+            marker_6acd8bda980f805b1a8a1c49ec2c159c.bindTooltip(
+                `<div>
+                     London
+                 </div>`,
+                {"sticky": true}
+            );
         
 </script>
 </html>
