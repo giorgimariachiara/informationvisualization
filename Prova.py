@@ -448,4 +448,4 @@ sw = df_cord[['Lat', 'Long']].min().values.tolist()
 ne = df_cord[['Lat', 'Long']].max().values.tolist()
 
 m.fit_bounds([sw, ne])
-m.save("mappa2.html")
+print(m)
