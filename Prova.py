@@ -405,7 +405,8 @@ for index, row in df.iterrows():
 # Display the map
 m.save('map2.html')
 """
-
+"""
+"""
 
 q4 = """select ?nome ?cognome ?città ?regione where {
   ?persona foaf:gender "female".
@@ -422,30 +423,73 @@ df = sparql_dataframe.get(endpoint, q4)
 from geopy.geocoders import Nominatim
 import folium
 # calling the Nominatim tool
-loc = Nominatim(user_agent="location")
+loc = Nominatim(user_agent="cities_map")
 lat=[]
-long=[]
+long=[] 
 
-listacittà = df['città'].tolist()
+listacittà = df['città'].tolist() 
 
 # entering the location name
-for elem in listacittà:
-    getLoc = loc.geocode(elem)
-    lat.append(getLoc.latitude)
-    long.append(getLoc.longitude)
+for elem in listacittà: 
+    getLoc = loc.geocode(elem) 
+    lat.append(getLoc.latitude) 
+    long.append(getLoc.longitude) 
 
-city_list=list(zip(lat, long))
-df_cord = pd.DataFrame(columns = ["Lat", "Long"])
-df_cord["Lat"]=lat
-df_cord["Long"]=long
+city_list=list(zip(lat, long)) 
+df_coordinates = pd.DataFrame(columns = ["Lat", "Long"]) 
+df_coordinates["Lat"]=lat 
+df_coordinates["Long"]=long 
 
-m = folium.Map(df_cord[['Lat', 'Long']].mean().values.tolist())
+m = folium.Map(df_coordinates[['Lat', 'Long']].mean().values.tolist()) 
 
-for lat, lon in zip(df_cord['Lat'], df_cord['Long']):
-    folium.Marker([lat, lon]).add_to(m)
+for lat, lon in zip(df_coordinates['Lat'], df_coordinates['Long']): 
+    folium.Marker([lat, lon]).add_to(m) 
 
-sw = df_cord[['Lat', 'Long']].min().values.tolist()
-ne = df_cord[['Lat', 'Long']].max().values.tolist()
+sw = df_coordinates[['Lat', 'Long']].min().values.tolist() 
+ne = df_coordinates[['Lat', 'Long']].max().values.tolist() 
 
-m.fit_bounds([sw, ne])
-print(m)
+m.fit_bounds([sw, ne])  
+print(ne) 
+print(m)  
+"""
+
+# Import libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the data of graduated male deputies
+male_deputies = pd.read_csv('male_deputies.csv')
+male_deputies = male_deputies.groupby(['education'])['count'].sum().reset_index()
+
+# Load the data of graduated female deputies
+female_deputies = pd.read_csv('female_deputies.csv')
+female_deputies = female_deputies.groupby(['education'])['count'].sum().reset_index()
+
+# Merge the male and female dataframes based on the education level
+deputies = pd.merge(male_deputies, female_deputies, on='education', suffixes=('_male', '_female'))
+
+# Calculate the total number of deputies for each gender
+total_males = male_deputies['count'].sum()
+total_females = female_deputies['count'].sum()
+
+# Calculate the percentage of deputies for each gender and education level
+deputies['percentage_male'] = deputies['count_male'] / total_males
+deputies['percentage_female'] = deputies['count_female'] / total_females
+
+# Create a stacked vertical bar chart
+fig, ax = plt.subplots(figsize=(10, 8))
+ax.bar(deputies['education'], deputies['percentage_male'], color='b')
+ax.bar(deputies['education'], deputies['percentage_female'], bottom=deputies['percentage_male'], color='r')
+
+# Add labels and title
+ax.set_xlabel('Education Level')
+ax.set_ylabel('Percentage of Deputies')
+ax.set_title('Graduated Deputies in the Italian Chamber of Deputies by Gender')
+
+# Add percentage labels on the bars
+for i, v in enumerate(deputies['percentage_male']):
+    ax.text(i, v/2, f'{round(v*100, 1)}%', color='white', ha='center', va='center', fontweight='bold')
+    ax.text(i, v+deputies['percentage_female'][i]/2, f'{round(deputies["percentage_female"][i]*100, 1)}%', color='white', ha='center', va='center', fontweight='bold')
+
+# Show the plot
+plt.show()
