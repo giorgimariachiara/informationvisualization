@@ -243,6 +243,16 @@ where
    FILTER regex(?descrizione, "^(Laurea|laurea)")}}
 """
 
+"""
+SELECT (COUNT(DISTINCT CONCAT(COALESCE(?name, ''), COALESCE(?cognome, ''))) as ?count) where {
+  
+  ?persona foaf:gender "male".
+  ?persona foaf:firstName ?name. 
+  ?persona foaf:surname ?cognome . 
+  ?persona dc:description ?descrizione. 
+  FILTER regex(?descrizione, "^(Laurea|laurea)")
+ 
+ }"""
 dftotalenumerodonnelaurea = sparql_dataframe.get(endpoint, querytotalenumerodonnelaurea)
 
 #TOTALE DONNE SENZA LAUREA 
@@ -406,10 +416,10 @@ for index, row in df.iterrows():
 m.save('map2.html')
 """
 """
-"""
 
+"""
 q4 = """select ?nome ?cognome ?città ?regione where {
-  ?persona foaf:gender "female".
+  ?persona foaf:gender "male".
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome. 
   ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
@@ -418,8 +428,22 @@ q4 = """select ?nome ?cognome ?città ?regione where {
   ?luogoNascitaUri dc:title ?città.
  OPTIONAL { ?luogoNascitaUri ocd:parentADM3 ?regione .}
 }"""
-df = sparql_dataframe.get(endpoint, q4)
+
+q5 ="""select ?nome ?cognome ?città ?regione ?gender where {
+  ?persona foaf:gender ?gender. 
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome. 
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri rdfs:label ?luogoNascita.
+  ?luogoNascitaUri dc:title ?città.
+ OPTIONAL { ?luogoNascitaUri ocd:parentADM3 ?regione .}}"""
+df = sparql_dataframe.get(endpoint, q5) 
+dataframepermappa = df.drop(columns=['nome', 'cognome'])
+dataframepermappa.to_csv('deputies.csv')
+print(dataframepermappa)
 # importing geopy library
+"""
 from geopy.geocoders import Nominatim
 import folium
 # calling the Nominatim tool
@@ -449,10 +473,10 @@ sw = df_coordinates[['Lat', 'Long']].min().values.tolist()
 ne = df_coordinates[['Lat', 'Long']].max().values.tolist() 
 
 m.fit_bounds([sw, ne])  
-print(ne) 
-print(m)  
 """
-
+"""
+"""
+"""
 # Import libraries
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -493,3 +517,6 @@ for i, v in enumerate(deputies['percentage_male']):
 
 # Show the plot
 plt.show()
+
+"""
+
