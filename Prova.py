@@ -564,19 +564,20 @@ list = list()
 for person in people19:
     # get the name and surname from the tuple
     name, surname = person 
+    print(person)
     name = name.capitalize()
     surname = surname.capitalize()
     endpoint ="https://query.wikidata.org/sparql"
     # build the SPARQL query string
-    query = """
-    SELECT distinct ?birthplacel WHERE {
-        ?person wdt:P31 wd:Q5.
-        ?person rdfs:label ?personLabel. 
-        ?person rdfs:label "{name} {surname}"@en.
-       ?person wdt:P19 ?birthplace.
-        ?birthplace wdt:P1705 ?birthplacel. 
-    }
-    """
+
+    query = ('SELECT distinct ?birthplacel WHERE { \
+        ?person wdt:P31 wd:Q5. \
+        ?person rdfs:label ?personLabel.  \
+        ?person rdfs:label "' + name + surname +'". \
+       ?person wdt:P19 ?birthplace. \
+        ?birthplace wdt:P1705 ?birthplacel.  \
+    }')
+
     dataf = sparql_dataframe.get(endpoint, query)
 
     list.append(dataf)
