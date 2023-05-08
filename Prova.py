@@ -438,10 +438,21 @@ q5 ="""select ?nome ?cognome ?città ?regione ?gender where {
   ?luogoNascitaUri rdfs:label ?luogoNascita.
   ?luogoNascitaUri dc:title ?città.
  OPTIONAL { ?luogoNascitaUri ocd:parentADM3 ?regione .}}"""
+
+
+q6 ="""select distinct ?nome ?cognome ?nascita ?città where {
+  ?persona foaf:gender ?gender. 
+  ?persona foaf:gender "male".
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome. 
+ OPTIONAL { ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri rdfs:label ?luogoNascita.
+  ?luogoNascitaUri dc:title ?città.}}"""
 df = sparql_dataframe.get(endpoint, q5) 
 dataframepermappa = df.drop(columns=['nome', 'cognome'])
-dataframepermappa.to_csv('deputies.csv')
-print(dataframepermappa)
+dataframepermappa.to_csv('deputies.csv', index = False) 
+
 # importing geopy library
 """
 from geopy.geocoders import Nominatim
@@ -520,3 +531,126 @@ plt.show()
 
 """
 
+querypertrovareluogonascitawikid = """select distinct ?name ?surname ?nascita ?città where {
+  ?persona foaf:gender ?gender. 
+  ?persona foaf:gender "male".
+  ?persona foaf:firstName ?name. 
+  ?persona foaf:surname ?surname. 
+ OPTIONAL { ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri rdfs:label ?luogoNascita.
+  ?luogoNascitaUri dc:title ?città.}} """
+
+import requests 
+
+hr = sparql_dataframe.get(endpoint, querypertrovareluogonascitawikid)
+
+hr = hr[hr.isnull().any(axis=1)]
+people = list(zip(hr['name'], hr['surname']))
+people1 = people[:len(people)//2]
+people3 = people1[:len(people1)//2]
+people5= people1[len(people1)//2:]
+people7 =people3[:len(people3)//2]
+people9 = people3[len(people3)//2:]
+people11 = people7[:len(people7)//2]
+people13= people11[:len(people11)//2]
+people15 = people13[:len(people13)//2]
+people17 = people15[:len(people15)//2]
+people19 = people17[:len(people17)//2]
+people2 = people[len(people)//2:]
+print(people19)
+#hr.to_csv('fileperwiki.csv')
+list = list()
+for person in people19:
+    # get the name and surname from the tuple
+    name, surname = person 
+    name = name.capitalize()
+    surname = surname.capitalize()
+    endpoint ="https://query.wikidata.org/sparql"
+    # build the SPARQL query string
+    query = """
+    SELECT distinct ?birthplacel WHERE {
+        ?person wdt:P31 wd:Q5.
+        ?person rdfs:label ?personLabel. 
+        ?person rdfs:label "{name} {surname}"@en.
+       ?person wdt:P19 ?birthplace.
+        ?birthplace wdt:P1705 ?birthplacel. 
+    }
+    """
+    dataf = sparql_dataframe.get(endpoint, query)
+
+    list.append(dataf)
+    # make the request to the Wikidata SPARQL endpoint
+  
+
+"""
+#align with wikidata 
+import pandas as pd
+from wikidataintegrator import wdi_core, wdi_login, wdi_helpers, service_account
+
+
+# Set up Wikidata login credentials
+login = wdi_login.WDLogin(user='ElizaStuglik', pwd='Bologna21@.')
+
+
+# Load the relevant data from dati.camera.it
+df = pd.read_csv('fileperwiki.csv')
+
+# Loop through each row in the dataset and attempt to align it with Wikidata
+for index, row in df.iterrows():
+
+    # Define the properties and values to be used for the Wikidata entity
+    name = row['name']
+    surname = row['surname']
+    place_of_birth = None
+    
+
+
+# Define the Wikidata endpoint to use
+endpoint = 'https://query.wikidata.org/sparql'
+
+# Search for the entity using the person's name
+query = f"SELECT ?item WHERE {{ ?item rdfs:label '{name}'@en }}"
+results = wdi_core.WDItemEngine.execute_sparql_query(query, endpoint)
+
+# Check if the search returned any results
+if results['bindings']:
+    # Get the first entity in the search results
+    entity_id = results['bindings'][0]['item']['value'].split('/')[-1]
+    
+    # Create a new WDItemEngine object for the entity
+    wd_entity = wdi_core.WDItemEngine(wd_item_id=entity_id)
+    
+    # ... rest of your code goes here
+else:
+    print(f"No matching entities found for {name}")
+
+    # Search for a matching entity on Wikidata using the name
+    entity_id = wdi_core.WDItemEngine.get_wd_search_results(name)
+
+    # If a match is found, update the entity with the new information
+    if entity_id:
+        # Define the Wikidata entity to be updated
+        wd_entity = wdi_core.WDItemEngine(wd_item_id=entity_id[0]['id'])
+
+        # Define the properties and values to be added or updated
+        pob_prop = wdi_core.WDString(value=place_of_birth, prop_nr='P19', is_qualifier=True)
+
+        # Update the entity with the new properties and values
+        wd_entity.update(data=[pob_prop], login=login)
+        
+    # If no match is found, create a new entity on Wikidata
+    else:
+        # Define the Wikidata entity to be created
+        wd_entity = wdi_core.WDItemEngine(new_item=True, data=[wdi_core.WDString(value=name, prop_nr='P31')])
+
+        # Define the properties and values to be added
+        pob_prop = wdi_core.WDString(value=place_of_birth, prop_nr='P19', is_qualifier=True)
+
+        # Add the new properties and values to the entity
+        wd_entity.set_label(name)
+        wd_entity.set_description('Person')
+        wd_entity.set_aliases([name])
+        wd_entity.update(data=[pob_prop], login=login)
+
+"""
