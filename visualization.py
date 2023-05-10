@@ -4,6 +4,34 @@ from geopy.geocoders import Nominatim
 from shapely.geometry import Point
 import matplotlib.pyplot as plt
 
+from SPARQLWrapper import SPARQLWrapper, JSON
+import sparql_dataframe
+
+ 
+
+
+endpoint = "https://dati.camera.it/sparql"
+
+q4 = """select ?nome ?cognome ?città?regione where {
+  ?persona foaf:gender "female".
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome. 
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri rdfs:label ?luogoNascita.
+  ?luogoNascitaUri dc:title ?città.
+ OPTIONAL { ?luogoNascitaUri ocd:parentADM3 ?regione .}
+}"""
+df = sparql_dataframe.get(endpoint, q4)
+dataframecities = df["città"]
+
+# count the frequency of each city and create a new dataframe
+city_counts = df['città'].value_counts().reset_index()
+city_counts.columns = ['città', 'count']
+
+# write the result to a CSV file
+city_counts.to_csv('cities.csv', index=False)
+
 
 # Read in the CSV file containing the deputies data
 deputies = pd.read_csv('deputies.csv')
@@ -29,7 +57,6 @@ ax.set_title('Cities of Origin for Deputies in the Italian Chamber of Deputies, 
 ax.set_axis_off()
 
 plt.show()
-
 
 
 
