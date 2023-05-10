@@ -89,18 +89,6 @@ queryregioninascita = """
 dfregioninascita = sparql_dataframe.get(endpoint, queryregioninascita)
 
 
-
-#QUERY GRUPPO PARLAMENTARE DONNE 
-querygruppopardonne = """SELECT DISTINCT ?nome ?gruppoPar where {
-  
-  ?nome foaf:gender "female".
-  ?nome ocd:aderisce ?gruppo . 
-  ?gruppo rdfs:label ?gruppoPar.
-  
- } """
-
-dfgruppopardonne = sparql_dataframe.get(endpoint, querygruppopardonne)
-
 #QUERY CARICA DONNE 
 querycaricadonne = """SELECT DISTINCT ?nome ?cognome ?ufficio ?organo where {
   
@@ -417,7 +405,7 @@ m.save('map2.html')
 
 """
 q4 = """select ?nome ?cognome ?città ?regione where {
-  ?persona foaf:gender "male".
+  ?persona foaf:gender "female".
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome. 
   ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
@@ -447,7 +435,7 @@ q6 ="""select distinct ?nome ?cognome ?nascita ?città where {
   ?nascita ocd:rif_luogo ?luogoNascitaUri.
   ?luogoNascitaUri rdfs:label ?luogoNascita.
   ?luogoNascitaUri dc:title ?città.}}"""
-df = sparql_dataframe.get(endpoint, q5) 
+df = sparql_dataframe.get(endpoint, q4) 
 dataframepermappa = df.drop(columns=['nome', 'cognome'])
 dataframepermappa.to_csv('deputies.csv', index = False) 
 
@@ -539,6 +527,8 @@ querypertrovareluogonascitawikid = """select distinct ?name ?surname ?nascita ?c
   ?luogoNascitaUri rdfs:label ?luogoNascita.
   ?luogoNascitaUri dc:title ?città.}} """
 
+
+"""
 import requests 
 
 hr = sparql_dataframe.get(endpoint, querypertrovareluogonascitawikid)
@@ -556,32 +546,82 @@ people15 = people13[:len(people13)//2]
 people17 = people15[:len(people15)//2]
 people19 = people17[:len(people17)//2]
 people2 = people[len(people)//2:]
-print(people19)
+#print(people19)
 #hr.to_csv('fileperwiki.csv')
-list = list()
-for person in people19:
-    # get the name and surname from the tuple
-    name, surname = person 
-    print(person)
-    name = name.capitalize()
-    surname = surname.capitalize()
-    endpoint ="https://query.wikidata.org/sparql"
-    # build the SPARQL query string
+def getdata(list):
+   import pandas as pd
+from SPARQLWrapper import SPARQLWrapper, TSV
 
-    query = ('SELECT distinct ?birthplacel WHERE { \
-        ?person wdt:P31 wd:Q5. \
-        ?person rdfs:label ?personLabel.  \
-        ?person rdfs:label "' + name + surname +'". \
-       ?person wdt:P19 ?birthplace. \
-        ?birthplace wdt:P1705 ?birthplacel.  \
-    }')
+for name_tuple in people19:
+        # Get the name and surname from the tuple
+        first, last = name_tuple
+        name_str = f"{first} {last}"
+        print(name_str)
+def getdatafromwiki(name_list):
+    endpoint = "https://query.wikidata.org/sparql"
+    dfs = []
+    for name_tuple in name_list:
+        # Get the name and surname from the tuple
+        first, last = name_tuple
+        name_str = f"{first} {last}"
 
-    dataf = sparql_dataframe.get(endpoint, query)
+        # Build the SPARQL query string
+        
+        query = ('SELECT DISTINCT ?birthplacel WHERE { \
+            ?person wdt:P31 wd:Q5. \
+            ?person rdfs:label ?personLabel. \
+            ?person rdfs:label "' + name_str +'". \
+            ?person wdt:P19 ?birthplace. \
+            ?birthplace wdt:P1705 ?birthplacel. \
+        }')
+        
+        # Make the request to the Wikidata SPARQL endpoint
+        sparql = SPARQLWrapper(endpoint)
+        sparql.setQuery(query)
+        sparql.setReturnFormat(TSV)
+        data = sparql.query().convert()
+        
+        # Convert the TSV data to a Pandas DataFrame
+        df = pd.read_csv(data.splitlines(), sep='\t', header=None, names=['birthplace'])
+        
+        # Append the DataFrame to the list of results
+        dfs.append(df)
+    
+    return dfs
 
-    list.append(dataf)
-    # make the request to the Wikidata SPARQL endpoint
-  
+def getdatafromwiki(list):
+  for person in list:
+      name_str_list = [f"{first} {last}" for first, last in list]
+      for el in name_str_list:
+      # get the name and surname from the tuple
+        # build the SPARQL query string
 
+        query = ('SELECT distinct ?birthplacel WHERE { \
+            ?person wdt:P31 wd:Q5. \
+            ?person rdfs:label ?personLabel.  \
+            ?person rdfs:label "' + el +'". \
+          ?person wdt:P19 ?birthplace. \
+            ?birthplace wdt:P1705 ?birthplacel.  \
+        }')
+        endpoint ="https://query.wikidata.org/sparql"
+        dataf = sparql_dataframe.get(endpoint, query)
+        print(dataf)
+        #lista.append(dataf)
+        #make the request to the Wikidata SPARQL endpoint
+    
+print(getdata(people19))
+
+
+SELECT DISTINCT ?person ?labelNome ?labelCognome WHERE {
+  ?person wdt:P31 wd:Q5 .
+  ?person wdt:P735 ?nome. 
+  ?person wdt:P734 ?cognome.
+  ?nome rdfs:label ?labelNome . 
+  ?cognome rdfs:label ?labelCognome . 
+   FILTER (STRENDS(?labelNome, "Dino"))
+  FILTER (STRENDS(?labelCognome, "Secco"))
+} 
+"""
 """
 #align with wikidata 
 import pandas as pd
@@ -653,3 +693,5 @@ else:
         wd_entity.update(data=[pob_prop], login=login)
 
 """
+
+print(df)
