@@ -5,9 +5,6 @@ import matplotlib.pyplot as plt
 from SPARQLWrapper import SPARQLWrapper, JSON
 import sparql_dataframe
 
- 
-
-
 endpoint = "https://dati.camera.it/sparql"
 
 q4 = """select ?nome ?cognome ?città?regione where {
