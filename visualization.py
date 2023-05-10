@@ -1,9 +1,7 @@
 import pandas as pd
+import numpy as np
 import geopandas as gpd
-from geopy.geocoders import Nominatim
-from shapely.geometry import Point
 import matplotlib.pyplot as plt
-
 from SPARQLWrapper import SPARQLWrapper, JSON
 import sparql_dataframe
 
@@ -32,32 +30,55 @@ city_counts.columns = ['città', 'count']
 # write the result to a CSV file
 city_counts.to_csv('cities.csv', index=False)
 
+fp =  'italy_provinces.shp'
+#reading the file stored in variable fp
+map_df = gpd.read_file(fp)
 
-# Read in the CSV file containing the deputies data
-deputies = pd.read_csv('deputies.csv')
+#opening the csv(.shp) file which contains the data to be plotted on the map
+df = pd.read_csv('deputies.csv')
+print(df.columns)
 
-# Create a GeoDataFrame from the deputies data
-geocoded_cities = []
-geolocator = Nominatim(user_agent='GetLoc')
-for city in deputies['città']:
-    location = geolocator.geocode(city, exactly_one=True, timeout=10)
-    if location is not None:
-        geocoded_cities.append({'città': city, 'Latitude': location.latitude, 'Longitude': location.longitude})
+#selecting the columns required
+df = df[['città']]
+#renaming the column name
+data_for_map = df.rename(index=str, columns={'città': 'PROVINCIA'})
+print(df.columns)
 
-cities_df = pd.DataFrame(geocoded_cities)
-geometry = [Point(xy) for xy in zip(cities_df['Longitude'], cities_df['Latitude'])]
-crs = {'init': 'epsg:4326'}
-cities_gdf = gpd.GeoDataFrame(cities_df, crs=crs, geometry=geometry)
-cities_gdf = cities_gdf[cities_gdf['Latitude'].notna() & cities_gdf['Longitude'].notna()]
+# joining the geodataframe with the cleaned up csv dataframe
+merged = map_df.set_index('DEN_CMPRO').join(data_for_map.set_index('PROVINCIA'))
 
-# Create a choropleth map with markers for each city, colored by gender
-ax = cities_gdf.plot(column='genere', categorical=True, legend=True, markersize=50, cmap='Set1', figsize=(10, 10))
 
-ax.set_title('Cities of Origin for Deputies in the Italian Chamber of Deputies, by Gender')
-ax.set_axis_off()
+# set a variable that will call whatever column we want to visualise on the map
+variable = 'PROVINCIA'
+# set the range for the choropleth
+vmin, vmax = 100, 500
+
+# create figure and axes for Matplotlib
+fig, ax = plt.subplots(1, figsize=(10, 6))
+
+
+merged.plot(column=variable, cmap='BuGn', linewidth=0.8, ax=ax, edgecolor='0.8')
+
+# remove the axis
+ax.axis('off')
+# add a title
+ax.set_title('Provenience of Deputies', fontdict={'fontsize': '25', 'fontweight' : '3'})
+# create an annotation for the data source
+ax.annotate('Source: Istat',xy=(0.1, .08), xycoords='figure fraction', horizontalalignment='left', verticalalignment='top', fontsize=12, color='#555555')
+
+
+# Create colorbar as a legend
+sm = plt.cm.ScalarMappable(cmap='BuGn', norm=plt.Normalize(vmin=vmin, vmax=vmax))
+# empty array for the data range
+sm._A = []
+# add the colorbar to the figure
+#cbar = fig.colorbar(sm)
+cax = fig.add_axes([0.27, 0.1, 0.5, 0.03]) # define the position of the colorbar
+cbar = fig.colorbar(sm, orientation='horizontal', cax=cax)
+
+for idx, row in merged.iterrows():
+    ax.annotate(text=str(row['PROVINCIA']) + ' born deputies', xy=row['geometry'].centroid.coords[0], fontsize=10)
+
 
 plt.show()
-
-
-
 
