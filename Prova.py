@@ -19,6 +19,8 @@ chart_studio.tools.set_credentials_file(username='DemoAccount', api_key='lr1c37z
 
 from SPARQLWrapper import SPARQLWrapper, JSON
 import sparql_dataframe
+from sparql_dataframe import get
+
 
  
 
@@ -39,7 +41,7 @@ SELECT DISTINCT ?nome ?legislatura where {
      
 """
 
-dffemale = sparql_dataframe.get(endpoint, querydonne)
+dffemale = get(endpoint, querydonne)
 
 #QUERY NUMERO TOTALE DONNE 
 querynumerototdonne = """
@@ -694,4 +696,3 @@ else:
 
 """
 
-print(df)

@@ -4,6 +4,8 @@ import geopandas as gpd
 import matplotlib.pyplot as plt
 from SPARQLWrapper import SPARQLWrapper, JSON
 import sparql_dataframe
+from sparql_dataframe import get
+
 
 endpoint = "https://dati.camera.it/sparql"
 
@@ -17,7 +19,7 @@ q4 = """select ?nome ?cognome ?città?regione where {
   ?luogoNascitaUri dc:title ?città.
  OPTIONAL { ?luogoNascitaUri ocd:parentADM3 ?regione .}
 }"""
-df = sparql_dataframe.get(endpoint, q4)
+df = get(endpoint, q4, )
 dataframecities = df["città"]
 
 # count the frequency of each city and create a new dataframe
