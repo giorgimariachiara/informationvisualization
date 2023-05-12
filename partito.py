@@ -22,6 +22,7 @@ import matplotlib.pyplot as plt
 from SPARQLWrapper import SPARQLWrapper, JSON
 import sparql_dataframe
 from sparql_dataframe import get
+#qui abbiamo la query dell'orientamento dei partiti e la prova di chart per i diversi partiti donna uomo 
 
 
 endpoint = "https://dati.camera.it/sparql"
@@ -83,31 +84,40 @@ female_dict = counts_dict
 
 female_keys = list(female_dict.keys())
 parties = list(male_dict.keys())
-print(len(parties))
+#print(len(parties))
 maleparties1= parties[len(parties)//2:]
 maleparties2 =parties[:len(parties)//2]
+maleparties3 = maleparties1[len(maleparties1)//2:]
+maleparties5= maleparties2[:len(maleparties2)//2]
+maleparties7 = maleparties3[len(maleparties3)//2:]
+maleparties9= maleparties5[:len(maleparties5)]
 #print(maleparties1)
 #print(maleparties2)
 #print(parties.capitalize())
 
 
-queryorientamento = """SELECT distinct ?partito ?label WHERE {{
+queryorientamento = """SELECT distinct ?partito ?label ?orientamentoLabel  WHERE {{
         ?partito wdt:P31 wd:Q7278.
-  
         ?partito wdt:P17 wd:Q38.
+        ?partito wdt:P1142 ?orientamento. 
+        ?orientamento rdfs:label ?orientamentoLabel. 
         ?partito rdfs:label ?label. 
   filter (lang(?label) = "it")
+  filter (lang(?orientamentoLabel) = "it")
           FILTER contains(str(?label), "{}")
     }
 UNION 
 {?partito wdt:P31 wd:Q6138528.
         ?partito wdt:P17 wd:Q38.
+ ?partito wdt:P1142 ?orientamento. 
+ ?orientamento rdfs:label ?orientamentoLabel.
         ?partito rdfs:label ?label. 
+  filter (lang(?orientamentoLabel) = "it")
   filter (lang(?label) = "it")
           FILTER contains(str(?label), "{}") }
 }"""
-
-labels = [party.title() for party in parties]
+pd.set_option('display.max_rows', None)
+labels = [party.title() for party in maleparties9]
 
 # initialize an empty list to store the results
 output = []
@@ -134,7 +144,7 @@ for label in labels:
 # create a DataFrame from the output list
 df = pd.DataFrame(output)
 # print the results
-#print(df)
+print(df)
 
 
 
