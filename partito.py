@@ -53,17 +53,61 @@ WHERE {
  """
 #per farla su virtuoso "\\(.*\\)" tocca usare questo che su python non viene preso daje tuttaaaa
 dfgruppoparuomini = get(endpoint, querygruppoparuomini)
-#print(dfgruppoparuomini)
 
-queryorientamento = """SELECT distinct ?partito ?label WHERE {
+countuomo= len(dfgruppoparuomini[['nome', 'cognome']].drop_duplicates())
+countuomo = dfgruppoparuomini['gruppo'].value_counts()
+
+count = len(dfgruppopardonne[['nome', 'cognome']].drop_duplicates())
+counts = dfgruppopardonne['gruppo'].value_counts()
+#print(countuomo)
+counts_dict_uomo = {}
+for index, row in dfgruppoparuomini.iterrows():
+    gruppo = row["gruppo"]
+    if gruppo in counts_dict_uomo:
+        counts_dict_uomo[gruppo] += 1
+    else:
+        counts_dict_uomo[gruppo] = 1
+#print(len(counts_dict_uomo))
+counts_dict = {}
+for index, row in dfgruppopardonne.iterrows():
+    gruppo = row["gruppo"]
+    if gruppo in counts_dict:
+        counts_dict[gruppo] += 1
+    else:
+        counts_dict[gruppo] = 1
+#print(len(counts_dict))
+
+# create sample data
+male_dict = counts_dict_uomo
+female_dict = counts_dict
+
+female_keys = list(female_dict.keys())
+parties = list(male_dict.keys())
+print(len(parties))
+maleparties1= parties[len(parties)//2:]
+maleparties2 =parties[:len(parties)//2]
+#print(maleparties1)
+#print(maleparties2)
+#print(parties.capitalize())
+
+
+queryorientamento = """SELECT distinct ?partito ?label WHERE {{
         ?partito wdt:P31 wd:Q7278.
+  
         ?partito wdt:P17 wd:Q38.
         ?partito rdfs:label ?label. 
   filter (lang(?label) = "it")
-          FILTER (str(?label) = "{}") 
-    }"""
+          FILTER contains(str(?label), "{}")
+    }
+UNION 
+{?partito wdt:P31 wd:Q6138528.
+        ?partito wdt:P17 wd:Q38.
+        ?partito rdfs:label ?label. 
+  filter (lang(?label) = "it")
+          FILTER contains(str(?label), "{}") }
+}"""
 
-labels = ["Fronte Verde", "Partito Democratico", "Lega Nord"]
+labels = [party.title() for party in parties]
 
 # initialize an empty list to store the results
 output = []
@@ -89,35 +133,11 @@ for label in labels:
 
 # create a DataFrame from the output list
 df = pd.DataFrame(output)
-
 # print the results
-print(df)
+#print(df)
 
 
-"""
-countuomo= len(dfgruppoparuomini[['nome', 'cognome']].drop_duplicates())
-countuomo = dfgruppoparuomini['gruppo'].value_counts()
 
-count = len(dfgruppopardonne[['nome', 'cognome']].drop_duplicates())
-counts = dfgruppopardonne['gruppo'].value_counts()
-#print(countuomo)
-counts_dict_uomo = {}
-for index, row in dfgruppoparuomini.iterrows():
-    gruppo = row["gruppo"]
-    if gruppo in counts_dict_uomo:
-        counts_dict_uomo[gruppo] += 1
-    else:
-        counts_dict_uomo[gruppo] = 1
-#print(len(counts_dict_uomo))
-counts_dict = {}
-for index, row in dfgruppopardonne.iterrows():
-    gruppo = row["gruppo"]
-    if gruppo in counts_dict:
-        counts_dict[gruppo] += 1
-    else:
-        counts_dict[gruppo] = 1
-#print(len(counts_dict))
-"""
 """
 import matplotlib.pyplot as plt
 import numpy as np
