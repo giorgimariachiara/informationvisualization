@@ -19,53 +19,69 @@ chart_studio.tools.set_credentials_file(username='DemoAccount', api_key='lr1c37z
 
 from SPARQLWrapper import SPARQLWrapper, JSON
 import sparql_dataframe
-
- 
-
+from sparql_dataframe import get
 
 endpoint = "https://dati.camera.it/sparql"
 
-#QUERY TUTTE LE DONNE
 
+#1 QUERY TUTTE LE DONNE
 querydonne = """
 prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix foaf:<http://xmlns.com/foaf/0.1/>
-SELECT DISTINCT ?nome ?legislatura where {
+SELECT ?nome ?cognome ?legislaturaLabel where {
   
-  ?nome foaf:gender "female".
-  ?nome ocd:rif_leg ?legislatural. 
-  ?legislatural dc:title ?legislatura. 
- } ORDER BY ?legislatural
+  ?persona foaf:gender "female".
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome . 
+  ?persona ocd:rif_mandatoCamera ?mandato. 
+  ?mandato ocd:rif_leg ?legislatura.
+  ?legislatura rdfs:label ?legislaturaLabel. 
+ }
      
 """
+dffemale = get(endpoint, querydonne)
 
-dffemale = sparql_dataframe.get(endpoint, querydonne)
-
-#QUERY NUMERO TOTALE DONNE 
+#1 QUERY NUMERO TOTALE DONNE 
 querynumerototdonne = """
-
-SELECT (COUNT(?nome) AS ?totale) where {
+SELECT (COUNT(DISTINCT CONCAT(COALESCE(?name, ''), COALESCE(?cognome, ''))) as ?count) where {
   
-  ?nome foaf:gender "female".
-  ?nome ocd:rif_leg ?legislatural. 
-  ?legislatural dc:title ?legislatura. 
+  ?persona foaf:gender "female".
+  ?persona foaf:firstName ?name. 
+  ?persona foaf:surname ?cognome . 
+  ?persona ocd:rif_mandatoCamera ?mandato. 
+  ?mandato ocd:rif_leg ?legislatura.
  }"""
 
-dfnumerototdonne = sparql_dataframe.get(endpoint, querynumerototdonne)
+dfnumerototdonne = get(endpoint, querynumerototdonne)
 
-
+#1  QUERY NUMERO TOTALE UOMINI 
 querynumerototuomini = """
 
-SELECT (COUNT(?nome) AS ?totale) where {
+SELECT (COUNT(DISTINCT CONCAT(COALESCE(?name, ''), COALESCE(?cognome, ''))) as ?count) where {
   
-  ?nome foaf:gender "male".
-  ?nome ocd:rif_leg ?legislatural. 
-  ?legislatural dc:title ?legislatura. 
+  ?persona foaf:gender "male".
+  ?persona foaf:firstName ?name. 
+  ?persona foaf:surname ?cognome . 
+  ?persona ocd:rif_mandatoCamera ?mandato. 
+  ?mandato ocd:rif_leg ?legislatura.
  }"""
 
 dfnumerototuomini = sparql_dataframe.get(endpoint, querynumerototuomini)
 
-#QUERY LUOGHI NASCITA 
+#3 QUERY CITTà DI NASCITA E REGIONI
+
+Querycittàeregionidonne = """select ?nome ?cognome ?città ?regione where {
+  ?persona foaf:gender "female".
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome. 
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri rdfs:label ?luogoNascita.
+  ?luogoNascitaUri dc:title ?città.
+ OPTIONAL { ?luogoNascitaUri ocd:parentADM3 ?regione .}
+}"""
+
+#3 QUERY SOLO CITTà DI NASCITA DONNE
 
 querycittànascita = """select ?luogoNascital {
   ?persona foaf:gender "female".
@@ -77,17 +93,28 @@ querycittànascita = """select ?luogoNascital {
         } 
      """
 dfcittànascita = sparql_dataframe.get(endpoint, querycittànascita)
+dfcittànascita.to_csv("femalecities.csv", index=False)
 
-queryregioninascita = """
-   select ?regione {
-  ?persona foaf:gender "female".
+
+#3 QUERY NASCITA UOMINI TUTTI SIA QUELLI CHE HANNO INFO CHE QUELLI CON RIGA VUOTA 
+
+querygenericanascitauomini = """select ?persona ?nome ?cognome ?luogoNascital {
+  ?persona foaf:gender "male".
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome. 
+  OPTIONAL { 
   ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
   ?nascita ocd:rif_luogo ?luogoNascitaUri.
-  ?luogoNascitaUri ocd:parentADM3 ?regione . } """ 
+  ?luogoNascitaUri rdfs:label ?luogoNascita.
+  ?luogoNascitaUri dc:title ?luogoNascital.
+}
+        } """
+dfgenericanasciatauomini = get(endpoint, querygenericanascitauomini) 
+df_unique = dfgenericanasciatauomini.groupby(['nome', 'cognome']).first().reset_index()
+print(df_unique)
 
-
-dfregioninascita = sparql_dataframe.get(endpoint, queryregioninascita)
-
+#dataframepermappa = df.drop(columns=['nome', 'cognome'])
+#dataframepermappa.to_csv('deputies.csv', index = False)
 
 #QUERY CARICA DONNE 
 querycaricadonne = """SELECT DISTINCT ?nome ?cognome ?ufficio ?organo where {
@@ -179,40 +206,6 @@ group by ?descrizione}
 dftotstudidonne = sparql_dataframe.get(endpoint, querytotstudidonne)
 
 
-#print(dftotstudidonne) 
-
-"""
-from dash import Dash, dcc, html, Input, Output
-import plotly.graph_objects as go
-
-app = Dash(__name__)
-
-
-app.layout = html.Div([
-    html.H4('Interactive color selection with simple Dash example'),
-    html.P("Select color:"),
-    dcc.Dropdown(
-        id="dropdown",
-        options=['Gold', 'MediumTurquoise', 'LightGreen'],
-        value='Gold',
-        clearable=False,
-    ),
-    dcc.Graph(id="graph"),
-])
-
-
-@app.callback(
-    Output("graph", "figure"), 
-    Input("dropdown", "value"))
-def display_color(color):
-    fig = go.Figure(
-        data=go.Bar(y=[2, 3, 1], # replace with your own data source
-                    marker_color=color))
-    return fig
-
-
-app.run_server(debug=True)
-"""
 #TOTALE DONNE CON LAUREA 
 
 querytotalenumerodonnelaurea ="""PREFIX owl: <http://www.w3.org/2002/07/owl#>
@@ -258,37 +251,6 @@ GROUP BY ?descrizione}"""
 
 dftotnumerononlaureadonne = sparql_dataframe.get(endpoint, querytotnonlaureadonne)
 
-queryprovava = """
-SELECT ?nome
-
-where
-{?nome foaf:gender "female".
-  ?nome ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_05>. 
- ?nome dc:description ?descrizione. 
- 
-} 
-"""
-
-dfprovava = sparql_dataframe.get(endpoint, queryprovava)
-
-endpointdbpedia = "https://dbpedia.org/sparql"
-
-queryregionidbpedia = """select ?regione ?point where {{
-?regione dbo:type dbr:Regions_of_Italy.
-?regione georss:point ?point } UNION {?regione dbo:type dbr:Autonomous_regions_with_special_statute.
-?regione georss:point ?point. } 
-UNION {?regione dbo:type dbr:Region_of_Italy .
-?regione georss:point ?point. }}"""
-
-queryregioniwikidata = """select ?regione ?id where {{
-?regione wdt:P31 wd:Q16110.
-?regione wdt:P402 ?id } UNION {?regione wdt:P31 wd:Q1710033.
-?regione wdt:P402 ?id } 
-}"""
-dfregionidbpedia = sparql_dataframe.get(endpointdbpedia, queryregionidbpedia)
-#print(dfnumerototdonne)
-
-
 #QUERY TOTALE NUMERO STUDI UOMO 
 
 querytotstudiuomo = """SELECT (sum(?numero)as ?totale) where {
@@ -300,130 +262,7 @@ SELECT DISTINCT ?descrizione (COUNT(?descrizione) as ?numero) where {
  }
 group by ?descrizione}"""
 
-
 dftotstudiuomo = sparql_dataframe.get(endpoint, querytotstudiuomo)
-
-# Import libraries
-import pandas as pd
-import matplotlib.pyplot as plt
-# Import libraries
-import geopandas as gpd
-import matplotlib.pyplot as plt
-
-prova = """select distinct ?persona ?legislatura {
-  ?persona foaf:gender "female".
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg ?legislatura. } ORDER BY ?legislatura"""
-
-#query informazioni donne nelle legislature ma se una ha partecipato in più legislature è presente più volte (numero totale di righe 3150)
-#se invece vediamo solo nome e cognome e non anche legislatura le righe diventano 905
-#secondo questa qiery per gli uomini sono nel primo caso e poi 
-q = """ 
-SELECT distinct (COUNT(?name ?cognome) as ?totale) where {
-  
-  ?persona foaf:gender "male".
-  ?persona foaf:firstName ?name. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg ?legislatura.
- }"""
-
-
-#questa query dovrebbe contare calcolando solo nome e cognome (però potrebbero essere omonimi?)
-q2 = """SELECT (COUNT(DISTINCT CONCAT(COALESCE(?name, ''), COALESCE(?cognome, ''))) as ?count) where {
-  
-  ?persona foaf:gender "female".
-  ?persona foaf:firstName ?name. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg ?legislatura.
- } """
-q3 = """
-
-SELECT distinct ?name ?cognome where {
-  
-  ?nome foaf:gender "female".
-  ?nome foaf:firstName ?name.
-  ?nome foaf:surname ?cognome. 
-  ?nome ocd:rif_leg ?legislatural. 
-  ?legislatural dc:title ?legislatura. 
- }"""
-provaaa = sparql_dataframe.get(endpoint, q3)
-
-
-#prova map visualization il totale delle città per le donne è 905 qui sia se metto ?nome ?=cognome che se metto solo ?nome e il luogo mi da sempre 905 
-
-q4 = """select ?nome ?cognome ?città ?regione where {
-  ?persona foaf:gender "female".
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome. 
-  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-  ?nascita ocd:rif_luogo ?luogoNascitaUri.
-  ?luogoNascitaUri rdfs:label ?luogoNascita.
-  ?luogoNascitaUri dc:title ?città.
- OPTIONAL { ?luogoNascitaUri ocd:parentADM3 ?regione .}
-}"""
-df = sparql_dataframe.get(endpoint, q4)
-
-"""
-geolocator =  Bing(api_key='Deputiescities')
-df['location'] = df['luogoNascital'].apply(geolocator.geocode)
-df['point'] = df['location'].apply(lambda loc: tuple(loc.point) if loc else None)
-
-m = folium.Map(location=[45.5231, -122.6765], zoom_start=4)
-
-for index, row in df.iterrows():
-    if row['point'] is not None:
-        folium.Marker(location=row['point'], popup=row['Name']).add_to(m)
-
-m 
-"""
-"""
-import folium
-
-# Create a map centered on the first city in the DataFrame
-m = folium.Map(location=[df.loc[0, 'città'], df.loc[0, 'regione']])
-
-# Loop through each row in the DataFrame
-for index, row in df.iterrows():
-    # Check if the region is NaN (i.e. missing)
-    if pd.isna(row['regione']):
-        # If the region is missing, use only the city for the location
-        location = [row['città']]
-    else:
-        # Otherwise, use both the city and region for the location
-        location = [row['città'], row['regione']]
-    
-    # Create a marker for the person's location and add it to the map
-    tooltip = f"{row['nome']} {row['cognome']}"
-    folium.Marker(location=location, tooltip=tooltip).add_to(m)
-
-# Display the map
-m.save('map2.html')
-"""
-"""
-
-"""
-q4 = """select ?nome ?cognome ?città ?regione where {
-  ?persona foaf:gender "female".
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome. 
-  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-  ?nascita ocd:rif_luogo ?luogoNascitaUri.
-  ?luogoNascitaUri rdfs:label ?luogoNascita.
-  ?luogoNascitaUri dc:title ?città.
- OPTIONAL { ?luogoNascitaUri ocd:parentADM3 ?regione .}
-}"""
-
-q5 ="""select ?nome ?cognome ?città ?regione ?gender where {
-  ?persona foaf:gender ?gender. 
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome. 
-  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-  ?nascita ocd:rif_luogo ?luogoNascitaUri.
-  ?luogoNascitaUri rdfs:label ?luogoNascita.
-  ?luogoNascitaUri dc:title ?città.
- OPTIONAL { ?luogoNascitaUri ocd:parentADM3 ?regione .}}"""
 
 
 q6 ="""select distinct ?nome ?cognome ?nascita ?città where {
@@ -435,44 +274,7 @@ q6 ="""select distinct ?nome ?cognome ?nascita ?città where {
   ?nascita ocd:rif_luogo ?luogoNascitaUri.
   ?luogoNascitaUri rdfs:label ?luogoNascita.
   ?luogoNascitaUri dc:title ?città.}}"""
-df = sparql_dataframe.get(endpoint, q4) 
-dataframepermappa = df.drop(columns=['nome', 'cognome'])
-dataframepermappa.to_csv('deputies.csv', index = False) 
 
-# importing geopy library
-"""
-from geopy.geocoders import Nominatim
-import folium
-# calling the Nominatim tool
-loc = Nominatim(user_agent="cities_map")
-lat=[]
-long=[] 
-
-listacittà = df['città'].tolist() 
-
-# entering the location name
-for elem in listacittà: 
-    getLoc = loc.geocode(elem) 
-    lat.append(getLoc.latitude) 
-    long.append(getLoc.longitude) 
-
-city_list=list(zip(lat, long)) 
-df_coordinates = pd.DataFrame(columns = ["Lat", "Long"]) 
-df_coordinates["Lat"]=lat 
-df_coordinates["Long"]=long 
-
-m = folium.Map(df_coordinates[['Lat', 'Long']].mean().values.tolist()) 
-
-for lat, lon in zip(df_coordinates['Lat'], df_coordinates['Long']): 
-    folium.Marker([lat, lon]).add_to(m) 
-
-sw = df_coordinates[['Lat', 'Long']].min().values.tolist() 
-ne = df_coordinates[['Lat', 'Long']].max().values.tolist() 
-
-m.fit_bounds([sw, ne])  
-"""
-"""
-"""
 """
 # Import libraries
 import pandas as pd
@@ -622,76 +424,24 @@ SELECT DISTINCT ?person ?labelNome ?labelCognome WHERE {
   FILTER (STRENDS(?labelCognome, "Secco"))
 } 
 """
-"""
-#align with wikidata 
-import pandas as pd
-from wikidataintegrator import wdi_core, wdi_login, wdi_helpers, service_account
 
 
-# Set up Wikidata login credentials
-login = wdi_login.WDLogin(user='ElizaStuglik', pwd='Bologna21@.')
+#QUERY OER PULIRE QUERY SU UOMINI SENZA CITTà DI NASCITA 
 
+query = """select distinct ?persona ?nome ?cognome {
+  ?persona foaf:gender "male".
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome. 
+FILTER NOT EXISTS{ 
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri rdfs:label ?luogoNascita.
+  ?luogoNascitaUri dc:title ?luogoNascital.
+}
+        } """
 
-# Load the relevant data from dati.camera.it
-df = pd.read_csv('fileperwiki.csv')
+dataquery = get(endpoint, query)
 
-# Loop through each row in the dataset and attempt to align it with Wikidata
-for index, row in df.iterrows():
+df_unique2 = dataquery.groupby(['nome', 'cognome']).first().reset_index()
 
-    # Define the properties and values to be used for the Wikidata entity
-    name = row['name']
-    surname = row['surname']
-    place_of_birth = None
-    
-
-
-# Define the Wikidata endpoint to use
-endpoint = 'https://query.wikidata.org/sparql'
-
-# Search for the entity using the person's name
-query = f"SELECT ?item WHERE {{ ?item rdfs:label '{name}'@en }}"
-results = wdi_core.WDItemEngine.execute_sparql_query(query, endpoint)
-
-# Check if the search returned any results
-if results['bindings']:
-    # Get the first entity in the search results
-    entity_id = results['bindings'][0]['item']['value'].split('/')[-1]
-    
-    # Create a new WDItemEngine object for the entity
-    wd_entity = wdi_core.WDItemEngine(wd_item_id=entity_id)
-    
-    # ... rest of your code goes here
-else:
-    print(f"No matching entities found for {name}")
-
-    # Search for a matching entity on Wikidata using the name
-    entity_id = wdi_core.WDItemEngine.get_wd_search_results(name)
-
-    # If a match is found, update the entity with the new information
-    if entity_id:
-        # Define the Wikidata entity to be updated
-        wd_entity = wdi_core.WDItemEngine(wd_item_id=entity_id[0]['id'])
-
-        # Define the properties and values to be added or updated
-        pob_prop = wdi_core.WDString(value=place_of_birth, prop_nr='P19', is_qualifier=True)
-
-        # Update the entity with the new properties and values
-        wd_entity.update(data=[pob_prop], login=login)
-        
-    # If no match is found, create a new entity on Wikidata
-    else:
-        # Define the Wikidata entity to be created
-        wd_entity = wdi_core.WDItemEngine(new_item=True, data=[wdi_core.WDString(value=name, prop_nr='P31')])
-
-        # Define the properties and values to be added
-        pob_prop = wdi_core.WDString(value=place_of_birth, prop_nr='P19', is_qualifier=True)
-
-        # Add the new properties and values to the entity
-        wd_entity.set_label(name)
-        wd_entity.set_description('Person')
-        wd_entity.set_aliases([name])
-        wd_entity.update(data=[pob_prop], login=login)
-
-"""
-
-print(df)
+print(df_unique2)

@@ -1,9 +1,3 @@
-
-from SPARQLWrapper import SPARQLWrapper, JSON
-import io 
-import sparql_dataframe
-import matplotlib.pyplot as plt
-import csv
 from logging import raiseExceptions
 import pandas as pd
 from json import load
@@ -18,7 +12,18 @@ import matplotlib.pyplot as plt
 from sqlalchemy import create_engine
 import sys
 import time
-import chart_studio
+# Import libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+# Import libraries
+import geopandas as gpd
+import matplotlib.pyplot as plt
+
+from SPARQLWrapper import SPARQLWrapper, JSON
+import sparql_dataframe
+from sparql_dataframe import get
+#qui abbiamo la query dell'orientamento dei partiti e la prova di chart per i diversi partiti donna uomo 
+
 
 endpoint = "https://dati.camera.it/sparql"
 endpointwiki =  "https://query.wikidata.org/sparql"
@@ -34,6 +39,8 @@ WHERE {
   FILTER regex(?gruppoPar, "\\\\(.*\\\\)")
 }
  """
+dfgruppopardonne = get(endpoint, querygruppopardonne)
+#print(dfgruppopardonne)
 
 querygruppoparuomini = """SELECT DISTINCT ?nome ?cognome (CONCAT(STRBEFORE(?gruppoPar, " ("), STRAFTER(?gruppoPar, ")"))) AS ?gruppo
 WHERE {
@@ -46,9 +53,7 @@ WHERE {
 }
  """
 #per farla su virtuoso "\\(.*\\)" tocca usare questo che su python non viene preso daje tuttaaaa
-dfgruppoparuomini = sparql_dataframe.get(endpoint, querygruppoparuomini)
-
-dfgruppopardonne = sparql_dataframe.get(endpoint, querygruppopardonne)
+dfgruppoparuomini = get(endpoint, querygruppoparuomini)
 
 countuomo= len(dfgruppoparuomini[['nome', 'cognome']].drop_duplicates())
 countuomo = dfgruppoparuomini['gruppo'].value_counts()
@@ -72,6 +77,76 @@ for index, row in dfgruppopardonne.iterrows():
     else:
         counts_dict[gruppo] = 1
 #print(len(counts_dict))
+
+# create sample data
+male_dict = counts_dict_uomo
+female_dict = counts_dict
+
+female_keys = list(female_dict.keys())
+parties = list(male_dict.keys())
+#print(len(parties))
+maleparties1= parties[len(parties)//2:]
+maleparties2 =parties[:len(parties)//2]
+maleparties3 = maleparties1[len(maleparties1)//2:]
+maleparties5= maleparties2[:len(maleparties2)//2]
+maleparties7 = maleparties3[len(maleparties3)//2:]
+maleparties9= maleparties5[:len(maleparties5)]
+#print(maleparties1)
+#print(maleparties2)
+#print(parties.capitalize())
+
+
+queryorientamento = """SELECT distinct ?partito ?label ?orientamentoLabel  WHERE {{
+        ?partito wdt:P31 wd:Q7278.
+        ?partito wdt:P17 wd:Q38.
+        ?partito wdt:P1142 ?orientamento. 
+        ?orientamento rdfs:label ?orientamentoLabel. 
+        ?partito rdfs:label ?label. 
+  filter (lang(?label) = "it")
+  filter (lang(?orientamentoLabel) = "it")
+          FILTER contains(str(?label), "{}")
+    }
+UNION 
+{?partito wdt:P31 wd:Q6138528.
+        ?partito wdt:P17 wd:Q38.
+ ?partito wdt:P1142 ?orientamento. 
+ ?orientamento rdfs:label ?orientamentoLabel.
+        ?partito rdfs:label ?label. 
+  filter (lang(?orientamentoLabel) = "it")
+  filter (lang(?label) = "it")
+          FILTER contains(str(?label), "{}") }
+}"""
+pd.set_option('display.max_rows', None)
+labels = [party.title() for party in maleparties9]
+
+# initialize an empty list to store the results
+output = []
+
+# iterate over the labels and execute the query for each one
+for label in labels:
+    # replace the placeholder in the query with the label
+    query = queryorientamento.replace("{}", label)
+
+    # create a new SPARQL endpoint
+    endpoint = SPARQLWrapper(endpointwiki)
+    endpoint.setQuery(query)
+    endpoint.setReturnFormat(JSON)
+
+    # execute the query and convert the results to a list of dictionaries
+    results = endpoint.query().convert()
+    bindings = results["results"]["bindings"]
+    for b in bindings:
+        row = {}
+        for k, v in b.items():
+            row[k] = v["value"]
+        output.append(row)
+
+# create a DataFrame from the output list
+df = pd.DataFrame(output)
+# print the results
+print(df)
+
+
 
 """
 import matplotlib.pyplot as plt
@@ -112,10 +187,10 @@ plt.show()
 import matplotlib.pyplot as plt
 
 # create sample data
-male_dict = counts_dict_uomo
-female_dict = counts_dict
+#male_dict = counts_dict_uomo
+#female_dict = counts_dict
 
-female_keys = list(female_dict.keys())
+#female_keys = list(female_dict.keys())
 #print(female_keys)
 
 
@@ -203,17 +278,7 @@ non_matching_keys = set(male_dict.keys()) ^ set(female_dict.keys())
 print("Non-matching keys:")
 """
 
-queryorientamento = """SELECT distinct ?partito ?label WHERE {
-        ?partito wdt:P31 wd:Q7278.
-        ?partito wdt:P17 wd:Q38.
-        ?partito rdfs:label ?label. 
-  filter (lang(?label) = "it")
-          FILTER (str(?label) = "Fronte Verde") 
-    }"""
-dforientamento = sparql_dataframe.get(endpointwiki, queryorientamento)
-
-endpoint_url = "https://query.wikidata.org/sparql"
-
+"""
 # Create a SPARQLWrapper object
 sparql = SPARQLWrapper(endpoint_url)
 
@@ -221,9 +286,11 @@ sparql = SPARQLWrapper(endpoint_url)
 # Set the query string for the SPARQLWrapper object
 sparql.setQuery(queryorientamento)
 
+
 # Execute the query and get the results
 results = sparql.query().convert()
 
 # Print the results
 for result in results["results"]["bindings"]:
     print(result["itemLabel"]["value"])
+"""

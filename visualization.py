@@ -30,43 +30,6 @@ IFrame(src=m._repr_html_(), width='100%', height='500px')
 
 
 
-"""
-
-# set a variable that will call whatever column we want to visualise on the map
-variable = 'PROVINCIA'
-# set the range for the choropleth
-vmin, vmax = 0, 500
-
-# create figure and axes for Matplotlib
-fig, ax = plt.subplots(1, figsize=(10, 6))
-
-
-
-points_df.plot(ax=ax, color='white', edgecolor='black')
-ax.scatter(merged.geometry.x, merged.geometry.y, c=merged['tot'], cmap='BuGn', vmin=vmin, vmax=vmax, alpha=0.7, edgecolor='black')
-#merged.plot(column=variable, cmap='BuGn', linewidth=0.8, ax=ax, edgecolor='0.8')
-
-# remove the axis
-ax.axis('off')
-# add a title
-ax.set_title('Provenience of Deputies', fontdict={'fontsize': '25', 'fontweight' : '3'})
-# create an annotation for the data source
-ax.annotate('Source: Istat',xy=(0.1, .08), xycoords='figure fraction', horizontalalignment='left', verticalalignment='top', fontsize=12, color='#555555')
-
-
-# Create colorbar as a legend
-sm = plt.cm.ScalarMappable(cmap='BuGn', norm=plt.Normalize(vmin=vmin, vmax=vmax))
-# empty array for the data range
-sm._A = []
-# add the colorbar to the figure
-#cbar = fig.colorbar(sm)
-cax = fig.add_axes([0.27, 0.1, 0.5, 0.03]) # define the position of the colorbar
-cbar = fig.colorbar(sm, orientation='horizontal', cax=cax)
-
-
-#plt.show()
-
-"""
 
 
 
