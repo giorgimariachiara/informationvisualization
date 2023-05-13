@@ -3,6 +3,14 @@ from geopy.geocoders import Nominatim
 import folium
 import pandas as pd
 from IPython.display import IFrame
+from geopy.exc import GeocoderTimedOut
+
+# Create a function to geocode with a timeout feature
+def geocode_with_timeout(loc, query, timeout=5):
+    try:
+        return loc.geocode(query, timeout=timeout)
+    except GeocoderTimedOut:
+        return geocode_with_timeout(loc, query, timeout=timeout)
 
 # Read the CSV file
 df = pd.read_csv('deputies.csv')
@@ -23,17 +31,20 @@ regione = []
 
 # Iterate over the DataFrame to get location coordinates and region
 for index, row in df.iterrows():
-    getLoc = loc.geocode(row['città'])
+    getLoc = geocode_with_timeout(loc, row['città'])
     if getLoc is not None:
         lat.append(getLoc.latitude)
         lon.append(getLoc.longitude)
         regione.append(row['regione'])
+    else:
+        print(f"No coordinates found for city {row['città']} in row {index}")
+        lat.append(None)
+        lon.append(None)
+        regione.append(None)
     
 # Create a DataFrame to store the coordinates and region
 df_cord = pd.concat([pd.Series(lat, name='lat'), pd.Series(lon, name='lon'), pd.Series(regione, name='regione')], axis=1)
 
-print(type(df))
-"""
 # Create a folium map
 m = folium.Map(df_cord[['lat', 'lon']].mean().values.tolist())
 
@@ -58,8 +69,6 @@ m.save('map3.html')
 # Display the map in a Jupyter notebook using an IFrame
 IFrame(src='map3.html', width='100%', height='500px')
 
-
-"""
 
 """
 endpoint = "https://dati.camera.it/sparql"
