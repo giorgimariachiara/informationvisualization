@@ -1,38 +1,33 @@
 import pandas as pd
-import numpy as np
-import geopandas as gpd
-import matplotlib.pyplot as plt
-from SPARQLWrapper import SPARQLWrapper, JSON
-import sparql_dataframe
-from shapely.geometry import Point
-
-fp =  'italy_provinces.shp'
-#reading the file stored in variable fp
-map_df = gpd.read_file(fp)
-
-points_df = map_df.copy()
-# change geometry 
-points_df['geometry'] = points_df['geometry'].centroid
-newpoints_df = points_df.drop(columns=['PROVINCIA'])
-newpoints_df = newpoints_df.rename(index=str, columns={'DEN_CMPRO': 'PROVINCIA'})
+import folium 
+from geopy.geocoders import Nominatim
+from IPython.display import IFrame
 
 
-#opening the csv(.shp) file which contains the data to be plotted on the map
 df = pd.read_csv('femalecities.csv')
+# calling the Nominatim tool
+loc = Nominatim(user_agent="GetLoc", timeout=5)
+lat=[]
+long=[]
+# entering the location name
+for elem, name in df['città'].iteritems():
+    getLoc = loc.geocode(elem)
+    if getLoc is not None:
+        lat.append(getLoc.latitude)
+        long.append(getLoc.longitude)
+df_cord = pd.concat([pd.Series(lat, name='Lat'), pd.Series(long, name='Long')], axis=1)
+m = folium.Map(df_cord[['Lat', 'Long']].mean().values.tolist())
 
+for lat, lon in zip(df_cord['Lat'], df_cord['Long']):
+    folium.Marker([lat, lon]).add_to(m)
 
-#selecting the columns required
-df = df[['città', 'count']]
-#renaming the column name
-data_for_map = df.rename(index=str, columns={'città': 'PROVINCIA', 'count': 'tot'})
+sw = df_cord[['Lat', 'Long']].min().values.tolist()
+ne = df_cord[['Lat', 'Long']].max().values.tolist()
 
+m.fit_bounds([sw, ne])
+map_html = m._repr_html_()
+IFrame(src=m._repr_html_(), width='100%', height='500px')
 
-# joining the geodataframe with the cleaned up csv dataframe
-#merged = data_for_map.merge(newpoints_df, on='PROVINCIA')
-
-merged = newpoints_df.set_index('PROVINCIA').join(data_for_map.set_index('PROVINCIA'))
-
-print(merged.columns)
 
 
 """
