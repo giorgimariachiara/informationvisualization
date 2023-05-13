@@ -1,8 +1,8 @@
-import pandas as pd
-import folium 
+ # importing geopy library
 from geopy.geocoders import Nominatim
+import folium
+import pandas as pd
 from IPython.display import IFrame
-
 
 df = pd.read_csv('femalecities.csv')
 # calling the Nominatim tool
@@ -28,7 +28,8 @@ m.fit_bounds([sw, ne])
 map_html = m._repr_html_()
 IFrame(src=m._repr_html_(), width='100%', height='500px')
 
-
+for lat, lon in zip(df_cord['Lat'], df_cord['Long']):
+    folium.Marker([lat, lon]).add_to(m)
 
 
 
