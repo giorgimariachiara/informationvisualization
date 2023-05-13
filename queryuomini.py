@@ -618,4 +618,4 @@ SELECT DISTINCT ?descrizione (COUNT(?descrizione) as ?numero) where {
 group by ?descrizione"""
 dfstudiuomo = sparql_dataframe.get(endpoint, querystudiuomo)
 
-print(dfmale0)
+print(dfmale1)

@@ -66,7 +66,7 @@ SELECT (COUNT(DISTINCT CONCAT(COALESCE(?name, ''), COALESCE(?cognome, ''))) as ?
   ?mandato ocd:rif_leg ?legislatura.
  }"""
 
-dfnumerototuomini = sparql_dataframe.get(endpoint, querynumerototuomini)
+dfnumerototuomini = get(endpoint, querynumerototuomini)
 
 #3 QUERY CITTà DI NASCITA E REGIONI
 
@@ -93,12 +93,12 @@ querycittànascita = """select ?luogoNascital {
         } 
      """
 dfcittànascita = sparql_dataframe.get(endpoint, querycittànascita)
-dfcittànascita.to_csv("femalecities.csv", index=False)
+#dfcittànascita.to_csv("femalecities.csv", index=False)
 
 
 #3 QUERY NASCITA UOMINI TUTTI SIA QUELLI CHE HANNO INFO CHE QUELLI CON RIGA VUOTA 
 
-querygenericanascitauomini = """select ?persona ?nome ?cognome ?luogoNascital {
+querygenericanascitauomini = """Select distinct ?nome ?cognome ?luogoNascital {
   ?persona foaf:gender "male".
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome. 
@@ -110,7 +110,7 @@ querygenericanascitauomini = """select ?persona ?nome ?cognome ?luogoNascital {
 }
         } """
 dfgenericanasciatauomini = get(endpoint, querygenericanascitauomini) 
-df_unique = dfgenericanasciatauomini.groupby(['nome', 'cognome']).first().reset_index()
+df_unique = dfgenericanasciatauomini.groupby(['nome', 'cognome']).first().reset_index() #
 print(df_unique)
 
 #dataframepermappa = df.drop(columns=['nome', 'cognome'])
@@ -440,8 +440,55 @@ FILTER NOT EXISTS{
 }
         } """
 
-dataquery = get(endpoint, query)
+query2 ="""SELECT DISTINCT ?persona ?cognome ?nome ?dataNascita ?nato ?luogoNascita ?genere
+WHERE {
+  ?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
+  ?d a ocd:deputato; ocd:aderisce ?aderisce;
+  ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_17>;
+  ocd:rif_mandatoCamera ?mandato.
+  ?d foaf:surname ?cognome; foaf:gender ?genere; foaf:firstName ?nome.
+  ?persona foaf:gender "male".
+  OPTIONAL {
+    ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+    ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+    ?luogoNascitaUri dc:title ?luogoNascita.
+  }
+}"""
 
-df_unique2 = dataquery.groupby(['nome', 'cognome']).first().reset_index()
+#questa funziona solo con female
+query3 = """select ?luogoNascita {
+  ?persona foaf:gender "female".
+  OPTIONAL {
+    ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+    ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+    ?luogoNascitaUri dc:title ?luogoNascita.
+  }
+}"""
 
-print(df_unique2)
+uqery4 = """select ?luogoNascita {
+  ?persona foaf:gender "male".
+  OPTIONAL {    ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+    ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+    ?luogoNascitaUri dc:title ?luogoNascita.
+  }
+}"""
+
+query5 = """
+SELECT (COUNT(DISTINCT CONCAT(?name, ?cognome)) as ?count) WHERE {
+  ?persona foaf:gender "male".
+  ?persona foaf:firstName ?name. 
+  ?persona foaf:surname ?cognome . 
+  ?persona ocd:rif_mandatoCamera ?mandato. 
+  ?mandato ocd:rif_leg ?legislatura.
+} """ 
+dataquery = get(endpoint, query5)
+
+
+
+#df_unique2 = dataquery.groupby(['nome', 'cognome']).first().reset_index()
+
+print(len(dataquery))
+
