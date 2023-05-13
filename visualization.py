@@ -1,4 +1,3 @@
- # importing geopy library
 from geopy.geocoders import Nominatim
 import folium
 import pandas as pd
@@ -6,32 +5,40 @@ from IPython.display import IFrame
 
 df = pd.read_csv('femalecities.csv')
 # calling the Nominatim tool
-loc = Nominatim(user_agent="GetLoc", timeout=5)
+
+
+loc = Nominatim(user_agent="GetLoc")
 lat=[]
 long=[]
+region=[]
 # entering the location name
-for elem, name in df['città'].iteritems():
-    getLoc = loc.geocode(elem)
+for index, row in df.iterrows():
+    getLoc = loc.geocode(row[0])
     if getLoc is not None:
         lat.append(getLoc.latitude)
         long.append(getLoc.longitude)
-df_cord = pd.concat([pd.Series(lat, name='Lat'), pd.Series(long, name='Long')], axis=1)
+        region.append(row[1]) # aggiungi la regione di appartenenza della città
+df_cord = pd.concat([pd.Series(lat, name='Lat'), pd.Series(long, name='Long'), pd.Series(region, name='Region')], axis=1)
 m = folium.Map(df_cord[['Lat', 'Long']].mean().values.tolist())
 
-for lat, lon in zip(df_cord['Lat'], df_cord['Long']):
-    folium.Marker([lat, lon]).add_to(m)
+# definisci un dizionario di icone, una per ogni regione
+icon_dict = {
+    'Nord': 'cloud',
+    'Centro': 'star',
+    'Sud': 'heart'
+}
+
+for lat, lon, reg in zip(df_cord['Lat'], df_cord['Long'], df_cord['Region']):
+    # utilizza la funzione icon di Folium per specificare l'icona da utilizzare per ogni marker
+    folium.Marker(location=[lat, lon], icon=folium.Icon(icon=icon_dict[reg])).add_to(m)
 
 sw = df_cord[['Lat', 'Long']].min().values.tolist()
 ne = df_cord[['Lat', 'Long']].max().values.tolist()
 
 m.fit_bounds([sw, ne])
-map_html = m._repr_html_()
-IFrame(src=m._repr_html_(), width='100%', height='500px')
-
-for lat, lon in zip(df_cord['Lat'], df_cord['Long']):
-    folium.Marker([lat, lon]).add_to(m)
-
-
+map2_html = m._repr_html_()
+m.save('map2.html')
+IFrame(src='map2.html', width='100%', height='500px')
 
 
 """
