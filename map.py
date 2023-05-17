@@ -1,4 +1,3 @@
-# importing geopy library
 from geopy.geocoders import Nominatim
 import folium
 import pandas as pd
@@ -9,11 +8,14 @@ from IPython.display import HTML
 
 
 # Create a function to geocode with a timeout feature
-def geocode_with_timeout(loc, query, timeout=5):
-    try:
-        return loc.geocode(query, timeout=timeout)
-    except GeocoderTimedOut:
-        return geocode_with_timeout(loc, query, timeout=timeout)
+def geocode_with_timeout(loc, query, timeout=5, max_retries=3):
+    retries = 0
+    while retries < max_retries:
+        try:
+            return loc.geocode(query, timeout=timeout)
+        except GeocoderTimedOut:
+            retries += 1
+    return None
 
 # Read the CSV file
 df = pd.read_csv('deputies.csv')
@@ -26,7 +28,7 @@ region_dict = {
     'LOMBARDIA': 'Nord',
     'TRENTINO ALTO-ADIGE': 'Nord',
     'VENETO': 'Nord',
-    'FRIULI-VENEZIA GIULIA': 'Nord',
+    'FRIULI-VENEZIA-GIULIA': 'Nord',
     'LIGURIA': 'Nord',
     'EMILIA-ROMAGNA': 'Nord',
     'TOSCANA': 'Centro',
@@ -76,25 +78,32 @@ headers = {'User-Agent': 'my-application'}
 # Create a folium map
 m = folium.Map(df_cord[['lat', 'lon']].mean().values.tolist())
 
-# Iterate over the DataFrame to add markers and set the marker color based on the count
+
+#In this order, if the count is greater than 50, the marker color will be red. If the count is between 11 and 50, the color will be green. If the count is between 6 and 10, the color will be blue. If the count is less than or equal to 5, the color will be black.    folium.Marker([row['lat'], row['lon']], icon=folium.Icon(color=color), popup=f"{city}: {count}").add_to(m)
+# Iterate over the DataFrame to add markers and set the icon based on the region
 for index, row in df.iterrows():
     city = row['città']
     count = city_counts_dict[city]
     color = 'red' if count > 50 else 'green' if count > 10 else 'blue' if count > 5 else 'black'
-
-#In this order, if the count is greater than 50, the marker color will be red. If the count is between 11 and 50, the color will be green. If the count is between 6 and 10, the color will be blue. If the count is less than or equal to 5, the color will be black.    folium.Marker([row['lat'], row['lon']], icon=folium.Icon(color=color), popup=f"{city}: {count}").add_to(m)
-
-# Iterate over the DataFrame to add markers and set the icon based on the region
-for regione in df_cord['regione']:
-    if region_dict[regione] == 'Nord':
-        marker_icon = folium.Icon(icon='cloud')
-    elif region_dict[regione] == 'Centro':
-        marker_icon = folium.Icon(icon='leaf')
-    else:
-        marker_icon = folium.Icon(icon='star')
-    
-folium.Marker(location=[lat, lon], icon=marker_icon).add_to(m)
-
+    folium.Marker([row['lat'], row['lon']], icon=folium.Icon(color=color), popup=f"{city}: {count}").add_to(m)   
+   
+    regione = row['regione']
+    for regione in df_cord['regione']:
+        if pd.notna(regione):
+            if region_dict[regione] == 'Nord':
+                marker_icon = folium.Icon(icon='cloud')
+            elif region_dict[regione] == 'Centro':
+                marker_icon = folium.Icon(icon='leaf')
+            else:
+                marker_icon = folium.Icon(icon='star')
+        
+            lat = row['lat']
+            lon = row['lon']
+            folium.Marker(location=[lat, lon], icon=marker_icon, popup=f"{city}: {count}", tooltip=city, color=color).add_to(m)
+        else:
+            # Handle missing regione value
+            # You can choose to skip or add a default marker/icon here
+            pass
 # Fit the map bounds and save it to an HTML file
 sw = df_cord[['lat', 'lon']].min().values.tolist()
 ne = df_cord[['lat', 'lon']].max().values.tolist()
