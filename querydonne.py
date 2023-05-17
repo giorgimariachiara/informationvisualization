@@ -436,46 +436,56 @@ querylaureadonnetutte = """SELECT distinct ?nome ?cognome ?descrizione ?luogoNas
 """
 datalaureadonne = get(endpoint, querylaureadonnetutte)
 
-querylaureadonnesenzalaurea = """SELECT distinct ?nome ?cognome ?descrizione ?luogoNascita where {
-  
-  ?persona foaf:gender "female".
-  ?persona rdf:type foaf:Person. 
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg ?legislatura.
-  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-  ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
-             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
-  ?luogoNascitaUri dc:title ?luogoNascita.
-  OPTIONAL {?persona dc:description ?descrizione.}
-  FILTER regex(?descrizione, "^(?!.*Laurea|laurea)")
-  
- }"""
+querylaureadonnesenzalaurea = """SELECT DISTINCT ?persona ?cognome ?nome ?info ?luogoNascita 
+WHERE {
+?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
+
+?d a ocd:deputato; 
+ocd:rif_leg ?legislatura;
+ocd:rif_mandatoCamera ?mandato.
+OPTIONAL{?d dc:description ?info}
+FILTER regex(?info, "^(?!.*Laurea|laurea|LAUREA|Master)")
+
+##anagrafica
+?d foaf:surname ?cognome; foaf:gender "female" ;foaf:firstName ?nome.
+OPTIONAL{
+?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+?luogoNascitaUri dc:title ?luogoNascita.
+}}"""
 
 
 datanonlaureadonne =get(endpoint, querylaureadonnesenzalaurea)
+datanonlaureadonne = datanonlaureadonne.drop_duplicates(["persona","nome", "cognome", "luogoNascita"])
 
-querylaureadonneconlaurea = """SELECT distinct ?nome ?cognome ?descrizione ?luogoNascita where {
-  
-  ?persona foaf:gender "female".
-  ?persona rdf:type foaf:Person.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg ?legislatura.
-  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-  ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
-             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
-  ?luogoNascitaUri dc:title ?luogoNascita.
-  OPTIONAL {?persona dc:description ?descrizione.}
-  FILTER regex(?descrizione, "^(Laurea|laurea)")
-  
- }"""
+querylaureadonneconlaurea = """SELECT DISTINCT ?persona ?cognome ?nome ?info ?luogoNascita 
+WHERE {
+?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
+
+?d a ocd:deputato; 
+ocd:rif_leg ?legislatura;
+ocd:rif_mandatoCamera ?mandato.
+OPTIONAL{?d dc:description ?info}
+FILTER regex(?info, "^(Laurea|laurea|LAUREA|Master)")
+
+##anagrafica
+?d foaf:surname ?cognome; foaf:gender "female" ;foaf:firstName ?nome.
+OPTIONAL{
+?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+?luogoNascitaUri dc:title ?luogoNascita.
+}}"""
 datadonnelaureate = get(endpoint, querylaureadonneconlaurea)
+datadonnelaureate = datadonnelaureate.drop_duplicates(["persona","nome", "cognome", "luogoNascita"])
 
-df_nan = datalaureadonne[datalaureadonne['descrizione'].isna()] #116 donne non hanno la descrizione 273 senza laurea 514 con laurea 
-print(df_nan)
+df_nan = datalaureadonne[datalaureadonne['descrizione'].isna()] #49 donne non hanno la descrizione 294 senza laurea 572 con laurea 
+datanonlaureadonne = datanonlaureadonne[["nome", "cognome", "info"]]
+datanonlaureadonne = datanonlaureadonne.sort_values(by='cognome')
+#print(len(datadonnelaureate))
+#print(len(datanonlaureadonne))
+#print(datanonlaureadonne) 
 
 queryprovaa ="""SELECT DISTINCT ?persona ?cognome ?nome ?info
 ?dataNascita ?luogoNascita 
@@ -497,8 +507,11 @@ rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
 }}"""
 dataprova = get(endpoint, queryprovaa)
 dataprova = dataprova.drop_duplicates(["persona","nome", "cognome", "luogoNascita"])
-#print(dataprova)
-df_nana = dataprova[dataprova['info'].isna()] #qui le donne senza info diventano solo 49 
-df_risultati = dataprova.loc[(dataprova['nome'] == "ELISABETTA") & (dataprova['cognome'] == "GARDINI")]
-print(df_nana)
-print(len(df_nana))
+dataprova = dataprova[["nome","cognome","info", "luogoNascita"]]
+dataprova = dataprova.sort_values("cognome")
+print(dataprova)
+#print(len(dataprova))
+#df_nana = dataprova[dataprova['info'].isna()] #qui le donne senza info diventano solo 49 
+#df_risultati = dataprova.loc[(dataprova['nome'] == "ELISABETTA") & (dataprova['cognome'] == "GARDINI")]
+#print(df_nana)
+#print(len(df_nana))
