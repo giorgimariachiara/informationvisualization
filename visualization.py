@@ -4,6 +4,9 @@ import folium
 import pandas as pd
 from IPython.display import IFrame
 from geopy.exc import GeocoderTimedOut
+from IPython.display import display
+from IPython.display import HTML
+
 
 # Create a function to geocode with a timeout feature
 def geocode_with_timeout(loc, query, timeout=5):
@@ -17,13 +20,34 @@ df = pd.read_csv('deputies.csv')
 
 # Create a dictionary to map region to icon color
 icon_dict = {'Nord': 'blue', 'Centro': 'green', 'Sud': 'red'}
+region_dict = {
+    'PIEMONTE': 'Nord',
+    'VALLE D\'AOSTA': 'Nord',
+    'LOMBARDIA': 'Nord',
+    'TRENTINO ALTO-ADIGE': 'Nord',
+    'VENETO': 'Nord',
+    'FRIULI-VENEZIA GIULIA': 'Nord',
+    'LIGURIA': 'Nord',
+    'EMILIA-ROMAGNA': 'Nord',
+    'TOSCANA': 'Centro',
+    'UMBRIA': 'Centro',
+    'MARCHE': 'Centro',
+    'LAZIO': 'Centro',
+    'ABRUZZO': 'Sud',
+    'MOLISE': 'Sud',
+    'CAMPANIA': 'Sud',
+    'PUGLIA': 'Sud',
+    'BASILICATA': 'Sud',
+    'CALABRIA': 'Sud',
+    'SICILIA': 'Sud',
+    'SARDEGNA': 'Sud'
+}
 
 # Calculate the city counts
 city_counts_dict = df['città'].value_counts().to_dict()
 
 # Calling the Nominatim tool
-loc = Nominatim(user_agent="GetLoc")
-
+loc = Nominatim(user_agent='mariachiara.giorgi1@gmail.com')
 # Create empty lists to store latitude, longitude, and region
 lat = []
 lon = []
@@ -41,10 +65,14 @@ for index, row in df.iterrows():
         lat.append(None)
         lon.append(None)
         regione.append(None)
-    
+
+
 # Create a DataFrame to store the coordinates and region
 df_cord = pd.concat([pd.Series(lat, name='lat'), pd.Series(lon, name='lon'), pd.Series(regione, name='regione')], axis=1)
+df['lat'] = lat
+df['lon'] = lon
 
+headers = {'User-Agent': 'my-application'}
 # Create a folium map
 m = folium.Map(df_cord[['lat', 'lon']].mean().values.tolist())
 
@@ -52,13 +80,20 @@ m = folium.Map(df_cord[['lat', 'lon']].mean().values.tolist())
 for index, row in df.iterrows():
     city = row['città']
     count = city_counts_dict[city]
-    color = 'red' if count > 10 else 'green' if count > 50 else 'blue'
-    folium.Marker([row['lat'], row['lon']], icon=folium.Icon(color=color), popup=f"{city}: {count}").add_to(m)
+    color = 'red' if count > 50 else 'green' if count > 10 else 'blue' if count > 5 else 'black'
+
+#In this order, if the count is greater than 50, the marker color will be red. If the count is between 11 and 50, the color will be green. If the count is between 6 and 10, the color will be blue. If the count is less than or equal to 5, the color will be black.    folium.Marker([row['lat'], row['lon']], icon=folium.Icon(color=color), popup=f"{city}: {count}").add_to(m)
 
 # Iterate over the DataFrame to add markers and set the icon based on the region
-for lat, lon, regione in zip(df_cord['lat'], df_cord['lon'], df_cord['regione']):
-    # use the icon function of Folium to specify the icon to use for each marker
-    folium.Marker(location=[lat, lon], icon=folium.Icon(icon=icon_dict[regione])).add_to(m)
+for regione in df_cord['regione']:
+    if region_dict[regione] == 'Nord':
+        marker_icon = folium.Icon(icon='cloud')
+    elif region_dict[regione] == 'Centro':
+        marker_icon = folium.Icon(icon='leaf')
+    else:
+        marker_icon = folium.Icon(icon='star')
+    
+folium.Marker(location=[lat, lon], icon=marker_icon).add_to(m)
 
 # Fit the map bounds and save it to an HTML file
 sw = df_cord[['lat', 'lon']].min().values.tolist()
@@ -67,8 +102,9 @@ m.fit_bounds([sw, ne])
 m.save('map3.html')
 
 # Display the map in a Jupyter notebook using an IFrame
-IFrame(src='map3.html', width='100%', height='500px')
+display(IFrame(src='map3.html', width='100%', height='500px'))
 
+HTML(m._repr_html_())
 
 """
 endpoint = "https://dati.camera.it/sparql"
