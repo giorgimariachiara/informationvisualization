@@ -1,14 +1,61 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" contet="ie=edge">
     <title>Chart.js example</title>
   </head>
   <body>
     <!-- <div style="width: 500px;"><canvas id="dimensions"></canvas></div><br/> -->
-    <div style="width: 800px;"><canvas id="acquisitions"></canvas></div>
+    <div class="col-8 offset-2 my-5">
+      <div class="card">
+        <div class="card-body">
+             <canvas id="myChart"></canvas>
+    </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
 
-    <!-- <script type="module" src="dimensions.js"></script> -->
-    <script type="module" src="acquisitions.js"></script>
+
+
+
+  <script>
+  d3.csv('female.csv')
+  .then(makeChart)
+
+  function makeChart(female)
+    var ctx = document.getElementById('myChart').getContext('2d');
+  // var myBar = new Chart(ctx).StackedBar(barChartData); 
+    new Chart(ctx, {
+      //type of chart
+      type: 'bar',
+
+      //data for our datset
+      data: {
+        labels: ['LegislatureI', 'LegislatureII', 'LegislatureIII', 'LegislatureIV', 'LegislatureV'],
+        datasets: [{
+          label: '# of Votes',
+          backgroundColor: 'red',
+          data: [12, 19, 3, 5, 2, 3],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+  
+
+
+
   </body>
 </html>
  

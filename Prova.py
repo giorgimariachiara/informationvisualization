@@ -15,36 +15,73 @@ import sys
 import time
 import chart_studio
 chart_studio.tools.set_credentials_file(username='DemoAccount', api_key='lr1c37zw')
-
+pd.set_option('display.max_rows', None)
 
 from SPARQLWrapper import SPARQLWrapper, JSON
 import sparql_dataframe
-
-
-
- 
-
+from sparql_dataframe import get
 
 endpoint = "https://dati.camera.it/sparql"
 
-#QUERY TUTTE LE DONNE
 
+#1 QUERY TUTTE LE DONNE
 querydonne = """
 prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix foaf:<http://xmlns.com/foaf/0.1/>
-SELECT DISTINCT ?nome ?legislatura where {
+SELECT ?nome ?cognome ?legislaturaLabel where {
   
-  ?nome foaf:gender "female".
-  ?nome ocd:rif_leg ?legislatural. 
-  ?legislatural dc:title ?legislatura. 
- } ORDER BY ?legislatural
+  ?persona foaf:gender "female".
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome . 
+  ?persona ocd:rif_mandatoCamera ?mandato. 
+  ?mandato ocd:rif_leg ?legislatura.
+  ?legislatura rdfs:label ?legislaturaLabel. 
+ }
      
 """
+dffemale = get(endpoint, querydonne)
 
-dffemale = sparql_dataframe.get(endpoint, querydonne)
+#1 QUERY NUMERO TOTALE DONNE 
+querynumerototdonne = """
+SELECT (COUNT(DISTINCT CONCAT(COALESCE(?name, ''), COALESCE(?cognome, ''))) as ?count) where {
+  
+  ?persona foaf:gender "female".
+  ?persona foaf:firstName ?name. 
+  ?persona foaf:surname ?cognome . 
+  ?persona ocd:rif_mandatoCamera ?mandato. 
+  ?mandato ocd:rif_leg ?legislatura.
+ }"""
 
+dfnumerototdonne = get(endpoint, querynumerototdonne)
 
-#QUERY LUOGHI NASCITA 
+#1  QUERY NUMERO TOTALE UOMINI 
+querynumerototuomini = """
+
+SELECT (COUNT(DISTINCT CONCAT(COALESCE(?name, ''), COALESCE(?cognome, ''))) as ?count) where {
+  
+  ?persona foaf:gender "male".
+  ?persona foaf:firstName ?name. 
+  ?persona foaf:surname ?cognome . 
+  ?persona ocd:rif_mandatoCamera ?mandato. 
+  ?mandato ocd:rif_leg ?legislatura.
+ }"""
+
+dfnumerototuomini = get(endpoint, querynumerototuomini)
+
+#3 QUERY CITTà DI NASCITA E REGIONI
+
+Querycittàeregionidonne = """select ?nome ?cognome ?città ?regione where {
+  ?persona foaf:gender "female".
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome. 
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri rdfs:label ?luogoNascita.
+  ?luogoNascitaUri dc:title ?città.
+ OPTIONAL { ?luogoNascitaUri ocd:parentADM3 ?regione .}
+}"""
+
+#3 QUERY SOLO CITTà DI NASCITA DONNE
 
 querycittànascita = """select ?luogoNascital {
   ?persona foaf:gender "female".
@@ -56,30 +93,28 @@ querycittànascita = """select ?luogoNascital {
         } 
      """
 dfcittànascita = sparql_dataframe.get(endpoint, querycittànascita)
-
-queryregioninascita = """
-    select ?regione ?persona{
-    ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-    ?nascita ocd:rif_luogo ?luogoNascitaUri.
-    ?luogoNascitaUri ocd:parentADM3 ?regione . 
-    
-    } """ 
+#dfcittànascita.to_csv("femalecities.csv", index=False)
 
 
-dfregioninascita = sparql_dataframe.get(endpoint, queryregioninascita)
+#3 QUERY NASCITA UOMINI TUTTI SIA QUELLI CHE HANNO INFO CHE QUELLI CON RIGA VUOTA 
 
+querygenericanascitauomini = """Select distinct ?nome ?cognome ?luogoNascital {
+  ?persona foaf:gender "male".
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome. 
+  OPTIONAL { 
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri rdfs:label ?luogoNascita.
+  ?luogoNascitaUri dc:title ?luogoNascital.
+}
+        } """
+dfgenericanasciatauomini = get(endpoint, querygenericanascitauomini) 
+df_unique = dfgenericanasciatauomini.groupby(['nome', 'cognome']).first().reset_index() #
+#print(df_unique)
 
-
-#QUERY GRUPPO PARLAMENTARE DONNE 
-querygruppopardonne = """SELECT DISTINCT ?nome ?gruppoPar where {
-  
-  ?nome foaf:gender "female".
-  ?nome ocd:aderisce ?gruppo . 
-  ?gruppo rdfs:label ?gruppoPar.
-  
- } """
-
-dfgruppopardonne = sparql_dataframe.get(endpoint, querygruppopardonne)
+#dataframepermappa = df.drop(columns=['nome', 'cognome'])
+#dataframepermappa.to_csv('deputies.csv', index = False)
 
 #QUERY CARICA DONNE 
 querycaricadonne = """SELECT DISTINCT ?nome ?cognome ?ufficio ?organo where {
@@ -171,39 +206,222 @@ group by ?descrizione}
 dftotstudidonne = sparql_dataframe.get(endpoint, querytotstudidonne)
 
 
-#print(dftotstudidonne) 
+#TOTALE DONNE CON LAUREA 
 
-"""
-from dash import Dash, dcc, html, Input, Output
-import plotly.graph_objects as go
+querytotalenumerodonnelaurea ="""PREFIX owl: <http://www.w3.org/2002/07/owl#>
+SELECT (SUM(?numero) as ?totale) where {
+select (COUNT(?descrizione) as ?numero)
 
-app = Dash(__name__)
+where
+{?nome foaf:gender "female".
+  ?nome ocd:rif_leg ?legislatural. 
+  ?nome dc:description ?descrizione.  
 
-
-app.layout = html.Div([
-    html.H4('Interactive color selection with simple Dash example'),
-    html.P("Select color:"),
-    dcc.Dropdown(
-        id="dropdown",
-        options=['Gold', 'MediumTurquoise', 'LightGreen'],
-        value='Gold',
-        clearable=False,
-    ),
-    dcc.Graph(id="graph"),
-])
-
-
-@app.callback(
-    Output("graph", "figure"), 
-    Input("dropdown", "value"))
-def display_color(color):
-    fig = go.Figure(
-        data=go.Bar(y=[2, 3, 1], # replace with your own data source
-                    marker_color=color))
-    return fig
-
-
-app.run_server(debug=True)
+   FILTER regex(?descrizione, "^(Laurea|laurea)")}}
 """
 
-print(dfstudidonne.to_csv('Studidonne.csv'))
+"""
+SELECT (COUNT(DISTINCT CONCAT(COALESCE(?name, ''), COALESCE(?cognome, ''))) as ?count) where {
+  
+  ?persona foaf:gender "male".
+  ?persona foaf:firstName ?name. 
+  ?persona foaf:surname ?cognome . 
+  ?persona dc:description ?descrizione. 
+  FILTER regex(?descrizione, "^(Laurea|laurea)")
+ 
+ }"""
+dftotalenumerodonnelaurea = sparql_dataframe.get(endpoint, querytotalenumerodonnelaurea)
+
+#TOTALE DONNE SENZA LAUREA 
+querytotnonlaureadonne = """PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+
+SELECT (SUM(?numero) as ?totale) where {
+select (COUNT(?descrizione) as ?numero)
+
+where
+{?nome foaf:gender "female".
+  ?nome ocd:rif_leg ?legislatural. 
+  ?nome dc:description ?descrizione.  
+
+   FILTER regex(?descrizione, "^(?!.*Laurea|laurea)")}
+GROUP BY ?descrizione}"""
+
+dftotnumerononlaureadonne = sparql_dataframe.get(endpoint, querytotnonlaureadonne)
+
+#QUERY TOTALE NUMERO STUDI UOMO 
+
+querytotstudiuomo = """SELECT (sum(?numero)as ?totale) where {
+SELECT DISTINCT ?descrizione (COUNT(?descrizione) as ?numero) where {
+  
+  ?nome foaf:gender "male".
+  ?nome ocd:rif_leg ?legislatural. 
+  ?nome dc:description ?descrizione.  
+ }
+group by ?descrizione}"""
+
+dftotstudiuomo = sparql_dataframe.get(endpoint, querytotstudiuomo)
+
+
+q6 ="""select distinct ?nome ?cognome ?nascita ?città where {
+  ?persona foaf:gender ?gender. 
+  ?persona foaf:gender "male".
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome. 
+ OPTIONAL { ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri rdfs:label ?luogoNascita.
+  ?luogoNascitaUri dc:title ?città.}}"""
+
+"""
+# Import libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load the data of graduated male deputies
+male_deputies = pd.read_csv('male_deputies.csv')
+male_deputies = male_deputies.groupby(['education'])['count'].sum().reset_index()
+
+# Load the data of graduated female deputies
+female_deputies = pd.read_csv('female_deputies.csv')
+female_deputies = female_deputies.groupby(['education'])['count'].sum().reset_index()
+
+# Merge the male and female dataframes based on the education level
+deputies = pd.merge(male_deputies, female_deputies, on='education', suffixes=('_male', '_female'))
+
+# Calculate the total number of deputies for each gender
+total_males = male_deputies['count'].sum()
+total_females = female_deputies['count'].sum()
+
+# Calculate the percentage of deputies for each gender and education level
+deputies['percentage_male'] = deputies['count_male'] / total_males
+deputies['percentage_female'] = deputies['count_female'] / total_females
+
+# Create a stacked vertical bar chart
+fig, ax = plt.subplots(figsize=(10, 8))
+ax.bar(deputies['education'], deputies['percentage_male'], color='b')
+ax.bar(deputies['education'], deputies['percentage_female'], bottom=deputies['percentage_male'], color='r')
+
+# Add labels and title
+ax.set_xlabel('Education Level')
+ax.set_ylabel('Percentage of Deputies')
+ax.set_title('Graduated Deputies in the Italian Chamber of Deputies by Gender')
+
+# Add percentage labels on the bars
+for i, v in enumerate(deputies['percentage_male']):
+    ax.text(i, v/2, f'{round(v*100, 1)}%', color='white', ha='center', va='center', fontweight='bold')
+    ax.text(i, v+deputies['percentage_female'][i]/2, f'{round(deputies["percentage_female"][i]*100, 1)}%', color='white', ha='center', va='center', fontweight='bold')
+
+# Show the plot
+plt.show()
+
+"""
+"""
+import requests 
+
+hr = sparql_dataframe.get(endpoint, querypertrovareluogonascitawikid)
+
+hr = hr[hr.isnull().any(axis=1)]
+people = list(zip(hr['name'], hr['surname']))
+people1 = people[:len(people)//2]
+people3 = people1[:len(people1)//2]
+people5= people1[len(people1)//2:]
+people7 =people3[:len(people3)//2]
+people9 = people3[len(people3)//2:]
+people11 = people7[:len(people7)//2]
+people13= people11[:len(people11)//2]
+people15 = people13[:len(people13)//2]
+people17 = people15[:len(people15)//2]
+people19 = people17[:len(people17)//2]
+people2 = people[len(people)//2:]
+#print(people19)
+#hr.to_csv('fileperwiki.csv')
+def getdata(list):
+   import pandas as pd
+from SPARQLWrapper import SPARQLWrapper, TSV
+
+for name_tuple in people19:
+        # Get the name and surname from the tuple
+        first, last = name_tuple
+        name_str = f"{first} {last}"
+        print(name_str)
+def getdatafromwiki(name_list):
+    endpoint = "https://query.wikidata.org/sparql"
+    dfs = []
+    for name_tuple in name_list:
+        # Get the name and surname from the tuple
+        first, last = name_tuple
+        name_str = f"{first} {last}"
+
+        # Build the SPARQL query string
+        
+        query = ('SELECT DISTINCT ?birthplacel WHERE { \
+            ?person wdt:P31 wd:Q5. \
+            ?person rdfs:label ?personLabel. \
+            ?person rdfs:label "' + name_str +'". \
+            ?person wdt:P19 ?birthplace. \
+            ?birthplace wdt:P1705 ?birthplacel. \
+        }')
+        
+        # Make the request to the Wikidata SPARQL endpoint
+        sparql = SPARQLWrapper(endpoint)
+        sparql.setQuery(query)
+        sparql.setReturnFormat(TSV)
+        data = sparql.query().convert()
+        
+        # Convert the TSV data to a Pandas DataFrame
+        df = pd.read_csv(data.splitlines(), sep='\t', header=None, names=['birthplace'])
+        
+        # Append the DataFrame to the list of results
+        dfs.append(df)
+    
+    return dfs
+
+def getdatafromwiki(list):
+  for person in list:
+      name_str_list = [f"{first} {last}" for first, last in list]
+      for el in name_str_list:
+      # get the name and surname from the tuple
+        # build the SPARQL query string
+
+        query = ('SELECT distinct ?birthplacel WHERE { \
+            ?person wdt:P31 wd:Q5. \
+            ?person rdfs:label ?personLabel.  \
+            ?person rdfs:label "' + el +'". \
+          ?person wdt:P19 ?birthplace. \
+            ?birthplace wdt:P1705 ?birthplacel.  \
+        }')
+        endpoint ="https://query.wikidata.org/sparql"
+        dataf = sparql_dataframe.get(endpoint, query)
+        print(dataf)
+        #lista.append(dataf)
+        #make the request to the Wikidata SPARQL endpoint
+    
+print(getdata(people19))
+
+
+SELECT DISTINCT ?person ?labelNome ?labelCognome WHERE {
+  ?person wdt:P31 wd:Q5 .
+  ?person wdt:P735 ?nome. 
+  ?person wdt:P734 ?cognome.
+  ?nome rdfs:label ?labelNome . 
+  ?cognome rdfs:label ?labelCognome . 
+   FILTER (STRENDS(?labelNome, "Dino"))
+  FILTER (STRENDS(?labelCognome, "Secco"))
+} 
+"""
+
+#questa funziona solo con female
+query3 = """select distinct ?nome ?cognome ?luogoNascita {
+  ?persona foaf:gender "male".
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome. 
+    ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+    ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+    ?luogoNascitaUri dc:title ?luogoNascita.
+  
+}"""
+
+ddfdads = get(endpoint, query3)
+print(ddfdads)
