@@ -40,7 +40,7 @@ dfemale1 = get(endpoint, querydonne1)
 querydonne2 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
-  ?persona foaf:gender "male".
+  ?persona foaf:gender "female".
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -56,7 +56,7 @@ dfemale2 = get(endpoint, querydonne2)
 querydonne3 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
-  ?persona foaf:gender "male".
+  ?persona foaf:gender "female".
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -71,7 +71,7 @@ dfemale3 = get(endpoint, querydonne3)
 querydonne4 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
-  ?persona foaf:gender "male".
+  ?persona foaf:gender "female".
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -88,7 +88,7 @@ prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix foaf:<http://xmlns.com/foaf/0.1/>
 SELECT distinct ?persona ?nome ?cognome where {
   
-  ?persona foaf:gender "male".
+  ?persona foaf:gender "female".
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -103,7 +103,7 @@ dfemale5 = get(endpoint, querydonne5)
 querydonne6 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
-  ?persona foaf:gender "male".
+  ?persona foaf:gender "female".
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -117,7 +117,7 @@ dfemale6 = get(endpoint, querydonne6)
 querydonne7 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
-  ?persona foaf:gender "male".
+  ?persona foaf:gender "female".
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -132,7 +132,7 @@ dfemale7 = get(endpoint, querydonne7)
 querydonne8 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
-  ?persona foaf:gender "male".
+  ?persona foaf:gender "female".
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -147,7 +147,7 @@ dfemale8 = sparql_dataframe.get(endpoint, querydonne8)
 querydonne9 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
-  ?persona foaf:gender "male".
+  ?persona foaf:gender "female".
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -162,7 +162,7 @@ dfemale9 = get(endpoint, querydonne9)
 querydonne10 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
-  ?persona foaf:gender "male".
+  ?persona foaf:gender "female".
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -177,7 +177,7 @@ dfemale10 = get(endpoint, querydonne10)
 querydonne11 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
-  ?persona foaf:gender "male".
+  ?persona foaf:gender "female".
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -330,7 +330,7 @@ merged_dfinal = merged_df.drop_duplicates()
 print(len(merged_dfinal))
 
 """
-
+"""
 new_df = dfemale0.loc[:, ['nome', 'cognome']]
 new_df = new_df.drop_duplicates()
 
@@ -393,18 +393,112 @@ new_df19= new_df19.drop_duplicates()
 merged_df = pd.concat([new_df, new_df1, new_df2, new_df3, new_df4, new_df5, new_df6, new_df7, new_df8, new_df9, new_df10, new_df11, new_df12, new_df13, new_df14, new_df15, new_df16, new_df17, new_df18, new_df19], axis=0)
 
 merged_dfinal = merged_df.drop_duplicates()
+"""
+"""
+print(len(new_df))
+print(len(new_df1))
+print(len(new_df2))
+print(len(new_df3))
+print(len(new_df4))
+print(len(new_df5))
+print(len(new_df6))
+print(len(new_df7))
+print(len(new_df8))
+print(len(new_df9))
+print(len(new_df10))
+print(len(new_df11))
+print(len(new_df12))
+print(len(new_df13))
+print(len(new_df14))
+print(len(new_df15))
+print(len(new_df16))
+print(len(new_df17))
+print(len(new_df18))
+print(len(new_df19))
+print(len(merged_dfinal))
 
-querypro = """prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-prefix foaf:<http://xmlns.com/foaf/0.1/>
-SELECT distinct ?nome ?cognome (COUNT(*) as ?count)  where {
+"""
+querylaureadonnetutte = """SELECT distinct ?nome ?cognome ?descrizione ?luogoNascita where {
   
-  ?persona foaf:gender "male".
+  ?persona foaf:gender "female".
+  ?persona rdf:type foaf:Person. 
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
   ?mandato ocd:rif_leg ?legislatura.
- } group by ?nome ?cognome """
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri dc:title ?luogoNascita.
+  OPTIONAL {?persona dc:description ?descrizione.}
+  
+ }
+"""
+datalaureadonne = get(endpoint, querylaureadonnetutte)
 
-dfpro = get(endpoint, querypro)
-print(len(merged_df.drop_duplicates(subset =['nome', 'cognome'])))
-print = merged_dfinal
+querylaureadonnesenzalaurea = """SELECT distinct ?nome ?cognome ?descrizione ?luogoNascita where {
+  
+  ?persona foaf:gender "female".
+  ?persona rdf:type foaf:Person. 
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome . 
+  ?persona ocd:rif_mandatoCamera ?mandato. 
+  ?mandato ocd:rif_leg ?legislatura.
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri dc:title ?luogoNascita.
+  OPTIONAL {?persona dc:description ?descrizione.}
+  FILTER regex(?descrizione, "^(?!.*Laurea|laurea)")
+  
+ }"""
+
+
+datanonlaureadonne =get(endpoint, querylaureadonnesenzalaurea)
+
+querylaureadonneconlaurea = """SELECT distinct ?nome ?cognome ?descrizione ?luogoNascita where {
+  
+  ?persona foaf:gender "female".
+  ?persona rdf:type foaf:Person.
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome . 
+  ?persona ocd:rif_mandatoCamera ?mandato. 
+  ?mandato ocd:rif_leg ?legislatura.
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri dc:title ?luogoNascita.
+  OPTIONAL {?persona dc:description ?descrizione.}
+  FILTER regex(?descrizione, "^(Laurea|laurea)")
+  
+ }"""
+datadonnelaureate = get(endpoint, querylaureadonneconlaurea)
+
+df_nan = datalaureadonne[datalaureadonne['descrizione'].isna()] #116 donne non hanno la descrizione 273 senza laurea 514 con laurea 
+print(df_nan)
+
+queryprovaa ="""SELECT DISTINCT ?persona ?cognome ?nome ?info
+?dataNascita ?luogoNascita 
+WHERE {
+?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
+
+?d a ocd:deputato; 
+ocd:rif_leg ?legislatura;
+ocd:rif_mandatoCamera ?mandato.
+OPTIONAL{?d dc:description ?info}
+
+##anagrafica
+?d foaf:surname ?cognome; foaf:gender "female" ;foaf:firstName ?nome.
+OPTIONAL{
+?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+?luogoNascitaUri dc:title ?luogoNascita.
+}}"""
+dataprova = get(endpoint, queryprovaa)
+dataprova = dataprova.drop_duplicates(["persona","nome", "cognome", "luogoNascita"])
+#print(dataprova)
+df_nana = dataprova[dataprova['info'].isna()] #qui le donne senza info diventano solo 49 
+df_risultati = dataprova.loc[(dataprova['nome'] == "ELISABETTA") & (dataprova['cognome'] == "GARDINI")]
+print(df_nana)
+print(len(df_nana))

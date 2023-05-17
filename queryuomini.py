@@ -21,6 +21,7 @@ prefix foaf:<http://xmlns.com/foaf/0.1/>
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+  ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -35,6 +36,7 @@ queryuomini1 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -50,6 +52,7 @@ queryuomini2 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -66,6 +69,7 @@ queryuomini3 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -81,6 +85,7 @@ queryuomini4 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -98,6 +103,7 @@ prefix foaf:<http://xmlns.com/foaf/0.1/>
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -113,6 +119,7 @@ queryuomini6 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -127,6 +134,7 @@ queryuomini7 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -142,6 +150,7 @@ queryuomini8 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -157,6 +166,7 @@ queryuomini9 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -172,6 +182,7 @@ queryuomini10 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -187,6 +198,7 @@ queryuomini11 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -202,6 +214,7 @@ queryuomini12 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -217,6 +230,7 @@ queryuomini13 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -232,6 +246,7 @@ queryuomini14 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -247,6 +262,7 @@ queryuomini15 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -262,6 +278,7 @@ queryuomini16 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -277,6 +294,7 @@ queryuomini17 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -293,6 +311,7 @@ queryuomini18 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -310,6 +329,7 @@ queryuomini19 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
+   ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -648,71 +668,71 @@ dfstudiuomo = sparql_dataframe.get(endpoint, querystudiuomo)
 #merged_df = pd.merge(merged_df, df3, on='key', how='outer')
 #print(dfmale1)
 #final_df = dfmale1.drop_duplicates(subset=['nome', 'cognome'], keep=False)
-"""
+
 new_df = dfmale0.loc[:, ['nome', 'cognome']]
-new_df = new_df.drop_duplicates()
+
 
 new_df1 = dfmale1.loc[:, ['nome', 'cognome']]
-new_df1 = new_df1.drop_duplicates()
+
 
 new_df2 = dfmale2.loc[:, ['nome', 'cognome']]
-new_df2 = new_df2.drop_duplicates()
+
 
 new_df3 = dfmale3.loc[:, ['nome', 'cognome']]
-new_df3 = new_df3.drop_duplicates()
+
 
 new_df4 = dfmale4.loc[:, ['nome', 'cognome']]
-new_df4 = new_df4.drop_duplicates()
+
 
 new_df5 = dfmale5.loc[:, ['nome', 'cognome']]
-new_df5= new_df5.drop_duplicates()
+
 
 new_df6 = dfmale6.loc[:, ['nome', 'cognome']]
-new_df6 = new_df6.drop_duplicates()
+
 
 new_df7 = dfmale7.loc[:, ['nome', 'cognome']]
-new_df7= new_df7.drop_duplicates()
+
 
 new_df8 = dfmale8.loc[:, ['nome', 'cognome']]
-new_df8= new_df8.drop_duplicates()
+
 
 new_df9 = dfmale9.loc[:, ['nome', 'cognome']]
-new_df9= new_df9.drop_duplicates()
+
 
 new_df10 = dfmale10.loc[:, ['nome', 'cognome']]
-new_df10= new_df10.drop_duplicates()
+
 
 new_df11 = dfmale11.loc[:, ['nome', 'cognome']]
-new_df11= new_df11.drop_duplicates()
+
 
 new_df12 = dfmale12.loc[:, ['nome', 'cognome']]
-new_df12= new_df12.drop_duplicates()
+
 
 new_df13= dfmale13.loc[:, ['nome', 'cognome']]
-new_df13= new_df13.drop_duplicates()
+
 
 new_df14= dfmale14.loc[:, ['nome', 'cognome']]
-new_df14= new_df14.drop_duplicates()
+
 
 new_df15= dfmale15.loc[:, ['nome', 'cognome']]
-new_df15= new_df15.drop_duplicates()
+
 
 new_df16= dfmale16.loc[:, ['nome', 'cognome']]
-new_df16= new_df16.drop_duplicates()
+
 
 new_df17= dfmale17.loc[:, ['nome', 'cognome']]
-new_df17= new_df17.drop_duplicates()
+
 
 new_df18= dfmale18.loc[:, ['nome', 'cognome']]
-new_df18= new_df18.drop_duplicates()
+
 
 new_df19= dfmale19.loc[:, ['nome', 'cognome']]
-new_df19= new_df19.drop_duplicates()
+
 merged_df = pd.concat([new_df, new_df1, new_df2, new_df3, new_df4, new_df5, new_df6, new_df7, new_df8, new_df9, new_df10, new_df11, new_df12, new_df13, new_df14, new_df15, new_df16, new_df17, new_df18, new_df19], axis=0)
 
 merged_dfinal = merged_df.drop_duplicates()
-print(len(merged_dfinal))
-"""
+#print(len(merged_dfinal))
+
 
 dataframes = [dfmale0, dfmale1, dfmale2, dfmale3, dfmale4, dfmale5, dfmale6, dfmale7, dfmale8, dfmale9, dfmale10, dfmale11, dfmale12, dfmale13, dfmale14, dfmale15, dfmale16, dfmale17, dfmale18, dfmale19 ]
 
@@ -725,22 +745,147 @@ for df in dataframes:
     new_dfs.append(new_df)
 
 # unione di tutti i dataframe finali in un unico dataframe
-merged_df = pd.concat(new_dfs, axis=0)
-merged_dfinal = merged_df.drop_duplicates()
+merged_dataframe = pd.concat(new_dfs, axis=0)
+merged_dataframe = merged_dataframe.drop_duplicates()
 
-# stampa del dataframe risultante
-#print(merged_dfinal)
-print(len(merged_dfinal))
-#merged_df = pd.concat([new_df, new_df1], axis=0)
-#merged_df = merged_df.drop_duplicates()
+#merged_dataframe['nome_cognome'] = merged_dataframe['nome'] + ' ' + merged_dataframe['cognome']
 
 
-#new_df2 = dfmale2.loc[:, ['nome', 'cognome']]
-#new_df2 = new_df2.drop_duplicates() 
+uqery4 = """SELECT distinct ?nome ?cognome ?luogoNascita  where {
+  
+  ?persona foaf:gender "male".
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome . 
+  ?persona ocd:rif_mandatoCamera ?mandato. 
+  ?mandato ocd:rif_leg ?legislatura.
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+    ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+    ?luogoNascitaUri dc:title ?luogoNascita.
+ }"""
 
-#merge = pd.merge(merged_df, new_df2, on=['nome', 'cognome'])
+dataquery = get(endpoint, uqery4)
 
-#print(merged_df)
 
-#del dfmale0['persona']
-#print(dfmale0)
+selezione = dataquery.loc[dataquery['cognome'] == 'FERRARI']
+
+#duplicati = dataquery[dataquery.duplicated(['nome', 'cognome'], keep=False)]
+#duplicati = duplicati.drop('luogoNascita', axis=1)
+#duplicati = duplicati.drop_duplicates()
+
+#ista_nomi_completi = duplicati['nome'].str.capitalize() + ' ' + duplicati['cognome']
+
+# Conversione della lista in una lista di stringhe
+#lista_nomi_completi = lista_nomi_completi.tolist()
+
+
+#query laurea 
+
+querylaurea = """SELECT distinct ?nome ?cognome ?descrizione  where {
+  
+  ?persona foaf:gender "male".
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome . 
+  ?persona ocd:rif_mandatoCamera ?mandato. 
+  ?mandato ocd:rif_leg ?legislatura.
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?persona dc:description ?descrizione.  
+
+   FILTER regex(?descrizione, "^(Laurea|laurea)")
+ }"""
+querylaureauominitutti = """SELECT distinct ?nome ?cognome ?descrizione ?luogoNascita where {
+  
+  ?persona foaf:gender "female".
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome . 
+  ?persona ocd:rif_mandatoCamera ?mandato. 
+  ?mandato ocd:rif_leg ?legislatura.
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri dc:title ?luogoNascita.
+  OPTIONAL {?persona dc:description ?descrizione.}
+  
+ }
+"""
+datalaurea = get(endpoint, querylaureauominitutti)
+
+datalaurea = datalaurea.sort_values(by='cognome')
+df_nan = datalaurea[datalaurea['descrizione'].isna()] #382 persone non hanno la descrizione
+queryuominisenzalaurea = """SELECT distinct ?nome ?cognome ?descrizione ?luogoNascita where {
+  
+  ?persona foaf:gender "male".
+  ?persona rdf:type foaf:Person. 
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome . 
+  ?persona ocd:rif_mandatoCamera ?mandato. 
+  ?mandato ocd:rif_leg ?legislatura.
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri dc:title ?luogoNascita.
+  OPTIONAL {?persona dc:description ?descrizione.}
+  FILTER regex(?descrizione, "^(?!.*Laurea|laurea)")
+  
+ }"""
+
+
+datanonlaureauomini =get(endpoint, queryuominisenzalaurea)
+
+
+queryuominiconlaurea = """SELECT distinct ?nome ?cognome ?descrizione ?luogoNascita where {
+  
+  ?persona foaf:gender "male".
+  ?persona rdf:type foaf:Person. 
+  ?persona foaf:firstName ?nome. 
+  ?persona foaf:surname ?cognome . 
+  ?persona ocd:rif_mandatoCamera ?mandato. 
+  ?mandato ocd:rif_leg ?legislatura.
+  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+  ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+  ?luogoNascitaUri dc:title ?luogoNascita.
+  OPTIONAL {?persona dc:description ?descrizione.}
+  FILTER regex(?descrizione, "^(Laurea|laurea)")
+  
+ }"""
+
+datauominiconlaurea = get(endpoint, queryuominiconlaurea)
+print(len(datauominiconlaurea)) #1669 uomini non laureati 382 di cui non abbiamo info e 3144
+#duplicati = datalaurea[datalaurea.duplicated(['nome', 'cognome'], keep=False)]
+
+queryprovaa ="""SELECT DISTINCT ?persona ?cognome ?nome ?info
+?dataNascita ?luogoNascita 
+WHERE {
+?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
+
+?d a ocd:deputato; 
+ocd:rif_leg ?legislatura;
+ocd:rif_mandatoCamera ?mandato.
+OPTIONAL{?d dc:description ?info}
+
+##anagrafica
+?d foaf:surname ?cognome; foaf:gender "male" ;foaf:firstName ?nome.
+OPTIONAL{
+?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+?luogoNascitaUri dc:title ?luogoNascita.
+}}"""
+dataprova = get(endpoint, queryprovaa)
+dataprova = dataprova.drop_duplicates(["persona","nome", "cognome", "luogoNascita"])
+#print(dataprova)
+df_nana = dataprova[dataprova['info'].isna()] 
+#print(df_nana)
+#print(len(df_nana))
+#duplicati = dataprova[dataprova.duplicated(['nome', 'cognome'], keep=False)]
+#print(len(dataquery))
+dataquery1 = dataquery[["nome", "cognome"]]
+dataquery1 = dataquery1.sort_values(by='cognome')
+#print(len(dataprova))
+dataprova1 = dataprova[["nome", "cognome"]]
+dataprova1 = dataprova1.sort_values(by='cognome')
+#confronto = dataquery1['nome'].equals(dataprova1['nome']) and dataquery1['cognome'].equals(dataprova1['cognome'])
+confronto = dataquery1.merge(dataprova1, on=['nome', 'cognome'], how='outer', indicator=True)
+differenze = confronto[confronto['_merge'] != 'both']
+print(differenze)

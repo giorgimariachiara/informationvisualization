@@ -15,7 +15,7 @@ import sys
 import time
 import chart_studio
 chart_studio.tools.set_credentials_file(username='DemoAccount', api_key='lr1c37zw')
-
+pd.set_option('display.max_rows', None)
 
 from SPARQLWrapper import SPARQLWrapper, JSON
 import sparql_dataframe
@@ -111,7 +111,7 @@ querygenericanascitauomini = """Select distinct ?nome ?cognome ?luogoNascital {
         } """
 dfgenericanasciatauomini = get(endpoint, querygenericanascitauomini) 
 df_unique = dfgenericanasciatauomini.groupby(['nome', 'cognome']).first().reset_index() #
-print(df_unique)
+#print(df_unique)
 
 #dataframepermappa = df.drop(columns=['nome', 'cognome'])
 #dataframepermappa.to_csv('deputies.csv', index = False)
@@ -209,8 +209,6 @@ dftotstudidonne = sparql_dataframe.get(endpoint, querytotstudidonne)
 #TOTALE DONNE CON LAUREA 
 
 querytotalenumerodonnelaurea ="""PREFIX owl: <http://www.w3.org/2002/07/owl#>
-
-
 SELECT (SUM(?numero) as ?totale) where {
 select (COUNT(?descrizione) as ?numero)
 
@@ -318,18 +316,6 @@ for i, v in enumerate(deputies['percentage_male']):
 plt.show()
 
 """
-
-querypertrovareluogonascitawikid = """select distinct ?name ?surname ?nascita ?città where {
-  ?persona foaf:gender ?gender. 
-  ?persona foaf:gender "male".
-  ?persona foaf:firstName ?name. 
-  ?persona foaf:surname ?surname. 
- OPTIONAL { ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-  ?nascita ocd:rif_luogo ?luogoNascitaUri.
-  ?luogoNascitaUri rdfs:label ?luogoNascita.
-  ?luogoNascitaUri dc:title ?città.}} """
-
-
 """
 import requests 
 
@@ -425,70 +411,17 @@ SELECT DISTINCT ?person ?labelNome ?labelCognome WHERE {
 } 
 """
 
-
-#QUERY OER PULIRE QUERY SU UOMINI SENZA CITTà DI NASCITA 
-
-query = """select distinct ?persona ?nome ?cognome {
+#questa funziona solo con female
+query3 = """select distinct ?nome ?cognome ?luogoNascita {
   ?persona foaf:gender "male".
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome. 
-FILTER NOT EXISTS{ 
-  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-  ?nascita ocd:rif_luogo ?luogoNascitaUri.
-  ?luogoNascitaUri rdfs:label ?luogoNascita.
-  ?luogoNascitaUri dc:title ?luogoNascital.
-}
-        } """
-
-query2 ="""SELECT DISTINCT ?persona ?cognome ?nome ?dataNascita ?nato ?luogoNascita ?genere
-WHERE {
-  ?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
-  ?d a ocd:deputato; ocd:aderisce ?aderisce;
-  ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_17>;
-  ocd:rif_mandatoCamera ?mandato.
-  ?d foaf:surname ?cognome; foaf:gender ?genere; foaf:firstName ?nome.
-  ?persona foaf:gender "male".
-  OPTIONAL {
     ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
     ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
              rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
     ?luogoNascitaUri dc:title ?luogoNascita.
-  }
+  
 }"""
 
-#questa funziona solo con female
-query3 = """select ?luogoNascita {
-  ?persona foaf:gender "female".
-  OPTIONAL {
-    ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-    ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
-             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
-    ?luogoNascitaUri dc:title ?luogoNascita.
-  }
-}"""
-
-uqery4 = """select ?luogoNascita {
-  ?persona foaf:gender "male".
-  OPTIONAL {    ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-    ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
-             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
-    ?luogoNascitaUri dc:title ?luogoNascita.
-  }
-}"""
-
-query5 = """
-SELECT (COUNT(DISTINCT CONCAT(?name, ?cognome)) as ?count) WHERE {
-  ?persona foaf:gender "male".
-  ?persona foaf:firstName ?name. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg ?legislatura.
-} """ 
-dataquery = get(endpoint, query5)
-
-
-
-#df_unique2 = dataquery.groupby(['nome', 'cognome']).first().reset_index()
-
-print(len(dataquery))
-
+ddfdads = get(endpoint, query3)
+print(ddfdads)
