@@ -394,30 +394,7 @@ merged_df = pd.concat([new_df, new_df1, new_df2, new_df3, new_df4, new_df5, new_
 
 merged_dfinal = merged_df.drop_duplicates()
 """
-"""
-print(len(new_df))
-print(len(new_df1))
-print(len(new_df2))
-print(len(new_df3))
-print(len(new_df4))
-print(len(new_df5))
-print(len(new_df6))
-print(len(new_df7))
-print(len(new_df8))
-print(len(new_df9))
-print(len(new_df10))
-print(len(new_df11))
-print(len(new_df12))
-print(len(new_df13))
-print(len(new_df14))
-print(len(new_df15))
-print(len(new_df16))
-print(len(new_df17))
-print(len(new_df18))
-print(len(new_df19))
-print(len(merged_dfinal))
 
-"""
 querylaureadonnetutte = """SELECT distinct ?nome ?cognome ?descrizione ?luogoNascita where {
   
   ?persona foaf:gender "female".
@@ -436,57 +413,8 @@ querylaureadonnetutte = """SELECT distinct ?nome ?cognome ?descrizione ?luogoNas
 """
 datalaureadonne = get(endpoint, querylaureadonnetutte)
 
-querylaureadonnesenzalaurea = """SELECT DISTINCT ?persona ?cognome ?nome ?info ?luogoNascita 
-WHERE {
-?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
-
-?d a ocd:deputato; 
-ocd:rif_leg ?legislatura;
-ocd:rif_mandatoCamera ?mandato.
-OPTIONAL{?d dc:description ?info}
-FILTER regex(?info, "^(?!.*Laurea|laurea|LAUREA|Master)")
-
-##anagrafica
-?d foaf:surname ?cognome; foaf:gender "female" ;foaf:firstName ?nome.
-OPTIONAL{
-?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
-rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
-?luogoNascitaUri dc:title ?luogoNascita.
-}}"""
-
-
-datanonlaureadonne =get(endpoint, querylaureadonnesenzalaurea)
-datanonlaureadonne = datanonlaureadonne.drop_duplicates(["nome", "cognome", "luogoNascita"])
-
-querylaureadonneconlaurea = """SELECT DISTINCT ?persona ?cognome ?nome ?info ?luogoNascita 
-WHERE {
-?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
-
-?d a ocd:deputato; 
-ocd:rif_leg ?legislatura;
-ocd:rif_mandatoCamera ?mandato.
-OPTIONAL{?d dc:description ?info}
-FILTER regex(?info, "^(Laurea|laurea|LAUREA|Master)")
-
-##anagrafica
-?d foaf:surname ?cognome; foaf:gender "female" ;foaf:firstName ?nome.
-OPTIONAL{
-?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
-rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
-?luogoNascitaUri dc:title ?luogoNascita.
-}}"""
-datadonnelaureate = get(endpoint, querylaureadonneconlaurea)
-datadonnelaureate = datadonnelaureate.drop_duplicates(["nome", "cognome", "luogoNascita"])
-datadonnelaureate = datadonnelaureate[["persona","nome", "cognome", "luogoNascita"]]
-
 df_nan = datalaureadonne[datalaureadonne['descrizione'].isna()] #49 donne non hanno la descrizione 294 senza laurea 572 con laurea 
-datanonlaureadonne = datanonlaureadonne[["nome", "cognome", "info"]]
-datanonlaureadonne = datanonlaureadonne.sort_values(by='cognome')
-#print(len(datadonnelaureate))
-#print(len(datanonlaureadonne))
-#print(datanonlaureadonne) 
+
 
 queryprovaa ="""SELECT DISTINCT ?persona ?cognome ?nome ?info
  ?luogoNascita 
@@ -510,36 +438,33 @@ dataprova = get(endpoint, queryprovaa)
 dataprova = dataprova.drop_duplicates(["persona","nome", "cognome", "luogoNascita"])
 dataprova = dataprova[["nome","cognome","info", "luogoNascita"]]
 df_nana = dataprova[dataprova['info'].isnull()] #qui le donne senza info diventano solo 49 
-#dataprova = dataprova.sort_values("cognome")
-#print(dataprova)
-#print(len(datadonnelaureate))
-#print(len(datanonlaureadonne))
-#print(len(df_nana))
-result = pd.concat([datadonnelaureate, datanonlaureadonne, df_nana], axis=0)
-#print(len(dataprova))
-#df_nana = dataprova[dataprova['info'].isna()] #qui le donne senza info diventano solo 49 
+dataprova['info'] = dataprova['info'].fillna('')
+mask = dataprova['info'].str.contains('Laurea|laurea|Master|LAUREA')
+
+# Estrarre le righe che soddisfano la maschera
+donnelaureate = dataprova[mask]
+nonlaureate = ~dataprova['info'].str.contains('Laurea|laurea|Master|LAUREA', na=False) & dataprova['info'].ne('')
+nonlaureate = dataprova[nonlaureate]
+nonlaureate = nonlaureate.assign(info="yes")
+nonlaureate = nonlaureate.assign(gender='female')
+
+nonlaureate = nonlaureate[["info", "gender"]]
+donnenonlaureate = nonlaureate.rename(columns={'info': 'graduated'})
+# Stampa del dataframe risultante 287 non laureate, 569 si , 49 non si sa 
+
+#df_nanadonne = dataprova[dataprova['info'].isna()] #qui le donne senza info diventano solo 49 
 #df_risultati = dataprova.loc[(dataprova['nome'] == "ELISABETTA") & (dataprova['cognome'] == "GARDINI")]
-#print(len(df_nana))
-#print(len(df_nana)) #572 con laurea 294 senza laurea 49 
-result = result[["nome", "cognome", "info"]]
-compara = dataprova[["nome", "cognome"]]
-#confronto = result.merge(compara, on=['nome', 'cognome'], how='outer', indicator=True)
-#differenze = confronto[confronto['_merge'] != 'both']
-duplicati = df_nana[df_nana.duplicated(['nome', 'cognome'], keep=False)]
-duplicati2 = compara[compara.duplicated(['nome', 'cognome'], keep=False)]
-#print(differenze)
-DFRIS = datanonlaureadonne.loc[(datanonlaureadonne['nome'] == "MARIA") & (datanonlaureadonne['cognome'] == "MARZANA")]
-df_risultati = datadonnelaureate.loc[(datadonnelaureate['nome'] == "MARIA") & (datadonnelaureate['cognome'] == "MARZANA")]
-#print(datadonnelaureate)
-#print(len(datadonnelaureate))
-datadonnelaureate = datadonnelaureate.assign(info="yes")
-datadonnelaureate = datadonnelaureate.assign(gender="female")
-datadonnelaureate = datadonnelaureate[["info", "gender"]]
-datadonnelaureate = datadonnelaureate.rename(columns={'info': 'graduated'})
-datadonnelaureate.to_csv("graduated.csv")
-print(datadonnelaureate)
-#print(len(df_nana))
-#print(DFRIS)
-#print(len(duplicati))
-#print(duplicati2)
-#print(len(duplicati2))
+
+donnelaureate = donnelaureate.assign(info="yes")
+donnelaureate = donnelaureate.assign(gender='female')
+
+donnelaureate = donnelaureate[["info", "gender"]]
+donnelaureate = donnelaureate.rename(columns={'info': 'graduated'})
+donnelaureacsv = pd.concat([donnelaureate, donnenonlaureate],  axis=0)
+donnelaureacsv.to_csv("womengraduation.csv",  index=False, index_label=False)
+#print(len(donnenonlaureate))
+
+#donnelaureate.to_csv("graduated.csv", index=False, index_label=False) 
+
+
+
