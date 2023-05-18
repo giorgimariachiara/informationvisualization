@@ -859,12 +859,6 @@ uomininonlaureati = uomininonlaureati.assign(gender='male')
 uomininonlaureati = uomininonlaureati[["info", "gender"]]
 uomininonlaureati = uomininonlaureati.rename(columns={'info': 'graduated'})
 
-#dataquery = dataquery[["nome", "cognome"]]
-#dataprova = dataprova[["nome", "cognome"]]
-#confronto = dataquery.merge(dataprova, on=['nome', 'cognome'], how='outer', indicator=True)
-#differenze = confronto[confronto['_merge'] != 'both']
-#df_risultati = dataprova.loc[(dataprova['nome'] == "MARIO") & (dataprova['cognome'] == "DE CRISTOFARO")]
-
 #uominilaureacsv = pd.concat([uomininonlaureati, uominilaureati],  axis=0)
 #uominilaureacsv.to_csv("mengraduation.csv",  index=False, index_label=False)
 #print(len(uominilaureacsv)) #senza info sono 162, 3293 si, 1749
@@ -874,6 +868,6 @@ nomi = df_nana['nome'] + ' ' + df_nana['cognome']
 nomi = nomi.to_list()
 
 # Stampa della lista di stringhe
-print(nomi)
+#print(nomi)
 print(uominilaureati)
 
