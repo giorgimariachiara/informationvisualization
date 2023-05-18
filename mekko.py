@@ -2,7 +2,10 @@ import pandas as pd
 import plotly.graph_objects as go
 
 # Read the CSV dataset using Pandas
-data = pd.read_csv('graduated.csv')
+data1 = pd.read_csv('womengraduation.csv')
+data2 = pd.read_csv('mengraduation.csv')
+
+col-somma = data1[]
 
 # Calculate the percentage of deputies graduated by gender
 gender_counts = data['gender'].value_counts()

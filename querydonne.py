@@ -19,7 +19,7 @@ SELECT distinct ?persona ?nome ?cognome where {
  }
      
 """
-dfemale0 = get(endpoint, querydonne0)
+dfemale0 = get(endpoint, querydonne0) 
 
 #QUERY UOMINI LEGISLATURA 1  
 querydonne1 = """
@@ -445,7 +445,7 @@ mask = dataprova['info'].str.contains('Laurea|laurea|Master|LAUREA')
 donnelaureate = dataprova[mask]
 nonlaureate = ~dataprova['info'].str.contains('Laurea|laurea|Master|LAUREA', na=False) & dataprova['info'].ne('')
 nonlaureate = dataprova[nonlaureate]
-nonlaureate = nonlaureate.assign(info="yes")
+nonlaureate = nonlaureate.assign(info="no")
 nonlaureate = nonlaureate.assign(gender='female')
 
 nonlaureate = nonlaureate[["info", "gender"]]
