@@ -1,0 +1,6 @@
+import folium 
+import webbrowser
+m = folium.Map(location=[41.0,16.0])
+m.save("map.html")
+webbrowser.open("map.html")
+print(m)

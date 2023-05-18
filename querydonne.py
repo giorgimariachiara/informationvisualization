@@ -19,7 +19,7 @@ SELECT distinct ?persona ?nome ?cognome where {
  }
      
 """
-dfemale0 = get(endpoint, querydonne0)
+dfemale0 = get(endpoint, querydonne0) 
 
 #QUERY UOMINI LEGISLATURA 1  
 querydonne1 = """
@@ -309,92 +309,6 @@ SELECT distinct ?persona ?nome ?cognome where {
  """
 dfemale19 = get(endpoint, querydonne19)
 
-"""
-
-dataframes = [dfemale0, dfemale1, dfemale2, dfemale3, dfemale4, dfemale5, dfemale6, dfemale7, dfemale8, dfemale9, dfemale10, dfemale11, dfemale12, dfemale13, dfemale14, dfemale15, dfemale16, dfemale17, dfemale18, dfemale19 ]
-
-# creazione della lista per salvare i dataframe finali
-new_dfs = []
-
-# ciclo for per elaborare ogni dataframe nella lista
-for df in dataframes:
-    new_df = df.loc[:, ['nome', 'cognome']].drop_duplicates()
-    new_dfs.append(new_df)
-
-# unione di tutti i dataframe finali in un unico dataframe
-merged_df = pd.concat(new_dfs, axis=0)
-merged_dfinal = merged_df.drop_duplicates()
-
-# stampa del dataframe risultante
-#print(merged_dfinal)
-print(len(merged_dfinal))
-
-"""
-"""
-new_df = dfemale0.loc[:, ['nome', 'cognome']]
-new_df = new_df.drop_duplicates()
-
-new_df1 = dfemale1.loc[:, ['nome', 'cognome']]
-new_df1 = new_df1.drop_duplicates()
-
-new_df2 = dfemale2.loc[:, ['nome', 'cognome']]
-new_df2 = new_df2.drop_duplicates()
-
-new_df3 = dfemale3.loc[:, ['nome', 'cognome']]
-new_df3 = new_df3.drop_duplicates()
-
-new_df4 = dfemale4.loc[:, ['nome', 'cognome']]
-new_df4 = new_df4.drop_duplicates()
-
-new_df5 = dfemale5.loc[:, ['nome', 'cognome']]
-new_df5= new_df5.drop_duplicates()
-
-new_df6 = dfemale6.loc[:, ['nome', 'cognome']]
-new_df6 = new_df6.drop_duplicates()
-
-new_df7 = dfemale7.loc[:, ['nome', 'cognome']]
-new_df7= new_df7.drop_duplicates()
-
-new_df8 = dfemale8.loc[:, ['nome', 'cognome']]
-new_df8= new_df8.drop_duplicates()
-
-new_df9 = dfemale9.loc[:, ['nome', 'cognome']]
-new_df9= new_df9.drop_duplicates()
-
-new_df10 = dfemale10.loc[:, ['nome', 'cognome']]
-new_df10= new_df10.drop_duplicates()
-
-new_df11 = dfemale11.loc[:, ['nome', 'cognome']]
-new_df11= new_df11.drop_duplicates()
-
-new_df12 = dfemale12.loc[:, ['nome', 'cognome']]
-new_df12= new_df12.drop_duplicates()
-
-new_df13= dfemale13.loc[:, ['nome', 'cognome']]
-new_df13= new_df13.drop_duplicates()
-
-new_df14= dfemale14.loc[:, ['nome', 'cognome']]
-new_df14= new_df14.drop_duplicates()
-
-new_df15= dfemale15.loc[:, ['nome', 'cognome']]
-new_df15= new_df15.drop_duplicates()
-
-new_df16= dfemale16.loc[:, ['nome', 'cognome']]
-new_df16= new_df16.drop_duplicates()
-
-new_df17= dfemale17.loc[:, ['nome', 'cognome']]
-new_df17= new_df17.drop_duplicates()
-
-new_df18= dfemale18.loc[:, ['nome', 'cognome']]
-new_df18= new_df18.drop_duplicates()
-
-new_df19= dfemale19.loc[:, ['nome', 'cognome']]
-new_df19= new_df19.drop_duplicates()
-merged_df = pd.concat([new_df, new_df1, new_df2, new_df3, new_df4, new_df5, new_df6, new_df7, new_df8, new_df9, new_df10, new_df11, new_df12, new_df13, new_df14, new_df15, new_df16, new_df17, new_df18, new_df19], axis=0)
-
-merged_dfinal = merged_df.drop_duplicates()
-"""
-
 querylaureadonnetutte = """SELECT distinct ?nome ?cognome ?descrizione ?luogoNascita where {
   
   ?persona foaf:gender "female".
@@ -445,7 +359,7 @@ mask = dataprova['info'].str.contains('Laurea|laurea|Master|LAUREA')
 donnelaureate = dataprova[mask]
 nonlaureate = ~dataprova['info'].str.contains('Laurea|laurea|Master|LAUREA', na=False) & dataprova['info'].ne('')
 nonlaureate = dataprova[nonlaureate]
-nonlaureate = nonlaureate.assign(info="yes")
+nonlaureate = nonlaureate.assign(info="no")
 nonlaureate = nonlaureate.assign(gender='female')
 
 nonlaureate = nonlaureate[["info", "gender"]]
@@ -463,8 +377,13 @@ donnelaureate = donnelaureate.rename(columns={'info': 'graduated'})
 donnelaureacsv = pd.concat([donnelaureate, donnenonlaureate],  axis=0)
 donnelaureacsv.to_csv("womengraduation.csv",  index=False, index_label=False)
 #print(len(donnenonlaureate))
+dfmen = pd.read_csv('./mengraduation.csv')
 
-#donnelaureate.to_csv("graduated.csv", index=False, index_label=False) 
+# Leggi il secondo file CSV
+dfwomen = pd.read_csv('./womengraduation.csv')
 
+# Unisci i due dataframe in base alle colonne uguali
+merged_df = pd.concat([dfmen, dfwomen], axis=0)
 
-
+# Salva il risultato in un nuovo file CSV
+merged_df.to_csv('graduation.csv', index=False, index_label=False)
