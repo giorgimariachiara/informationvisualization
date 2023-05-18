@@ -74,7 +74,7 @@ df_cord = pd.concat([pd.Series(lat, name='lat'), pd.Series(lon, name='lon'), pd.
 df['lat'] = lat
 df['lon'] = lon
 
-headers = {'User-Agent': 'my-application'}
+headers = {'user-Agent': 'mariachiara.giorgi1@gmail.com'}
 # Create a folium map
 m = folium.Map(df_cord[['lat', 'lon']].mean().values.tolist())
 

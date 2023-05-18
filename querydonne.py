@@ -19,7 +19,7 @@ SELECT distinct ?persona ?nome ?cognome where {
  }
      
 """
-dfemale0 = get(endpoint, querydonne0)
+dfemale0 = get(endpoint, querydonne0) 
 
 #QUERY UOMINI LEGISLATURA 1  
 querydonne1 = """
