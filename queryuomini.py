@@ -767,8 +767,6 @@ uqery4 = """SELECT distinct ?nome ?cognome ?luogoNascita  where {
 dataquery = get(endpoint, uqery4)
 
 
-selezione = dataquery.loc[dataquery['cognome'] == 'FERRARI']
-
 #duplicati = dataquery[dataquery.duplicated(['nome', 'cognome'], keep=False)]
 #duplicati = duplicati.drop('luogoNascita', axis=1)
 #duplicati = duplicati.drop_duplicates()
@@ -781,18 +779,6 @@ selezione = dataquery.loc[dataquery['cognome'] == 'FERRARI']
 
 #query laurea 
 
-querylaurea = """SELECT distinct ?nome ?cognome ?descrizione  where {
-  
-  ?persona foaf:gender "male".
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg ?legislatura.
-  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-  ?persona dc:description ?descrizione.  
-
-   FILTER regex(?descrizione, "^(Laurea|laurea)")
- }"""
 querylaureauominitutti = """SELECT distinct ?nome ?cognome ?descrizione ?luogoNascita where {
   
   ?persona foaf:gender "female".
@@ -832,26 +818,7 @@ queryuominisenzalaurea = """SELECT distinct ?nome ?cognome ?descrizione ?luogoNa
 
 datanonlaureauomini =get(endpoint, queryuominisenzalaurea)
 
-
-queryuominiconlaurea = """SELECT distinct ?nome ?cognome ?descrizione ?luogoNascita where {
-  
-  ?persona foaf:gender "male".
-  ?persona rdf:type foaf:Person. 
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg ?legislatura.
-  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-  ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
-             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
-  ?luogoNascitaUri dc:title ?luogoNascita.
-  OPTIONAL {?persona dc:description ?descrizione.}
-  FILTER regex(?descrizione, "^(Laurea|laurea)")
-  
- }"""
-
-datauominiconlaurea = get(endpoint, queryuominiconlaurea)
-print(len(datauominiconlaurea)) #1669 uomini non laureati 382 di cui non abbiamo info e 3144
+#print(len(datauominiconlaurea)) #1669 uomini non laureati 382 di cui non abbiamo info e 3144
 #duplicati = datalaurea[datalaurea.duplicated(['nome', 'cognome'], keep=False)]
 
 queryprovaa ="""SELECT DISTINCT ?persona ?cognome ?nome ?info
@@ -874,18 +841,39 @@ rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
 }}"""
 dataprova = get(endpoint, queryprovaa)
 dataprova = dataprova.drop_duplicates(["persona","nome", "cognome", "luogoNascita"])
-#print(dataprova)
+
+dataprova['info'] = dataprova['info'].fillna('')
+mask = dataprova['info'].str.contains('Laurea|laurea|Master|LAUREA')
+
+# Estrarre le righe che soddisfano la maschera
+laureati = dataprova[mask]
+
+laureati = laureati.assign(info="yes")
+laureati = laureati.assign(gender='male')
+laureati = laureati[["info", "gender"]]
+uominilaureati = laureati.rename(columns={'info': 'graduated'})
+maskuomininonlaureati =~dataprova['info'].str.contains('Laurea|laurea|Master|LAUREA', na=False) & dataprova['info'].ne('')
+uomininonlaureati = dataprova[maskuomininonlaureati]
+uomininonlaureati = uomininonlaureati.assign(info="no")
+uomininonlaureati = uomininonlaureati.assign(gender='male')
+uomininonlaureati = uomininonlaureati[["info", "gender"]]
+uomininonlaureati = uomininonlaureati.rename(columns={'info': 'graduated'})
+
+#dataquery = dataquery[["nome", "cognome"]]
+#dataprova = dataprova[["nome", "cognome"]]
+#confronto = dataquery.merge(dataprova, on=['nome', 'cognome'], how='outer', indicator=True)
+#differenze = confronto[confronto['_merge'] != 'both']
+#df_risultati = dataprova.loc[(dataprova['nome'] == "MARIO") & (dataprova['cognome'] == "DE CRISTOFARO")]
+
+#uominilaureacsv = pd.concat([uomininonlaureati, uominilaureati],  axis=0)
+#uominilaureacsv.to_csv("mengraduation.csv",  index=False, index_label=False)
+#print(len(uominilaureacsv)) #senza info sono 162, 3293 si, 1749
 df_nana = dataprova[dataprova['info'].isna()] 
-#print(df_nana)
-#print(len(df_nana))
-#duplicati = dataprova[dataprova.duplicated(['nome', 'cognome'], keep=False)]
-#print(len(dataquery))
-dataquery1 = dataquery[["nome", "cognome"]]
-dataquery1 = dataquery1.sort_values(by='cognome')
-#print(len(dataprova))
-dataprova1 = dataprova[["nome", "cognome"]]
-dataprova1 = dataprova1.sort_values(by='cognome')
-#confronto = dataquery1['nome'].equals(dataprova1['nome']) and dataquery1['cognome'].equals(dataprova1['cognome'])
-confronto = dataquery1.merge(dataprova1, on=['nome', 'cognome'], how='outer', indicator=True)
-differenze = confronto[confronto['_merge'] != 'both']
-print(differenze)
+df_nana = df_nana[["nome", "cognome", "luogoNascita"]]
+nomi = df_nana['nome'] + ' ' + df_nana['cognome']
+nomi = nomi.to_list()
+
+# Stampa della lista di stringhe
+print(nomi)
+print(uominilaureati)
+
