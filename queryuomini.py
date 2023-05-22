@@ -958,5 +958,6 @@ da = da.drop_duplicates(["persona", "nome", "cognome"])
 #print(dfpartitodonne)
 #print(len(dfpartitodonne))
 mergedpartito = pd.concat([dfpartitodonne, dfpartito])
+mergedpartito['gruppoPar'] = mergedpartito['gruppoPar'].str.split('(').str[0]
 print(mergedpartito)
 mergedpartito.to_csv("party.csv",  index=False, index_label=False)
