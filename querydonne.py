@@ -2,6 +2,8 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 import sparql_dataframe 
 import pandas as pd 
 from sparql_dataframe import get
+from bs4 import BeautifulSoup
+import requests 
 
 endpoint = "https://dati.camera.it/sparql"
 pd.set_option('display.max_rows', None)
@@ -352,6 +354,9 @@ dataprova = get(endpoint, queryprovaa)
 dataprova = dataprova.drop_duplicates(["persona","nome", "cognome", "luogoNascita"])
 dataprova = dataprova[["nome","cognome","info", "luogoNascita"]]
 df_nana = dataprova[dataprova['info'].isnull()] #qui le donne senza info diventano solo 49 
+df_nana = df_nana[["nome", "cognome", "luogoNascita"]]
+nomi = df_nana['nome'] + ' ' + df_nana['cognome']
+nomidonne = nomi.to_list()
 dataprova['info'] = dataprova['info'].fillna('')
 mask = dataprova['info'].str.contains('Laurea|laurea|Master|LAUREA')
 
@@ -368,7 +373,7 @@ donnenonlaureate = nonlaureate.rename(columns={'info': 'graduated'})
 
 #df_nanadonne = dataprova[dataprova['info'].isna()] #qui le donne senza info diventano solo 49 
 #df_risultati = dataprova.loc[(dataprova['nome'] == "ELISABETTA") & (dataprova['cognome'] == "GARDINI")]
-
+"""
 donnelaureate = donnelaureate.assign(info="yes")
 donnelaureate = donnelaureate.assign(gender='female')
 
@@ -387,3 +392,42 @@ merged_df = pd.concat([dfmen, dfwomen], axis=0)
 
 # Salva il risultato in un nuovo file CSV
 merged_df.to_csv('graduation.csv', index=False, index_label=False)
+"""
+def get_uri_from_names(lista):
+    # Inizializza l'oggetto SPARQLWrapper
+    sparql = SPARQLWrapper("http://tuo_endpoint_sparql")  
+    risultati = []
+    for nome_cognome in lista:
+        # Costruisci la query SPARQL
+        query = '''
+            SELECT DISTINCT ?persona ?nome ?cognome ?uri
+            WHERE {{
+                ?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
+                ?persona foaf:firstName ?nome.
+                ?persona foaf:surname ?cognome. 
+                ?persona owl:sameAs ?uri.
+                FILTER (CONCAT(?nome, " ", ?cognome) = "{0}")
+            }}
+        '''.format(nome_cognome)
+
+        queryy = get(endpoint, query)
+        risultati.append(queryy)
+
+    # Unisci tutti i dataframe in un unico dataframe finale
+    df_finale = pd.concat(risultati)
+    return df_finale  
+da = get_uri_from_names(nomidonne)
+da = da.drop_duplicates(["persona", "nome", "cognome"])
+da = da[["nome", "cognome"]]
+
+#print(da)
+#print(len(da))
+#print(df_nana[["nome", "cognome"]])
+#print(len(df_nana))
+merged = pd.merge(da, df_nana, how='outer', indicator=True)
+filtered = merged[merged['_merge'] != 'both']
+
+# Risultato finale
+result = filtered.drop('_merge', axis=1)
+print(result)
+print(len(result))

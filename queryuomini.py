@@ -841,7 +841,7 @@ rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
 }}"""
 dataprova = get(endpoint, queryprovaa)
 dataprova = dataprova.drop_duplicates(["persona","nome", "cognome", "luogoNascita"])
-
+df_nana = dataprova[dataprova['info'].isna()] 
 dataprova['info'] = dataprova['info'].fillna('')
 mask = dataprova['info'].str.contains('Laurea|laurea|Master|LAUREA')
 
@@ -862,12 +862,101 @@ uomininonlaureati = uomininonlaureati.rename(columns={'info': 'graduated'})
 #uominilaureacsv = pd.concat([uomininonlaureati, uominilaureati],  axis=0)
 #uominilaureacsv.to_csv("mengraduation.csv",  index=False, index_label=False)
 #print(len(uominilaureacsv)) #senza info sono 162, 3293 si, 1749
-df_nana = dataprova[dataprova['info'].isna()] 
+
 df_nana = df_nana[["nome", "cognome", "luogoNascita"]]
 nomi = df_nana['nome'] + ' ' + df_nana['cognome']
 nomi = nomi.to_list()
 
 # Stampa della lista di stringhe
 #print(nomi)
-print(uominilaureati)
+#print(uominilaureati)
+#QUERY PER TROVARE PARTITO 
+querypartito = """SELECT DISTINCT ?persona ?cognome ?nome ?info
+?luogoNascita ?gruppoPar
+WHERE {
+?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
 
+?d a ocd:deputato; 
+ocd:rif_leg ?legislatura;
+ocd:rif_mandatoCamera ?mandato.
+OPTIONAL{?d dc:description ?info}
+?d ocd:aderisce ?gruppo . 
+  ?gruppo rdfs:label ?gruppoPar.
+
+##anagrafica
+?d foaf:surname ?cognome; foaf:gender "male" ;foaf:firstName ?nome.
+OPTIONAL{
+?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+?luogoNascitaUri dc:title ?luogoNascita.
+
+}}"""
+querypartitodonne = """SELECT DISTINCT ?persona ?cognome ?nome ?info
+?luogoNascita ?gruppoPar
+WHERE {
+?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
+
+?d a ocd:deputato; 
+ocd:rif_leg ?legislatura;
+ocd:rif_mandatoCamera ?mandato.
+OPTIONAL{?d dc:description ?info}
+?d ocd:aderisce ?gruppo . 
+  ?gruppo rdfs:label ?gruppoPar.
+
+##anagrafica
+?d foaf:surname ?cognome; foaf:gender "female" ;foaf:firstName ?nome.
+OPTIONAL{
+?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+?luogoNascitaUri dc:title ?luogoNascita.
+
+}}"""
+dataprova1 = dataprova[["nome", "cognome"]]
+dfpartitodonne = get(endpoint, querypartitodonne)
+dfpartitodonne = dfpartitodonne.drop_duplicates(["persona","nome", "cognome", "luogoNascita"])
+dfpartitodonne = dfpartitodonne[["gruppoPar"]]
+dfpartitodonne = dfpartitodonne.assign(gender='female')
+dfpartito = get(endpoint, querypartito)
+dfpartito = dfpartito.drop_duplicates(["persona","nome", "cognome", "luogoNascita"])
+dfpartito = dfpartito[["gruppoPar"]]
+dfpartito = dfpartito.assign(gender='male')
+#df_diff = pd.concat([dfpartito, dataprova1]).drop_duplicates(keep=False)
+
+#print(nomi)
+#print(len(nomi))
+#print(len(df_nana))
+"""
+def get_uri_from_names(lista):
+    # Inizializza l'oggetto SPARQLWrapper
+    sparql = SPARQLWrapper("http://tuo_endpoint_sparql")  
+    risultati = []
+    for nome_cognome in lista:
+        # Costruisci la query SPARQL
+        query = '''
+            SELECT DISTINCT ?persona ?nome ?cognome ?uri
+            WHERE {{
+                ?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
+                ?persona foaf:firstName ?nome.
+                ?persona foaf:surname ?cognome. 
+                ?persona owl:sameAs ?uri.
+                FILTER (CONCAT(?nome, " ", ?cognome) = "{0}")
+            }}
+        '''.format(nome_cognome)
+
+        queryy = get(endpoint, query)
+        risultati.append(queryy)
+
+    # Unisci tutti i dataframe in un unico dataframe finale
+    df_finale = pd.concat(risultati)
+    return df_finale  
+da = get_uri_from_names(nomi)
+da = da.drop_duplicates(["persona", "nome", "cognome"])
+"""
+
+#print(dfpartitodonne)
+#print(len(dfpartitodonne))
+mergedpartito = pd.concat([dfpartitodonne, dfpartito])
+print(mergedpartito)
+mergedpartito.to_csv("party.csv",  index=False, index_label=False)

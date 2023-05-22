@@ -244,7 +244,9 @@ where
   ?nome ocd:rif_leg ?legislatural. 
   ?nome dc:description ?descrizione.  
 
-   FILTER regex(?descrizione, "^(?!.*Laurea|laurea)")}
+   
+   
+   }
 GROUP BY ?descrizione}"""
 
 dftotnumerononlaureadonne = sparql_dataframe.get(endpoint, querytotnonlaureadonne)
