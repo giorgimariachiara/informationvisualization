@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Load the CSV dataset using Pandas
-data = pd.read_csv('deputies_dataset.csv')
+data = pd.read_csv('party.csv')
 
 # Group the data by party and gender, and count the number of deputies
-party_gender_counts = data.groupby(['Party', 'Gender']).size().unstack().fillna(0)
+party_gender_counts = data.groupby(['gruppoPar', 'gender']).size().unstack().fillna(0)
 
 # Sort parties based on the total number of deputies
 party_gender_counts['Total'] = party_gender_counts.sum(axis=1)
@@ -23,10 +23,10 @@ bar_width = 0.4
 y_pos = np.arange(len(party_gender_counts))
 
 # Plot male deputies
-ax.barh(y_pos, party_gender_counts['Male'], height=bar_width, color='b', align='center', label='Male')
+ax.barh(y_pos, party_gender_counts['male'], height=bar_width, color='b', align='center', label='male')
 
 # Plot female deputies
-ax.barh(y_pos, -party_gender_counts['Female'], height=bar_width, color='r', align='center', label='Female')
+ax.barh(y_pos, -party_gender_counts['female'], height=bar_width, color='r', align='center', label='vemale')
 
 # Add party labels to the y-axis
 ax.set_yticks(y_pos)
