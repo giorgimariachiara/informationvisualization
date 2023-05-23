@@ -419,15 +419,11 @@ def get_uri_from_names(lista):
 da = get_uri_from_names(nomidonne)
 da = da.drop_duplicates(["persona", "nome", "cognome"])
 da = da[["nome", "cognome"]]
-
-#print(da)
-#print(len(da))
-#print(df_nana[["nome", "cognome"]])
-#print(len(df_nana))
 merged = pd.merge(da, df_nana, how='outer', indicator=True)
 filtered = merged[merged['_merge'] != 'both']
 
 # Risultato finale
 result = filtered.drop('_merge', axis=1)
-print(result)
+result = result[["nome", "cognome"]]
+print(result.values.tolist())
 print(len(result))
