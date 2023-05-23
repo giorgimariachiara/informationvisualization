@@ -32,8 +32,10 @@ dataprova = dataprova.drop_duplicates(["persona","nome", "cognome", "luogoNascit
 dataprova = dataprova[["nome","cognome","info", "luogoNascita"]]
 df_nana = dataprova[dataprova['info'].isnull()] #qui le donne senza info diventano solo 49 
 df_nana = df_nana[["nome", "cognome"]]
+#print(len(df_nana))
 nomi = df_nana['nome'] + ' ' + df_nana['cognome']
 nomidonne = nomi.to_list()
+
 
 def get_uri_from_names(lista):
     # Inizializza l'oggetto SPARQLWrapper
@@ -69,24 +71,159 @@ persone = result[["nome", "cognome"]]
 persone = persone.apply(lambda row: row['nome'] + ' ' + row['cognome'], axis=1).tolist() 
 personemodificato= [nome_cognome.title() for nome_cognome in persone]
 personemodificato = [nome_cognome.replace(' ', '_') for nome_cognome in personemodificato]
-print(personemodificato)
+#print(len(personemodificato))
+
+import requests
+from bs4 import BeautifulSoup
+import re
+
+
+url_lista = []
+personemodificato_con_url = []
+personemodificato_senza_url = []
 
 for persona in personemodificato:
-    # Costruisci l'URL della pagina di Wikipedia per la persona corrente
     url = f"https://it.wikipedia.org/wiki/{persona}"
-
-    # Effettua la richiesta HTTP alla pagina di Wikipedia
     response = requests.get(url)
     if response.status_code == 200:
-        # Parsa l'HTML della pagina con Beautiful Soup
-        soup = BeautifulSoup(response.content, "html.parser")
-
-        # Esegui l'elaborazione dei dati o l'estrazione delle informazioni necessarie
-        # Ad esempio, puoi trovare il titolo della pagina e stamparlo
-        titolo_pagina = soup.find("h1", class_="firstHeading").text
-        print(f"Pagina di Wikipedia per {persona}: {titolo_pagina}")
+        print(f"URL della pagina di Wikipedia per {persona}: {url}")
+        url_lista.append(url)
+        personemodificato_con_url.append(persona)
     else:
         print(f"Errore nella richiesta della pagina di Wikipedia per {persona}")
+        personemodificato_senza_url.append(persona)
+
+df_con_url = pd.DataFrame({"Persona": personemodificato_con_url, "URL": url_lista})
+df_senza_url = pd.DataFrame({"Persona": personemodificato_senza_url})
+#print(df_senza_url)
+"""
+print("Persone con URL:")
+print(df_con_url)
+
+print("Persone senza URL:")
+print(df_senza_url)
+"""
+
+# Cerca la parola "laurea" nella sezione biografia per ciascun URL
+import urllib.parse
+pd.set_option("display.max_colwidth", None)
+
+url_lista = []
+personemodificato_con_url = []
+
+for persona in df_senza_url["Persona"]:
+    nome_cognome_parts = persona.split("_")  # Dividi la stringa utilizzando l'underscore come separatore
+    nome = nome_cognome_parts[0]  # Primo nome
+    cognome = nome_cognome_parts[-1]  # Ultimo cognome
+
+    # Effettua la richiesta HTTP alla pagina di Wikipedia
+    response = requests.get(f"https://it.wikipedia.org/wiki/{persona}")
+
+    if response.status_code == 200:
+        url_lista.append(response.url)
+        personemodificato_con_url.append(persona)
+    else:
+        # Cerca gli URL alternativi che contengono nome e cognome in diverse combinazioni
+        search_query = f"https://it.wikipedia.org/w/index.php?title=Speciale:Search&search={nome}+{cognome}"
+        search_response = requests.get(search_query)
+
+        if search_response.status_code == 200:
+            search_soup = BeautifulSoup(search_response.content, "html.parser")
+            search_results = search_soup.find_all("div", class_="mw-search-result-heading")
+
+            for result in search_results:
+                result_link = result.find("a")
+                result_url = result_link["href"]
+                url = f"https://it.wikipedia.org{result_url}"
+                decoded_url = urllib.parse.unquote(url)  # Decodifica l'URL per visualizzare i caratteri speciali
+                url_lista.append(decoded_url)
+                personemodificato_con_url.append(persona)
+        else:
+            print(f"Errore nella richiesta della pagina di Wikipedia per {persona}")
+
+df_con_url = pd.DataFrame({"Persona": personemodificato_con_url, "URL": url_lista})
+
+print("Persone con URL:")
+print(df_con_url)
+
+
+nomi_da_cercare = ["Alessandra Cecchetto", "Gigliola Lo Cascio", "Natia Mammone", "Roberta Pinto", "Daniela Romani", "Marisa Bonfatti Paini", "Agata Lucia Alma Cappiello", "Luigia Cordati ", " Anna Lucia Lisa Pannarale", "Maria Galli", "Ida Matarazzo"]
+
+# DataFrame vuoto per i risultati
+df_risultati = pd.DataFrame(columns=["Persona", "URL"])
+
+for nome_cognome in nomi_da_cercare:
+    # Filtra il dataframe per le righe che contengono il nome e cognome nell'URL
+    df_filtered = df_con_url[df_con_url["URL"].str.contains(nome_cognome.replace(" ", "_"))]
+
+    # Se ci sono righe corrispondenti, prendi la prima riga
+    if len(df_filtered) > 0:
+        prima_riga = df_filtered.iloc[0]
+        df_risultati = df_risultati.append(prima_riga)
+
+print("Risultati:")
+print(df_risultati)
+"""
+for url in url_lista:
+    response = requests.get(url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, "html.parser")
+        h2_elements = soup.find_all("h2")
+
+        found = False  # Flag per indicare se è stata trovata la parola "laurea"
+
+        for h2 in h2_elements:
+            sibling_p = h2.find_next_sibling("p")
+            while sibling_p:
+                if re.search(r"\b(laurea|laureò|laureata)\b", sibling_p.get_text(), re.IGNORECASE):
+                    print(f"La parola 'laurea' è presente nella biografia per l'URL: {url}")
+                    found = True
+                    break
+                sibling_p = sibling_p.find_next_sibling("p")
+            if found:
+                break
+
+        if not found:
+            print(f"La parola 'laurea' non è presente nella biografia per l'URL: {url}")
+    else:
+        print(f"Errore nella richiesta della pagina di Wikipedia per l'URL: {url}")
+
+"""
+"""
+df_con_parola = pd.DataFrame(columns=["Persona", "URL"])
+df_senza_parola = pd.DataFrame(columns=["Persona", "URL"])
+
+for url in url_lista:
+    response = requests.get(url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, "html.parser")
+        h2_elements = soup.find_all("h2")
+
+        found = False  # Flag per indicare se è stata trovata la parola "laurea", "laureò" o "laureata"
+
+        for h2 in h2_elements:
+            sibling_p = h2.find_next_sibling("p")
+            while sibling_p:
+                if re.search(r"\b(laurea|laureò|laureata|facoltà)\b", sibling_p.get_text(), re.IGNORECASE):
+                    df_con_parola = df_con_parola.append({"Persona": persona, "URL": url}, ignore_index=True)
+                    found = True
+                    break
+                sibling_p = sibling_p.find_next_sibling("p")
+            if found:
+                break
+
+        if not found:
+            df_senza_parola = df_senza_parola.append({"Persona": persona, "URL": url}, ignore_index=True)
+    else:
+        print(f"Errore nella richiesta della pagina di Wikipedia per l'URL: {url}")
+
+# Stampa dei DataFrame
+#print("Pagine con almeno una delle parole:")
+#print(df_con_parola)
+
+#print("Pagine senza nessuna delle parole:")
+#print(df_senza_parola)
+"""
 """
 url = "https://it.wikipedia.org/wiki/Grazia_Sestini"
 response = requests.get(url)
