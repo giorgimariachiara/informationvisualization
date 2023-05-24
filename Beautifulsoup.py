@@ -104,7 +104,7 @@ print("Persone senza URL:")
 print(df_senza_url)
 """
 
-# Cerca la parola "laurea" nella sezione biografia per ciascun URL
+#provo a trovare quelli di cui non abbiamo trovato l'url con diverse combinazioni 
 import urllib.parse
 pd.set_option("display.max_colwidth", None)
 
@@ -141,10 +141,10 @@ for persona in df_senza_url["Persona"]:
         else:
             print(f"Errore nella richiesta della pagina di Wikipedia per {persona}")
 
-df_con_url = pd.DataFrame({"Persona": personemodificato_con_url, "URL": url_lista})
+df_con_url2 = pd.DataFrame({"Persona": personemodificato_con_url, "URL": url_lista})
 
 print("Persone con URL:")
-print(df_con_url)
+print(df_con_url2)
 
 
 nomi_da_cercare = ["Alessandra Cecchetto", "Gigliola Lo Cascio", "Natia Mammone", "Roberta Pinto", "Daniela Romani", "Marisa Bonfatti Paini", "Agata Lucia Alma Cappiello", "Luigia Cordati ", " Anna Lucia Lisa Pannarale", "Maria Galli", "Ida Matarazzo"]
@@ -164,6 +164,7 @@ for nome_cognome in nomi_da_cercare:
 print("Risultati:")
 print(df_risultati)
 """
+# Cerca la parola "laurea", "università", "laureò" nella sezione biografia per ciascun URL
 for url in url_lista:
     response = requests.get(url)
     if response.status_code == 200:
