@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 # Load the CSV dataset using Pandas
 data = pd.read_csv('party.csv')
 
+
 # Group the data by party and gender, and count the number of deputies
 party_gender_counts = data.groupby(['gruppoPar', 'gender']).size().unstack().fillna(0)
 
@@ -14,14 +15,6 @@ party_gender_counts = party_gender_counts.drop('Total', axis=1)
 
 # Calculate the total number of deputies
 total_deputies = party_gender_counts['male'] + party_gender_counts['female']
-"""
-# Calculate the percentage of male and female deputies
-percentage_male = party_gender_counts['male'] / total_deputies * 100
-percentage_female = party_gender_counts['female'] / total_deputies * 100
-
-# Create a pyramid graph
-fig, ax = plt.subplots()
-"""
 
 # Filtra i partiti con meno di 10 deputati
 party_gender_counts = party_gender_counts[total_deputies >= 10]
