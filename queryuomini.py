@@ -4,18 +4,10 @@ import pandas as pd
 from sparql_dataframe import get
 endpoint = "https://dati.camera.it/sparql"
 pd.set_option('display.max_rows', None)
-#QUERY NUMERO TOTALE UOMINI
-querynumerototuomini = """
-SELECT (COUNT(?nome) AS ?totale) where {
-  
-  ?nome foaf:gender "male".
-  ?nome ocd:rif_leg ?legislatural. 
-  ?legislatural dc:title ?legislatura. 
- }"""
 
-dfnumerototuomini = sparql_dataframe.get(endpoint, querynumerototuomini)
+
 #QUERY UOMINI ASSEMBLEA COSTITUENTE 
-queryuomini0 = """
+query_uomini0 = """
 prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix foaf:<http://xmlns.com/foaf/0.1/>
 SELECT distinct ?persona ?nome ?cognome where {
@@ -29,10 +21,12 @@ SELECT distinct ?persona ?nome ?cognome where {
  }
      
 """
-dfmale0 = get(endpoint, queryuomini0)
+dfmale0 = get(endpoint, query_uomini0)
+print(dfmale0)
+#print(len(dfmale0))
 
 #QUERY UOMINI LEGISLATURA 1  
-queryuomini1 = """
+query_uomini1 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
@@ -45,10 +39,12 @@ SELECT distinct ?persona ?nome ?cognome where {
   
 """
 
-dfmale1 = get(endpoint, queryuomini1)
+dfmale1 = get(endpoint, query_uomini1)
+print(len(dfmale1))
+
 
 #QUERY UOMINI LEGISLATURA 2  
-queryuomini2 = """
+query_uomini2 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
@@ -61,15 +57,15 @@ SELECT distinct ?persona ?nome ?cognome where {
      
 """
 
-dfmale2 = get(endpoint, queryuomini2)
+dfmale2 = get(endpoint, query_uomini2)
 
 
 #QUERY UOMINI LEGISLATURA 3  
-queryuomini3 = """
+query_uomini3 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
+  ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -78,10 +74,10 @@ SELECT distinct ?persona ?nome ?cognome where {
      
 """
 
-dfmale3 = get(endpoint, queryuomini3)
+dfmale3 = get(endpoint, query_uomini3)
 
 #QUERY UOMINI LEGISLATURA 4  
-queryuomini4 = """
+query_uomini4 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
@@ -94,16 +90,16 @@ SELECT distinct ?persona ?nome ?cognome where {
      
 """
 
-dfmale4 = get(endpoint, queryuomini4)
+dfmale4 = get(endpoint, query_uomini4)
 
 #QUERY UOMINI LEGISLATURA 5  
-queryuomini5 = """
+query_uomini5 = """
 prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix foaf:<http://xmlns.com/foaf/0.1/>
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
+  ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -112,14 +108,14 @@ SELECT distinct ?persona ?nome ?cognome where {
      
 """
 
-dfmale5 = get(endpoint, queryuomini5)
+dfmale5 = get(endpoint, query_uomini5)
 
 #QUERY UOMINI LEGISLATURA 6  
-queryuomini6 = """
+query_uomini6 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
+  ?persona rdf:type ocd:deputato.
   ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome . 
   ?persona ocd:rif_mandatoCamera ?mandato. 
@@ -127,10 +123,10 @@ SELECT distinct ?persona ?nome ?cognome where {
  }
      
 """
-dfmale6 = get(endpoint, queryuomini6)
+dfmale6 = get(endpoint, query_uomini6)
 
 #QUERY UOMINI LEGISLATURA 7 
-queryuomini7 = """
+query_uomini7 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
@@ -143,10 +139,10 @@ SELECT distinct ?persona ?nome ?cognome where {
      
 """
 
-dfmale7 = get(endpoint, queryuomini7)
+dfmale7 = get(endpoint, query_uomini7)
 
 #QUERY UOMINI LEGISLATURA 8  
-queryuomini8 = """
+query_uomini8 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
@@ -159,10 +155,10 @@ SELECT distinct ?persona ?nome ?cognome where {
      
 """
 
-dfmale8 = sparql_dataframe.get(endpoint, queryuomini8)
+dfmale8 = sparql_dataframe.get(endpoint, query_uomini8)
 
 #QUERY UOMINI LEGISLATURA 9  
-queryuomini9 = """
+query_uomini9 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
@@ -175,10 +171,10 @@ SELECT distinct ?persona ?nome ?cognome where {
      
 """
 
-dfmale9 = get(endpoint, queryuomini9)
+dfmale9 = get(endpoint, query_uomini9)
 
 #QUERY UOMINI LEGISLATURA 10 
-queryuomini10 = """
+query_uomini10 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
@@ -191,10 +187,10 @@ SELECT distinct ?persona ?nome ?cognome where {
      
 """
 
-dfmale10 = get(endpoint, queryuomini10)
+dfmale10 = get(endpoint, query_uomini10)
 
 #QUERY UOMINI LEGISLATURA 11  
-queryuomini11 = """
+query_uomini11 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
@@ -207,10 +203,10 @@ SELECT distinct ?persona ?nome ?cognome where {
      
 """
 
-dfmale11 = get(endpoint, queryuomini11)
+dfmale11 = get(endpoint, query_uomini11)
 
 #QUERY UOMINI LEGISLATURA 12  
-queryuomini12 = """
+query_uomini12 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
@@ -223,10 +219,10 @@ SELECT distinct ?persona ?nome ?cognome where {
      
 """
 
-dfmale12 = get(endpoint, queryuomini12)
+dfmale12 = get(endpoint, query_uomini12)
 
 #QUERY UOMINI LEGISLATURA 13 
-queryuomini13 = """
+query_uomini13 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
@@ -239,10 +235,10 @@ SELECT distinct ?persona ?nome ?cognome where {
      
 """
 
-dfmale13 = get(endpoint, queryuomini13)
+dfmale13 = get(endpoint, query_uomini13)
 
 #QUERY UOMINI LEGISLATURA 14 
-queryuomini14 = """
+query_uomini14 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
@@ -255,10 +251,10 @@ SELECT distinct ?persona ?nome ?cognome where {
      
 """
 
-dfmale14 = get(endpoint, queryuomini14)
+dfmale14 = get(endpoint, query_uomini14)
 
 #QUERY UOMINI LEGISLATURA 15  
-queryuomini15 = """
+query_uomini15 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
@@ -271,10 +267,10 @@ SELECT distinct ?persona ?nome ?cognome where {
      
 """
 
-dfmale15 = get(endpoint, queryuomini15)
+dfmale15 = get(endpoint, query_uomini15)
 
 #QUERY UOMINI LEGISLATURA 16  
-queryuomini16 = """
+query_uomini16 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
@@ -286,11 +282,11 @@ SELECT distinct ?persona ?nome ?cognome where {
  }
 """
 
-dfmale16 = get(endpoint, queryuomini16)
+dfmale16 = get(endpoint, query_uomini16)
 
 
 #QUERY UOMINI LEGISLATURA 17 
-queryuomini17 = """
+query_uomini17 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
@@ -303,11 +299,11 @@ SELECT distinct ?persona ?nome ?cognome where {
      
 """
 
-dfmale17 = get(endpoint, queryuomini17)
+dfmale17 = get(endpoint, query_uomini17)
 
 
 #QUERY UOMINI LEGISLATURA 18 
-queryuomini18 = """
+query_uomini18 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
@@ -317,15 +313,14 @@ SELECT distinct ?persona ?nome ?cognome where {
   ?persona ocd:rif_mandatoCamera ?mandato. 
   ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_18>.
  }
-
-     
+ 
 """
 
-dfmale18 = get(endpoint, queryuomini18)
+dfmale18 = get(endpoint, query_uomini18)
 
 
 #QUERY UOMINI LEGISLATURA 19 
-queryuomini19 = """
+query_uomini19 = """
 SELECT distinct ?persona ?nome ?cognome where {
   
   ?persona foaf:gender "male".
@@ -338,7 +333,8 @@ SELECT distinct ?persona ?nome ?cognome where {
      
 """
 
-dfmale19 = get(endpoint, queryuomini19)
+dfmale19 = get(endpoint, query_uomini19)
+
 
 #QUERY CARICA UOMINI 
 querycaricauomini = """SELECT DISTINCT ?nome ?cognome ?ufficio ?organo where {
@@ -730,8 +726,8 @@ new_df19= dfmale19.loc[:, ['nome', 'cognome']]
 
 merged_df = pd.concat([new_df, new_df1, new_df2, new_df3, new_df4, new_df5, new_df6, new_df7, new_df8, new_df9, new_df10, new_df11, new_df12, new_df13, new_df14, new_df15, new_df16, new_df17, new_df18, new_df19], axis=0)
 
-merged_dfinal = merged_df.drop_duplicates()
-#print(len(merged_dfinal))
+#merged_dfinal = merged_df.drop_duplicates()
+print(len(merged_df))
 
 
 dataframes = [dfmale0, dfmale1, dfmale2, dfmale3, dfmale4, dfmale5, dfmale6, dfmale7, dfmale8, dfmale9, dfmale10, dfmale11, dfmale12, dfmale13, dfmale14, dfmale15, dfmale16, dfmale17, dfmale18, dfmale19 ]
@@ -818,7 +814,7 @@ queryuominisenzalaurea = """SELECT distinct ?nome ?cognome ?descrizione ?luogoNa
 
 datanonlaureauomini =get(endpoint, queryuominisenzalaurea)
 
-#print(len(datauominiconlaurea)) #1669 uomini non laureati 382 di cui non abbiamo info e 3144
+
 #duplicati = datalaurea[datalaurea.duplicated(['nome', 'cognome'], keep=False)]
 
 queryprovaa ="""SELECT DISTINCT ?persona ?cognome ?nome ?info
@@ -959,5 +955,5 @@ da = da.drop_duplicates(["persona", "nome", "cognome"])
 #print(len(dfpartitodonne))
 mergedpartito = pd.concat([dfpartitodonne, dfpartito])
 mergedpartito['gruppoPar'] = mergedpartito['gruppoPar'].str.split('(').str[0]
-print(mergedpartito)
+#print(mergedpartito)
 mergedpartito.to_csv("party.csv",  index=False, index_label=False)

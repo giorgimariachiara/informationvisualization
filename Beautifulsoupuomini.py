@@ -7,6 +7,7 @@ from sparql_dataframe import get
 import requests
 from bs4 import BeautifulSoup
 import re
+import os 
 
 endpoint = "https://dati.camera.it/sparql"
 pd.set_option('display.max_rows', None)
@@ -47,35 +48,6 @@ listauomini = [nome_cognome.replace(' ', '_') for nome_cognome in listauomini]
 #print(len(listauomini))
 #print(nomiuomini)
 #print(len(nomiuomini))
-"""
-
-def get_uri_from_names(lista):
-    # Inizializza l'oggetto SPARQLWrapper
-    sparql = SPARQLWrapper("http://tuo_endpoint_sparql")  
-    risultati = []
-    for nome_cognome in lista:
-        # Costruisci la query SPARQL
-        query = '''
-            SELECT DISTINCT ?persona ?nome ?cognome ?uri
-            WHERE {{
-                ?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
-                ?persona foaf:firstName ?nome.
-                ?persona foaf:surname ?cognome. 
-                ?persona owl:sameAs ?uri.
-                FILTER (CONCAT(?nome, " ", ?cognome) = "{0}")
-            }}
-        '''.format(nome_cognome)
-
-        queryy = get(endpoint, query)
-        risultati.append(queryy)
-
-    # Unisci tutti i dataframe in un unico dataframe finale
-    df_finale = pd.concat(risultati)
-    return df_finale  
-da = get_uri_from_names(nomiuomini)
-da = da.drop_duplicates(["persona", "nome", "cognome"])
-da = da[["nome", "cognome", "uri"]]
-"""
 
 url_lista = []
 listauomini_con_url = []
@@ -101,7 +73,7 @@ df_senza_url = pd.DataFrame({"Persona": listauomini_senza_url})
 
 #print("Persone senza URL:")
 #print(df_senza_url)
-print(len(df_senza_url))
+#print(len(df_senza_url))
 
 
 url_lista = []
@@ -139,9 +111,12 @@ for persona in df_senza_url["Persona"]:
 
 df_con_url2 = pd.DataFrame({"Persona": personemodificato_con_url, "URL": url_lista})
 
-print("Persone con URL:")
-print(df_con_url2)
-print(len(df_con_url2))
+#print("Persone con URL:")
+#print(df_con_url2)
+#print(len(df_con_url2))
+
+
+
 
 nomi_da_cercare = df_senza_url["Persona"].tolist()
 # DataFrame vuoto per i risultati
@@ -149,12 +124,115 @@ df_risultati = pd.DataFrame(columns=["Persona", "URL"])
 
 for nome_cognome in nomi_da_cercare:
     # Filtra il dataframe per le righe che contengono il nome e cognome nell'URL
-    df_filtered = df_con_url[df_con_url["URL"].str.contains(nome_cognome.replace(" ", "_"))]
+    df_filtered = df_con_url2[df_con_url2["URL"].str.contains(nome_cognome.replace(" ", "_"))]
 
     # Se ci sono righe corrispondenti, prendi la prima riga
     if len(df_filtered) > 0:
         prima_riga = df_filtered.iloc[0]
         df_risultati = df_risultati.append(prima_riga)
 
-print("Risultati:")
-print(df_risultati)
+#print("Risultati:")
+#print(df_risultati)
+
+dffinale = pd.concat([df_con_url, df_risultati], axis=0)
+
+# Resetta l'indice del DataFrame risultante
+dffinale = dffinale.reset_index(drop=True)
+#print(dffinale)
+#print(len(dffinale)) #134 hanno la pagina wikipedia mentre 28 no quindi non hanno info sul livello di educazione 
+
+# TROVARE SE NEL DFFINALE NELLA SEZIONE BIOGRAFIA C'è LA PAROLA LAUREA ECC. 
+#url_lista_finale = dffinale["URL"].tolist()
+"""
+df_con_parola = pd.DataFrame(columns=["Persona", "URL"])
+df_senza_parola = pd.DataFrame(columns=["Persona", "URL"])
+
+for url in url_lista_finale:
+    response = requests.get(url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, "html.parser")
+        h2_elements = soup.find_all("h2")
+
+        found = False  # Flag per indicare se è stata trovata la parola "laurea", "laureò" o "laureata"
+
+        for h2 in h2_elements:
+            sibling_p = h2.find_next_sibling("p")
+            while sibling_p:
+                if re.search(r"\b(laurea|laureò|laureata)\b", sibling_p.get_text(), re.IGNORECASE):
+                    persona = os.path.basename(url)
+                    df_con_parola = pd.concat([df_con_parola, pd.DataFrame({"Persona": [persona], "URL": [url]})], ignore_index=True)
+                    found = True
+                    break
+                sibling_p = sibling_p.find_next_sibling("p")
+            if found:
+                break
+
+        if not found:
+            persona = os.path.basename(url)
+            df_senza_parola = pd.concat([df_senza_parola, pd.DataFrame({"Persona": [persona], "URL": [url]})], ignore_index=True)
+
+    else:
+        print(f"Errore nella richiesta della pagina di Wikipedia per l'URL: {url}")
+
+# Stampa dei DataFrame
+print("Pagine con almeno una delle parole:")
+print(df_con_parola)
+print(len(df_con_parola))
+
+print("Pagine senza nessuna delle parole:")
+print(df_senza_parola)
+print(len(df_senza_parola))
+"""
+import pandas as pd
+import requests
+from bs4 import BeautifulSoup
+import os
+
+url_lista_finale = dffinale["URL"].tolist()
+
+# Lista degli URL di Wikipedia
+df_con_laurea = pd.DataFrame(columns=["Persona", "URL"])
+df_con_diploma = pd.DataFrame(columns=["Persona", "URL"])
+df_senza_sezione = pd.DataFrame(columns=["Persona", "URL"])
+
+for url in url_lista_finale:
+    response = requests.get(url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, "html.parser")
+
+        # Cerca la sezione "infobox sinottico"
+        infobox = soup.find("table", class_="infobox sinottico")
+        if infobox:
+            dati_general_tr = infobox.find("tr", class_="sinottico_divisione")
+            if dati_general_tr:
+                dati_general_th = dati_general_tr.find("th", colspan="2", style="background:lavender;")
+                if dati_general_th and dati_general_th.text.strip() == "Dati generali":
+                    titolo_studio_th = infobox.find("th", string="Titolo\u00a0di\u00a0studio")
+                    if titolo_studio_th:
+                        titolo_studio_td = titolo_studio_th.find_next_sibling("td")
+                        if titolo_studio_td:
+                            titolo_studio_text = titolo_studio_td.get_text().lower()
+                            if re.search(r"\blaurea\b", titolo_studio_text) or re.search(r"\bLaurea\b", titolo_studio_text):
+                                persona = infobox.find("th").get_text()
+                                df_con_laurea = df_con_laurea.append({"Persona": persona, "URL": url}, ignore_index=True)
+                            elif re.search(r"\bdiploma\b", titolo_studio_text) or re.search(r"\bDiploma\b", titolo_studio_text):
+                                persona = infobox.find("th").get_text()
+                                df_con_diploma = df_con_diploma.append({"Persona": persona, "URL": url}, ignore_index=True)
+                    else:
+                        persona = infobox.find("th").get_text()
+                        df_senza_sezione = df_senza_sezione.append({"Persona": persona, "URL": url}, ignore_index=True)
+                else:
+                    persona = infobox.find("th").get_text()
+                    df_senza_sezione = df_senza_sezione.append({"Persona": persona, "URL": url}, ignore_index=True)
+            else:
+                persona = infobox.find("th").get_text()
+                df_senza_sezione = df_senza_sezione.append({"Persona": persona, "URL": url}, ignore_index=True)
+
+print("Persone con laurea:")
+print(df_con_laurea)
+
+print("Persone con diploma:")
+print(df_con_diploma)
+
+print("Persone senza sezione 'Titolo di studio':")
+print(df_senza_sezione)

@@ -146,7 +146,7 @@ df_con_url2 = pd.DataFrame({"Persona": personemodificato_con_url, "URL": url_lis
 print("Persone con URL:")
 print(df_con_url2)
 
-
+#ripuliamo il precedente dataframe prendendo solo gli url con effettivamente almeno il nome e cognome delle persone 
 nomi_da_cercare = ["Alessandra Cecchetto", "Gigliola Lo Cascio", "Natia Mammone", "Roberta Pinto", "Daniela Romani", "Marisa Bonfatti Paini", "Agata Lucia Alma Cappiello", "Luigia Cordati ", " Anna Lucia Lisa Pannarale", "Maria Galli", "Ida Matarazzo"]
 
 # DataFrame vuoto per i risultati
@@ -164,33 +164,6 @@ for nome_cognome in nomi_da_cercare:
 print("Risultati:")
 print(df_risultati)
 """
-# Cerca la parola "laurea", "università", "laureò" nella sezione biografia per ciascun URL
-for url in url_lista:
-    response = requests.get(url)
-    if response.status_code == 200:
-        soup = BeautifulSoup(response.content, "html.parser")
-        h2_elements = soup.find_all("h2")
-
-        found = False  # Flag per indicare se è stata trovata la parola "laurea"
-
-        for h2 in h2_elements:
-            sibling_p = h2.find_next_sibling("p")
-            while sibling_p:
-                if re.search(r"\b(laurea|laureò|laureata)\b", sibling_p.get_text(), re.IGNORECASE):
-                    print(f"La parola 'laurea' è presente nella biografia per l'URL: {url}")
-                    found = True
-                    break
-                sibling_p = sibling_p.find_next_sibling("p")
-            if found:
-                break
-
-        if not found:
-            print(f"La parola 'laurea' non è presente nella biografia per l'URL: {url}")
-    else:
-        print(f"Errore nella richiesta della pagina di Wikipedia per l'URL: {url}")
-
-"""
-"""
 df_con_parola = pd.DataFrame(columns=["Persona", "URL"])
 df_senza_parola = pd.DataFrame(columns=["Persona", "URL"])
 
@@ -206,6 +179,7 @@ for url in url_lista:
             sibling_p = h2.find_next_sibling("p")
             while sibling_p:
                 if re.search(r"\b(laurea|laureò|laureata|facoltà)\b", sibling_p.get_text(), re.IGNORECASE):
+                    persona = os.path.basename(url)
                     df_con_parola = df_con_parola.append({"Persona": persona, "URL": url}, ignore_index=True)
                     found = True
                     break
