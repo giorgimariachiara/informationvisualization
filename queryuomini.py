@@ -28,6 +28,7 @@ df_totale_donne_per_legislatura = get(endpoint, totale_donne_per_legislatura)
 df_totale_donne_per_legislatura = df_totale_donne_per_legislatura[['nome', 'cognome', 'gender', 'legislatura']]
 #df_totale_donne_per_legislatura.to_csv("donneperlegislatura.csv",  index=False, index_label=False)
 
+
 #QUERY UOMINI ASSEMBLEA COSTITUENTE 
 query_uomini0 = """
 prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -359,8 +360,33 @@ totale_uomini_per_legislatura = pd.concat([dfmale0, dfmale1, dfmale2, dfmale3, d
 df_totale_uomini_per_legislatura = totale_uomini_per_legislatura.assign(gender="male")
 df_totale_uomini_per_legislatura = df_totale_uomini_per_legislatura[["nome", "cognome", "gender", "legislatura"]]
 df_totale_deputati_per_legislatura = pd.concat([df_totale_uomini_per_legislatura, df_totale_donne_per_legislatura])
-df_totale_deputati_per_legislatura.to_csv("totaledeputatiperlegislatura.csv",  index=False, index_label=False)
+#df_totale_deputati_per_legislatura.to_csv("totaledeputatiperlegislatura.csv",  index=False, index_label=False)
 
+#QUERY PER CITTà NASCITA 
+uomini_nascita = """
+SELECT DISTINCT ?persona ?cognome ?nome ?luogoNascita ?regione
+WHERE {
+?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
+
+?d a ocd:deputato; 
+ocd:rif_leg ?legislatura;
+ocd:rif_mandatoCamera ?mandato.
+OPTIONAL{?d dc:description ?info}
+
+##anagrafica
+?d foaf:surname ?cognome; foaf:gender "male" ;foaf:firstName ?nome.
+OPTIONAL{
+?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+?luogoNascitaUri dc:title ?luogoNascita.
+?luogoNascitaUri ocd:parentADM3 ?regione. 
+}}"""
+
+df_uomini_nascita = get(endpoint, uomini_nascita)
+df_uomini_nascita.rename(columns={"luogoNascita": "città"}, inplace=True)
+df_uomini_nascita = df_uomini_nascita[["città", "regione"]]
+df_uomini_nascita.to_csv("uominimappa.csv",  index=False, index_label=False)
 
 
 #QUERY CARICA UOMINI 

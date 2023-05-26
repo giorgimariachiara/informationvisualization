@@ -82,8 +82,6 @@ df_donne_nascita = get(endpoint, donne_nascita)
 df_donne_nascita.rename(columns={"luogoNascita": "città"}, inplace=True)
 df_donne_nascita = df_donne_nascita[["città", "regione"]]
 df_donne_nascita.to_csv("donnemappa.csv",  index=False, index_label=False)
-#print(df_donne_nascita)
-#print(len(df_donne_nascita))
 
 query_donne0 = """
 prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
