@@ -9,7 +9,7 @@
 
 <body>
 	<div id="flipbook"> 
-		<div class="page full-page">
+		<div class="page">
 			<div class="head">
 				<div class="headerobjectswrapper">
 					<header>CHAMBER OF DEPUTIES</header>
@@ -18,7 +18,7 @@
 			</div>
 		</div>
 
-		<div class="page full-page">
+		<div class="page">
 			<div class="content">
 				<div class="collumns">
 					<div class="collumn">
@@ -44,8 +44,28 @@
 <script src="turn.min.js"></script>
 	<script>
 		$(document).ready(function() {
-			$('#flipbook').turn({gradients: true, acceleration: true});
-		});
+  // Seleziona l'elemento contenitore del libro o del documento
+  var container = $('#flipbook');
+
+  // Inizializza la libreria turn.js
+  container.turn({
+    width: '100%', // Imposta la larghezza del libro o del documento al 100% dello schermo
+    height: '100%', // Imposta l'altezza del libro o del documento al 100% dello schermo
+    display: 'single', // Mostra due pagine contemporaneamente
+    autoCenter: true, // Centra automaticamente il libro o il documento nello schermo
+	turnCorners: true,
+    gradients: true,
+    acceleration: 1.5,
+    when: {
+      turning: function(event, page, view) {
+        console.log('Turning page:', page);
+      },
+      turned: function(event, page, view) {
+        console.log('Turned to page:', page);
+      }
+    }
+  });
+});
 	</script>
 </body>
 </html>

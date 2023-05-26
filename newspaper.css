@@ -4,7 +4,7 @@ body {
     overflow: scroll;
     font-family: 'Droid Serif', serif;
     font-size: 14px;
-    
+    display: block !important;
 
 }
 
@@ -230,7 +230,7 @@ p{
     /*font-style: italic;*/
     text-align: center;
     font-weight: 400;
-    display: block;
+    display: block !important;
     margin: 40px 0 40px 0;
     font-feature-settings: "liga", "dlig";
 
@@ -240,7 +240,7 @@ p{
     content: '';
     width: 100px;
     height: 16px;
-    display: block;
+    display: block !important;
     margin: auto;
 }
 .collumn .citation:after{
@@ -248,7 +248,7 @@ p{
     content: '';
     width: 100px;
     height: 16px;
-    display: block;
+    display: block !important;
     margin: auto;
     
 }
@@ -292,7 +292,6 @@ p{
   #flipbook {
     width: 100vw;
     height: 100vh;
-    display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
