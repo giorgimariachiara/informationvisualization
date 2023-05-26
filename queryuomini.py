@@ -5,12 +5,35 @@ from sparql_dataframe import get
 endpoint = "https://dati.camera.it/sparql"
 pd.set_option('display.max_rows', None)
 
+#DONNE PER OGNI LEGISLATURA 
+totale_donne_per_legislatura = """
+SELECT DISTINCT ?persona ?cognome ?nome ?dataNascita ?luogoNascita "female" as ?gender ?legislatura
+WHERE {
+?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
+
+?d a ocd:deputato; 
+ocd:rif_leg ?legislatura;
+ocd:rif_mandatoCamera ?mandato.
+OPTIONAL{?d dc:description ?info}
+
+##anagrafica
+?d foaf:surname ?cognome; foaf:gender "female" ;foaf:firstName ?nome.
+OPTIONAL{
+?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+?luogoNascitaUri dc:title ?luogoNascita.
+}}"""
+df_totale_donne_per_legislatura = get(endpoint, totale_donne_per_legislatura)
+df_totale_donne_per_legislatura = df_totale_donne_per_legislatura[['nome', 'cognome', 'gender', 'legislatura']]
+#df_totale_donne_per_legislatura.to_csv("donneperlegislatura.csv",  index=False, index_label=False)
+
 
 #QUERY UOMINI ASSEMBLEA COSTITUENTE 
 query_uomini0 = """
 prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix foaf:<http://xmlns.com/foaf/0.1/>
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/costituente" as ?legislatura where {
   
   ?persona foaf:gender "male".
   ?persona rdf:type ocd:deputato.
@@ -22,12 +45,11 @@ SELECT distinct ?persona ?nome ?cognome where {
      
 """
 dfmale0 = get(endpoint, query_uomini0)
-print(dfmale0)
-#print(len(dfmale0))
+
 
 #QUERY UOMINI LEGISLATURA 1  
 query_uomini1 = """
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_01" as ?legislatura where {
   
   ?persona foaf:gender "male".
    ?persona rdf:type ocd:deputato.
@@ -40,12 +62,11 @@ SELECT distinct ?persona ?nome ?cognome where {
 """
 
 dfmale1 = get(endpoint, query_uomini1)
-print(len(dfmale1))
 
 
 #QUERY UOMINI LEGISLATURA 2  
 query_uomini2 = """
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_02" as ?legislatura where {
   
   ?persona foaf:gender "male".
    ?persona rdf:type ocd:deputato.
@@ -62,7 +83,7 @@ dfmale2 = get(endpoint, query_uomini2)
 
 #QUERY UOMINI LEGISLATURA 3  
 query_uomini3 = """
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_03" as ?legislatura where {
   
   ?persona foaf:gender "male".
   ?persona rdf:type ocd:deputato.
@@ -78,7 +99,7 @@ dfmale3 = get(endpoint, query_uomini3)
 
 #QUERY UOMINI LEGISLATURA 4  
 query_uomini4 = """
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_04" as ?legislatura where {
   
   ?persona foaf:gender "male".
    ?persona rdf:type ocd:deputato.
@@ -96,7 +117,7 @@ dfmale4 = get(endpoint, query_uomini4)
 query_uomini5 = """
 prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix foaf:<http://xmlns.com/foaf/0.1/>
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_05" as ?legislatura where {
   
   ?persona foaf:gender "male".
   ?persona rdf:type ocd:deputato.
@@ -112,7 +133,7 @@ dfmale5 = get(endpoint, query_uomini5)
 
 #QUERY UOMINI LEGISLATURA 6  
 query_uomini6 = """
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_06" as ?legislatura where {
   
   ?persona foaf:gender "male".
   ?persona rdf:type ocd:deputato.
@@ -127,7 +148,7 @@ dfmale6 = get(endpoint, query_uomini6)
 
 #QUERY UOMINI LEGISLATURA 7 
 query_uomini7 = """
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_07" as ?legislatura where {
   
   ?persona foaf:gender "male".
    ?persona rdf:type ocd:deputato.
@@ -143,7 +164,7 @@ dfmale7 = get(endpoint, query_uomini7)
 
 #QUERY UOMINI LEGISLATURA 8  
 query_uomini8 = """
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_08" as ?legislatura where {
   
   ?persona foaf:gender "male".
    ?persona rdf:type ocd:deputato.
@@ -159,7 +180,7 @@ dfmale8 = sparql_dataframe.get(endpoint, query_uomini8)
 
 #QUERY UOMINI LEGISLATURA 9  
 query_uomini9 = """
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_09" as ?legislatura where {
   
   ?persona foaf:gender "male".
    ?persona rdf:type ocd:deputato.
@@ -175,7 +196,7 @@ dfmale9 = get(endpoint, query_uomini9)
 
 #QUERY UOMINI LEGISLATURA 10 
 query_uomini10 = """
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_10" as ?legislatura where {
   
   ?persona foaf:gender "male".
    ?persona rdf:type ocd:deputato.
@@ -191,7 +212,7 @@ dfmale10 = get(endpoint, query_uomini10)
 
 #QUERY UOMINI LEGISLATURA 11  
 query_uomini11 = """
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_11" as ?legislatura where {
   
   ?persona foaf:gender "male".
    ?persona rdf:type ocd:deputato.
@@ -207,7 +228,7 @@ dfmale11 = get(endpoint, query_uomini11)
 
 #QUERY UOMINI LEGISLATURA 12  
 query_uomini12 = """
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_12" as ?legislatura where {
   
   ?persona foaf:gender "male".
    ?persona rdf:type ocd:deputato.
@@ -223,7 +244,7 @@ dfmale12 = get(endpoint, query_uomini12)
 
 #QUERY UOMINI LEGISLATURA 13 
 query_uomini13 = """
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_13" as ?legislatura where {
   
   ?persona foaf:gender "male".
    ?persona rdf:type ocd:deputato.
@@ -239,7 +260,7 @@ dfmale13 = get(endpoint, query_uomini13)
 
 #QUERY UOMINI LEGISLATURA 14 
 query_uomini14 = """
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_14" as ?legislatura where {
   
   ?persona foaf:gender "male".
    ?persona rdf:type ocd:deputato.
@@ -255,7 +276,7 @@ dfmale14 = get(endpoint, query_uomini14)
 
 #QUERY UOMINI LEGISLATURA 15  
 query_uomini15 = """
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_15" as ?legislatura where {
   
   ?persona foaf:gender "male".
    ?persona rdf:type ocd:deputato.
@@ -271,7 +292,7 @@ dfmale15 = get(endpoint, query_uomini15)
 
 #QUERY UOMINI LEGISLATURA 16  
 query_uomini16 = """
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_16" as ?legislatura where {
   
   ?persona foaf:gender "male".
    ?persona rdf:type ocd:deputato.
@@ -287,7 +308,7 @@ dfmale16 = get(endpoint, query_uomini16)
 
 #QUERY UOMINI LEGISLATURA 17 
 query_uomini17 = """
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_17" as ?legislatura where {
   
   ?persona foaf:gender "male".
    ?persona rdf:type ocd:deputato.
@@ -304,7 +325,7 @@ dfmale17 = get(endpoint, query_uomini17)
 
 #QUERY UOMINI LEGISLATURA 18 
 query_uomini18 = """
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_18" as ?legislatura where {
   
   ?persona foaf:gender "male".
    ?persona rdf:type ocd:deputato.
@@ -321,7 +342,7 @@ dfmale18 = get(endpoint, query_uomini18)
 
 #QUERY UOMINI LEGISLATURA 19 
 query_uomini19 = """
-SELECT distinct ?persona ?nome ?cognome where {
+SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_19" as ?legislatura where {
   
   ?persona foaf:gender "male".
    ?persona rdf:type ocd:deputato.
@@ -334,6 +355,38 @@ SELECT distinct ?persona ?nome ?cognome where {
 """
 
 dfmale19 = get(endpoint, query_uomini19)
+
+totale_uomini_per_legislatura = pd.concat([dfmale0, dfmale1, dfmale2, dfmale3, dfmale4, dfmale5, dfmale6, dfmale7, dfmale8, dfmale9, dfmale10, dfmale11, dfmale12, dfmale13, dfmale14, dfmale15, dfmale16, dfmale17, dfmale18, dfmale19], axis=0)
+df_totale_uomini_per_legislatura = totale_uomini_per_legislatura.assign(gender="male")
+df_totale_uomini_per_legislatura = df_totale_uomini_per_legislatura[["nome", "cognome", "gender", "legislatura"]]
+df_totale_deputati_per_legislatura = pd.concat([df_totale_uomini_per_legislatura, df_totale_donne_per_legislatura])
+#df_totale_deputati_per_legislatura.to_csv("totaledeputatiperlegislatura.csv",  index=False, index_label=False)
+
+#QUERY PER CITTà NASCITA 
+uomini_nascita = """
+SELECT DISTINCT ?persona ?cognome ?nome ?luogoNascita ?regione
+WHERE {
+?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
+
+?d a ocd:deputato; 
+ocd:rif_leg ?legislatura;
+ocd:rif_mandatoCamera ?mandato.
+OPTIONAL{?d dc:description ?info}
+
+##anagrafica
+?d foaf:surname ?cognome; foaf:gender "male" ;foaf:firstName ?nome.
+OPTIONAL{
+?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+?luogoNascitaUri dc:title ?luogoNascita.
+?luogoNascitaUri ocd:parentADM3 ?regione. 
+}}"""
+
+df_uomini_nascita = get(endpoint, uomini_nascita)
+df_uomini_nascita.rename(columns={"luogoNascita": "città"}, inplace=True)
+df_uomini_nascita = df_uomini_nascita[["città", "regione"]]
+df_uomini_nascita.to_csv("uominimappa.csv",  index=False, index_label=False)
 
 
 #QUERY CARICA UOMINI 
@@ -727,22 +780,10 @@ new_df19= dfmale19.loc[:, ['nome', 'cognome']]
 merged_df = pd.concat([new_df, new_df1, new_df2, new_df3, new_df4, new_df5, new_df6, new_df7, new_df8, new_df9, new_df10, new_df11, new_df12, new_df13, new_df14, new_df15, new_df16, new_df17, new_df18, new_df19], axis=0)
 
 #merged_dfinal = merged_df.drop_duplicates()
-print(len(merged_df))
+#print(len(merged_df))
 
 
 dataframes = [dfmale0, dfmale1, dfmale2, dfmale3, dfmale4, dfmale5, dfmale6, dfmale7, dfmale8, dfmale9, dfmale10, dfmale11, dfmale12, dfmale13, dfmale14, dfmale15, dfmale16, dfmale17, dfmale18, dfmale19 ]
-
-# creazione della lista per salvare i dataframe finali
-new_dfs = []
-
-# ciclo for per elaborare ogni dataframe nella lista
-for df in dataframes:
-    new_df = df.loc[:, ['nome', 'cognome']].drop_duplicates()
-    new_dfs.append(new_df)
-
-# unione di tutti i dataframe finali in un unico dataframe
-merged_dataframe = pd.concat(new_dfs, axis=0)
-merged_dataframe = merged_dataframe.drop_duplicates()
 
 #merged_dataframe['nome_cognome'] = merged_dataframe['nome'] + ' ' + merged_dataframe['cognome']
 

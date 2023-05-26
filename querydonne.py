@@ -55,11 +55,11 @@ df_totale_uomini = sparql_dataframe.get(endpoint, totale_uomini)
 df_totale_uomini = df_totale_uomini[['nome', 'cognome', 'gender']]
 
 df_totale = pd.concat([df_totale_uomini, df_totale_donne])
-df_totale.to_csv("totaledeputati.csv",  index=False, index_label=False)  #6109
+#df_totale.to_csv("totaledeputati.csv",  index=False, index_label=False)  #6109
 
-#DONNE PER OGNI LEGISLATURA 
-totale_donne_per_legislatura = """
-SELECT DISTINCT ?persona ?cognome ?nome ?dataNascita ?luogoNascita "female" as ?gender ?legislatura
+#QUERY PER CITTà NASCITA 
+donne_nascita = """
+SELECT DISTINCT ?persona ?cognome ?nome ?luogoNascita ?regione
 WHERE {
 ?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
 
@@ -75,39 +75,13 @@ OPTIONAL{
 ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
 rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
 ?luogoNascitaUri dc:title ?luogoNascita.
+?luogoNascitaUri ocd:parentADM3 ?regione. 
 }}"""
-df_totale_donne_per_legislatura = sparql_dataframe.get(endpoint, totale_donne_per_legislatura)
-df_totale_donne_per_legislatura[['nome', 'cognome', 'gender', 'legislatura']]
-df_totale_donne_per_legislatura.to_csv("donneperlegislatura.csv",  index=False, index_label=False)
 
-#print(df_totale_donne_per_legislatura)
-#print(df_totale_donne_per_legislatura[['nome', 'cognome', 'legislatura']])
-#df_totale_donne = df_totale_donne[['nome', 'cognome', 'gender']]
-
-#UOMINI PER OGNI LEGISLATURA
-totale_uomini_per_legislatura = """
-SELECT DISTINCT ?persona ?cognome ?nome ?dataNascita ?luogoNascita "male" as ?gender ?legislatura
-WHERE {
-?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
-
-?d a ocd:deputato; 
-ocd:rif_leg ?legislatura;
-ocd:rif_mandatoCamera ?mandato.
-OPTIONAL{?d dc:description ?info}
-
-##anagrafica
-?d foaf:surname ?cognome; foaf:gender "male" ;foaf:firstName ?nome.
-OPTIONAL{
-?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
-rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
-?luogoNascitaUri dc:title ?luogoNascita.
-}}"""
-df_totale_uomini_per_legislatura = sparql_dataframe.get(endpoint, totale_uomini_per_legislatura)
-df_totale_uomini_per_legislatura[['nome', 'cognome', 'gender', 'legislatura']]
-print(len(df_totale_uomini_per_legislatura))
-#df_totale_uomini_per_legislatura.to_csv("donneperlegislatura.csv",  index=False, index_label=False)
-
+df_donne_nascita = get(endpoint, donne_nascita)
+df_donne_nascita.rename(columns={"luogoNascita": "città"}, inplace=True)
+df_donne_nascita = df_donne_nascita[["città", "regione"]]
+df_donne_nascita.to_csv("donnemappa.csv",  index=False, index_label=False)
 
 query_donne0 = """
 prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -612,4 +586,4 @@ new_df19= dfemale19.loc[:, ['nome', 'cognome']]
 merged_df = pd.concat([new_df, new_df1, new_df2, new_df3, new_df4, new_df5, new_df6, new_df7, new_df8, new_df9, new_df10, new_df11, new_df12, new_df13, new_df14, new_df15, new_df16, new_df17, new_df18, new_df19], axis=0)
 
 #merged_dfinal = merged_df.drop_duplicates()
-print(len(merged_df))
+#print(len(merged_df))
