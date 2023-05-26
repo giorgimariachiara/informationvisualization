@@ -28,7 +28,6 @@ df_totale_donne_per_legislatura = get(endpoint, totale_donne_per_legislatura)
 df_totale_donne_per_legislatura = df_totale_donne_per_legislatura[['nome', 'cognome', 'gender', 'legislatura']]
 #df_totale_donne_per_legislatura.to_csv("donneperlegislatura.csv",  index=False, index_label=False)
 
-
 #QUERY UOMINI ASSEMBLEA COSTITUENTE 
 query_uomini0 = """
 prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -386,7 +385,7 @@ rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
 df_uomini_nascita = get(endpoint, uomini_nascita)
 df_uomini_nascita.rename(columns={"luogoNascita": "città"}, inplace=True)
 df_uomini_nascita = df_uomini_nascita[["città", "regione"]]
-df_uomini_nascita.to_csv("uominimappa.csv",  index=False, index_label=False)
+#df_uomini_nascita.to_csv("uominimappa.csv",  index=False, index_label=False)
 
 
 #QUERY CARICA UOMINI 
@@ -662,7 +661,7 @@ querygruppoparuomini19 = """SELECT DISTINCT ?nome ?cognome ?gruppoPar where {
 
 dfgruppoparuomini19 = sparql_dataframe.get(endpoint, querygruppoparuomini19)
 
-
+print(dfgruppoparuomini0)
 #QUERY PRESIDENTI DEL CONSIGLIO
 
 querypresidenticonsiglio = """
@@ -908,28 +907,73 @@ nomi = nomi.to_list()
 #print(nomi)
 #print(uominilaureati)
 #QUERY PER TROVARE PARTITO 
-querypartito = """SELECT DISTINCT ?persona ?cognome ?nome ?info
-?luogoNascita ?gruppoPar
+query_partito_uomini1 = """SELECT DISTINCT ?persona ?cognome ?nome ?luogoNascita ?gruppoPar
 WHERE {
-?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
-
-?d a ocd:deputato; 
-ocd:rif_leg ?legislatura;
-ocd:rif_mandatoCamera ?mandato.
-OPTIONAL{?d dc:description ?info}
-?d ocd:aderisce ?gruppo . 
+  ?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
+  
+  ?d a ocd:deputato;
+     ocd:rif_leg ?legislatura;
+     ocd:rif_mandatoCamera ?mandato.
+  ?d ocd:aderisce ?gruppo.
   ?gruppo rdfs:label ?gruppoPar.
+  
+  ## Anagrafica
+  ?d foaf:surname ?cognome; foaf:gender "male"; foaf:firstName ?nome.
+  
+  OPTIONAL {
+    ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+    ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+    rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+    ?luogoNascitaUri dc:title ?luogoNascita.
+  }
+  
+  FILTER (?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/costituente>
+          || ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_01>
+          || ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_02>
+          || ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_03>
+          || ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_04>
+          || ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_05>
+          || ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_06>
+          || ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_07>
+          || ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_08>
+          || ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_09>
+          || ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_10>)
+}
+"""
 
-##anagrafica
-?d foaf:surname ?cognome; foaf:gender "male" ;foaf:firstName ?nome.
-OPTIONAL{
-?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
-rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
-?luogoNascitaUri dc:title ?luogoNascita.
-
-}}"""
-querypartitodonne = """SELECT DISTINCT ?persona ?cognome ?nome ?info
+query_partito_uomini2 = """SELECT DISTINCT ?persona ?cognome ?nome ?luogoNascita ?gruppoPar
+WHERE {
+  ?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
+  
+  ?d a ocd:deputato;
+     ocd:rif_leg ?legislatura;
+     ocd:rif_mandatoCamera ?mandato.
+  ?d ocd:aderisce ?gruppo.
+  ?gruppo rdfs:label ?gruppoPar.
+  
+  ## Anagrafica
+  ?d foaf:surname ?cognome; foaf:gender "male"; foaf:firstName ?nome.
+  
+  OPTIONAL {
+    ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+    ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+    rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+    ?luogoNascitaUri dc:title ?luogoNascita.
+  }
+  
+  FILTER (
+             ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_11>
+          || ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_12>
+          || ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_13>
+          || ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_14>
+          || ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_15>
+          || ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_16>
+          || ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_17>
+          || ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_18>
+          || ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_19>)
+}
+"""
+query_partito_donne = """SELECT DISTINCT ?persona ?cognome ?nome
 ?luogoNascita ?gruppoPar
 WHERE {
 ?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
@@ -950,20 +994,35 @@ rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
 ?luogoNascitaUri dc:title ?luogoNascita.
 
 }}"""
-dataprova1 = dataprova[["nome", "cognome"]]
-dfpartitodonne = get(endpoint, querypartitodonne)
-dfpartitodonne = dfpartitodonne.drop_duplicates(["persona","nome", "cognome", "luogoNascita"])
-dfpartitodonne = dfpartitodonne[["gruppoPar"]]
-dfpartitodonne = dfpartitodonne.assign(gender='female')
-dfpartito = get(endpoint, querypartito)
-dfpartito = dfpartito.drop_duplicates(["persona","nome", "cognome", "luogoNascita"])
-dfpartito = dfpartito[["gruppoPar"]]
-dfpartito = dfpartito.assign(gender='male')
-#df_diff = pd.concat([dfpartito, dataprova1]).drop_duplicates(keep=False)
+#dataprova1 = dataprova[["nome", "cognome"]]
+df_partito_donne = get(endpoint, query_partito_donne)
+df_partito_donne['gruppoPar'] = df_partito_donne['gruppoPar'].str.extract(r'^(.*?) \(')
+df_partito_donne = df_partito_donne.drop_duplicates(["persona","nome", "cognome", "luogoNascita", "gruppoPar"])
+df_partito_donne = df_partito_donne[["nome", "cognome", "gruppoPar"]]
+df_partito_donne = df_partito_donne[["gruppoPar"]]
+df_partito_donne.rename(columns={"gruppoPar": "partito"}, inplace=True)
+df_partito_donne = df_partito_donne.assign(gender='female')
+#print(len(df_partito_donne))
 
-#print(nomi)
-#print(len(nomi))
-#print(len(df_nana))
+df_partito_uomini1 = get(endpoint, query_partito_uomini1)
+df_partito_uomini1['gruppoPar'] = df_partito_uomini1['gruppoPar'].str.extract(r'^(.*?) \(')
+df_partito_uomini1 = df_partito_uomini1.drop_duplicates(["persona","nome", "cognome", "luogoNascita", "gruppoPar"])
+df_partito_uomini1 = df_partito_uomini1[["gruppoPar"]]
+df_partito_uomini1 = df_partito_uomini1.assign(gender='male')
+
+df_partito_uomini2 = get(endpoint, query_partito_uomini2)
+df_partito_uomini2['gruppoPar'] = df_partito_uomini2['gruppoPar'].str.extract(r'^(.*?) \(')
+df_partito_uomini2 = df_partito_uomini2.drop_duplicates(["persona","nome", "cognome", "luogoNascita", "gruppoPar"])
+df_partito_uomini2 = df_partito_uomini2[["gruppoPar"]]
+df_partito_uomini2 = df_partito_uomini2.assign(gender='male')
+#df_diff = pd.concat([dfpartito, dataprova1]).drop_duplicates(keep=False)
+#print(len(df_partito_uomini1))
+#print(df_partito_uomini1[["nome", "cognome", "gruppoPar"]])
+#print(len(df_partito_uomini2))
+
+df_partito_totale = pd.concat([df_partito_uomini1, df_partito_uomini2, df_partito_donne])
+print(len(df_partito_totale))
+
 """
 def get_uri_from_names(lista):
     # Inizializza l'oggetto SPARQLWrapper
@@ -991,10 +1050,3 @@ def get_uri_from_names(lista):
 da = get_uri_from_names(nomi)
 da = da.drop_duplicates(["persona", "nome", "cognome"])
 """
-
-#print(dfpartitodonne)
-#print(len(dfpartitodonne))
-mergedpartito = pd.concat([dfpartitodonne, dfpartito])
-mergedpartito['gruppoPar'] = mergedpartito['gruppoPar'].str.split('(').str[0]
-#print(mergedpartito)
-mergedpartito.to_csv("party.csv",  index=False, index_label=False)

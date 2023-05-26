@@ -81,7 +81,33 @@ rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
 df_donne_nascita = get(endpoint, donne_nascita)
 df_donne_nascita.rename(columns={"luogoNascita": "città"}, inplace=True)
 df_donne_nascita = df_donne_nascita[["città", "regione"]]
-df_donne_nascita.to_csv("donnemappa.csv",  index=False, index_label=False)
+#df_donne_nascita.to_csv("donnemappa.csv",  index=False, index_label=False)
+
+#QUERY PARTITO DONNE 
+partito_donne = """
+SELECT DISTINCT ?persona ?cognome ?nome
+?dataNascita ?luogoNascita ?gruppoPar
+WHERE {
+?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
+
+
+?d a ocd:deputato.
+?d ocd:rif_leg ?legislatura.
+?d ocd:aderisce ?gruppo.
+?d ocd:rif_mandatoCamera ?mandato.
+?gruppo rdfs:label ?gruppoPar.
+
+##anagrafica
+?d foaf:surname ?cognome; foaf:gender "female" ;foaf:firstName ?nome.
+OPTIONAL{
+?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
+?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
+?luogoNascitaUri dc:title ?luogoNascita.
+}}"""
+df_donne_partito = get(endpoint, partito_donne)
+
+print(len(df_donne_partito))
 
 query_donne0 = """
 prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
