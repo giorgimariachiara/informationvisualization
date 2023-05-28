@@ -111,13 +111,6 @@ for persona in df_senza_url["Persona"]:
 
 df_con_url2 = pd.DataFrame({"Persona": personemodificato_con_url, "URL": url_lista})
 
-#print("Persone con URL:")
-#print(df_con_url2)
-#print(len(df_con_url2))
-
-
-
-
 nomi_da_cercare = df_senza_url["Persona"].tolist()
 # DataFrame vuoto per i risultati
 df_risultati = pd.DataFrame(columns=["Persona", "URL"])
@@ -189,7 +182,7 @@ from bs4 import BeautifulSoup
 import os
 
 url_lista_finale = dffinale["URL"].tolist()
-
+"""
 # Lista degli URL di Wikipedia
 df_con_laurea = pd.DataFrame(columns=["Persona", "URL"])
 df_con_diploma = pd.DataFrame(columns=["Persona", "URL"])
@@ -235,4 +228,55 @@ print("Persone con diploma:")
 print(df_con_diploma)
 
 print("Persone senza sezione 'Titolo di studio':")
+print(df_senza_sezione)
+
+"""
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+
+def check_titolo_studio(soup):
+    infobox = soup.find('table', {'class': 'infobox sinottico'})
+    if infobox:
+        titolo_studio = infobox.find("th", text="Titolo di studio")
+        if titolo_studio:
+            sezione_titolo_studio = titolo_studio.find_next('td')
+            if sezione_titolo_studio and ('laurea' in sezione_titolo_studio.text.lower() or 'diploma' in sezione_titolo_studio.text.lower()):
+                return True
+    return False
+
+url_list = [
+    'https://it.wikipedia.org/wiki/Ludovico_Boetti_Villanis_Audifredi',
+    # Aggiungi qui gli altri URL
+]
+
+df_laurea = pd.DataFrame(columns=['Persona', 'URL'])
+df_diploma = pd.DataFrame(columns=['Persona', 'URL'])
+df_senza_sezione = pd.DataFrame(columns=['Persona', 'URL'])
+
+for url in url_list:
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    persona = soup.find('title').text.split('-')[0].strip()
+
+    if check_titolo_studio(soup):
+        sezione_titolo_studio = soup.find('table', {'class': 'infobox sinottico'}).find("th", text="Titolo di studio").find_next('td').text.strip().lower()
+        if 'laurea' in sezione_titolo_studio:
+            df_laurea = df_laurea.append({"Persona": persona, "URL": url}, ignore_index=True)
+        if 'diploma' in sezione_titolo_studio:
+            df_diploma = df_diploma.append({"Persona": persona, "URL": url}, ignore_index=True)
+    else:
+        df_senza_sezione = df_senza_sezione.append({"Persona": persona, "URL": url}, ignore_index=True)
+
+print("URL con la parola 'laurea':")
+print(df_laurea)
+
+print("URL con la parola 'diploma':")
+print(df_diploma)
+
+print("URL senza la sezione 'Titolo di studio':")
 print(df_senza_sezione)

@@ -1008,20 +1008,23 @@ df_partito_uomini1 = get(endpoint, query_partito_uomini1)
 df_partito_uomini1['gruppoPar'] = df_partito_uomini1['gruppoPar'].str.extract(r'^(.*?) \(')
 df_partito_uomini1 = df_partito_uomini1.drop_duplicates(["persona","nome", "cognome", "luogoNascita", "gruppoPar"])
 df_partito_uomini1 = df_partito_uomini1[["gruppoPar"]]
+df_partito_uomini1.rename(columns={"gruppoPar": "partito"}, inplace=True)
 df_partito_uomini1 = df_partito_uomini1.assign(gender='male')
 
 df_partito_uomini2 = get(endpoint, query_partito_uomini2)
 df_partito_uomini2['gruppoPar'] = df_partito_uomini2['gruppoPar'].str.extract(r'^(.*?) \(')
 df_partito_uomini2 = df_partito_uomini2.drop_duplicates(["persona","nome", "cognome", "luogoNascita", "gruppoPar"])
 df_partito_uomini2 = df_partito_uomini2[["gruppoPar"]]
+df_partito_uomini2.rename(columns={"gruppoPar": "partito"}, inplace=True)
 df_partito_uomini2 = df_partito_uomini2.assign(gender='male')
-#df_diff = pd.concat([dfpartito, dataprova1]).drop_duplicates(keep=False)
-#print(len(df_partito_uomini1))
-#print(df_partito_uomini1[["nome", "cognome", "gruppoPar"]])
-#print(len(df_partito_uomini2))
 
 df_partito_totale = pd.concat([df_partito_uomini1, df_partito_uomini2, df_partito_donne])
-print(len(df_partito_totale))
+#df_partito_totale.to_csv("partytotal.csv",  index=False, index_label=False)
+#print(len(df_partito_totale))
+
+lista_partiti = df_partito_totale[["partito"]].drop_duplicates()
+print(lista_partiti)
+print(len(lista_partiti))
 
 """
 def get_uri_from_names(lista):

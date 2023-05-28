@@ -23,99 +23,6 @@ from sparql_dataframe import get
 
 endpoint = "https://dati.camera.it/sparql"
 
-
-#1 QUERY TUTTE LE DONNE
-querydonne = """
-prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-prefix foaf:<http://xmlns.com/foaf/0.1/>
-SELECT ?nome ?cognome ?legislaturaLabel where {
-  
-  ?persona foaf:gender "female".
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg ?legislatura.
-  ?legislatura rdfs:label ?legislaturaLabel. 
- }
-     
-"""
-dffemale = get(endpoint, querydonne)
-
-#1 QUERY NUMERO TOTALE DONNE 
-querynumerototdonne = """
-SELECT (COUNT(DISTINCT CONCAT(COALESCE(?name, ''), COALESCE(?cognome, ''))) as ?count) where {
-  
-  ?persona foaf:gender "female".
-  ?persona foaf:firstName ?name. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg ?legislatura.
- }"""
-
-dfnumerototdonne = get(endpoint, querynumerototdonne)
-
-#1  QUERY NUMERO TOTALE UOMINI 
-querynumerototuomini = """
-
-SELECT (COUNT(DISTINCT CONCAT(COALESCE(?name, ''), COALESCE(?cognome, ''))) as ?count) where {
-  
-  ?persona foaf:gender "male".
-  ?persona foaf:firstName ?name. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg ?legislatura.
- }"""
-
-dfnumerototuomini = get(endpoint, querynumerototuomini)
-
-#3 QUERY CITTà DI NASCITA E REGIONI
-
-Querycittàeregionidonne = """select ?nome ?cognome ?città ?regione where {
-  ?persona foaf:gender "female".
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome. 
-  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-  ?nascita ocd:rif_luogo ?luogoNascitaUri.
-  ?luogoNascitaUri rdfs:label ?luogoNascita.
-  ?luogoNascitaUri dc:title ?città.
- OPTIONAL { ?luogoNascitaUri ocd:parentADM3 ?regione .}
-}"""
-
-#3 QUERY SOLO CITTà DI NASCITA DONNE
-
-querycittànascita = """select ?luogoNascital {
-  ?persona foaf:gender "female".
-  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-  ?nascita ocd:rif_luogo ?luogoNascitaUri.
-  ?luogoNascitaUri rdfs:label ?luogoNascita.
-  ?luogoNascitaUri dc:title ?luogoNascital.
-
-        } 
-     """
-dfcittànascita = sparql_dataframe.get(endpoint, querycittànascita)
-#dfcittànascita.to_csv("femalecities.csv", index=False)
-
-
-#3 QUERY NASCITA UOMINI TUTTI SIA QUELLI CHE HANNO INFO CHE QUELLI CON RIGA VUOTA 
-
-querygenericanascitauomini = """Select distinct ?nome ?cognome ?luogoNascital {
-  ?persona foaf:gender "male".
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome. 
-  OPTIONAL { 
-  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-  ?nascita ocd:rif_luogo ?luogoNascitaUri.
-  ?luogoNascitaUri rdfs:label ?luogoNascita.
-  ?luogoNascitaUri dc:title ?luogoNascital.
-}
-        } """
-dfgenericanasciatauomini = get(endpoint, querygenericanascitauomini) 
-df_unique = dfgenericanasciatauomini.groupby(['nome', 'cognome']).first().reset_index() #
-#print(df_unique)
-
-#dataframepermappa = df.drop(columns=['nome', 'cognome'])
-#dataframepermappa.to_csv('deputies.csv', index = False)
-
 #QUERY CARICA DONNE 
 querycaricadonne = """SELECT DISTINCT ?nome ?cognome ?ufficio ?organo where {
   
@@ -135,21 +42,23 @@ dfcaricadonne = sparql_dataframe.get(endpoint, querycaricadonne)
 #QUERY PRESIDENTESSA DEL CONSIGLIO
 
 querypresidentessaconsiglio = """
-SELECT DISTINCT ?nome ?cognome where {
-  ?legislatura ocd:rif_governo ?governo. 
-  ?governo ocd:rif_presidenteConsiglioMinistri ?presidente. 
-  ?presidente dc:title ?label. 
-   ?presidente ocd:rif_persona ?persona. 
-   ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome .
-  ?persona foaf:gender "female". 
-  
-   
- } """
+SELECT DISTINCT ?nome ?cognome ?persona WHERE {
+  ?legislatura ocd:rif_governo ?governo.
+  ?governo ocd:rif_presidenteConsiglioMinistri ?presidente.
+  ?presidente dc:title ?label.
+  ?presidente ocd:startDate ?startDate.
+  FILTER (xsd:dateTime(?startDate) >= xsd:dateTime("1946-07-13T00:00:00Z"))
+  ?presidente ocd:rif_persona ?persona.
+  ?persona foaf:firstName ?nome.
+  ?persona foaf:surname ?cognome.
+  ?persona foaf:gender "male".
+}"""
 dfpresidentessaconsiglio = sparql_dataframe.get(endpoint, querypresidentessaconsiglio)
+dfpresidentessaconsiglio = dfpresidentessaconsiglio.drop_duplicates(subset=['nome', 'cognome'])
+print(dfpresidentessaconsiglio)
+print(len(dfpresidentessaconsiglio))
 
 #QUERY CONTO NUMERO PRESIDENTESSE CONSIGLIO 
-
 querynumerocontopresidentesseconsiglio = """SELECT (COUNT(*) AS ?NUMERO)
 WHERE {
   { SELECT DISTINCT ?nome ?cognome WHERE {
@@ -160,7 +69,7 @@ WHERE {
    ?presidente ocd:rif_persona ?persona. 
    ?persona foaf:firstName ?nome. 
   ?persona foaf:surname ?cognome .
-  ?persona foaf:gender "female". } }} """
+  ?persona foaf:gender "male". } }} """
 
 dfnumeropresidentesse = sparql_dataframe.get(endpoint, querynumerocontopresidentesseconsiglio)
 
@@ -412,18 +321,3 @@ SELECT DISTINCT ?person ?labelNome ?labelCognome WHERE {
   FILTER (STRENDS(?labelCognome, "Secco"))
 } 
 """
-
-#questa funziona solo con female
-query3 = """select distinct ?nome ?cognome ?luogoNascita {
-  ?persona foaf:gender "male".
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome. 
-    ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-    ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
-             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
-    ?luogoNascitaUri dc:title ?luogoNascita.
-  
-}"""
-
-ddfdads = get(endpoint, query3)
-print(ddfdads)
