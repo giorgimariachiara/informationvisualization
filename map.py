@@ -142,9 +142,11 @@ for index, row in df.iterrows():
         if city in city_markers:
             # Update the count on the existing marker
             existing_marker = city_markers[city]
-            existing_count = existing_marker.options.get('popup').split(":")[1].strip()
-            new_count = int(existing_count) + count
-            existing_marker.options['popup'] = f"{city}: {new_count}"
+            existing_popup = existing_marker.options.get('popup')
+            if existing_popup is not None:
+                existing_count = existing_popup.split(":")[1].strip()
+                new_count = int(existing_count) + count
+                existing_marker.options['popup'] = f"{city}: {new_count}"
         else:
             # Create a new marker for the city
             marker = folium.Marker(
