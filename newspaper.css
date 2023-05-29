@@ -74,20 +74,29 @@ p{
 
 
 }
-.collumns{
+.article{
+    font-size: 14px;
+    line-height: 20px;
+    width: auto;
+    display: inline-block;
+    padding: 0 1% 0 1%;
+    vertical-align: top;
+    transition: all .7s;
+    margin: 30px 5% 0 5%;
+    border-bottom: 2px solid #2f2f2f;
+    border-top: 2px solid #2f2f2f;
 
 }
 
 .collumn{
     font-size: 14px;
     line-height: 20px;
-    width: 40%;
+    width:17%;
     display: inline-block;
     padding: 0 1% 0 1%;
     vertical-align: top;
     margin-bottom: 50px;
     transition: all .7s;
-    
 }
 .collumn + .collumn { 
   border-left: 1px solid #2f2f2f;
@@ -223,7 +232,7 @@ p{
     padding: 10px 0 10px 0;
     
 }
-.collumn .citation{
+.collumn .article .citation{
     font-family: 'Playfair Display', serif;
     font-size: 36px;
     line-height: 44px;
@@ -235,7 +244,7 @@ p{
     font-feature-settings: "liga", "dlig";
 
 }
-.collumn .citation:before{
+.collumn .article .citation:before{
     border-top: 1px solid #2f2f2f;
     content: '';
     width: 100px;
@@ -243,7 +252,7 @@ p{
     display: block !important;
     margin: auto;
 }
-.collumn .citation:after{
+.collumn .article .citation:after{
     border-bottom: 1px solid #2f2f2f;
     content: '';
     width: 100px;
@@ -252,10 +261,10 @@ p{
     margin: auto;
     
 }
-.collumn .figure {
+.collumn  .article .figure {
 	  margin: 0 0 20px;
 }
-.collumn .figcaption{
+.collumn .article .figcaption{
 	font-style: italic;
 	font-size: 12px;
 }
