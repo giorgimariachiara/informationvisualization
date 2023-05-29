@@ -39,9 +39,9 @@ dfcaricadonne = sparql_dataframe.get(endpoint, querycaricadonne)
 
 
 
-#QUERY PRESIDENTESSA DEL CONSIGLIO
+#QUERY PRESIDENTI DEL CONSIGLIO
 
-querypresidentessaconsiglio = """
+querypresidenticonsiglio = """
 SELECT DISTINCT ?nome ?cognome ?persona WHERE {
   ?legislatura ocd:rif_governo ?governo.
   ?governo ocd:rif_presidenteConsiglioMinistri ?presidente.
@@ -53,10 +53,56 @@ SELECT DISTINCT ?nome ?cognome ?persona WHERE {
   ?persona foaf:surname ?cognome.
   ?persona foaf:gender "male".
 }"""
-dfpresidentessaconsiglio = sparql_dataframe.get(endpoint, querypresidentessaconsiglio)
-dfpresidentessaconsiglio = dfpresidentessaconsiglio.drop_duplicates(subset=['nome', 'cognome'])
-print(dfpresidentessaconsiglio)
-print(len(dfpresidentessaconsiglio))
+df_presidenti_consiglio = sparql_dataframe.get(endpoint, querypresidenticonsiglio)
+df_presidenti_consiglio = df_presidenti_consiglio.drop_duplicates(subset=['nome', 'cognome'])
+df_presidenti_consiglio['nome'] = df_presidenti_consiglio['nome'] + ' ' + df_presidenti_consiglio['cognome']
+df_presidenti_consiglio = df_presidenti_consiglio[["nome"]]
+df_presidenti_consiglio = df_presidenti_consiglio.assign(gender="male")
+
+#QUERY PRESIDENTESSE DEL CONSIGLIO
+
+querypresidentesseconsiglio = """
+SELECT DISTINCT ?nome ?cognome ?persona WHERE {
+  ?legislatura ocd:rif_governo ?governo.
+  ?governo ocd:rif_presidenteConsiglioMinistri ?presidente.
+  ?presidente dc:title ?label.
+  ?presidente ocd:startDate ?startDate.
+  FILTER (xsd:dateTime(?startDate) >= xsd:dateTime("1946-07-13T00:00:00Z"))
+  ?presidente ocd:rif_persona ?persona.
+  ?persona foaf:firstName ?nome.
+  ?persona foaf:surname ?cognome.
+  ?persona foaf:gender "female".
+}"""
+df_presidentesse_consiglio = sparql_dataframe.get(endpoint, querypresidentesseconsiglio)
+df_presidentesse_consiglio = df_presidentesse_consiglio.drop_duplicates(subset=['nome', 'cognome'])
+df_presidentesse_consiglio['nome'] = df_presidentesse_consiglio['nome'] + ' ' + df_presidentesse_consiglio['cognome']
+df_presidentesse_consiglio = df_presidentesse_consiglio[["nome"]]
+df_presidentesse_consiglio = df_presidentesse_consiglio.assign(gender="female")
+
+df_presidenti_consiglio_totale = pd.concat([df_presidenti_consiglio, df_presidentesse_consiglio])
+#df_presidenti_consiglio_totale.to_csv("presidenticonsigliototale.csv",  index=False, index_label=False)
+
+#print(df_presidenti_consiglio_totale)
+
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Carica il file CSV
+df = pd.read_csv('presidenticonsigliototale.csv')
+
+# Calcola il numero di donne e uomini ministri
+conteggio_generi = df['gender'].value_counts()
+
+# Crea la pie chart
+labels = conteggio_generi.index
+sizes = conteggio_generi.values
+colors = ['skyblue', 'lightcoral']
+
+plt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%')
+plt.axis('equal')  # Rende il grafico un cerchio
+plt.title('Distribuzione dei ministri per genere')
+plt.show()
 
 #QUERY CONTO NUMERO PRESIDENTESSE CONSIGLIO 
 querynumerocontopresidentesseconsiglio = """SELECT (COUNT(*) AS ?NUMERO)
