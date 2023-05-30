@@ -1023,8 +1023,67 @@ df_partito_totale = pd.concat([df_partito_uomini1, df_partito_uomini2, df_partit
 #print(len(df_partito_totale))
 
 lista_partiti = df_partito_totale[["partito"]].drop_duplicates()
-print(lista_partiti)
-print(len(lista_partiti))
+lista_partiti = lista_partiti.values.flatten().tolist()
+
+length = len(lista_partiti)
+
+part_size = length // 8
+
+parte_1 = lista_partiti[:part_size]
+parte_2 = lista_partiti[part_size:2*part_size]
+parte_3 = lista_partiti[2*part_size:3*part_size]
+parte_4 = lista_partiti[3*part_size:4*part_size]
+parte_5 = lista_partiti[4*part_size:5*part_size]
+parte_6 = lista_partiti[5*part_size:6*part_size]
+parte_7 = lista_partiti[6*part_size:7*part_size]
+parte_8 = lista_partiti[7*part_size:]
+
+# Gestione dei casi in cui la lunghezza della lista non è divisibile in modo uniforme
+if length % 8 != 0:
+    parte_8 += lista_partiti[8*part_size:]
+
+# Stampa delle parti
+print("Parte 1:", parte_1)
+print("Parte 2:", parte_2)
+print("Parte 3:", parte_3)
+print("Parte 4:", parte_4)
+print("Parte 5:", parte_5)
+print("Parte 6:", parte_6)
+print("Parte 7:", parte_7)
+print("Parte 8:", parte_8)
+from SPARQLWrapper import SPARQLWrapper, JSON
+
+def getdatafromwiki(parties):
+    endpoint_url = "https://query.wikidata.org/sparql"
+    sparql = SPARQLWrapper(endpoint_url)
+
+    for party in parties:
+        query = '''
+        SELECT DISTINCT ?party ?partyLabel ?alignment ?al WHERE {
+          ?party wdt:P31 wd:Q7278;
+                 rdfs:label ?partyLabel;
+                 wdt:P17 wd:Q38;
+                 wdt:P1387 ?alignment.
+          ?alignment rdfs:label ?al. 
+          FILTER(LANG(?partyLabel) = "it" && CONTAINS(LCASE(?partyLabel), "''' + party.lower() + '''")).
+          FILTER(LANG(?al) = "it")
+        }
+        '''
+        sparql.setQuery(query)
+        sparql.setReturnFormat(JSON)
+        results = sparql.query().convert()
+
+        bindings = results['results']['bindings']
+        politicalalignment = [binding['al']['value'] for binding in bindings]
+        print(f"Partito: {party}")
+        print(f"Political alignment: {', '.join(politicalalignment)}")
+        print()
+
+# Esempio di utilizzo
+# parties = ['Partito socialista italiano', 'Movimento 5 stelle']
+getdatafromwiki(parte_1)
+
+
 
 """
 def get_uri_from_names(lista):

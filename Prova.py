@@ -166,27 +166,7 @@ def getdatafromwiki(name_list):
     
     return dfs
 
-def getdatafromwiki(list):
-  for person in list:
-      name_str_list = [f"{first} {last}" for first, last in list]
-      for el in name_str_list:
-      # get the name and surname from the tuple
-        # build the SPARQL query string
 
-        query = ('SELECT distinct ?birthplacel WHERE { \
-            ?person wdt:P31 wd:Q5. \
-            ?person rdfs:label ?personLabel.  \
-            ?person rdfs:label "' + el +'". \
-          ?person wdt:P19 ?birthplace. \
-            ?birthplace wdt:P1705 ?birthplacel.  \
-        }')
-        endpoint ="https://query.wikidata.org/sparql"
-        dataf = sparql_dataframe.get(endpoint, query)
-        print(dataf)
-        #lista.append(dataf)
-        #make the request to the Wikidata SPARQL endpoint
-    
-print(getdata(people19))
 
 
 SELECT DISTINCT ?person ?labelNome ?labelCognome WHERE {
@@ -356,8 +336,8 @@ df_incarico_uomini = df_incarico_uomini.drop_duplicates()
  #print(df_incarico_uomini)
 # Filtra le righe con genere "male"
 df_male = df_incarico_uomini[df_incarico_uomini['gender'] == 'female']
-print(len(df_male))
-print(df_male)
+#print(len(df_male))
+#print(df_male)
 #print(df_male)
 #print(df_female)
 #print(df_male)
@@ -375,3 +355,33 @@ print(df_male)
 #print(conteggio_f)
 #print(conteggio_m)
 #print(df_incarico_)
+
+import pandas as pd
+import requests
+
+def getdatafromwiki(parties):
+    for party in parties:
+        query = '''
+        SELECT distinct ?party ?partyLabel ?alignment ?al WHERE {
+          ?party wdt:P31 wd:Q7278;
+                 rdfs:label ?partyLabel;
+                 wdt:P17 wd:Q38;
+                 wdt:P1387 ?alignment.
+          ?alignment rdfs:label ?al. 
+          FILTER(LANG(?partyLabel) = "it" && CONTAINS(LCASE(?partyLabel), "''' + party.lower() + '''")).
+          FILTER(LANG(?al) = "it")
+        }
+        '''
+        url = 'https://query.wikidata.org/sparql'
+        r = requests.get(url, params={'format': 'json', 'query': query})
+        data = r.json()
+        bindings = data['results']['bindings']
+        politicalalignment = [binding['al']['value'] for binding in bindings]
+        print(f"Partito: {party}")
+        print(f"Political alignment: {', '.join(politicalalignment)}")
+        print()
+
+# Esempio di utilizzo
+parties = ['Partito socialista italiano', 'Movimento 5 stelle']
+getdatafromwiki(parties)
+
