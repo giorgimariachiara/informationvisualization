@@ -1043,7 +1043,8 @@ if length % 8 != 0:
     parte_8 += lista_partiti[8*part_size:]
 
 # Stampa delle parti
-print("Parte 1:", parte_1)
+print("Parte 1:", len(parte_1))
+"""
 print("Parte 2:", parte_2)
 print("Parte 3:", parte_3)
 print("Parte 4:", parte_4)
@@ -1051,6 +1052,8 @@ print("Parte 5:", parte_5)
 print("Parte 6:", parte_6)
 print("Parte 7:", parte_7)
 print("Parte 8:", parte_8)
+"""
+import pandas as pd
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 def getdatafromwiki(parties):
@@ -1079,10 +1082,7 @@ def getdatafromwiki(parties):
         print(f"Political alignment: {', '.join(politicalalignment)}")
         print()
 
-# Esempio di utilizzo
-# parties = ['Partito socialista italiano', 'Movimento 5 stelle']
-getdatafromwiki(parte_1)
-
+getdatafromwiki(parte_2)
 
 
 """
