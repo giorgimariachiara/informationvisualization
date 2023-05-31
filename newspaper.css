@@ -39,6 +39,8 @@ header{
     word-spacing: -.31em;
     display: inline-block;
     margin: 30px 5% 0 5%;
+    text-align: center;
+    position: relative;
   }
 
 
@@ -85,6 +87,8 @@ p{
     margin: 30px 5% 0 5%;
     border-bottom: 2px solid #2f2f2f;
     border-top: 2px solid #2f2f2f;
+    text-align: center;
+    position: relative;
 
 }
 
@@ -97,6 +101,8 @@ p{
     vertical-align: top;
     margin-bottom: 50px;
     transition: all .7s;
+    text-align: center;
+    position: relative;
 }
 .collumn + .collumn { 
   border-left: 1px solid #2f2f2f;
@@ -269,8 +275,8 @@ p{
 	font-size: 12px;
 }
 .media {
-    -webkit-filter: sepia(80%) contrast(1) opacity(0.8);
-    filter: sepia(80%) grayscale(1) contrast(1) opacity(0.8);
+    -webkit-filter: sepia(40%) contrast(1) opacity(0.8);
+    filter: sepia(40%) grayscale(0) contrast(1) opacity(0.8);
     mix-blend-mode: multiply;
     width: 100%;
 }
