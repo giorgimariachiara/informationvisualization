@@ -103,7 +103,7 @@ print(df_con_url)
 print("Persone senza URL:")
 print(df_senza_url)
 """
-
+"""
 #provo a trovare quelli di cui non abbiamo trovato l'url con diverse combinazioni 
 import urllib.parse
 pd.set_option("display.max_colwidth", None)
@@ -164,6 +164,7 @@ for nome_cognome in nomi_da_cercare:
 print("Risultati:")
 print(df_risultati)
 """
+"""
 df_con_parola = pd.DataFrame(columns=["Persona", "URL"])
 df_senza_parola = pd.DataFrame(columns=["Persona", "URL"])
 
@@ -215,4 +216,105 @@ if biografia_header:
         print(biografia_text)
 else:
     print("Biografia header not found.") 
+"""
+import requests
+from bs4 import BeautifulSoup
+import pandas as pd
+
+# Lista degli URL da analizzare
+urls = [
+    "https://it.wikipedia.org/wiki/Maria_Maddalena_Rossi",
+    "https://it.wikipedia.org/wiki/Michele_Troisi",
+    "https://it.wikipedia.org/wiki/Michele_Troisi"
+]
+
+# Inizializza una lista per i dataframe
+dataframes = []
+
+# Itera sugli URL
+for url in urls:
+    response = requests.get(url)
+    html_content = response.text
+
+    # Analizzare l'HTML con BeautifulSoup
+    soup = BeautifulSoup(html_content, "html.parser")
+
+    # Trovare tutti gli elementi <tr>
+    tr_elements = soup.find_all("tr")
+
+    # Inizializza le liste per i valori di <th> e <td>
+    th_values = []
+    td_values = []
+
+    # Scorrere gli elementi <tr> e controllare i valori di <th> e <td>
+    for tr_element in tr_elements:
+        th_elements = tr_element.find_all("th")
+        td_elements = tr_element.find_all("td")
+
+        for th_element in th_elements:
+            th_value = th_element.text.strip()
+            th_values.append(th_value)
+
+            # Se esiste un elemento <td> associato, aggiungi il suo valore alla lista
+            if td_elements:
+                td_value = td_elements[0].text.strip()
+                td_values.append(td_value)
+            else:
+                td_values.append("")
+
+    # Crea il dataframe utilizzando le liste di valori
+    data = {"th": th_values, "td": td_values, "url": [url] * len(th_values)}
+    df = pd.DataFrame(data)
+    
+    # Aggiungi il dataframe alla lista
+    dataframes.append(df)
+
+# Concatena tutti i dataframe in uno unico
+final_df = pd.concat(dataframes, ignore_index=True)
+df_filtered = final_df.loc[final_df['th'] == 'Università']
+# Stampa il dataframe finale
+#print(final_df)
+#print(type(final_df))
+print(df_filtered)
+
+
+
+
+"""
+#QUESTO FUNZIONA 
+import requests
+from bs4 import BeautifulSoup
+
+# URL della pagina da cui estrarre le informazioni
+url = "https://it.wikipedia.org/wiki/Partito_Comunista_d%27Italia_(marxista-leninista)"
+
+# Effettua la richiesta GET alla pagina
+response = requests.get(url)
+
+# Verifica che la richiesta abbia avuto successo
+if response.status_code == 200:
+    # Crea l'oggetto BeautifulSoup per analizzare l'HTML
+    soup = BeautifulSoup(response.content, "html.parser")
+
+    # Trova la tabella desiderata in base alla classe CSS
+    table = soup.find("table", class_="sinottico")
+
+    # Inizializza la variabile valore con un valore predefinito
+    valore = "Valore non trovato"
+
+    # Trova la riga corrispondente alla sezione "Collocazione"
+    rows = table.find_all("tr")
+    for row in rows:
+        # Trova la cella con il valore "Collocazione"
+        if "Collocazione" in row.text:
+            # Estrai il valore "centro" o "Centro" indipendentemente dalla case
+            cells = row.find_all("td")
+            for cell in cells:
+                if "centro" in cell.text.lower():
+                    valore = cell.text.strip()
+
+    # Stampa il valore estratto
+    print("Valore estratto:", valore)
+else:
+    print("Errore nella richiesta HTTP")
 """

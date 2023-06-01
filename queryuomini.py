@@ -1024,6 +1024,7 @@ df_partito_totale = pd.concat([df_partito_uomini1, df_partito_uomini2, df_partit
 
 lista_partiti = df_partito_totale[["partito"]].drop_duplicates()
 lista_partiti = lista_partiti.values.flatten().tolist()
+#print(len(lista_partiti))
 
 length = len(lista_partiti)
 
@@ -1055,14 +1056,16 @@ print("Parte 8:", parte_8)
 """
 import pandas as pd
 from SPARQLWrapper import SPARQLWrapper, JSON
+import requests
+import time
 
+"""
 def getdatafromwiki(parties):
-    endpoint_url = "https://query.wikidata.org/sparql"
-    sparql = SPARQLWrapper(endpoint_url)
+    data_list = []
 
     for party in parties:
         query = '''
-        SELECT DISTINCT ?party ?partyLabel ?alignment ?al WHERE {
+        SELECT distinct ?party ?partyLabel ?alignment ?al WHERE {
           ?party wdt:P31 wd:Q7278;
                  rdfs:label ?partyLabel;
                  wdt:P17 wd:Q38;
@@ -1072,17 +1075,43 @@ def getdatafromwiki(parties):
           FILTER(LANG(?al) = "it")
         }
         '''
-        sparql.setQuery(query)
-        sparql.setReturnFormat(JSON)
-        results = sparql.query().convert()
+        url = 'https://query.wikidata.org/sparql'
+        try:
+            r = requests.get(url, params={'format': 'json', 'query': query})
+            r.raise_for_status()
+            data = r.json()
+            bindings = data['results']['bindings']
 
-        bindings = results['results']['bindings']
-        politicalalignment = [binding['al']['value'] for binding in bindings]
-        print(f"Partito: {party}")
-        print(f"Political alignment: {', '.join(politicalalignment)}")
-        print()
+            if len(bindings) == 0:
+                data_list.append({'Party': party, 'Alignment': ''})
+            else:
+                for binding in bindings:
+                    party_label = binding['partyLabel']['value']
+                    alignment = binding['al']['value']
+                    data_list.append({'Party': party_label, 'Alignment': alignment})
+        except (requests.exceptions.RequestException, requests.exceptions.HTTPError, requests.exceptions.JSONDecodeError) as e:
+            print(f"Error occurred for party: {party}. Error message: {str(e)}")
 
-getdatafromwiki(parte_2)
+        time.sleep(1)
+    df = pd.DataFrame(data_list)
+    return df
+
+
+# Esempio di utilizzo
+df = getdatafromwiki(lista_partiti)
+print(lista_partiti)
+#df2 = getdatafromwiki(parte_2)
+#df3 = getdatafromwiki(parte_3)
+#dff = pd.concat([df, df2, df3])
+
+#print(df)
+
+"""
+
+
+# Esempio di utilizzo
+
+#getdatafromwiki(parte_2) 
 
 
 """
@@ -1112,3 +1141,4 @@ def get_uri_from_names(lista):
 da = get_uri_from_names(nomi)
 da = da.drop_duplicates(["persona", "nome", "cognome"])
 """
+print(lista_partiti)
