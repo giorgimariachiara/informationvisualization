@@ -383,5 +383,5 @@ def getdatafromwiki(parties):
 
 # Esempio di utilizzo
 parties = ['Partito socialista italiano', 'Movimento 5 stelle']
-getdatafromwiki(parties)
+#getdatafromwiki(parties)
 

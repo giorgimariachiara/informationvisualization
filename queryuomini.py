@@ -662,37 +662,6 @@ querygruppoparuomini19 = """SELECT DISTINCT ?nome ?cognome ?gruppoPar where {
 dfgruppoparuomini19 = sparql_dataframe.get(endpoint, querygruppoparuomini19)
 
 print(dfgruppoparuomini0)
-#QUERY PRESIDENTI DEL CONSIGLIO
-
-querypresidenticonsiglio = """
-SELECT DISTINCT ?nome ?cognome where {
-  ?legislatura ocd:rif_governo ?governo. 
-  ?governo ocd:rif_presidenteConsiglioMinistri ?presidente. 
-  ?presidente dc:title ?label. 
-   ?presidente ocd:rif_persona ?persona. 
-   ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome .
-  ?persona foaf:gender "male". 
-  
-   
- } """
-dfpresidenticonsiglio = sparql_dataframe.get(endpoint, querypresidenticonsiglio)
-
-#QUERY CONTO NUMERO PRESIDENTI CONSIGLIO 
-
-querynumerocontopresidenticonsiglio = """SELECT (COUNT(*) AS ?NUMERO)
-WHERE {
-  { SELECT DISTINCT ?nome ?cognome WHERE {
-   
-  ?legislatura ocd:rif_governo ?governo. 
-  ?governo ocd:rif_presidenteConsiglioMinistri ?presidente. 
-  ?presidente dc:title ?label. 
-   ?presidente ocd:rif_persona ?persona. 
-   ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome .
-  ?persona foaf:gender "male". } }} """
-
-dfnumeropresidenti = sparql_dataframe.get(endpoint, querynumerocontopresidenticonsiglio)
 
 #QUERY STUDI UOMO 
 
@@ -784,35 +753,6 @@ merged_df = pd.concat([new_df, new_df1, new_df2, new_df3, new_df4, new_df5, new_
 
 dataframes = [dfmale0, dfmale1, dfmale2, dfmale3, dfmale4, dfmale5, dfmale6, dfmale7, dfmale8, dfmale9, dfmale10, dfmale11, dfmale12, dfmale13, dfmale14, dfmale15, dfmale16, dfmale17, dfmale18, dfmale19 ]
 
-#merged_dataframe['nome_cognome'] = merged_dataframe['nome'] + ' ' + merged_dataframe['cognome']
-
-
-uqery4 = """SELECT distinct ?nome ?cognome ?luogoNascita  where {
-  
-  ?persona foaf:gender "male".
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg ?legislatura.
-  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-    ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
-             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
-    ?luogoNascitaUri dc:title ?luogoNascita.
- }"""
-
-dataquery = get(endpoint, uqery4)
-
-
-#duplicati = dataquery[dataquery.duplicated(['nome', 'cognome'], keep=False)]
-#duplicati = duplicati.drop('luogoNascita', axis=1)
-#duplicati = duplicati.drop_duplicates()
-
-#ista_nomi_completi = duplicati['nome'].str.capitalize() + ' ' + duplicati['cognome']
-
-# Conversione della lista in una lista di stringhe
-#lista_nomi_completi = lista_nomi_completi.tolist()
-
-
 #query laurea 
 
 querylaureauominitutti = """SELECT distinct ?nome ?cognome ?descrizione ?luogoNascita where {
@@ -857,7 +797,7 @@ datanonlaureauomini =get(endpoint, queryuominisenzalaurea)
 
 #duplicati = datalaurea[datalaurea.duplicated(['nome', 'cognome'], keep=False)]
 
-queryprovaa ="""SELECT DISTINCT ?persona ?cognome ?nome ?info
+querydefinitivalaureauomini ="""SELECT DISTINCT ?persona ?cognome ?nome ?info
 ?dataNascita ?luogoNascita 
 WHERE {
 ?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
@@ -875,8 +815,9 @@ OPTIONAL{
 rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
 ?luogoNascitaUri dc:title ?luogoNascita.
 }}"""
-dataprova = get(endpoint, queryprovaa)
+dataprova = get(endpoint, querydefinitivalaureauomini)
 dataprova = dataprova.drop_duplicates(["persona","nome", "cognome", "luogoNascita"])
+print(len(dataprova))
 df_nana = dataprova[dataprova['info'].isna()] 
 dataprova['info'] = dataprova['info'].fillna('')
 mask = dataprova['info'].str.contains('Laurea|laurea|Master|LAUREA')
@@ -903,9 +844,6 @@ df_nana = df_nana[["nome", "cognome", "luogoNascita"]]
 nomi = df_nana['nome'] + ' ' + df_nana['cognome']
 nomi = nomi.to_list()
 
-# Stampa della lista di stringhe
-#print(nomi)
-#print(uominilaureati)
 #QUERY PER TROVARE PARTITO 
 query_partito_uomini1 = """SELECT DISTINCT ?persona ?cognome ?nome ?luogoNascita ?gruppoPar
 WHERE {
@@ -1024,6 +962,7 @@ df_partito_totale = pd.concat([df_partito_uomini1, df_partito_uomini2, df_partit
 
 lista_partiti = df_partito_totale[["partito"]].drop_duplicates()
 lista_partiti = lista_partiti.values.flatten().tolist()
+#print(len(lista_partiti))
 
 length = len(lista_partiti)
 
@@ -1043,7 +982,7 @@ if length % 8 != 0:
     parte_8 += lista_partiti[8*part_size:]
 
 # Stampa delle parti
-print("Parte 1:", len(parte_1))
+#print("Parte 1:", len(parte_1))
 """
 print("Parte 2:", parte_2)
 print("Parte 3:", parte_3)
@@ -1055,14 +994,16 @@ print("Parte 8:", parte_8)
 """
 import pandas as pd
 from SPARQLWrapper import SPARQLWrapper, JSON
+import requests
+import time
 
+"""
 def getdatafromwiki(parties):
-    endpoint_url = "https://query.wikidata.org/sparql"
-    sparql = SPARQLWrapper(endpoint_url)
+    data_list = []
 
     for party in parties:
         query = '''
-        SELECT DISTINCT ?party ?partyLabel ?alignment ?al WHERE {
+        SELECT distinct ?party ?partyLabel ?alignment ?al WHERE {
           ?party wdt:P31 wd:Q7278;
                  rdfs:label ?partyLabel;
                  wdt:P17 wd:Q38;
@@ -1072,17 +1013,43 @@ def getdatafromwiki(parties):
           FILTER(LANG(?al) = "it")
         }
         '''
-        sparql.setQuery(query)
-        sparql.setReturnFormat(JSON)
-        results = sparql.query().convert()
+        url = 'https://query.wikidata.org/sparql'
+        try:
+            r = requests.get(url, params={'format': 'json', 'query': query})
+            r.raise_for_status()
+            data = r.json()
+            bindings = data['results']['bindings']
 
-        bindings = results['results']['bindings']
-        politicalalignment = [binding['al']['value'] for binding in bindings]
-        print(f"Partito: {party}")
-        print(f"Political alignment: {', '.join(politicalalignment)}")
-        print()
+            if len(bindings) == 0:
+                data_list.append({'Party': party, 'Alignment': ''})
+            else:
+                for binding in bindings:
+                    party_label = binding['partyLabel']['value']
+                    alignment = binding['al']['value']
+                    data_list.append({'Party': party_label, 'Alignment': alignment})
+        except (requests.exceptions.RequestException, requests.exceptions.HTTPError, requests.exceptions.JSONDecodeError) as e:
+            print(f"Error occurred for party: {party}. Error message: {str(e)}")
 
-getdatafromwiki(parte_2)
+        time.sleep(1)
+    df = pd.DataFrame(data_list)
+    return df
+
+
+# Esempio di utilizzo
+df = getdatafromwiki(lista_partiti)
+print(lista_partiti)
+#df2 = getdatafromwiki(parte_2)
+#df3 = getdatafromwiki(parte_3)
+#dff = pd.concat([df, df2, df3])
+
+#print(df)
+
+"""
+
+
+# Esempio di utilizzo
+
+#getdatafromwiki(parte_2) 
 
 
 """
@@ -1112,3 +1079,4 @@ def get_uri_from_names(lista):
 da = get_uri_from_names(nomi)
 da = da.drop_duplicates(["persona", "nome", "cognome"])
 """
+#print(lista_partiti)
