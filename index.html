@@ -1,24 +1,27 @@
 <html>
 <head>
-    <link href='https://fonts.googleapis.com/css?family=Playfair+Display:400,700,900,400italic,700italic,900italic|Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-    <title>Newspaper Style Design Experiment</title>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>	<link rel="stylesheet" href="newspaper.css">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-	<meta name="viewport" content="width=device-width">
-		
-</head>z
-
+<link href='https://fonts.googleapis.com/css?family=Playfair+Display:400,700,900,400italic,700italic,900italic|Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<title>Newspaper Style Design Experiment</title>
+<link rel="stylesheet" href="newspaper.css">
+<meta name="viewport" content="width=device-width">		
+<script type="text/javascript" src='script.js'></script>
+<script type="text/javascript">
+function test(){
+	var testo = document.getElementById('area').value;
+	testo = testo.replace(/\s+/g," ");
+	macchinaDaScrivere('risultato',testo,80);    
+	}
+</script>
+</head>
 <body>
-	<div id="flipbook"> 
-		<div class="page" id="page1">
+
+	<div id="flipbook">  <!--inizio book-->
+		<div class="page" id="page1"> <!--prima pagina-->
 			<div class="head">
-				<div class="headerobjectswrapper">
-					<header>CHAMBER OF DEPUTIES</header>
-				</div> 
-				<div class="subhead">Rome, IT - Thursday August 30, 1978 - Seven Pages</div>
-			</div>
+					<header> <a heref="index.html">CHAMBER OF DEPUTIES</a></header>
+					<div class="subhead">Rome, IT - Thursday August 30, 1978 - Seven Pages</div>
+			</div> 
+			
 			<div class="content">
 					<div class="collumn">
 						<div class="head"><span class="headline hl3">When darkness overspreads my eyes</span><p><span class="headline hl4">by JOHANN WOLFGANG VON GOETHE</span></p></div>
@@ -47,122 +50,104 @@
 					<div class="collumn"><div class="head"><span class="headline hl1">It wasn't a dream </span><p><span class="headline hl4">by FRANZ KAFKA</span></p></div><p>One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide off any moment. </p>
 								
 								<p>His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. "What's happened to me?" he thought. It wasn't a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls. A collection of textile samples lay spread out on the table - Samsa was a travelling salesman - and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright, raising a heavy fur muff that covered the whole of her lower arm towards the viewer. Gregor then turned to look out the window at the dull weather. </p></div>
-			</div>
-		</div>
+			</div> 
+		</div> <!--fine prima pagina-->
 
-		<div class="page" id="page2">
-			<div class="head">
-				<div class="headerobjectswrapper">
-					<header>CHAMBER OF DEPUTIES</header>
-				</div> 
-				<div class="subhead">Rome, IT - Thursday August 30, 1978 - Seven Pages</div>
-			</div>
-
-			<div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
-				<div class="col-6">
+			<div class="page" id="page2"> <!--seconda pagina-->
+				<div class="head">
+					<header> <a heref="index.html">CHAMBER OF DEPUTIES</a></header>
+						<div class="subhead">Rome, IT - Thursday August 30, 1978 - Seven Pages</div>
+				</div>
+				
+				<div class="container">
+					
+						<p class="typewriter">When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, 
+						and but a few stray gleams steal into the inner sanctuary, I throw myself down among the tall grass by the trickling stream; and, 
+							as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the
+							stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence of the
+							Almighty, who formed us in his own image, and the breath of that universal love which bears and sustains us, as it floats 
+							around us in an eternity of bliss; and then, my friend, when darkness overspreads my eyes, and heaven and earth seem to dwell 
+							in my soul and absorb its power, like the form of a beloved mistress, then I often think with longing, Oh, would I could describe
+							these conceptions, could impress upon paper all that is living so full and warm within me, that it might be the mirror of my soul,
+								as my soul is the mirror of the infinite God!"></p>
+				</div>
 							
-								<div class="head"><span class="headline hl3">When darkness overspreads my eyes</span><p><span class="headline hl4">by JOHANN WOLFGANG VON GOETHE</span></p></div>
-								When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, 
-								and but a few stray gleams steal into the inner sanctuary, I throw myself down among the tall grass by the trickling stream;<p>and, 
-									as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the
-									stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence of the
-									Almighty, who formed us in his own image, and the breath of that universal love which bears and sustains us, as it floats 
-									around us in an eternity of bliss; and then, my friend, when darkness overspreads my eyes, and heaven and earth seem to dwell 
-									in my soul and absorb its power, like the form of a beloved mistress, then I often think with longing, Oh, would I could describe
-									these conceptions, could impress upon paper all that is living so full and warm within me, that it might be the mirror of my soul,
-										as my soul is the mirror of the infinite God!</p>
-					</div>
-					<div class="col-6">
+
+					<div class="right-section">
 						<img class="media" src="mekkoplot.png">
 					</div>
-			</div>
-					</div>
+				
+			
+		    </div> <!--fine seconda pagina-->
 
 
-					<div class="page" id="page3">
-						<div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
-							<div class="col-12">
+					<div class="page" id="page3"> <!--terza pagina-->
+						<div class="head">
+							<header>CHAMBER OF DEPUTIES</header>
+							<div class="subhead">Rome, IT - Thursday August 30, 1978 - Seven Pages</div>
+					    </div>
+				
+						<div class=container>
+										       <p>and, 
+												as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the
+												stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence of the
+												Almighty, who formed us in his own image, and the breath of that universal love which bears and sustains us, as it floats 
+												around us in an eternity of bliss; and then, my friend, when darkness overspreads my eyes, and heaven and earth seem to dwell 
+												in my soul and absorb its power, like the form of a beloved mistress, then I often think with longing, Oh, would I could describe
+												these conceptions, could impress upon paper all that is living so full and warm within me, that it might be the mirror of my soul,
+													as my soul is the mirror of the infinite God!</p>
+								</div>
+							</div> <!--fine terza pagina-->
+
+
+
+
+							<div class="page" id="page2"> <!--quarta pagina-->
 								<div class="head">
-									<div class="headerobjectswrapper">
 										<header>CHAMBER OF DEPUTIES</header>
-									</div> 
+										<div class="subhead">Rome, IT - Thursday August 30, 1978 - Seven Pages</div>
+								</div>
+								
+								<div class="container">
+												
+										<p>When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, 
+													and but a few stray gleams steal into the inner sanctuary, I throw myself down among the tall grass by the trickling stream; and, 
+														as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the
+														stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence of the
+														Almighty, who formed us in his own image, and the breath of that universal love which bears and sustains us, as it floats 
+														around us in an eternity of bliss; and then, my friend, when darkness overspreads my eyes, and heaven and earth seem to dwell 
+														in my soul and absorb its power, like the form of a beloved mistress, then I often think with longing, Oh, would I could describe
+														these conceptions, could impress upon paper all that is living so full and warm within me, that it might be the mirror of my soul,
+															as my soul is the mirror of the infinite God!</p>
+							
+											<img class="media" src="mekkoplot.png">
+									</div>
+								
+							</div> <!--fine quarta pagina-->
+					
+					<div class="page" id="page5"> <!--quinta pagina-->
+							<div class="head">
+									<header>CHAMBER OF DEPUTIES</header>
 									<div class="subhead">Rome, IT - Thursday August 30, 1978 - Seven Pages</div>
-								</div>
 							</div>
-						</div>
-						<div class="row justify-content-center" data-aos="fade-up" data-aos-delay="150">
-								<div class="col-4 article">		
-											<div class="head"><span class="headline hl3">When darkness overspreads my eyes</span><p><span class="headline hl4">by JOHANN WOLFGANG VON GOETHE</span></p></div>
-											When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, 
-											and but a few stray gleams steal into the inner sanctuary, I throw myself down among the tall grass by the trickling stream;<p>and, 
-												as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the
-												stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence of the
-												Almighty, who formed us in his own image, and the breath of that universal love which bears and sustains us, as it floats 
-												around us in an eternity of bliss; and then, my friend, when darkness overspreads my eyes, and heaven and earth seem to dwell 
-												in my soul and absorb its power, like the form of a beloved mistress, then I often think with longing, Oh, would I could describe
-												these conceptions, could impress upon paper all that is living so full and warm within me, that it might be the mirror of my soul,
-													as my soul is the mirror of the infinite God!</p>
+							
+							<div class="container">
+								
+									<p>When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, 
+												and but a few stray gleams steal into the inner sanctuary, I throw myself down among the tall grass by the trickling stream; and, 
+													as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the
+													stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence of the
+													Almighty, who formed us in his own image, and the breath of that universal love which bears and sustains us, as it floats 
+													around us in an eternity of bliss; and then, my friend, when darkness overspreads my eyes, and heaven and earth seem to dwell 
+													in my soul and absorb its power, like the form of a beloved mistress, then I often think with longing, Oh, would I could describe
+													these conceptions, could impress upon paper all that is living so full and warm within me, that it might be the mirror of my soul,
+														as my soul is the mirror of the infinite God!</p>
+						
+										<img class="media" src="mekkoplot.png">
 								</div>
-								<div class="col-4">
-									<img class="media" src="mekkoplot.png">
-								</div>
-						</div>
-					</div>
-
-					<div class="page" id="page4">
-						<div class="head">
-							<div class="headerobjectswrapper">
-								<header>CHAMBER OF DEPUTIES</header>
-							</div> 
-							<div class="subhead">Rome, IT - Thursday August 30, 1978 - Seven Pages</div>
-						</div>
-
-						<div class="row">
-								<div class="col-4 article">
-										
-											<div class="head"><span class="headline hl3">When darkness overspreads my eyes</span><p><span class="headline hl4">by JOHANN WOLFGANG VON GOETHE</span></p></div>
-											When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, 
-											and but a few stray gleams steal into the inner sanctuary, I throw myself down among the tall grass by the trickling stream;<p>and, 
-												as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the
-												stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence of the
-												Almighty, who formed us in his own image, and the breath of that universal love which bears and sustains us, as it floats 
-												around us in an eternity of bliss; and then, my friend, when darkness overspreads my eyes, and heaven and earth seem to dwell 
-												in my soul and absorb its power, like the form of a beloved mistress, then I often think with longing, Oh, would I could describe
-												these conceptions, could impress upon paper all that is living so full and warm within me, that it might be the mirror of my soul,
-													as my soul is the mirror of the infinite God!</p>
-								</div>
-								<div class="col-4 visualization">
-									<img class="media" src="mekkoplot.png">
-								</div>
-						</div>
-					</div>
-					<div class="page" id="page5">
-						<div class="head">
-							<div class="headerobjectswrapper">
-								<header>CHAMBER OF DEPUTIES</header>
-							</div> 
-							<div class="subhead">Rome, IT - Thursday August 30, 1978 - Seven Pages</div>
-						</div>
-
-						<div class="row">
-								<div class="col-6 article">
-										
-											<div class="head"><span class="headline hl3">When darkness overspreads my eyes</span><p><span class="headline hl4">by JOHANN WOLFGANG VON GOETHE</span></p></div>
-											When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, 
-											and but a few stray gleams steal into the inner sanctuary, I throw myself down among the tall grass by the trickling stream;<p>and, 
-												as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the
-												stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence of the
-												Almighty, who formed us in his own image, and the breath of that universal love which bears and sustains us, as it floats 
-												around us in an eternity of bliss; and then, my friend, when darkness overspreads my eyes, and heaven and earth seem to dwell 
-												in my soul and absorb its power, like the form of a beloved mistress, then I often think with longing, Oh, would I could describe
-												these conceptions, could impress upon paper all that is living so full and warm within me, that it might be the mirror of my soul,
-													as my soul is the mirror of the infinite God!</p>
-								</div>
-								<div class="col-6 visualization">
-									<img class="media" src="mekkoplot.png">
-								</div>
-						</div>
-					</div>
+							
+						</div> <!--fine quinta pagina-->
+				
 
 
 </div> <!--flipbook div-->
@@ -177,6 +162,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>	
 <script src="turn.min.js"></script>
+	
 	<script>
 		$(document).ready(function() {
   // Seleziona l'elemento contenitore del libro o del documento
@@ -202,11 +188,13 @@
   });
 });
 	</script>
+
+
+
+
+
 </body>
 </html>
-
-
-
 
 
 

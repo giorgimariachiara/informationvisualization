@@ -4,6 +4,9 @@ body {
     font-family: 'Droid Serif', serif;
     font-size: 14px;
     display: block !important;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 
 
 }
@@ -41,6 +44,7 @@ header{
     margin: 30px 5% 0 5%;
     text-align: center;
     position: relative;
+
   }
 
 
@@ -56,8 +60,7 @@ p{
 
 }
 
-.headerobjectswrapper{
-}
+
 
 .subhead{
     text-transform: uppercase;
@@ -67,30 +70,7 @@ p{
 
 }
 
-.content{
-    font-size: 0;
-    line-height: 0;
-    word-spacing: -.31em;
-    display: inline-block;
-    margin: 30px 2% 0 2%;
 
-
-}
-.article{
-    font-size: 14px;
-    line-height: 20px;
-    width: auto;
-    display: inline-block;
-    padding: 0 1% 0 1%;
-    vertical-align: top;
-    transition: all .7s;
-    margin: 30px 5% 0 5%;
-    border-bottom: 2px solid #2f2f2f;
-    border-top: 2px solid #2f2f2f;
-    text-align: center;
-    position: relative;
-
-}
 
 .collumn{
     font-size: 14px;
@@ -339,3 +319,29 @@ p{
   .page p {
     margin-bottom: 0;
   }
+
+
+ @keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.typewriter {
+  border-right: .15em solid black;
+  white-space: nowrap;
+  margin: 0 auto;
+  letter-spacing: .15em;
+  animation:vtyping 3.5s steps(40, end);
+
+}
+
+.typewriter::after {
+  content: "|";
+  visibility: hidden;
+  animation: blink-caret .75s step-end infinite;
+}
+
+@keyframes blink-caret {
+  from, to { visibility: hidden; }
+  50% { visibility: visible; }
+}
