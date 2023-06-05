@@ -23,11 +23,22 @@ header{
 
 }
 
+
 .subhead{
     text-transform: uppercase;
     border-bottom: 2px solid #2f2f2f;
     border-top: 2px solid #2f2f2f;
     padding: 12px 0 12px 0;
+}
+.footer{
+    text-transform: uppercase;
+    border-bottom: 2px solid #2f2f2f;
+    border-top: 2px solid #2f2f2f;
+    padding: 12px 0 12px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #f9f7f1;
 }
 
 
@@ -60,7 +71,26 @@ p{
 
 }
 
-
+.navbar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+  }
+  
+  .nav-button {
+    margin: 5px;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .nav-button:hover {
+    background-color: #ccc;
+  }
+  
 
 .subhead{
     text-transform: uppercase;
@@ -320,28 +350,33 @@ p{
     margin-bottom: 0;
   }
 
+ .typewriter {
+      overflow: hidden; /* Nasconde il testo che va oltre il paragrafo */
+      white-space: nowrap; /* Impedisce il ritorno a capo automatico */
+      margin: 0 auto; /* Centra il paragrafo */
+     
 
- @keyframes typing {
-  from { width: 0; }
-  to { width: 100%; }
+    }
+
+.container{
+
+white-space: nowrap;
+
 }
 
-.typewriter {
-  border-right: .15em solid black;
-  white-space: nowrap;
-  margin: 0 auto;
-  letter-spacing: .15em;
-  animation:vtyping 3.5s steps(40, end);
 
-}
-
-.typewriter::after {
-  content: "|";
-  visibility: hidden;
-  animation: blink-caret .75s step-end infinite;
-}
-
+.typewriter:after {
+        content: "|"; /* Aggiunge il cursore */
+        display: inline-block;
+        animation: blink-caret 0.75s step-end infinite;
+      }
+    
+@keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    
 @keyframes blink-caret {
-  from, to { visibility: hidden; }
-  50% { visibility: visible; }
-}
+      from, to { border-color: transparent }
+      50% { border-color: black; }
+    }
