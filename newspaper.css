@@ -1,12 +1,9 @@
 body {
-    margin: 0;
-    padding: 0;
     font-family: 'Droid Serif', serif;
     font-size: 14px;
     display: block !important;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    
+ 
 
 
 }
@@ -150,7 +147,7 @@ p{
 .collumn{
     font-size: 14px;
     line-height: 20px;
-    width:17%;
+    width: var(--collumn-width);  
     display: inline-block;
     padding: 0 1% 0 1%;
     vertical-align: top;
@@ -160,7 +157,8 @@ p{
     position: relative;
 }
 .collumn + .collumn { 
-  border-left: 1px solid #2f2f2f; /*Questa regola viene applicata agli elementi .collumn successivi al primo e aggiunge una bordatura sinistra per separare le colonne.*/
+  border-left: var(--collumn-border) solid #2f2f2f;
+
 }
 .collumn .headline{
     text-align: center;
@@ -339,7 +337,7 @@ p{
 /*MEDIAQUERIES*/
 @media only all and (max-width: 1200px) {
     .collumn{
-        width: 31%;
+        width: 17%;
     }
 
 }
@@ -358,6 +356,11 @@ p{
       	border-bottom: 1px solid #2f2f2f;
 	}
 }
+
+
+
+
+  
 
   #flipbook {
     width: 100vw;
