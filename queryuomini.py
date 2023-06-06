@@ -1046,12 +1046,6 @@ print(lista_partiti)
 
 """
 
-
-# Esempio di utilizzo
-
-#getdatafromwiki(parte_2) 
-
-
 """
 def get_uri_from_names(lista):
     # Inizializza l'oggetto SPARQLWrapper
@@ -1079,4 +1073,3 @@ def get_uri_from_names(lista):
 da = get_uri_from_names(nomi)
 da = da.drop_duplicates(["persona", "nome", "cognome"])
 """
-#print(lista_partiti)
