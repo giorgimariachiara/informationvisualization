@@ -149,12 +149,28 @@
 </div> <!--flipbook div-->
 
 
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>	
-<script src="turn.min.js"></script>
-	
+<script src="turn.min.js"></script>	
+
 	<script>
-		$(document).ready(function() {
+  function toRoman(num) {
+  var roman = "";
+  var romanNumerals = ["M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"];
+  var numbers = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+
+  for (var i = 0; i < numbers.length; i++) {
+    while (num >= numbers[i]) {
+      roman += romanNumerals[i];
+      num -= numbers[i];
+    }
+  }
+
+  return roman;
+}
+
+  
+
+  $(document).ready(function() {
   // Seleziona l'elemento contenitore del libro o del documento
   var container = $('#flipbook');
   var totalPages = 5; // Numero totale di pagine del tuo giornale
@@ -167,7 +183,8 @@
     autoCenter: true, // Centra automaticamente il libro o il documento nello schermo
 	turnCorners: true,
     gradients: true,
-    acceleration: 1.5,
+    acceleration: true,
+	pages: totalPages,
     when: {
       turning: function(event, page, view) {
         console.log('Turning page:', page);
@@ -183,16 +200,17 @@
   
   // Aggiungi i pulsanti per ogni pagina
   for (var page = 1; page <= totalPages; page++) {
-    var pageButton = $('<button class="nav-button">' + page + '</button>');
+    var romanNumeral = toRoman(page); // Utilizza la funzione toRoman() per ottenere il numero romano della pagina
+    var pageButton = $('<div class="nav-button">' + romanNumeral + '</div>');
     pageButton.data('page', page);
     pageButton.on('click', function() {
       var pageNum = $(this).data('page');
       container.turn('page', pageNum);
-	});
-	navbar.append(pageButton);
-	}
-	
-	navbar.css('bottom', '10px');
+    });
+    navbar.append(pageButton);
+  }
+
+  navbar.css('bottom', '10px');
 
 // Aggiungi i pulsanti per la navigazione "Previous" e "Next"
 var prevButton = $('<button class="nav-button">Previous</button>');

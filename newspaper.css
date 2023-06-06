@@ -72,26 +72,41 @@ p{
 }
 
 .navbar {
-    position: absolute;
+    position: fixed;
+    bottom: 10px;
     left: 0;
     right: 0;
     text-align: center;
+    text-transform: uppercase;
+    border-bottom: 2px solid #2f2f2f;
+    border-top: 2px solid #2f2f2f;
+    padding: 12px 0 12px 0;
+    z-index: 999; 
+    background-color:#f9f7f1;
+
   }
   
   .nav-button {
-    margin: 5px;
-    padding: 10px 20px;
-    background-color: #f0f0f0;
+    display: inline-block;
+    margin: 0 5px;
+    padding: 5px 10px;
+    background-color: transparent;
     border: none;
-    border-radius: 5px;
     cursor: pointer;
+    font-size: 20px;
+    font-weight:600;
+    color: #000;
   }
   
   .nav-button:hover {
-    background-color: #ccc;
+    color: #6c6c6c;
+
   }
   
-
+  a {
+    text-decoration: none; /* Rimuove la sottolineatura */
+    color: inherit; /* Utilizza il colore ereditato dal genitore */
+  }
 .subhead{
     text-transform: uppercase;
     border-bottom: 2px solid #2f2f2f;
