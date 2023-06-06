@@ -1,11 +1,12 @@
 body {
+    margin: 0;
+    padding: 0;
     font-family: 'Droid Serif', serif;
     font-size: 14px;
     display: block !important;
-    
- 
-
-
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 
@@ -147,7 +148,7 @@ p{
 .collumn{
     font-size: 14px;
     line-height: 20px;
-    width: var(--collumn-width);  
+    width: 17%;  
     display: inline-block;
     padding: 0 1% 0 1%;
     vertical-align: top;
@@ -157,7 +158,7 @@ p{
     position: relative;
 }
 .collumn + .collumn { 
-  border-left: var(--collumn-border) solid #2f2f2f;
+  border-left: 1px solid #2f2f2f;
 
 }
 .collumn .headline{
@@ -335,19 +336,19 @@ p{
 }
 /*________________________________________________________________________________________________________________________________*/
 /*MEDIAQUERIES*/
-@media only all and (max-width: 1200px) {
+@media screen and (min-width: 1200px) and (max-width: 1600px) {
     .collumn{
         width: 17%;
     }
 
 }
-    @media only all and (max-width: 900px) {
+    @media screen and  (min-width: 900px) and (max-width: 1199px)  {
     .collumn{
         width: 47%;
     }
 
 }
-@media only all and (max-width: 600px) {
+@media screen and (max-width: 600px) {
     .collumn{
         width: 100%;
     }
