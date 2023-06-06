@@ -4,8 +4,9 @@ body {
     font-family: 'Droid Serif', serif;
     font-size: 14px;
     display: block !important;
-
-
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
 
@@ -20,11 +21,22 @@ header{
 
 }
 
+
 .subhead{
     text-transform: uppercase;
     border-bottom: 2px solid #2f2f2f;
     border-top: 2px solid #2f2f2f;
     padding: 12px 0 12px 0;
+}
+.footer{
+    text-transform: uppercase;
+    border-bottom: 2px solid #2f2f2f;
+    border-top: 2px solid #2f2f2f;
+    padding: 12px 0 12px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #f9f7f1;
 }
 
 
@@ -41,6 +53,7 @@ header{
     margin: 30px 5% 0 5%;
     text-align: center;
     position: relative;
+
   }
 
 
@@ -56,9 +69,42 @@ p{
 
 }
 
-.headerobjectswrapper{
-}
+.navbar {
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    text-transform: uppercase;
+    border-bottom: 2px solid #2f2f2f;
+    border-top: 2px solid #2f2f2f;
+    padding: 12px 0 12px 0;
+    z-index: 999; 
+    background-color:#f9f7f1;
 
+  }
+  
+  .nav-button {
+    display: inline-block;
+    margin: 0 5px;
+    padding: 5px 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight:600;
+    color: #000;
+  }
+  
+  .nav-button:hover {
+    color: #6c6c6c;
+
+  }
+  
+  a {
+    text-decoration: none; /* Rimuove la sottolineatura */
+    color: inherit; /* Utilizza il colore ereditato dal genitore */
+  }
 .subhead{
     text-transform: uppercase;
     border-bottom: 2px solid #2f2f2f;
@@ -67,35 +113,42 @@ p{
 
 }
 
-.content{
-    font-size: 0;
-    line-height: 0;
-    word-spacing: -.31em;
-    display: inline-block;
-    margin: 30px 2% 0 2%;
-
-
-}
-.article{
+.sezione{
     font-size: 14px;
     line-height: 20px;
-    width: auto;
+    width:auto;
     display: inline-block;
     padding: 0 1% 0 1%;
     vertical-align: top;
+    margin-bottom: 50px;
     transition: all .7s;
-    margin: 30px 5% 0 5%;
-    border-bottom: 2px solid #2f2f2f;
-    border-top: 2px solid #2f2f2f;
     text-align: center;
     position: relative;
-
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #2f2f2f;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-top: -30px;
+    border-top: 2px solid #2f2f2f;
 }
 
+.sezione h1{
+    font-weight: 700;
+    font-size: 30px;
+    text-transform: uppercase;
+    padding: 10px 0 10px 0; 
+    text-align: center;
+    line-height: normal;
+    font-family: 'Playfair Display', serif;
+    display: block;
+    margin: auto;
+}
 .collumn{
     font-size: 14px;
     line-height: 20px;
-    width:17%;
+    width: 17%;  
     display: inline-block;
     padding: 0 1% 0 1%;
     vertical-align: top;
@@ -106,6 +159,7 @@ p{
 }
 .collumn + .collumn { 
   border-left: 1px solid #2f2f2f;
+
 }
 .collumn .headline{
     text-align: center;
@@ -282,19 +336,19 @@ p{
 }
 /*________________________________________________________________________________________________________________________________*/
 /*MEDIAQUERIES*/
-@media only all and (max-width: 1200px) {
+@media screen and (min-width: 1200px) and (max-width: 1600px) {
     .collumn{
-        width: 31%;
+        width: 17%;
     }
 
 }
-    @media only all and (max-width: 900px) {
+    @media screen and  (min-width: 900px) and (max-width: 1199px)  {
     .collumn{
         width: 47%;
     }
 
 }
-@media only all and (max-width: 600px) {
+@media screen and (max-width: 600px) {
     .collumn{
         width: 100%;
     }
@@ -303,6 +357,11 @@ p{
       	border-bottom: 1px solid #2f2f2f;
 	}
 }
+
+
+
+
+  
 
   #flipbook {
     width: 100vw;
@@ -339,3 +398,34 @@ p{
   .page p {
     margin-bottom: 0;
   }
+
+ .typewriter {
+      overflow: hidden; /* Nasconde il testo che va oltre il paragrafo */
+      white-space: nowrap; /* Impedisce il ritorno a capo automatico */
+      margin: 0 auto; /* Centra il paragrafo */
+     
+
+    }
+
+.container{
+
+white-space: nowrap;
+
+}
+
+
+.typewriter:after {
+        content: "|"; /* Aggiunge il cursore */
+        display: inline-block;
+        animation: blink-caret 0.75s step-end infinite;
+      }
+    
+@keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    
+@keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: black; }
+    }
