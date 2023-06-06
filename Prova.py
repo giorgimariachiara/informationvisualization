@@ -103,72 +103,7 @@ plt.title('Distribuzione dei ministri per genere')
 plt.show()
 
 """
-
-
 """
-import requests 
-
-hr = sparql_dataframe.get(endpoint, querypertrovareluogonascitawikid)
-
-hr = hr[hr.isnull().any(axis=1)]
-people = list(zip(hr['name'], hr['surname']))
-people1 = people[:len(people)//2]
-people3 = people1[:len(people1)//2]
-people5= people1[len(people1)//2:]
-people7 =people3[:len(people3)//2]
-people9 = people3[len(people3)//2:]
-people11 = people7[:len(people7)//2]
-people13= people11[:len(people11)//2]
-people15 = people13[:len(people13)//2]
-people17 = people15[:len(people15)//2]
-people19 = people17[:len(people17)//2]
-people2 = people[len(people)//2:]
-#print(people19)
-#hr.to_csv('fileperwiki.csv')
-def getdata(list):
-   import pandas as pd
-from SPARQLWrapper import SPARQLWrapper, TSV
-
-for name_tuple in people19:
-        # Get the name and surname from the tuple
-        first, last = name_tuple
-        name_str = f"{first} {last}"
-        print(name_str)
-def getdatafromwiki(name_list):
-    endpoint = "https://query.wikidata.org/sparql"
-    dfs = []
-    for name_tuple in name_list:
-        # Get the name and surname from the tuple
-        first, last = name_tuple
-        name_str = f"{first} {last}"
-
-        # Build the SPARQL query string
-        
-        query = ('SELECT DISTINCT ?birthplacel WHERE { \
-            ?person wdt:P31 wd:Q5. \
-            ?person rdfs:label ?personLabel. \
-            ?person rdfs:label "' + name_str +'". \
-            ?person wdt:P19 ?birthplace. \
-            ?birthplace wdt:P1705 ?birthplacel. \
-        }')
-        
-        # Make the request to the Wikidata SPARQL endpoint
-        sparql = SPARQLWrapper(endpoint)
-        sparql.setQuery(query)
-        sparql.setReturnFormat(TSV)
-        data = sparql.query().convert()
-        
-        # Convert the TSV data to a Pandas DataFrame
-        df = pd.read_csv(data.splitlines(), sep='\t', header=None, names=['birthplace'])
-        
-        # Append the DataFrame to the list of results
-        dfs.append(df)
-    
-    return dfs
-
-
-
-
 SELECT DISTINCT ?person ?labelNome ?labelCognome WHERE {
   ?person wdt:P31 wd:Q5 .
   ?person wdt:P735 ?nome. 
@@ -301,6 +236,7 @@ ocd:rif_mandatoCamera ?mandato.
 
 
 }   """
+
 df_incarico_donne = get(endpoint, queryincaricodeputatedonne)
 df_incarico_donne = df_incarico_donne.drop_duplicates()
 #print(len(df_incarico_donne))
@@ -335,14 +271,9 @@ df_incarico_uomini = df_incarico_uomini.drop_duplicates()
 #print(len(df_incarico_uomini))
  #print(df_incarico_uomini)
 # Filtra le righe con genere "male"
-df_male = df_incarico_uomini[df_incarico_uomini['gender'] == 'female']
+df_male = df_incarico_uomini[df_incarico_uomini['gender'] == 'male']
 #print(len(df_male))
-#print(df_male)
-#print(df_male)
-#print(df_female)
-#print(df_male)
 #print(len(df_female))
-#print(len(df_male))
 #df_incarico_finale = pd.concat([df_female, df_male])
 #print(len(df_incarico_totale))
 #print(df_incarico_totale)
