@@ -432,28 +432,6 @@ SELECT distinct ?persona ?nome ?cognome where {
  """
 dfemale19 = get(endpoint, query_donne19)
 
-
-querylaureadonnetutte = """SELECT distinct ?nome ?cognome ?descrizione ?luogoNascita where {
-  
-  ?persona foaf:gender "female".
-  ?persona rdf:type foaf:Person. 
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg ?legislatura.
-  ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-  ?nascita <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
-             rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
-  ?luogoNascitaUri dc:title ?luogoNascita.
-  OPTIONAL {?persona dc:description ?descrizione.}
-  
- }
-"""
-datalaureadonne = get(endpoint, querylaureadonnetutte)
-
-df_nan = datalaureadonne[datalaureadonne['descrizione'].isna()] #49 donne non hanno la descrizione 294 senza laurea 572 con laurea 
-
-
 queryprovaa ="""SELECT DISTINCT ?persona ?cognome ?nome ?info
  ?luogoNascita 
 WHERE {
@@ -494,7 +472,7 @@ donnenonlaureate = nonlaureate.rename(columns={'info': 'graduated'})
 # Stampa del dataframe risultante 287 non laureate, 569 si , 49 non si sa 
 
 #df_nanadonne = dataprova[dataprova['info'].isna()] #qui le donne senza info diventano solo 49 
-#df_risultati = dataprova.loc[(dataprova['nome'] == "ELISABETTA") & (dataprova['cognome'] == "GARDINI")]
+
 """
 donnelaureate = donnelaureate.assign(info="yes")
 donnelaureate = donnelaureate.assign(gender='female')
@@ -549,67 +527,3 @@ result = filtered.drop('_merge', axis=1)
 result = result[["nome", "cognome"]]
 #print(result.values.tolist())
 #print(len(result))
-
-new_df = dfemale0.loc[:, ['nome', 'cognome']]
-
-
-new_df1 = dfemale1.loc[:, ['nome', 'cognome']]
-
-
-new_df2 = dfemale2.loc[:, ['nome', 'cognome']]
-
-
-new_df3 = dfemale3.loc[:, ['nome', 'cognome']]
-
-
-new_df4 = dfemale4.loc[:, ['nome', 'cognome']]
-
-
-new_df5 = dfemale5.loc[:, ['nome', 'cognome']]
-
-
-new_df6 = dfemale6.loc[:, ['nome', 'cognome']]
-
-
-new_df7 = dfemale7.loc[:, ['nome', 'cognome']]
-
-
-new_df8 = dfemale8.loc[:, ['nome', 'cognome']]
-
-
-new_df9 = dfemale9.loc[:, ['nome', 'cognome']]
-
-
-new_df10 = dfemale10.loc[:, ['nome', 'cognome']]
-
-
-new_df11 = dfemale11.loc[:, ['nome', 'cognome']]
-
-
-new_df12 = dfemale12.loc[:, ['nome', 'cognome']]
-
-
-new_df13= dfemale13.loc[:, ['nome', 'cognome']]
-
-
-new_df14= dfemale14.loc[:, ['nome', 'cognome']]
-
-
-new_df15= dfemale15.loc[:, ['nome', 'cognome']]
-
-
-new_df16= dfemale16.loc[:, ['nome', 'cognome']]
-
-
-new_df17= dfemale17.loc[:, ['nome', 'cognome']]
-
-
-new_df18= dfemale18.loc[:, ['nome', 'cognome']]
-
-
-new_df19= dfemale19.loc[:, ['nome', 'cognome']]
-
-merged_df = pd.concat([new_df, new_df1, new_df2, new_df3, new_df4, new_df5, new_df6, new_df7, new_df8, new_df9, new_df10, new_df11, new_df12, new_df13, new_df14, new_df15, new_df16, new_df17, new_df18, new_df19], axis=0)
-
-#merged_dfinal = merged_df.drop_duplicates()
-#print(len(merged_df))

@@ -37,10 +37,10 @@ masklaurea = df_laurea_donne['info'].str.contains('Laurea|laurea|Master|LAUREA')
 
 # Estrarre le righe che soddisfano la maschera
 laureate = df_laurea_donne[masklaurea]
-laureate = laureate.assign(info="yes")
+#laureate = laureate.assign(info="yes")
 laureate = laureate.assign(gender='female')
-laureate = laureate[["info", "gender"]]
-donnelaureate = laureate.rename(columns={'info': 'graduated'})
+donnelaureate = laureate[["nome","cognome", "gender"]]
+#donnelaureate = laureate.rename(columns={'info': 'graduated'})
 
 
 masknonlaurea =~df_laurea_donne['info'].str.contains('Laurea|laurea|Master|LAUREA', na=False) & df_laurea_donne['info'].ne('')
@@ -49,16 +49,12 @@ donnenonlaureate = donnenonlaureate.assign(info="no")
 donnenonlaureate = donnenonlaureate.assign(gender='female')
 donnenonlaureate = donnenonlaureate[["info", "gender"]]
 donnenonlaureate = donnenonlaureate.rename(columns={'info': 'graduated'})
-
+"""
 print(len(df_laurea_donne))
 print(len(donnelaureate))
 print(len(df_donne_noinfo))
 print(len(donnenonlaureate))
-
-#uominilaureacsv = pd.concat([uomininonlaureati, uominilaureati],  axis=0)
-#uominilaureacsv.to_csv("mengraduation.csv",  index=False, index_label=False)
-#print(len(uominilaureacsv)) #senza info sono 162, 3293 si, 1749
-
+"""
 lista_donne_noinfo= df_donne_noinfo['nome'] + ' ' + df_donne_noinfo['cognome']
 lista_donne_noinfo = lista_donne_noinfo.to_list()
 lista_donne_noinfo= [nome_cognome.title() for nome_cognome in lista_donne_noinfo]
@@ -93,10 +89,10 @@ for persona in lista_donne_noinfo:
 df_donne_con_url = pd.DataFrame({"Persona": donne_con_url, "URL": url_lista})
 df_donne_senza_url = pd.DataFrame({"Persona": donne_senza_url})
 
-print(len(df_donne_con_url))
+#print(len(df_donne_con_url))
 
 #print(len(df_donne_con_url)) #36
-print(len(df_donne_senza_url)) #13
+#print(len(df_donne_senza_url)) #13
 #CODICE PER CERCARE SECONDI NOMI O ALTRI COGNOMI ECC. 
 import requests
 from bs4 import BeautifulSoup
@@ -137,7 +133,7 @@ for persona in df_donne_senza_url["Persona"]:
             print(f"Errore nella richiesta della pagina di Wikipedia per {persona}")
 
 df_donne_con_url2 = pd.DataFrame({"Persona": donne_con_url2, "URL": url_lista})
-print(len(df_donne_con_url2))
+#print(len(df_donne_con_url2)) 
 from fuzzywuzzy import fuzz
 
 # Funzione per confrontare il nome della persona con l'URL in modo da controllare che non si prendano url diversi 
@@ -160,7 +156,8 @@ for index, row in df_donne_con_url2.iterrows():
             url_personali.add(nome)
 
 df_filtered.reset_index(drop=True, inplace=True)
-print(len(df_filtered))
+#print(len(df_filtered))
+#print(df_filtered) #7
 
 """
 #print(df_filtered)
@@ -172,7 +169,8 @@ print(df_filtered)
 
 #UNISCO TUTTI I DATAFRAME CON GLI URL DI WIKIPEDIA DA CONTROLLARE 
 
-df_controllo_wiki = pd.concat([df_filtered, df_donne_con_url]) #
+df_controllo_wiki = pd.concat([df_filtered, df_donne_con_url]) #43
+print(len(df_controllo_wiki))
 #print(len(df_controllo_wiki))
 #CONTROLLO CHE NELLE PAGINE DI WIKIPEDIA CI SIA LA SEZIONE TITOLO DI STUDIO 
 urldaesaminare= df_controllo_wiki["URL"].tolist()
@@ -237,7 +235,9 @@ for index, row in df_filt.iterrows():
 # Reset dell'indice dei DataFrame risultanti
 df_filt_con_laurea.reset_index(drop=True, inplace=True)
 df_filt_senza_laurea.reset_index(drop=True, inplace=True)
+#print("Hanno laurea in titolo di studio :")
 #print(len(df_filt_con_laurea))
+#print("Non hanno laurea in titolo di studio :")
 #print(len(df_filt_senza_laurea))
 urlconsezionetitolodistudio = df_filt["url"].tolist()
 #print(len(urlconsezionetitolodistudio))
@@ -277,7 +277,7 @@ for url in valori_non_comuni:
     else:
         print(f"Errore nella richiesta della pagina di Wikipedia per l'URL: {url}")
 
-
+"""
 
 # Stampa dei DataFrame
 print("Pagine con almeno una delle parole:")
@@ -289,10 +289,10 @@ print("Pagine senza nessuna delle parole:")
 print(len(df_senza_parola))
 
 #print(df_filt)
-
+"""
 
 listacheckprofessione = df_senza_parola["URL"].tolist()
-
+print(len(listacheckprofessione))
 # Inizializza una lista per i dataframe
 dataframes = []
 
@@ -327,7 +327,7 @@ for url in listacheckprofessione:
             else:
                 td_values.append("")
 
-    # Crea il dataframe utilizzando le liste di valori
+    # Crea il dataframe utilizzando lure liste di valori
     data = {"th": th_values, "td": td_values, "url": [url] * len(th_values)}
     df = pd.DataFrame(data)
     
@@ -336,10 +336,21 @@ for url in listacheckprofessione:
 
 # Concatena tutti i dataframe in uno unico
 final_df = pd.concat(dataframes, ignore_index=True)
+final_df = final_df.drop_duplicates(subset="url")
+listacheck = final_df["url"].tolist()
+lista3 = list(set(listacheckprofessione) ^ set(listacheck))
+print(lista3)
+print(len(final_df))
 df_filtprofessione = final_df[final_df['th'].str.contains('Professione')]
+df_da_escludere = df_filtprofessione[["url"]]
+url_senza_professione = final_df[~final_df['url'].isin(df_da_escludere['url'])]
+url_senza_professione = url_senza_professione.drop_duplicates(subset=['url'])
+print(len(url_senza_professione))
+print(len(df_filtprofessione))
 
-dataframe_donne_laurea = pd.concat([donnelaureate, df_filt_con_laurea, df_con_parola]) #586
+#print(df_filtprofessione)
+dataframe_donne_laurea = pd.concat([donnelaureate, df_filt_con_laurea, df_con_parola]) #587
 dataframe_donne_senza_laurea = pd.concat([donnenonlaureate, df_filt_senza_laurea]) #292
-print(dataframe_donne_laurea)
-print(len(dataframe_donne_laurea))
-print(len(dataframe_donne_senza_laurea))
+#print(dataframe_donne_laurea)
+#print(len(dataframe_donne_laurea))
+#print(len(dataframe_donne_senza_laurea))
