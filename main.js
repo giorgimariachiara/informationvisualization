@@ -1,3 +1,6 @@
+import 'flipbook';
+import 'jquery';
+
 function toRoman(num) {
   var roman = "";
   var romanNumerals = ["M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"];
@@ -13,14 +16,22 @@ function toRoman(num) {
   return roman;
 }
 
-$(document).ready(function() {
+$(document).ready(function($) {
   var container = $('#flipbook');
   var containerWidth = container.width();
   var containerHeight = container.height();
 
   // Verifica se il contenitore ha altezza e larghezza specificate
-  if (containerWidth === 0 || containerHeight === 0 || isNaN(containerWidth) || isNaN(containerHeight)) {
-    // Assegna altezza e larghezza predefinite al contenitore
+  if (containerWidth == 0) {
+    // Handle case when containerWidth is 0
+  } else if (containerHeight == 0) {
+    // Handle case when containerHeight is 0
+  } else if (isNaN(containerWidth)) {
+    // Handle case when containerWidth is NaN
+  } else if (isNaN(containerHeight)) {
+    // Handle case when containerHeight is NaN
+  } else {
+    // Code to execute when none of the conditions are met
     container.width(window.innerWidth);
     container.height(window.innerHeight);
   }
@@ -28,19 +39,39 @@ $(document).ready(function() {
   var homePage = 0; // Imposta la pagina iniziale come home (index.html)
 
   var pages = [
+    'index.html',
     'pagina1.html',
     'pagina2.html',
     'pagina3.html',
-    // Aggiungi altre pagine HTML qui
+    // Elenca gli altri file HTML per le pagine successive
   ];
+
+  container.FlipBook({
+    width: '100%',
+    height: '100%',
+    startPage: homePage,
+    pages: pages,
+    pageNumbers: true,
+    gradients: true,
+    autoCenter: true,
+    turnCorners: true,
+    acceleration: true,
+    onPageChange: function(event, page) {
+      console.log('Turned to page:', page);
+      updateNavbar(page);
+    },
+    onFullscreenError: function(message) {
+      // Handle fullscreen error
+    }
+  });
+
+  var navbar = $('<div class="navbar">');
+  container.append(navbar);
 
   function updateNavbar(page) {
     navbar.find('.nav-button').removeClass('active');
     navbar.find('.nav-button[data-page="' + page + '"]').addClass('active');
   }
-
-  var navbar = $('<div class="navbar">');
-  container.append(navbar);
 
   for (var i = 0; i < pages.length; i++) {
     var pageNum = i + 1;
@@ -49,9 +80,7 @@ $(document).ready(function() {
     pageButton.data('page', pageNum);
     pageButton.on('click', function() {
       var pageNum = $(this).data('page');
-      // Carica la pagina HTML corrispondente
-      $('#content').load(pages[pageNum - 1]);
-      updateNavbar(pageNum);
+      container.FlipBook('page', pageNum);
     });
     navbar.append(pageButton);
   }
@@ -60,29 +89,15 @@ $(document).ready(function() {
 
   var prevButton = $('<button class="nav-button">Previous</button>');
   prevButton.on('click', function() {
-    var activePage = navbar.find('.nav-button.active');
-    var prevPage = activePage.data('page') - 1;
-    if (prevPage >= 1) {
-      activePage.removeClass('active');
-      activePage.prev().addClass('active');
-      // Carica la pagina HTML precedente
-      $('#content').load(pages[prevPage - 1]);
-    }
+    container.FlipBook('previous');
   });
   navbar.append(prevButton);
 
   var nextButton = $('<button class="nav-button">Next</button>');
   nextButton.on('click', function() {
-    var activePage = navbar.find('.nav-button.active');
-    var nextPage = activePage.data('page') + 1;
-    if (nextPage <= pages.length) {
-      activePage.removeClass('active');
-      activePage.next().addClass('active');
-      // Carica la pagina HTML successiva
-      $('#content').load(pages[nextPage - 1]);
-    }
+    container.FlipBook('next');
   });
   navbar.append(nextButton);
 
-  updateNavbar(homePage);
+  updateNavbar(homePage); // Imposta la home come attiva all'avvio
 });
