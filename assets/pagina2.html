@@ -4,10 +4,16 @@
 <meta name="viewport" content="initial-scale=1, user-scalable=no">
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:400,700,900,400italic,700italic,900italic|Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="newspaper.css">
+<script src="./lib/jquery.min.js"></script>
+<script src="./lib/turn.min.js"></script>
+<script src="./lib/turn.html4.min.js "></script>
+<script src="./lib/scissor.min.js"></script>
+<script src="./lib/zoom.min.js"></script>
+<script src="./lib/hash.js"></script>
+
+
 <title>Newspaper Style Design Experiment</title>
 
-
-	 
 
 </head>
 <body> 
@@ -84,42 +90,6 @@
 				
 			
 		    </div> <!--fine seconda pagina-->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-            <script src="turn.min.js"></script>	
-            
-            
-<script>
-     // Funzione per l'effetto macchina da scrivere
-	 function typeWriter(element) {
-      var text = element.innerHTML.trim();
-      element.innerHTML = '';
-
-      var i = 0;
-      var words = text.split(' ');
-
-      function type() {
-        if (i < words.length) {
-          element.innerHTML += words[i] + ' ';
-          i++;
-          setTimeout(type,20); // Velocità casuale per un effetto più realistico
-        }
-      }
-
-      type();
-    }
-
-    // Avvia l'effetto per tutti gli elementi con la classe "typewriter"
-    window.addEventListener('load', function() {
-      var typewriterElements = document.getElementsByClassName("typewriter");
-      for (var i = 0; i < typewriterElements.length; i++) {
-        typeWriter(typewriterElements[i]);
-      }
-    });
-  </script>
-
-
-
-
+           
 </body>
 </html>
-
