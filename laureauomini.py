@@ -401,17 +401,23 @@ print(listaaa)
 url_lista = []
 uomini_con_url2 = []
 
-for persona in df_uomini_senza_url["Persona"]:
-    nome_cognome_parts = persona.split("_")  # Dividi la stringa utilizzando l'underscore come separatore
-    nome = nome_cognome_parts[0]  # Primo nome
-    cognome = nome_cognome_parts[-1]  # Ultimo cognome
+for index, row in df_without_url.iterrows():
+    nome_cognome = row['Nome']
+    data_nascita = row['Data di nascita']
+
+    nome_cognome_parts = nome_cognome.split("_")
+    nome = nome_cognome_parts[0]
+    cognome = "_".join(nome_cognome_parts[1:])  # Unisci gli elementi del cognome separati da underscore
 
     # Effettua la richiesta HTTP alla pagina di Wikipedia
-    response = requests.get(f"https://it.wikipedia.org/wiki/{persona}", timeout=10)
+    response = requests.get(f"https://it.wikipedia.org/wiki/{nome_cognome}", timeout=10)
 
     if response.status_code == 200:
-        url_lista.append(response.url)
-        uomini_con_url2.append(persona)
+        content = response.text
+        birth_date = extract_birth_date(content)
+        if birth_date and (birth_date == data_nascita or birth_date.split(' – ')[0] == data_nascita):
+            url_lista.append(response.url)
+            uomini_con_url2.append(nome_cognome)
     else:
         # Cerca gli URL alternativi che contengono nome e cognome in diverse combinazioni
         search_query = f"https://it.wikipedia.org/w/index.php?title=Speciale:Search&search={nome}+{cognome}"
@@ -425,13 +431,24 @@ for persona in df_uomini_senza_url["Persona"]:
                 result_link = result.find("a")
                 result_url = result_link["href"]
                 url = f"https://it.wikipedia.org{result_url}"
-                decoded_url = urllib.parse.unquote(url)  # Decodifica l'URL per visualizzare i caratteri speciali
-                url_lista.append(decoded_url)
-                uomini_con_url2.append(persona)
+                decoded_url = urllib.parse.unquote(url)
+
+                # Effettua la richiesta HTTP alla pagina di Wikipedia alternativa
+                alternative_response = requests.get(decoded_url, timeout=10)
+
+                if alternative_response.status_code == 200:
+                    alternative_content = alternative_response.text
+                    birth_date = extract_birth_date(alternative_content)
+                    if birth_date and (birth_date == data_nascita or birth_date.split(' – ')[0] == data_nascita):
+                        url_lista.append(decoded_url)
+                        uomini_con_url2.append(nome_cognome)
+                else:
+                    print(f"Errore nella richiesta della pagina di Wikipedia per {nome_cognome}")
         else:
-            print(f"Errore nella richiesta della pagina di Wikipedia per {persona}")
+            print(f"Errore nella richiesta di ricerca su Wikipedia per {nome_cognome}")
 
 df_uomini_con_url2 = pd.DataFrame({"Persona": uomini_con_url2, "URL": url_lista})
+print(df_uomini_con_url2)
 pattern = r"\b(" + "|".join(df_uomini_con_url2['Persona'].str.replace('_', ' ')) + r")\b"
 df_filtered = df_uomini_con_url2[df_uomini_con_url2['URL'].str.contains(pattern, case=False)]
 #print(df_filtered)
@@ -511,6 +528,8 @@ for url in urldaesaminare:
 final_df = pd.concat(dataframes, ignore_index=True)
 
 df_filt = final_df[final_df['th'].str.contains('studio')]
+
+#CONTROLLO CHE NELLA SEZIONE TITOLO DI STUDIO CI SIA LAUREA O DIPLOMA PER CAPIRE I LAUREATI 
 # Creazione dei due DataFrame vuoti
 df_filt_con_laurea = pd.DataFrame(columns=df_filt.columns)
 df_filt_senza_laurea = pd.DataFrame(columns=df_filt.columns)
