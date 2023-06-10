@@ -332,6 +332,337 @@ df_donne_senza_url2 = pd.DataFrame({"Persona": donne_senza_url2, "Data di nascit
 
 print("Lunghezza dataframe uomini con URL 14:")
 print(len(df_donne_con_url2))
+print(df_donne_con_url2)
 print("Lunghezza dataframe uomini senza URL 0:")
 print(len(df_donne_senza_url2))
 
+#Controlliamo se nell'url c'è effettivamente il nome o il cognome 
+corresponding_rows = []
+non_corresponding_rows = []
+
+for _, row in df_donne_con_url2 .iterrows():
+    nome_cognome = row['Persona']
+    url = row['URL']
+    
+    parole_nome_cognome = nome_cognome.split('_')
+    presente = False
+    
+    for parola in parole_nome_cognome:
+        if parola.lower() in url.lower():
+            presente = True
+            break
+    
+    if presente:
+        corresponding_rows.append(row)
+    else:
+        non_corresponding_rows.append(row)
+
+corresponding_url_df = pd.DataFrame(corresponding_rows, columns=df_donne_con_url2 .columns)
+non_corresponding_url_df = pd.DataFrame(non_corresponding_rows, columns=df_donne_con_url2 .columns)
+
+pd.set_option('display.max_colwidth', None)
+print("URL corrispondenti:")
+print(corresponding_url_df)
+print(len(corresponding_url_df))
+
+print("\nURL non corrispondenti:")
+print(non_corresponding_url_df)
+print(len(non_corresponding_url_df))
+
+
+import re
+from bs4 import BeautifulSoup
+import requests
+
+def check_birth_date_in_url(df):
+    def check_birth_date(url, birth_date):
+        response = requests.get(url)
+        if response.status_code == 200:
+            html_code = response.text
+            soup = BeautifulSoup(html_code, 'html.parser')
+            mw_parser_output = soup.find('div', class_='mw-parser-output')
+            if mw_parser_output:
+                p_tags = mw_parser_output.find_all('p')
+                for p_tag in p_tags:
+                    if all(re.search(r'\b{}\b'.format(re.escape(part)), str(p_tag)) for part in birth_date.split(' ')):
+                        return True
+        return False
+
+    df_with_birthdate = pd.DataFrame(columns=df.columns)
+    df_without_birthdate = pd.DataFrame(columns=df.columns)
+
+    for index, row in df.iterrows():
+        url = row['URL']
+        birth_date = row['Data di nascita']
+        corrisponde = check_birth_date(url, birth_date)
+        if corrisponde:
+            df_with_birthdate = df_with_birthdate.append(row)
+        else:
+            df_without_birthdate = df_without_birthdate.append(row)
+
+    return df_with_birthdate, df_without_birthdate
+
+df_with_birthdate, df_without_birthdate = check_birth_date_in_url(corresponding_url_df)
+
+print("DataFrame con corrispondenza di data di nascita:")
+print(df_with_birthdate)
+print(len(df_with_birthdate))
+
+print("DataFrame senza corrispondenza di data di nascita:")
+print(df_without_birthdate)
+print(len(df_without_birthdate))
+
+
+df_controllo_wiki = pd.concat([df_with_url, df_donne_con_url, df_with_birthdate])
+print("numero di tutti gli url che ho ottenuto")
+print(len(df_controllo_wiki))
+
+#CONTROLLO CHE NELLE PAGINE DI WIKIPEDIA CI SIA LA SEZIONE TITOLO DI STUDIO 
+urldaesaminare= df_controllo_wiki["URL"].tolist()
+#print(urldaesaminare)
+# Inizializza una lista per i dataframe
+dataframes = []
+
+# Itera sugli URL
+for url in urldaesaminare:
+    response = requests.get(url)
+    html_content = response.text
+
+    # Analizzare l'HTML con BeautifulSoup
+    soup = BeautifulSoup(html_content, "html.parser")
+
+    # Trovare tutti gli elementi <tr>
+    tr_elements = soup.find_all("tr")
+
+    # Inizializza le liste per i valori di <th> e <td>
+    th_values = []
+    td_values = []
+
+    # Scorrere gli elementi <tr> e controllare i valori di <th> e <td>
+    for tr_element in tr_elements:
+        th_elements = tr_element.find_all("th")
+        td_elements = tr_element.find_all("td")
+
+        for th_element in th_elements:
+            th_value = th_element.text.strip()
+            th_values.append(th_value)
+
+            # Se esiste un elemento <td> associato, aggiungi il suo valore alla lista
+            if td_elements:
+                td_value = td_elements[0].text.strip()
+                td_values.append(td_value)
+            else:
+                td_values.append("")
+
+    # Crea il dataframe utilizzando le liste di valori
+    data = {"th": th_values, "td": td_values, "url": [url] * len(th_values)}
+    df = pd.DataFrame(data)
+    
+    # Aggiungi il dataframe alla lista
+    dataframes.append(df)
+
+# Concatena tutti i dataframe in uno unico
+final_df = pd.concat(dataframes, ignore_index=True)
+
+df_filt = final_df[final_df['th'].str.contains('studio')]
+print("Donne con sezione titolo di studio:")
+print(len(df_filt))
+
+
+#CONTROLLO CHE NELLA SEZIONE TITOLO DI STUDIO CI SIA LAUREA O DIPLOMA PER CAPIRE I LAUREATI 
+# Creazione dei due DataFrame vuoti
+df_filt_con_laurea = pd.DataFrame(columns=df_filt.columns)
+df_filt_senza_laurea = pd.DataFrame(columns=df_filt.columns)
+
+# Iteration over the filtered DataFrame
+for index, row in df_filt.iterrows():
+    if 'laurea' in row['td'].lower():
+        df_filt_con_laurea = pd.concat([df_filt_con_laurea, row.to_frame().transpose()], ignore_index=True)
+    else:
+        df_filt_senza_laurea = pd.concat([df_filt_senza_laurea, row.to_frame().transpose()], ignore_index=True)
+
+df_filt_con_laurea['nome'] = df_filt_con_laurea['url'].str.split('/').str[-1].str.split('_').str[:-1].str.join(' ')
+df_filt_con_laurea['cognome'] = df_filt_con_laurea['url'].str.split('/').str[-1].str.split('_').str[-1]
+df_filt_con_laurea = df_filt_con_laurea.assign(gender='male')
+df_filt_con_laurea = df_filt_con_laurea[['nome', 'cognome', 'gender']]
+
+df_filt_senza_laurea['nome'] = df_filt_senza_laurea['url'].str.split('/').str[-1].str.split('_').str[:-1].str.join(' ')
+df_filt_senza_laurea['cognome'] = df_filt_senza_laurea['url'].str.split('/').str[-1].str.split('_').str[-1]
+df_filt_senza_laurea = df_filt_senza_laurea.assign(gender='male')
+df_filt_senza_laurea = df_filt_senza_laurea[['nome', 'cognome', 'gender']]
+
+print("df_filt_con_laurea")
+print(len(df_filt_con_laurea))
+print("df_filt_senza_laurea")
+print(len(df_filt_senza_laurea))
+
+urlconsezionetitolodistudio = df_filt["url"].tolist()
+
+valori_non_comuni = list(set(urldaesaminare) - set(urlconsezionetitolodistudio))
+#print(valori_non_comuni)
+print("Valori non comuni, ovvero url senza la sezione titolo di studio ")
+print(len(valori_non_comuni)) #url senza sezione titolo di studio 
+
+
+#CONTROLLO DEGLI URL SENZA LA SEZIONE TITOLO DI STUDIO SE HANNO INFO LAUREA NELLA BIO 
+
+df_con_parola = pd.DataFrame(columns=["Persona", "URL"])
+df_senza_parola = pd.DataFrame(columns=["Persona", "URL"])
+
+for url in valori_non_comuni:
+    response = requests.get(url)
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.content, "html.parser")
+        h2_elements = soup.find_all("h2")
+
+        found = False  # Flag per indicare se è stata trovata la parola "laurea", "laureò" o "laureata"
+
+        for h2 in h2_elements:
+            sibling_p = h2.find_next_sibling("p")
+            while sibling_p:
+                if re.search(r"\b(laurea|laureò|laureato|Laureatosi|laureatosi)\b", sibling_p.get_text(), re.IGNORECASE):
+                    persona = os.path.basename(url)
+                    df_con_parola = pd.concat([df_con_parola, pd.DataFrame({"Persona": [persona], "URL": [url]})], ignore_index=True)
+                    found = True
+                    break
+                sibling_p = sibling_p.find_next_sibling("p")
+            if found:
+                break
+
+        if not found:
+            persona = os.path.basename(url)
+            df_senza_parola = pd.concat([df_senza_parola, pd.DataFrame({"Persona": [persona], "URL": [url]})], ignore_index=True)
+
+    else:
+        print(f"Errore nella richiesta della pagina di Wikipedia per l'URL: {url}")
+
+#creo di nuovo una colonna nome, cognome e url per il dataframe finale 
+df_con_parola['nome'] = df_con_parola['Persona'].str.split('_').str[0]
+df_con_parola['cognome'] = df_con_parola['Persona'].str.split('_').str[1]
+df_con_parola = df_con_parola.assign(gender='female')
+df_con_parola = df_con_parola[['nome', 'cognome', 'gender', 'URL']]
+
+df_senza_parola['nome'] = df_senza_parola['Persona'].str.split('_').str[0]
+df_senza_parola['cognome'] = df_senza_parola['Persona'].str.split('_').str[1]
+df_senza_parola = df_senza_parola.assign(gender='female')
+df_senza_parola = df_senza_parola[['nome', 'cognome', 'gender', 'URL']]
+# Stampa dei DataFrame
+print("Pagine con almeno una delle parole:")
+#print(df_con_parola)
+print(len(df_con_parola))
+
+print("Pagine senza nessuna delle parole:")
+#print(df_senza_parola)
+print(len(df_senza_parola))
+
+#Controllo della professione per quelli che non hanno nè titolo di studio nè parola 
+
+listacheckprofessione = df_senza_parola["URL"].tolist()
+#print(len(listacheckprofessione))
+# Inizializza una lista per i dataframe
+dataframes = []
+
+# Itera sugli URL
+for url in listacheckprofessione:
+    response = requests.get(url)
+    html_content = response.text
+
+    # Analizzare l'HTML con BeautifulSoup
+    soup = BeautifulSoup(html_content, "html.parser")
+
+    # Trovare tutti gli elementi <tr>
+    tr_elements = soup.find_all("tr")
+
+    # Inizializza le liste per i valori di <th> e <td>
+    th_values = []
+    td_values = []
+
+    # Scorrere gli elementi <tr> e controllare i valori di <th> e <td>
+    for tr_element in tr_elements:
+        th_elements = tr_element.find_all("th")
+        td_elements = tr_element.find_all("td")
+
+        for th_element in th_elements:
+            th_value = th_element.text.strip()
+            th_values.append(th_value)
+
+            # Se esiste un elemento <td> associato, aggiungi il suo valore alla lista
+            if td_elements:
+                td_value = td_elements[0].text.strip()
+                td_values.append(td_value)
+            else:
+                td_values.append("")
+
+    # Crea il dataframe utilizzando le liste di valori
+    data = {"th": th_values, "td": td_values, "url": [url] * len(th_values)}
+    df = pd.DataFrame(data)
+    
+    # Aggiungi il dataframe alla lista
+    dataframes.append(df)
+
+# Concatena tutti i dataframe in uno unico
+final_df = pd.concat(dataframes, ignore_index=True)
+#print(final_df)
+#final_df = final_df.drop_duplicates(subset=['url'])
+#print(len(final_df))
+df_filtprofessione = final_df[final_df['th'].str.contains('Professione')]
+print("URL con sezione professione")
+print(df_filtprofessione)
+print(len(df_filtprofessione))
+
+df_da_escludere = df_filtprofessione[["url"]]
+url_senza_professione = final_df[~final_df['url'].isin(df_da_escludere['url'])]
+url_senza_professione = url_senza_professione.drop_duplicates(subset=['url'])
+prova= pd.concat([df_filtprofessione, url_senza_professione])
+listacheck = prova["url"].tolist()
+#lista3 = list(set(listacheckprofessione) ^ set(listacheck))
+#print(df_senzaprofessione)
+#print(lista3)
+print("url senza professione")
+print(len(url_senza_professione))
+
+df_medico = pd.DataFrame(columns=df.columns)
+df_altro = pd.DataFrame(columns=df.columns)
+
+for index, row in df_filtprofessione.iterrows():
+    professione = row['td'].lower()
+    if 'medico' in professione:
+        df_medico = pd.concat([df_medico, row.to_frame().transpose()], ignore_index=True)
+    else:
+        df_altro = pd.concat([df_altro, row.to_frame().transpose()], ignore_index=True)
+
+# Stampa dei tre DataFrame risultanti
+print("DataFrame Medico:")
+print(len(df_medico))
+print(df_medico)
+print("DataFrame altro:")
+print(len(df_altro))
+print(df_altro)
+
+# Estrazione del nome e del cognome dall'URL
+df_medico['nome'] = df_medico['url'].str.split('/').str[-1].str.replace('_', ' ')
+df_medico['cognome'] = df_medico['nome'].str.split().str[-1]
+df_medico['nome'] = df_medico['nome'].str.split().str[0]
+df_medico = df_medico.assign(gender='female')
+df_medico = df_medico[['nome', 'cognome', 'gender']]
+
+
+df_altro['nome'] = df_altro['url'].str.split('/').str[-1].str.replace('_', ' ')
+df_altro['cognome'] = df_altro['nome'].str.split().str[-1]
+df_altro['nome'] = df_altro['nome'].str.split().str[0]
+df_altro = df_altro.assign(gender='male')
+df_altro= df_altro[['nome', 'cognome', 'gender']]
+
+df_con_parola = df_con_parola[['nome', 'cognome', 'gender']]
+
+donnelaureate_f = pd.concat([df_filt_con_laurea, donnelaureate, df_con_parola, df_medico])
+print("Donne laureate totale:")
+print(len(donnelaureate_f))
+
+donnenonlaureate_f = pd.concat([df_filt_senza_laurea, donnenonlaureate, df_altro])
+df_donne_senza_url  = df_donne_senza_url["Persona e Data di nascita"].apply(lambda x: x[0])
+df_donne_senza_url  = pd.DataFrame(df_donne_senza_url , columns=["Persona"])
+df_donne_senza_url = df_donne_senza_url.assign(gender='female')
+print(df_donne_senza_url)
+print("Donne non laureate totale:")
+print(len(donnenonlaureate_f))
