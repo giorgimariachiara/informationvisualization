@@ -196,20 +196,24 @@ df_partito_uomini2 = df_partito_uomini2.assign(gender='male')
 
 df_partito_totale = pd.concat([df_partito_uomini1, df_partito_uomini2, df_partito_donne])
 df_partito_totale = df_partito_totale[["partito"]].drop_duplicates()
-# Leggi il file Excel con la mappatura dei partiti
-#print(df_partito_totale)
-df_mapping = pd.read_excel(".\Partiti.xlsx")
-
-# Crea un dizionario di mappatura dei partiti
-mapping_dict = dict(zip(df_mapping["A"], df_mapping["B"]))
-
-# Applica la mappatura al dataframe
-df_partito_totale["partito"] = df_partito_totale["partito"].replace(mapping_dict)
-
-#print(df_partito_totale)
 listapartiti = df_partito_totale["partito"].tolist()
 #print(listapartiti)
-#print(parties)
+
+df = pd.read_excel('Partiti.xlsx')
+
+# Itera attraverso i partiti nel DataFrame
+mappa_partiti = dict(zip(df['A'], df['B']))
+
+# Crea una nuova lista dei partiti modificati
+nuova_lista_partiti = [mappa_partiti.get(partito, partito) for partito in listapartiti]
+
+# Crea un nuovo DataFrame con la colonna dei partiti modificati
+df_modificato = pd.DataFrame({'Partito Modificato': nuova_lista_partiti})
+parties = df_modificato["Partito Modificato"].tolist()
+# Visualizza il DataFrame risultante
+#print(df_modificato)
+# Leggi il file Excel con la mappatura dei partiti
+#print(df_partito_totale)
 
 
 import pandas as pd
@@ -218,30 +222,27 @@ from wikidataintegrator import wdi_core
 def get_political_alignment(parties):
     alignments = []
     for party in parties:
-        query = """
-        SELECT distinct ?party ?partyLabel ?alignmentLabel
-        WHERE {
-          ?party wdt:P31 wd:Q7278;
-                 rdfs:label ?partyLabel;
-                 wdt:P17 wd:Q38;
-                 wdt:P1387 ?alignment.
-          ?alignment rdfs:label ?alignmentLabel.
-          FILTER(LANG(?partyLabel) = "it" && LCASE(?partyLabel) = "%s").
-          FILTER(LANG(?alignmentLabel) = "it")
-        }
-        """ % party
+        query = """SELECT DISTINCT ?party ?partyLabel ?al WHERE {
+  ?party wdt:P31 wd:Q7278;
+         rdfs:label ?partyLabel;
+         wdt:P17 wd:Q38;
+         wdt:P1387 ?alignment.
+  ?alignment rdfs:label ?al. 
+  FILTER(LANG(?partyLabel) = "it" && CONTAINS(?partyLabel, "%s" )).
+  FILTER(LANG(?al) = "it")
+}""" % party
 
         result = wdi_core.WDItemEngine.execute_sparql_query(query)
         if result['results']['bindings']:
-            alignment = result['results']['bindings'][0]['alignmentLabel']['value']
+            alignment = result['results']['bindings'][0]['al']['value']
             alignments.append(alignment)
         else:
             alignments.append(None)
     
     df = pd.DataFrame({'Partito': parties, 'Allineamento Politico': alignments})
     return df
-
+print(get_political_alignment(parties))
 # Esempio di utilizzo
-df = get_political_alignment(listapartiti)
+#df = get_political_alignment(listapartiti)
 
-print(df)
+#print(df)
