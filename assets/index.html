@@ -16,7 +16,6 @@
 <body> 
 
 	<div id="flipbook" >  <!--inizio book-->
-		<div class="page" id="page1"> <!--prima pagina-->
 			<div class="head">
 					<header> <a href="index.html">CHAMBER OF DEPUTIES</a></header>
 					 <div class="subhead">Rome, IT - Thursday August 30, 1978 - Seven Pages 
@@ -64,7 +63,7 @@
 					<div class="collumn"><div class="head"><span class="headline hl1">It wasn't a dream </span><p><span class="headline hl4">by FRANZ KAFKA</span></p></div><p>One morning, when Gregor Samsa woke from troubled dreams, he found himself transformed in his bed into a horrible vermin. He lay on his armour-like back, and if he lifted his head a little he could see his brown belly, slightly domed and divided by arches into stiff sections. The bedding was hardly able to cover it and seemed ready to slide off any moment. </p>
 								
 								<p>His many legs, pitifully thin compared with the size of the rest of him, waved about helplessly as he looked. "What's happened to me?" he thought. It wasn't a dream. His room, a proper human room although a little too small, lay peacefully between its four familiar walls. A collection of textile samples lay spread out on the table - Samsa was a travelling salesman - and above it there hung a picture that he had recently cut out of an illustrated magazine and housed in a nice, gilded frame. It showed a lady fitted out with a fur hat and fur boa who sat upright, raising a heavy fur muff that covered the whole of her lower arm towards the viewer. Gregor then turned to look out the window at the dull weather. </p></div>
-							</div> 
+							
 						
 
 			</div>
@@ -82,118 +81,64 @@
 
 
 <script>
-	  function toRoman(num) {
-  var roman = "";
-  var romanNumerals = ["M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"];
-  var numbers = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
-
-  for (var i = 0; i < numbers.length; i++) {
-    while (num >= numbers[i]) {
-      roman += romanNumerals[i];
-      num -= numbers[i];
-    }
+  function scrollToPage(pageNum) {
+    var container = $('html, body');
+    var targetPage = $('#page-' + pageNum);
+    container.animate({
+      scrollTop: targetPage.offset().top
+    }, 800);
   }
 
-  return roman;
-}
-window.onload = function() {
-    $(document).ready(function() {
-      var container = $('#flipbook');
-      var containerWidth = container.width();
-      var containerHeight = container.height();
-  
-      // Verifica se il contenitore ha altezza e larghezza specificate
-      if (containerWidth == 0) {
-        // Handle case when containerWidth is 0
-      } else if (containerHeight == 0) {
-        // Handle case when containerHeight is 0
-      } else if (isNaN(containerWidth)) {
-        // Handle case when containerWidth is NaN
-      } else if (isNaN(containerHeight)) {
-        // Handle case when containerHeight is NaN
-      } else {
-        // Code to execute when none of the conditions are met
-        container.width(window.innerWidth);
-        container.height(window.innerHeight);
-      }
-      
+  $(document).ready(function() {
+    var navbar = $('<div class="navbar">');
+    $('body').append(navbar);
 
-        var homePage = 0; // Imposta la pagina iniziale come home (index.html)
+    var pages = [
+      'index.html',
+      'pagina1.html',
+      'pagina2.html',
+      'pagina3.html',
+      // Aggiungi gli altri URL delle pagine
+    ];
 
-        var pages = [
-          'index.html', 
-          'pagina1.html',
-          'pagina2.html',
-          'pagina3.html',
-          // Elenca gli altri file HTML per le pagine successive
-        ];
+    function updateNavbar(pageNum) {
+      navbar.find('.nav-button').removeClass('active');
+      navbar.find('.nav-button[data-page="' + pageNum + '"]').addClass('active');
+    }
 
-        container.turn({
-          width: '100%',
-          height: '100%',
-          display: 'single',
-          autoCenter: true,
-          turnCorners: true,
-          gradients: true,
-          acceleration: true,
-          pages: pages.length,
-          when: {
-            turning: function(event, page, view) {
-              console.log('Turning page:', page);
-            },
-            turned: function(event, page, view) {
-              console.log('Turned to page:', page);
-              updateNavbar(page);
-            },
-            first: function(event) {
-              container.turn('page', homePage);
-            }
-          },
-          page: function(event, page) {
-            var pageURL = pages[page - 1];
-            container.turn('page', page, pageURL);
-          }
-        });
-
-        var navbar = $('<div class="navbar">');
-        container.append(navbar);
-
-        function updateNavbar(page) {
-          navbar.find('.nav-button').removeClass('active');
-          navbar.find('.nav-button[data-page="' + page + '"]').addClass('active');
-        }
-
-        for (var i = 0; i < pages.length; i++) {
-          var pageNum = i + 1;
-          var romanNumeral = toRoman(pageNum);
-          var pageButton = $('<div class="nav-button">' + romanNumeral + '</div>');
-          pageButton.data('page', pageNum);
-          pageButton.on('click', function() {
-            var pageNum = $(this).data('page');
-            container.turn('page', pageNum);
-          });
-          navbar.append(pageButton);
-        }
-
-        navbar.css('bottom', '10px');
-
-        var prevButton = $('<button class="nav-button">Previous</button>');
-        prevButton.on('click', function() {
-          container.turn('previous');
-        });
-        navbar.append(prevButton);
-
-        var nextButton = $('<button class="nav-button">Next</button>');
-        nextButton.on('click', function() {
-          container.turn('next');
-        });
-        navbar.append(nextButton);
-
-        updateNavbar(homePage); // Imposta la home come attiva all'avvio
+    for (var i = 0; i < pages.length; i++) {
+      var pageNum = i + 1;
+      var romanNumeral = toRoman(pageNum);
+      var pageButton = $('<div class="nav-button">' + romanNumeral + '</div>');
+      pageButton.data('page', pageNum);
+      pageButton.on('click', function() {
+        var pageNum = $(this).data('page');
+        scrollToPage(pageNum);
       });
-}	
+      navbar.append(pageButton);
+    }
 
+    var prevButton = $('<button class="nav-button">Previous</button>');
+    prevButton.on('click', function() {
+      var currentPage = $('html, body').scrollTop() / $(window).height();
+      var prevPage = Math.floor(currentPage) + 1;
+      scrollToPage(prevPage);
+    });
+    navbar.append(prevButton);
+
+    var nextButton = $('<button class="nav-button">Next</button>');
+    nextButton.on('click', function() {
+      var currentPage = $('html, body').scrollTop() / $(window).height();
+      var nextPage = Math.ceil(currentPage) + 1;
+      scrollToPage(nextPage);
+    });
+    navbar.append(nextButton);
+
+    // Imposta la home come attiva all'avvio
+    updateNavbar(1);
+  });
 </script>
+
 
 </body>
 </html>
