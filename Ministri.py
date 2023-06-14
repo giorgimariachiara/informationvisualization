@@ -218,27 +218,36 @@ parties = df_modificato["Partito Modificato"].tolist()
 
 import pandas as pd
 from wikidataintegrator import wdi_core
-
 def get_political_alignment(parties):
     alignments = []
-    for party in parties:
-        query = """SELECT DISTINCT ?party ?partyLabel ?al WHERE {
-  ?party wdt:P31 wd:Q7278;
-         rdfs:label ?partyLabel;
-         wdt:P17 wd:Q38;
-         wdt:P1387 ?alignment.
-  ?alignment rdfs:label ?al. 
-  FILTER(LANG(?partyLabel) = "it" && CONTAINS(?partyLabel, "%s" )).
-  FILTER(LANG(?al) = "it")
-}""" % party
 
-        result = wdi_core.WDItemEngine.execute_sparql_query(query)
-        if result['results']['bindings']:
-            alignment = result['results']['bindings'][0]['al']['value']
+    sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
+
+    for party in parties:
+        query = """
+                SELECT DISTINCT ?party ?partyLabel ?al WHERE {
+          ?party wdt:P31 wd:Q7278;
+                rdfs:label ?partyLabel;
+                wdt:P17 wd:Q38;
+                wdt:P1387 ?alignment.
+          ?alignment rdfs:label ?al. 
+          FILTER(LANG(?partyLabel) = "it" && CONTAINS(?partyLabel, """ + party + """)).
+          FILTER(LANG(?al) = "it")
+        }
+
+        """
+
+
+        sparql.setQuery(query)
+        sparql.setReturnFormat(JSON)
+        results = sparql.query().convert()
+
+        if results["results"]["bindings"]:
+            alignment = results["results"]["bindings"][0]["al"]["value"]
             alignments.append(alignment)
         else:
             alignments.append(None)
-    
+
     df = pd.DataFrame({'Partito': parties, 'Allineamento Politico': alignments})
     return df
 print(get_political_alignment(parties))
