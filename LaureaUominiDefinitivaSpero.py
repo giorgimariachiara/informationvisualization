@@ -33,18 +33,15 @@ rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
 df_laurea_uomini = get(endpoint, querydefinitivalaureauomini)
 df_laurea_uomini = df_laurea_uomini.drop_duplicates(["persona","nome", "cognome", "luogoNascita"]) #5204
 df_laurea_uomini_data = df_laurea_uomini.drop_duplicates(["persona","nome", "cognome", "dataNascita","luogoNascita"])
+df_uomini_noinfo = df_laurea_uomini[df_laurea_uomini['info'].isna()] 
+df_uomini_noinfo_data = df_uomini_noinfo[["nome", "cognome", "dataNascita"]]
 #print(len(df_laurea_uomini_data))
 #df_laurea_uomini = df_laurea_uomini.sort_values(by='cognome')
-row_margiotta = df_laurea_uomini[df_laurea_uomini['cognome'] == 'LAVORATO']
-print(row_margiotta)
-df_uomini_noinfo = df_laurea_uomini[df_laurea_uomini['info'].isna()] 
-#df_uomini_noinfo = df_uomini_noinfo[["nome", "cognome", "luogoNascita"]]
-df_uomini_noinfo_data = df_uomini_noinfo[["nome", "cognome", "dataNascita"]]
 
 import locale
 from datetime import datetime
 
-# Imposta la localizzazione italiana
+#Modifica della formattazione dei nomi per permettere la ricerca degli URL wikipedia 
 locale.setlocale(locale.LC_TIME, 'it_IT.UTF-8')
 
 lista_politici_data = []
@@ -68,8 +65,9 @@ for index, row in df_uomini_noinfo_data.iterrows():
     else:
         lista_politici_data.append((nome_cognome, ""))
 
-print(lista_politici_data)
-
+#print(lista_politici_data)
+"""
+#luogo di nascita
 lista_politici = []
 
 for index, row in df_uomini_noinfo.iterrows():
@@ -78,44 +76,42 @@ for index, row in df_uomini_noinfo.iterrows():
     if pd.notna(citta_nascita):
         citta_nascita = citta_nascita.title().replace("_", " ")
     lista_politici.append((nome_cognome, citta_nascita))
-
-#print(lista_politici)
+print("LISTAPOLITICI")
+print(lista_politici)
 #print(len(lista_politici))
+"""
+
 df_laurea_uomini['info'] = df_laurea_uomini['info'].fillna('') 
 masklaurea = df_laurea_uomini['info'].str.contains('Laurea|laurea|Master|LAUREA')
 
-# Estrarre le righe che soddisfano la maschera
+# Estrazione delle persone che hanno laurea dai dati di dati camera 
 laureati = df_laurea_uomini[masklaurea]
-#laureati = laureati.assign(info="yes")
 laureati = laureati.assign(gender='male')
 uominilaureati = laureati[["nome", "cognome", "gender"]]
-#uominilaureati = laureati.rename(columns={'info': 'graduated'})
-
 
 masknonlaurea =~df_laurea_uomini['info'].str.contains('Laurea|laurea|Master|LAUREA', na=False) & df_laurea_uomini['info'].ne('')
 uomininonlaureati = df_laurea_uomini[masknonlaurea]
 #uomininonlaureati = uomininonlaureati.assign(info="no")
 uomininonlaureati = uomininonlaureati.assign(gender='male')
 uomininonlaureati = uomininonlaureati[["nome", "cognome", "gender"]]
-#uomininonlaureati = uomininonlaureati.rename(columns={'info': 'graduated'})
 
-#print(len(df_laurea_uomini)) #5204
-#print(uominilaureati) #3293
-#print(uominilaureati)
-#print(len(df_uomini_noinfo)) #162
+print("UOMINI TOTALE 5204")
+print(len(df_laurea_uomini)) #5204
+print("UOMINI LAUREATI 3293")
+print(len(uominilaureati)) #3293
+print("UOMINI NO INFO 162")
+print(len(df_uomini_noinfo)) #162
+print("UOMINI NON LAUREATI 1749")
 #print(uomininonlaureati) #1749
-#print(len(uomininonlaureati))
+print(len(uomininonlaureati))
 
-#uominilaureacsv = pd.concat([uomininonlaureati, uominilaureati],  axis=0)
-#uominilaureacsv.to_csv("mengraduation.csv",  index=False, index_label=False)
-#print(len(uominilaureacsv)) #senza info sono 162, 3293 si, 1749
-
-lista_uomini_noinfo= df_uomini_noinfo['nome'] + ' ' + df_uomini_noinfo['cognome'] 
-#print(lista_uomini_noinfo)
+"""
+lista_uomini_noinfo= df_uomini_noinfo['nome'] + ' ' + df_uomini_noinfo['cognome'] #posso toglierlo misa
 lista_uomini_noinfo = lista_uomini_noinfo.to_list()
 lista_uomini_noinfo= [nome_cognome.title() for nome_cognome in lista_uomini_noinfo]
 lista_uomini_noinfo = [nome_cognome.replace(' ', '_') for nome_cognome in lista_uomini_noinfo]
-#print(lista_uomini_noinfo)
+"""
+
 #CERCA PAGINA WIKIPEDIA DELLE PERSONE SENZA INFORMAZIONI SUL TITOLO DI STUDIO 
 
 import re
@@ -154,7 +150,7 @@ for nome_cognome, data_nascita in lista_politici_data:
                 if paragraph:
                     birth_date = extract_birth_date(paragraph.text)
                     if birth_date and (birth_date == data_nascita or birth_date.split(' – ')[0] == data_nascita):
-                        print(f"URL della pagina di Wikipedia per {nome_cognome} (politico con data): {url_politico_data}")
+                        #print(f"URL della pagina di Wikipedia per {nome_cognome} (politico con data): {url_politico_data}")
                         url_lista.append(url_politico_data)
                         uomini_con_url.append(nome_cognome)
                         break
@@ -171,7 +167,7 @@ for nome_cognome, data_nascita in lista_politici_data:
                 if paragraph:
                     birth_date = extract_birth_date(paragraph.text)
                     if birth_date and (birth_date == data_nascita or birth_date.split(' – ')[0] == data_nascita):
-                        print(f"URL della pagina di Wikipedia per {nome_cognome} (politico): {url_politico}")
+                        #print(f"URL della pagina di Wikipedia per {nome_cognome} (politico): {url_politico}")
                         url_lista.append(url_politico)
                         uomini_con_url.append(nome_cognome)
                         continue
@@ -185,7 +181,7 @@ for nome_cognome, data_nascita in lista_politici_data:
                 if paragraph:
                     birth_date = extract_birth_date(paragraph.text)
                     if birth_date and (birth_date == data_nascita or birth_date.split(' – ')[0] == data_nascita):
-                        print(f"URL della pagina di Wikipedia generica per {nome_cognome}: {url_generale}")
+                        #print(f"URL della pagina di Wikipedia generica per {nome_cognome}: {url_generale}")
                         url_lista.append(url_generale)
                         uomini_con_url.append(nome_cognome)
                         continue
@@ -194,102 +190,46 @@ for nome_cognome, data_nascita in lista_politici_data:
         print(f"Nessun URL trovato per {nome_cognome}")
         
         uomini_senza_url.append((nome_cognome, data_nascita))
+        
 
 df_uomini_con_url = pd.DataFrame({"Persona": uomini_con_url, "URL": url_lista})
+for index, row in df_uomini_con_url.iterrows():
+    persona = row["Persona"]
+    for nome_cognome, data_nascita in lista_politici_data:
+        if nome_cognome == persona:
+            df_uomini_con_url.at[index, "Data di nascita"] = data_nascita
+            break
+
 df_uomini_senza_url = pd.DataFrame({"Persona e Data di nascita": uomini_senza_url})
-print("uomini con url")
+pd.set_option('display.max_colwidth', None)
+print("Uomini che hanno url subito 111")
+#print(df_uomini_con_url)
 print(len(df_uomini_con_url))
-print("uomini senza url")
+print("Uomini senza url subito 51")
 print(len(df_uomini_senza_url))
 
-"""
-def check_url_exists(url):
-    response = requests.get(url)
-    return response.status_code == 200
-
-
-url_lista = []
-uomini_con_url = []
-uomini_senza_url = []
-
-for persona, citta_nascita in lista_politici:
-    url_politico_data = None
-    for anno_iniziale in [1952, 1940, 1929]:
-        url_politico_data = f"https://it.wikipedia.org/wiki/{persona}_(politico_{anno_iniziale})"
-        if check_url_exists(url_politico_data):
-            pagina_wikipedia = requests.get(url_politico_data)
-            if pagina_wikipedia.status_code == 200:
-                soup = BeautifulSoup(pagina_wikipedia.text, 'html.parser')
-                div_parser_output = soup.find('div', class_='mw-parser-output')
-                if div_parser_output:
-                    paragraph = div_parser_output.find('p')
-                    if paragraph:
-                        city_link = paragraph.find('a')
-                        if city_link and city_link.get('title', '').lower() == citta_nascita.lower():
-                            print(f"URL della pagina di Wikipedia per {persona} (politico con data): {url_politico_data}")
-                            url_lista.append(url_politico_data)
-                            uomini_con_url.append(persona)
-                            break
-                else:
-                    print("Div mw-parser-output non trovato.")
-    else:
-        url_politico = f"https://it.wikipedia.org/wiki/{persona}_(politico)"
-        url_generale = f"https://it.wikipedia.org/wiki/{persona}"
-        if check_url_exists(url_politico):
-            pagina_wikipedia = requests.get(url_politico)
-            if pagina_wikipedia.status_code == 200:
-                soup = BeautifulSoup(pagina_wikipedia.text, 'html.parser')
-                div_parser_output = soup.find('div', class_='mw-parser-output')
-                if div_parser_output:
-                    paragraph = div_parser_output.find('p')
-                    if paragraph:
-                        city_link = paragraph.find('a')
-                        if city_link and city_link.get('title', '').lower() == citta_nascita.lower():
-                            print(f"URL della pagina di Wikipedia per {persona} (politico): {url_politico}")
-                            url_lista.append(url_politico)
-                            uomini_con_url.append(persona)
-                            continue
-                else:
-                    print("Div mw-parser-output non trovato.")
-        if check_url_exists(url_generale):
-            pagina_wikipedia = requests.get(url_generale)
-            if pagina_wikipedia.status_code == 200:
-                soup = BeautifulSoup(pagina_wikipedia.text, 'html.parser')
-                div_parser_output = soup.find('div', class_='mw-parser-output')
-                if div_parser_output:
-                    paragraph = div_parser_output.find('p')
-                    if paragraph:
-                        city_link = paragraph.find('a')
-                        if city_link and city_link.get('title', '').lower() == citta_nascita.lower():
-                            print(f"URL della pagina di Wikipedia generica per {persona}: {url_generale}")
-                            url_lista.append(url_generale)
-                            uomini_con_url.append(persona)
-                            continue
-                else:
-                    print("Div mw-parser-output non trovato.")
-        print(f"Nessun URL trovato per {persona}")
-        uomini_senza_url.append(persona)
-
-df_uomini_con_url = pd.DataFrame({"Persona": uomini_con_url, "URL": url_lista})
-df_uomini_senza_url = pd.DataFrame({"Persona": uomini_senza_url})
-
-print(len(df_uomini_con_url))
-print(len(df_uomini_senza_url))
-"""
-#print(df_uomini_senza_url)
-uomin= df_uomini_senza_url['Persona e Data di nascita'].values.tolist()
-
+lista_uomini_senza_url = df_uomini_senza_url['Persona e Data di nascita'].values.tolist()
 
 import pandas as pd
 import wikipediaapi
 import re
 
+#Stesso controllo ma per vedere le date primo e per quelli che sono morti e quindi hanno due date su cui fare il check ecc 
+
 def extract_birth_date(text):
-    matches = re.findall(r'\d+\s+\w+\s+\d+', text)
-    if matches:
-        birth_date = matches[0]
-        return birth_date.strip()
-    return None
+    if '–' in text:
+        date_range = re.findall(r'(\d+\s\w+\s\d+)', text)
+        if date_range:
+            birth_date = date_range[0]
+            if birth_date in text.split('–')[0]:
+                return birth_date
+    else:
+        matches = re.findall(r'(\d+º?\s\w+\s\d+)', text)
+        if matches:
+            birth_date = matches[0]
+            if birth_date.startswith('1º'):
+                return birth_date.replace('º', '')
+            return birth_date
 
 def find_wikipedia_url(nome_cognome, data_nascita):
     wiki_wiki = wikipediaapi.Wikipedia('it')
@@ -338,148 +278,241 @@ def find_wikipedia_url(nome_cognome, data_nascita):
 df_with_url = pd.DataFrame(columns=['Nome', 'Data di nascita', 'URL'])
 df_without_url = pd.DataFrame(columns=['Nome', 'Data di nascita'])
 
-for item in uomin:
+for item in lista_uomini_senza_url:
     nome_cognome, data_nascita, url = find_wikipedia_url(item[0], item[1])
     if url:
         df_with_url = pd.concat([df_with_url, pd.DataFrame({'Nome': [nome_cognome], 'Data di nascita': [data_nascita], 'URL': [url]})], ignore_index=True)
     else:
         df_without_url = pd.concat([df_without_url, pd.DataFrame({'Nome': [nome_cognome], 'Data di nascita': [data_nascita]})], ignore_index=True)
 
-print("DataFrame con URL:")
-
-print("DataFrame con URL:")
+pd.set_option('display.max_colwidth', None)
+print("UOMINI CON URL DOPO IL PRIMO TENT 15:")
 print(len(df_with_url))
-print("\nDataFrame senza URL:")
+print("UOMINI SENZA URL ANCHE DOPO QUESTO TENT 36:")
 print(len(df_without_url))
 
 
-"""
+
+#Trovare quelli che hanno dei secondi nomi su wiki ecc
+
+# Funzione per controllare l'esistenza dell'URL
 def check_url_exists(url):
-    response = requests.head(url)
+    response = requests.get(url)
     return response.status_code == 200
 
-url_lista = []
-uomini_con_url = []
-uomini_senza_url = []
+# Funzione per ottenere URL alternativi
+def get_alternative_urls(nome, cognome):
+    search_query = f"https://it.wikipedia.org/w/index.php?title=Speciale:Search&search={nome}+{cognome}"
+    search_response = requests.get(search_query)
 
-for persona in lista_uomini_noinfo:
-    url_politico = f"https://it.wikipedia.org/wiki/{persona}_(politico)"
-    url_generale = f"https://it.wikipedia.org/wiki/{persona}"
-    
-    url_politico_data = None
-    for anno_iniziale in [1983, 1940, 1929]:
-        url_politico_data = f"https://it.wikipedia.org/wiki/{persona}_(politico_{anno_iniziale})"
-        if check_url_exists(url_politico_data):
-            print(f"URL della pagina di Wikipedia per {persona} (politico con data): {url_politico_data}")
-            url_lista.append(url_politico_data)
-            uomini_con_url.append(persona)
-            break
-    else:  # Eseguito solo se il loop precedente non ha raggiunto il break
-        if check_url_exists(url_politico):
-            print(f"URL della pagina di Wikipedia per {persona} (politico): {url_politico}")
-            url_lista.append(url_politico)
-            uomini_con_url.append(persona)
-        elif check_url_exists(url_generale):
-            print(f"URL della pagina di Wikipedia generica per {persona}: {url_generale}")
-            url_lista.append(url_generale)
-            uomini_con_url.append(persona)
-        else:
-            print(f"Nessun URL trovato per {persona}")
-            uomini_senza_url.append(persona)
+    alternative_urls = []
 
-df_uomini_con_url3 = pd.DataFrame({"Persona": uomini_con_url, "URL": url_lista})
-df_uomini_senza_url3 = pd.DataFrame({"Persona": uomini_senza_url})
+    if search_response.status_code == 200:
+        search_soup = BeautifulSoup(search_response.content, "html.parser")
+        search_results = search_soup.find_all("div", class_="mw-search-result-heading")
 
-print(len(df_uomini_con_url3))
-print(len(df_uomini_senza_url3))
-uomin3 = df_uomini_con_url3["Persona"].to_list()
+        for result in search_results:
+            result_link = result.find("a")
+            result_url = result_link["href"]
+            url = f"https://it.wikipedia.org{result_url}"
+            decoded_url = urllib.parse.unquote(url)  # Decodifica l'URL per visualizzare i caratteri speciali
+            alternative_urls.append(decoded_url)
 
-listaaa = list(set(uomin) ^ set(uomin3))
-print(listaaa)
-"""
-#CODICE PER CERCARE SECONDI NOMI O ALTRI COGNOMI ECC. 
+    return alternative_urls
+
 url_lista = []
 uomini_con_url2 = []
+uomini_senza_url2 = []
+date_nascita_senza_url2 = []
+date_nascita_con_url2 = []
 
 for index, row in df_without_url.iterrows():
-    nome_cognome = row['Nome']
-    data_nascita = row['Data di nascita']
-
-    nome_cognome_parts = nome_cognome.split("_")
+    persona = row['Nome']
+    nome_cognome_parts = persona.split("_")
     nome = nome_cognome_parts[0]
-    cognome = "_".join(nome_cognome_parts[1:])  # Unisci gli elementi del cognome separati da underscore
+    cognome = nome_cognome_parts[-1]
 
-    # Effettua la richiesta HTTP alla pagina di Wikipedia
-    response = requests.get(f"https://it.wikipedia.org/wiki/{nome_cognome}", timeout=10)
+    response = requests.get(f"https://it.wikipedia.org/wiki/{persona}", timeout=10)
 
     if response.status_code == 200:
-        content = response.text
-        birth_date = extract_birth_date(content)
-        if birth_date and (birth_date == data_nascita or birth_date.split(' – ')[0] == data_nascita):
-            url_lista.append(response.url)
-            uomini_con_url2.append(nome_cognome)
+        url_lista.append(response.url)
+        uomini_con_url2.append(persona)
+        date_nascita_con_url2.append(row['Data di nascita'])
     else:
-        # Cerca gli URL alternativi che contengono nome e cognome in diverse combinazioni
-        search_query = f"https://it.wikipedia.org/w/index.php?title=Speciale:Search&search={nome}+{cognome}"
-        search_response = requests.get(search_query)
+        alternative_urls = get_alternative_urls(nome, cognome)
 
-        if search_response.status_code == 200:
-            search_soup = BeautifulSoup(search_response.content, "html.parser")
-            search_results = search_soup.find_all("div", class_="mw-search-result-heading")
-
-            for result in search_results:
-                result_link = result.find("a")
-                result_url = result_link["href"]
-                url = f"https://it.wikipedia.org{result_url}"
-                decoded_url = urllib.parse.unquote(url)
-
-                # Effettua la richiesta HTTP alla pagina di Wikipedia alternativa
-                alternative_response = requests.get(decoded_url, timeout=10)
-
-                if alternative_response.status_code == 200:
-                    alternative_content = alternative_response.text
-                    birth_date = extract_birth_date(alternative_content)
-                    if birth_date and (birth_date == data_nascita or birth_date.split(' – ')[0] == data_nascita):
-                        url_lista.append(decoded_url)
-                        uomini_con_url2.append(nome_cognome)
-                else:
-                    print(f"Errore nella richiesta della pagina di Wikipedia per {nome_cognome}")
+        for alternative_url in alternative_urls:
+            if check_url_exists(alternative_url):
+                url_lista.append(alternative_url)
+                uomini_con_url2.append(persona)
+                date_nascita_con_url2.append(row['Data di nascita'])
+                break
         else:
-            print(f"Errore nella richiesta di ricerca su Wikipedia per {nome_cognome}")
+            uomini_senza_url2.append(persona)
+            date_nascita_senza_url2.append(row['Data di nascita'])
 
-df_uomini_con_url2 = pd.DataFrame({"Persona": uomini_con_url2, "URL": url_lista})
-print(df_uomini_con_url2)
-pattern = r"\b(" + "|".join(df_uomini_con_url2['Persona'].str.replace('_', ' ')) + r")\b"
-df_filtered = df_uomini_con_url2[df_uomini_con_url2['URL'].str.contains(pattern, case=False)]
-#print(df_filtered)
-#print(df_uomini_con_url2)
-nomi_da_cercare = df_uomini_con_url2["Persona"].tolist()
+df_uomini_con_url2 = pd.DataFrame({"Persona": uomini_con_url2, "URL": url_lista, "Data di nascita": date_nascita_con_url2})
+df_uomini_senza_url2 = pd.DataFrame({"Persona": uomini_senza_url2, "Data di nascita": date_nascita_senza_url2})
 
-#questo serve per non far prendere url con solo tipo il cognome ecc qui prende infatti solo ludovico 
-df_filtered_list = []
+print("Lunghezza dataframe uomini con URL 34:")
+print(len(df_uomini_con_url2))
+print("Lunghezza dataframe uomini senza URL 2:")
+print(len(df_uomini_senza_url2))
 
-for nome_cognome in nomi_da_cercare:
-    # Filtra il DataFrame per le righe che contengono il nome e cognome nell'URL
-    df_filtered = df_uomini_con_url2[df_uomini_con_url2["URL"].str.contains(nome_cognome.replace(" ", "_"))]
+#Controlliamo se nell'url c'è effettivamente il nome o il cognome 
+corresponding_rows = []
+non_corresponding_rows = []
+
+for _, row in df_uomini_con_url2 .iterrows():
+    nome_cognome = row['Persona']
+    url = row['URL']
     
-    # Aggiungi il DataFrame filtrato alla lista solo se contiene righe
-    if not df_filtered.empty:
-        df_filtered_list.append(df_filtered)
+    parole_nome_cognome = nome_cognome.split('_')
+    presente = False
+    
+    for parola in parole_nome_cognome:
+        if parola.lower() in url.lower():
+            presente = True
+            break
+    
+    if presente:
+        corresponding_rows.append(row)
+    else:
+        non_corresponding_rows.append(row)
 
-# Unisci tutti i DataFrame filtrati nella lista
-df_final = pd.concat(df_filtered_list)
-df_final = df_final.drop_duplicates(subset='Persona')
+corresponding_url_df = pd.DataFrame(corresponding_rows, columns=df_uomini_con_url2 .columns)
+non_corresponding_url_df = pd.DataFrame(non_corresponding_rows, columns=df_uomini_con_url2 .columns)
 
-# Stampa il DataFrame finale
-print(df_final)
-print(len(df_final))
-# DataFrame vuoto per i risultati
-#df_risultati = pd.DataFrame(columns=["Persona", "URL"])
+pd.set_option('display.max_colwidth', None)
+print("URL corrispondenti:")
+print(corresponding_url_df)
+print(len(corresponding_url_df))
 
+print("\nURL non corrispondenti:")
+print(non_corresponding_url_df)
+"""
+from fuzzywuzzy import fuzz
+# Funzione per confrontare il nome della persona con l'URL in modo da controllare che non si prendano url diversi 
+def confronta_nomi(nome, url):
+    nome_splittato = nome.split('_')
+    url_splittato = url.split('/')[-1].split('_')
+    similarita = fuzz.token_set_ratio(nome_splittato, url_splittato)
+    return similarita
+
+# Filtra il dataframe per le righe che contengono il nome nella parte finale dell'URL
+df_filtered = pd.DataFrame(columns=['Persona', 'URL'])  # DataFrame vuoto per i risultati filtrati
+url_personali = set()
+
+for index, row in corresponding_url_df.iterrows():
+    nome = row['Persona']
+    url = row['URL']
+    if confronta_nomi(nome, url) >= 90:  # Soglia di similarità più bassa
+        if nome not in url_personali:
+            df_filtered = df_filtered.append(row)
+            url_personali.add(nome)
+
+df_filtered.reset_index(drop=True, inplace=True)
+print(df_filtered)
+"""
+import re
+from bs4 import BeautifulSoup
+import requests
+
+def check_birth_date_in_url(df):
+    def check_birth_date(url, birth_date):
+        response = requests.get(url)
+        if response.status_code == 200:
+            html_code = response.text
+            soup = BeautifulSoup(html_code, 'html.parser')
+            mw_parser_output = soup.find('div', class_='mw-parser-output')
+            if mw_parser_output:
+                p_tags = mw_parser_output.find_all('p')
+                for p_tag in p_tags:
+                    if all(re.search(r'\b{}\b'.format(re.escape(part)), str(p_tag)) for part in birth_date.split(' ')):
+                        return True
+        return False
+
+    df_with_birthdate = pd.DataFrame(columns=df.columns)
+    df_without_birthdate = pd.DataFrame(columns=df.columns)
+
+    for index, row in df.iterrows():
+        url = row['URL']
+        birth_date = row['Data di nascita']
+        corrisponde = check_birth_date(url, birth_date)
+        if corrisponde:
+            df_with_birthdate = df_with_birthdate.append(row)
+        else:
+            df_without_birthdate = df_without_birthdate.append(row)
+
+    return df_with_birthdate, df_without_birthdate
+
+df_with_birthdate, df_without_birthdate = check_birth_date_in_url(corresponding_url_df)
+
+print("DataFrame con corrispondenza di data di nascita:")
+print(df_with_birthdate)
+print(len(df_with_birthdate))
+
+print("DataFrame senza corrispondenza di data di nascita:")
+print(df_without_birthdate)
+print(len(df_without_birthdate))
+
+#df_with_url2 = df_with_birthdate[df_with_birthdate["Corrisponde"] == True].copy()
+#df_with_url2 = df_with_url2[["Persona", "URL", "Data di nascita"]]
+df_with_url = df_with_url.rename(columns={"Nome": "Persona"})
+pd.set_option('display.max_colwidth', None)
+#print("URL trovati dopo check secondo nome 3")
+#print(len(df_with_url2))
+# Stampa il dataframe risultante
+#print(df_with_birth_date)
+#print(df_with_url.columns)
+#print(df_with_url2.columns)
+#print(df_uomini_con_url.columns)
 #UNISCO TUTTI I DATAFRAME CON GLI URL DI WIKIPEDIA DA CONTROLLARE 
 
-df_controllo_wiki = pd.concat([df_final, df_uomini_con_url]) #133
+df_controllo_wiki = pd.concat([df_with_url, df_uomini_con_url, df_with_birthdate])
+print("numero di tutti gli url che ho ottenuto")
 print(len(df_controllo_wiki))
+#print(df_controllo_wiki)
+
+"""
+matching_rows = []
+for index, row in df_uomini_con_url2.iterrows():
+    url = row["URL"]
+    birth_date = row["Data di nascita"]
+    
+    # Esegue la richiesta GET per ottenere il contenuto HTML della pagina
+    response = requests.get(url)
+    if response.status_code == 200:
+        html_content = response.text
+        
+        # Utilizza BeautifulSoup per il parsing dell'HTML
+        soup = BeautifulSoup(html_content, "html.parser")
+        
+        # Trova il paragrafo che contiene la data di nascita
+        paragraph = soup.find('p', text=re.compile(r'\b{}\b'.format(birth_date), re.IGNORECASE))
+        
+        if paragraph:
+            # Trova tutti gli elementi 'a' all'interno del paragrafo
+            links = paragraph.find_all('a')
+            
+            # Controlla se è stato trovato almeno un link
+            if links:
+                # Prende il primo link corrispondente
+                matching_url = links[0].get('href')
+                
+                # Costruisce l'URL completo
+                full_url = requests.compat.urljoin(url, matching_url)
+                
+                # Aggiunge la riga corrispondente al dataframe
+                matching_rows.append([row["Persona"], full_url, row["Data di nascita"]])
+
+if matching_rows:
+    matching_df = pd.DataFrame(matching_rows, columns=["Persona", "URL", "Data di nascita"])
+    print(matching_df)
+else:
+    print("Nessuna corrispondenza trovata.")
+
+"""
 #CONTROLLO CHE NELLE PAGINE DI WIKIPEDIA CI SIA LA SEZIONE TITOLO DI STUDIO 
 urldaesaminare= df_controllo_wiki["URL"].tolist()
 #print(urldaesaminare)
@@ -528,7 +561,7 @@ for url in urldaesaminare:
 final_df = pd.concat(dataframes, ignore_index=True)
 
 df_filt = final_df[final_df['th'].str.contains('studio')]
-
+#print(len(df_filt))
 #CONTROLLO CHE NELLA SEZIONE TITOLO DI STUDIO CI SIA LAUREA O DIPLOMA PER CAPIRE I LAUREATI 
 # Creazione dei due DataFrame vuoti
 df_filt_con_laurea = pd.DataFrame(columns=df_filt.columns)
@@ -546,25 +579,25 @@ df_filt_con_laurea['cognome'] = df_filt_con_laurea['url'].str.split('/').str[-1]
 df_filt_con_laurea = df_filt_con_laurea.assign(gender='male')
 df_filt_con_laurea = df_filt_con_laurea[['nome', 'cognome', 'gender']]
 
-#print(len(df_filt_con_laurea))
 df_filt_senza_laurea['nome'] = df_filt_senza_laurea['url'].str.split('/').str[-1].str.split('_').str[:-1].str.join(' ')
 df_filt_senza_laurea['cognome'] = df_filt_senza_laurea['url'].str.split('/').str[-1].str.split('_').str[-1]
 df_filt_senza_laurea = df_filt_senza_laurea.assign(gender='male')
 df_filt_senza_laurea = df_filt_senza_laurea[['nome', 'cognome', 'gender']]
-#print(len(df_filt_senza_laurea))
-#print(len(df_filt_con_laurea))
-#print(df_filt_con_laurea)
-#print(df_filt_senza_laurea)
+
+print("df_filt_con_laure")
+print(len(df_filt_con_laurea))
+print("df_filt_senza_laure")
+print(len(df_filt_senza_laurea))
 
 urlconsezionetitolodistudio = df_filt["url"].tolist()
 #print(len(urlconsezionetitolodistudio))
 valori_non_comuni = list(set(urldaesaminare) - set(urlconsezionetitolodistudio))
 #print(valori_non_comuni)
-print(len(valori_non_comuni)) #url senza sezione titolo di studio   70
+print("Valori non comuni, ovvero url senza la sezione titolo di studio ")
+print(len(valori_non_comuni)) #url senza sezione titolo di studio   67
+
 
 #CONTROLLO DEGLI URL SENZA LA SEZIONE TITOLO DI STUDIO SE HANNO INFO LAUREA NELLA BIO 
-
-#url_lista_finale = dffinale["URL"].tolist()
 
 df_con_parola = pd.DataFrame(columns=["Persona", "URL"])
 df_senza_parola = pd.DataFrame(columns=["Persona", "URL"])
@@ -614,7 +647,8 @@ print(len(df_con_parola))
 print("Pagine senza nessuna delle parole:")
 #print(df_senza_parola)
 print(len(df_senza_parola))
-#print(df_filt)
+
+#Controllo della professione per quelli che non hanno nè titolo di studio nè parola 
 
 listacheckprofessione = df_senza_parola["URL"].tolist()
 #print(len(listacheckprofessione))
@@ -665,6 +699,7 @@ final_df = pd.concat(dataframes, ignore_index=True)
 #final_df = final_df.drop_duplicates(subset=['url'])
 #print(len(final_df))
 df_filtprofessione = final_df[final_df['th'].str.contains('Professione')]
+print("URL con sezione professione")
 print(len(df_filtprofessione))
 
 df_da_escludere = df_filtprofessione[["url"]]
@@ -672,13 +707,12 @@ url_senza_professione = final_df[~final_df['url'].isin(df_da_escludere['url'])]
 url_senza_professione = url_senza_professione.drop_duplicates(subset=['url'])
 prova= pd.concat([df_filtprofessione, url_senza_professione])
 listacheck = prova["url"].tolist()
-lista3 = list(set(listacheckprofessione) ^ set(listacheck))
+#lista3 = list(set(listacheckprofessione) ^ set(listacheck))
 #print(df_senzaprofessione)
-print(lista3)
+#print(lista3)
+print("url senza professione")
 print(len(url_senza_professione))
-#print(url_senza_professione)
-#print(len(df_filtprofessione))
-#print(df_filtprofessione)
+
 
 df_avvocato_professore = pd.DataFrame(columns=df.columns)
 df_ingegnere = pd.DataFrame(columns=df.columns)
@@ -697,8 +731,11 @@ for index, row in df_filtprofessione.iterrows():
 # Stampa dei tre DataFrame risultanti
 print("DataFrame Avvocato/Professore Universitario:")
 print(len(df_avvocato_professore))
+print(df_avvocato_professore)
 print("DataFrame altro:")
 print(len(df_altro))
+print(df_altro)
+
 # Estrazione del nome e del cognome dall'URL
 df_avvocato_professore['nome'] = df_avvocato_professore['url'].str.split('/').str[-1].str.replace('_', ' ')
 df_avvocato_professore['cognome'] = df_avvocato_professore['nome'].str.split().str[-1]
@@ -707,7 +744,8 @@ df_avvocato_professore = df_avvocato_professore.assign(gender='male')
 df_avvocato_professore = df_avvocato_professore[['nome', 'cognome', 'gender']]
 print("DataFrame Ingegnere:")
 print(len(df_ingegnere))
-#print()
+print(df_ingegnere)
+
 
 #print("DataFrame Altro:")
 #print(df_altro)
@@ -721,41 +759,13 @@ df_con_parola = df_con_parola[['nome', 'cognome', 'gender']]
 
 
 uominilaureati_f = pd.concat([df_filt_con_laurea, uominilaureati, df_con_parola, df_avvocato_professore])
-
-#print(len(uominilaureati_f))
-
-#print(df_con_parola)
-#print(len(df_avvocato_professore))
-#print(uominilaureati_f)
 print("Uomini laureati totale:")
 print(len(uominilaureati_f))
 
-#print(uominilaureati_f)
-#print(len(uominilaureati))
-#print(len(df_con_parola))
-#print(len(df_avvocato_professore))
-#print(len(df_filt_con_laurea))
-#print(len(uominilaureati_f))
-
-#print(df_filt_con_laurea.columns) #nome cognome gender
-#print(uominilaureati.columns) #nome cognome gender
-#print(df_con_parola.columns) #nome cognome gender
-#print(len(uominilaureati_f))
-#print(df_uomini_senza_url)
 uomininonlaureati_f = pd.concat([df_filt_senza_laurea, uomininonlaureati, df_altro])
-df_uomini_senza_url['nome'] = df_uomini_senza_url['Persona'].str.split('_').str[0]
-df_uomini_senza_url['cognome'] = df_uomini_senza_url['Persona'].str.split('_').str[1]
-df_uomini_senza_url = df_uomini_senza_url[["nome", "cognome"]]
+df_uomini_senza_url  = df_uomini_senza_url["Persona e Data di nascita"].apply(lambda x: x[0])
+df_uomini_senza_url  = pd.DataFrame(df_uomini_senza_url , columns=["Persona"])
 df_uomini_senza_url = df_uomini_senza_url.assign(gender='male')
-#print(df_uomini_senza_url)
-
-#uomininoinfo_f = pd.concat([df_altro, df_uomini_senza_url])
-#print(uomininoinfo_f.columns)
-#print(len(uomininoinfo_f))
+print(df_uomini_senza_url)
 print("Uomini non laureati totale:")
 print(len(uomininonlaureati_f))
-#print(df_filtprofessione)
-#print(len(df_filtprofessione))
-#print(df_filtprofessione)
-
-#misà che dobbiamo lasciare i nomi con il _ e li dobbiamo confrontare così 
