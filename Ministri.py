@@ -196,20 +196,47 @@ df_partito_uomini2 = df_partito_uomini2.assign(gender='male')
 
 df_partito_totale = pd.concat([df_partito_uomini1, df_partito_uomini2, df_partito_donne])
 df_partito_totale = df_partito_totale[["partito"]].drop_duplicates()
+#print(df_partito_totale)
+#print(len(df_partito_totale))
 listapartiti = df_partito_totale["partito"].tolist()
 #print(listapartiti)
 
-df = pd.read_excel('Partiti.xlsx')
+import pandas as pd
 
-# Itera attraverso i partiti nel DataFrame
+# Leggi il file Excel e crea il DataFrame
+df = pd.read_excel('Partiti.xlsx')
+listapartiti = [partito.lower().strip() for partito in listapartiti]
+df['A'] = df['A'].str.lower().str.strip()
+
+# Crea un dizionario dalla colonna A alla colonna B del DataFrame
 mappa_partiti = dict(zip(df['A'], df['B']))
 
-# Crea una nuova lista dei partiti modificati
-nuova_lista_partiti = [mappa_partiti.get(partito, partito) for partito in listapartiti]
+# Itera sulla lista dei partiti
+for i in range(len(listapartiti)):
+    partito = listapartiti[i]
+    if partito in mappa_partiti:
+        listapartiti[i] = mappa_partiti[partito]
+listapartiti = list(set(listapartiti))
+# Visualizza il DataFrame modificato
+#print(len(listapartiti.drop_duplicates()))
+#listapartiti = [partito.replace("'", "").replace('"', '') for partito in listapartiti]
 
+#comuni = list(set(listapartiti) & set(df['A']))
+#non_comuni = list(set(listapartiti) - set(df['A']))
+#print("valori non comuni")
+#print(len(non_comuni))
+#print(non_comuni)
+#print("valori comuni")
+#print(comuni)
+#print("la lista")
+print(len(listapartiti))
+print(listapartiti)
 # Crea un nuovo DataFrame con la colonna dei partiti modificati
-df_modificato = pd.DataFrame({'Partito Modificato': nuova_lista_partiti})
-parties = df_modificato["Partito Modificato"].tolist()
+#df_modificato = pd.DataFrame({'Partito Modificato': nuova_lista_partiti})
+#part = df_modificato["Partito Modificato"].tolist()
+#print(nuova_lista_partiti)
+#print(len(nuova_lista_partiti))
+#print(part)
 # Visualizza il DataFrame risultante
 #print(df_modificato)
 # Leggi il file Excel con la mappatura dei partiti
@@ -218,40 +245,167 @@ parties = df_modificato["Partito Modificato"].tolist()
 
 import pandas as pd
 from wikidataintegrator import wdi_core
-def get_political_alignment(parties):
-    alignments = []
-
-    sparql = SPARQLWrapper("https://query.wikidata.org/sparql")
-
-    for party in parties:
-        query = """
-                SELECT DISTINCT ?party ?partyLabel ?al WHERE {
-          ?party wdt:P31 wd:Q7278;
-                rdfs:label ?partyLabel;
-                wdt:P17 wd:Q38;
-                wdt:P1387 ?alignment.
-          ?alignment rdfs:label ?al. 
-          FILTER(LANG(?partyLabel) = "it" && CONTAINS(?partyLabel, """ + party + """)).
-          FILTER(LANG(?al) = "it")
-        }
-
-        """
-
-
-        sparql.setQuery(query)
-        sparql.setReturnFormat(JSON)
-        results = sparql.query().convert()
-
-        if results["results"]["bindings"]:
-            alignment = results["results"]["bindings"][0]["al"]["value"]
-            alignments.append(alignment)
+import requests
+import json
+from urllib.parse import quote
+from SPARQLWrapper import SPARQLWrapper, JSON
+import requests
+from ratelimit import limits, sleep_and_retry
+import re 
+from requests.exceptions import RequestException, TooManyRedirects
+@sleep_and_retry
+@limits(calls=1, period=2)
+def run_sparql_query(query):
+    url = 'https://query.wikidata.org/sparql'
+    params = {'format': 'json', 'query': query}
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        data = response.json()
+        if 'results' in data and 'bindings' in data['results']:
+            return data['results']['bindings']
         else:
-            alignments.append(None)
+            print('Risposta JSON non valida: dati mancanti.')
+    except (RequestException, TooManyRedirects) as e:
+        print(f'Errore nella richiesta HTTP: {str(e)}')
+    except json.JSONDecodeError as e:
+        print(f'Errore nella decodifica della risposta JSON: {str(e)}')
 
-    df = pd.DataFrame({'Partito': parties, 'Allineamento Politico': alignments})
-    return df
-print(get_political_alignment(parties))
-# Esempio di utilizzo
-#df = get_political_alignment(listapartiti)
+query_template = '''
+SELECT DISTINCT ?party ?partyLabel ?al WHERE {{
+  ?party wdt:P31 wd:Q7278;
+         rdfs:label ?partyLabel;
+         wdt:P17 wd:Q38;
+         OPTIONAL {{ ?party wdt:P1387 ?alignment. }}
+  OPTIONAL {{ ?alignment rdfs:label ?al. }}
+  FILTER(LANG(?partyLabel) = "it")
+  FILTER(LANG(?al) = "it")
+  FILTER(CONTAINS(LCASE(?partyLabel), LCASE("{search_term}")))
+}}
+'''
 
-#print(df)
+processed_parties = set()  # set per tenere traccia dei partiti elaborati
+results_list = []  # lista per salvare i risultati dei partiti e allineamenti
+
+for partito in listapartiti:
+    query = query_template.format(search_term=partito)
+    results = run_sparql_query(query)
+    
+    print(f"Risultati per il partito: {partito}")
+    
+    if results:
+        for result in results:
+            party_label = result['partyLabel']['value']
+            
+            # Verifica se il partito è già stato elaborato
+            if party_label in processed_parties:
+                continue
+            
+            processed_parties.add(party_label)  # Aggiungi il partito al set
+            
+            alignment_label = result.get('al', {}).get('value', '')  # Estrai l'allineamento politico
+            
+            print(f"Partito: {party_label}")
+            print(f"Allineamento: {alignment_label}")
+            
+            results_list.append({'Partito': party_label, 'Allineamento Politico': alignment_label})
+    else:
+        print("Nessun risultato trovato")
+        
+    print()
+
+# Creazione del dataframe
+df = pd.DataFrame(results_list)
+partiti_trovati = [result['Partito'] for result in results_list]
+
+# Lista dei partiti di cui non si è trovata l'informazione
+partiti_non_trovati = [partito for partito in listapartiti if partito not in partiti_trovati]
+
+
+# Creazione del dataframe
+df_non_trovati = pd.DataFrame({'Partito': partiti_non_trovati})
+print(df_non_trovati)
+print(len(df_non_trovati))
+print(df)
+print(len(df))
+partiti_trovati = df['Partito'].tolist()
+partiti_non_trovati = [partito for partito in listapartiti if partito not in partiti_trovati]
+df_filtered = df[df['Partito'].isin(listapartiti)]
+print("df_filtered")
+print(df_filtered)
+
+
+
+import pandas as pd
+from urllib.parse import urlencode
+@sleep_and_retry
+@limits(calls=1, period=2)
+def run_sparql_query(query):
+    url = 'https://query.wikidata.org/sparql'
+    params = {'format': 'json', 'query': query}
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        data = response.json()
+        if 'results' in data and 'bindings' in data['results']:
+            return data['results']['bindings']
+        else:
+            print('Risposta JSON non valida: dati mancanti.')
+    except (RequestException, TooManyRedirects) as e:
+        print(f'Errore nella richiesta HTTP: {str(e)}')
+    except json.JSONDecodeError as e:
+        print(f'Errore nella decodifica della risposta JSON: {str(e)}')
+
+query_template = '''
+SELECT DISTINCT ?party ?partyLabel ?al WHERE {{
+  ?party wdt:P31 wd:Q7278;
+         rdfs:label ?partyLabel;
+         wdt:P17 wd:Q38;
+         wdt:P1142 ?politicalideology.
+  ?politicalideology rdfs:label ?politicalideologylabel;
+                     wdt:P1387 ?alignment.
+  ?alignment rdfs:label ?al. 
+  FILTER(LANG(?partyLabel) = "it")
+  FILTER(LANG(?al) = "it")
+  FILTER(CONTAINS(?partyLabel, "{search_term}"))
+}}
+'''
+
+processed_parties = set()  # set per tenere traccia dei partiti elaborati
+results_list = []  # lista per salvare i risultati dei partiti e allineamenti
+
+for partito in df_non_trovati['Partito']:
+    
+    query = query_template.format(search_term=partito)
+    results = run_sparql_query(query)
+    
+    print(f"Risultati per il partito: {partito}")
+    
+    if results:
+        for result in results:
+            party_label = result['partyLabel']['value']
+            
+            # Verifica se il partito è già stato elaborato
+            if party_label in processed_parties:
+                continue
+            
+            processed_parties.add(party_label)  # Aggiungi il partito al set
+            
+            alignment_label = result.get('al', {}).get('value', '')  # Estrai l'allineamento politico
+            
+            print(f"Partito: {party_label}")
+            print(f"Allineamento: {alignment_label}")
+            
+            results_list.append({'Partito': party_label, 'Allineamento Politico': alignment_label})
+    else:
+        print("Nessun risultato trovato")
+        
+    print()
+
+# Creazione del dataframe con i risultati trovati
+df_risultati = pd.DataFrame(results_list)
+partiti_trovati = df_risultati['Partito'].tolist()
+partiti_non_trovati = [partito for partito in listapartiti if partito not in partiti_trovati]
+df_filtered2 = df_risultati[df_risultati['Partito'].isin(listapartiti)]
+print(df_risultati)
+
