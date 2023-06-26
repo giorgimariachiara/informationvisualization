@@ -46,3 +46,4 @@ fig.update_layout(
 
 # Display the chart
 fig.show()
+
