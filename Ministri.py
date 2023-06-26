@@ -272,23 +272,51 @@ def run_sparql_query(query):
         print(f'Errore nella decodifica della risposta JSON: {str(e)}')
 
 query_template = '''
-SELECT DISTINCT ?party ?partyLabel ?al WHERE {{
-  ?party wdt:P31 wd:Q7278;
-         rdfs:label ?partyLabel;
-         wdt:P17 wd:Q38;
-         OPTIONAL {{ ?party wdt:P1387 ?alignment. }}
-  OPTIONAL {{ ?alignment rdfs:label ?al. }}
+SELECT DISTINCT ?party ?partyLabel ?al WHERE {
+  {
+    ?party wdt:P31 wd:Q7278;
+           rdfs:label ?partyLabel;
+           wdt:P17 wd:Q38.
+    ?party wdt:P1387 ?alignment.
+    ?alignment rdfs:label ?al.
+  }
+  UNION
+  {
+    ?party wdt:P31 wd:Q6138528;
+           rdfs:label ?partyLabel;
+           wdt:P17 wd:Q38.
+    ?party wdt:P1387 ?alignment.
+    ?alignment rdfs:label ?al.
+  }
+  UNION
+  {
+    ?party wdt:P31 wd:Q233591;
+           rdfs:label ?partyLabel;
+           wdt:P17 wd:Q38.
+    ?party wdt:P1387 ?alignment.
+    ?alignment rdfs:label ?al.
+  }
+  UNION
+  {
+    ?party wdt:P31 wd:Q388602;
+           rdfs:label ?partyLabel;
+           wdt:P17 wd:Q38.
+    ?party wdt:P1387 ?alignment.
+    ?alignment rdfs:label ?al.
+  }
   FILTER(LANG(?partyLabel) = "it")
   FILTER(LANG(?al) = "it")
-  FILTER(CONTAINS(LCASE(?partyLabel), LCASE("{search_term}")))
-}}
+  FILTER(CONTAINS(LCASE(?partyLabel), LCASE(?search_term)))
+}
+
+
 '''
 
-processed_parties = set()  # set per tenere traccia dei partiti elaborati
-results_list = []  # lista per salvare i risultati dei partiti e allineamenti
+processed_parties = set()
+results_list = []
 
 for partito in listapartiti:
-    query = query_template.format(search_term=partito)
+    query = query_template.replace('?search_term', f'"{partito}"')
     results = run_sparql_query(query)
     
     print(f"Risultati per il partito: {partito}")
@@ -324,15 +352,19 @@ partiti_non_trovati = [partito for partito in listapartiti if partito not in par
 
 # Creazione del dataframe
 df_non_trovati = pd.DataFrame({'Partito': partiti_non_trovati})
+print("partiti non trovati")
 print(df_non_trovati)
 print(len(df_non_trovati))
+print("partiti trovati")
 print(df)
-print(len(df))
+#print(len(df))
 partiti_trovati = df['Partito'].tolist()
 partiti_non_trovati = [partito for partito in listapartiti if partito not in partiti_trovati]
 df_filtered = df[df['Partito'].isin(listapartiti)]
 print("df_filtered")
 print(df_filtered)
+print(len(df_filtered))
+
 
 
 
@@ -356,56 +388,71 @@ def run_sparql_query(query):
     except json.JSONDecodeError as e:
         print(f'Errore nella decodifica della risposta JSON: {str(e)}')
 
-query_template = '''
-SELECT DISTINCT ?party ?partyLabel ?al WHERE {{
+import pandas as pd
+
+# Definizione del template della query
+query_template2 = '''
+SELECT DISTINCT ?party ?partyLabel ?result WHERE {{
   ?party wdt:P31 wd:Q7278;
          rdfs:label ?partyLabel;
          wdt:P17 wd:Q38;
          wdt:P1142 ?politicalideology.
-  ?politicalideology rdfs:label ?politicalideologylabel;
-                     wdt:P1387 ?alignment.
-  ?alignment rdfs:label ?al. 
+  ?politicalideology rdfs:label ?politicalideologylabel.
+  OPTIONAL {{
+    ?politicalideology wdt:P1387 ?alignment.
+    ?alignment rdfs:label ?al.
+    FILTER(LANG(?al) = "it")
+  }}
+  BIND(COALESCE(?al, ?politicalideologylabel) AS ?result)
   FILTER(LANG(?partyLabel) = "it")
-  FILTER(LANG(?al) = "it")
   FILTER(CONTAINS(?partyLabel, "{search_term}"))
+  FILTER(LANG(?result) = "it")
 }}
 '''
+processed_parties2 = set()  # Set per tenere traccia dei partiti elaborati
+results_list2 = []  # Lista per salvare i risultati dei partiti e allineamenti
 
-processed_parties = set()  # set per tenere traccia dei partiti elaborati
-results_list = []  # lista per salvare i risultati dei partiti e allineamenti
-
-for partito in df_non_trovati['Partito']:
+for partito in partiti_non_trovati:
+    # Verifica se il partito è già presente nel DataFrame
+    if partito in results_list2:
+        continue
     
-    query = query_template.format(search_term=partito)
+    query = query_template2.format(search_term=partito)
+    # Esegui la query SPARQL e ottieni i risultati
+    # Assumi che tu abbia una funzione `run_sparql_query()` che esegue la query SPARQL
     results = run_sparql_query(query)
-    
+
     print(f"Risultati per il partito: {partito}")
-    
+
     if results:
-        for result in results:
-            party_label = result['partyLabel']['value']
-            
-            # Verifica se il partito è già stato elaborato
-            if party_label in processed_parties:
-                continue
-            
-            processed_parties.add(party_label)  # Aggiungi il partito al set
-            
-            alignment_label = result.get('al', {}).get('value', '')  # Estrai l'allineamento politico
-            
-            print(f"Partito: {party_label}")
-            print(f"Allineamento: {alignment_label}")
-            
-            results_list.append({'Partito': party_label, 'Allineamento Politico': alignment_label})
+      for result in results:
+          party_label = result['partyLabel']['value']
+
+          # Verifica se il partito è già stato elaborato
+          if party_label in processed_parties:
+              continue
+
+          processed_parties2.add(party_label)  # Aggiungi il partito al set
+
+          alignment_label = result.get('result', {}).get('value', '')  # Estrai l'allineamento politico
+
+          print(f"Partito: {party_label}")
+          print(f"Allineamento: {alignment_label}")
+
+          results_list2.append({'Partito': party_label, 'Allineamento Politico': alignment_label})
+          break  # Esci dal ciclo dopo aver aggiunto il primo valore
+
     else:
         print("Nessun risultato trovato")
-        
-    print()
+# Creazione del dataframe con i risultati dei partiti senza allineamenti politici
+df_risultati2 = pd.DataFrame(results_list2)
+print(df_risultati2.columns)
 
 # Creazione del dataframe con i risultati trovati
-df_risultati = pd.DataFrame(results_list)
-partiti_trovati = df_risultati['Partito'].tolist()
+
+partiti_trovati = df_risultati2['Partito'].tolist()
 partiti_non_trovati = [partito for partito in listapartiti if partito not in partiti_trovati]
-df_filtered2 = df_risultati[df_risultati['Partito'].isin(listapartiti)]
-print(df_risultati)
+df_filtered2 = df_risultati2[df_risultati2['Partito'].isin(listapartiti)]
+print("df_filtered2")
+print(df_filtered2)
 
