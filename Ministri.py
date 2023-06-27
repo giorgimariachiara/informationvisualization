@@ -195,21 +195,22 @@ df_partito_uomini2.rename(columns={"gruppoPar": "partito"}, inplace=True)
 df_partito_uomini2 = df_partito_uomini2.assign(gender='male')
 
 df_partito_totale = pd.concat([df_partito_uomini1, df_partito_uomini2, df_partito_donne])
-df_partito_totale = df_partito_totale[["partito"]].drop_duplicates()
+#print(df_partito_totale)
+df_partito_totale_no_duplicati = df_partito_totale[["partito"]].drop_duplicates()
 #print(df_partito_totale)
 #print(len(df_partito_totale))
-listapartiti = df_partito_totale["partito"].tolist()
+listapartiti = df_partito_totale_no_duplicati["partito"].tolist()
 #print(listapartiti)
 
 import pandas as pd
 
 # Leggi il file Excel e crea il DataFrame
-df = pd.read_excel('Partiti.xlsx')
+df_excel = pd.read_excel('Partiti.xlsx')
 listapartiti = [partito.lower().strip() for partito in listapartiti]
-df['A'] = df['A'].str.lower().str.strip()
+df_excel['A'] = df_excel['A'].str.lower().str.strip()
 
 # Crea un dizionario dalla colonna A alla colonna B del DataFrame
-mappa_partiti = dict(zip(df['A'], df['B']))
+mappa_partiti = dict(zip(df_excel['A'], df_excel['B']))
 
 # Itera sulla lista dei partiti
 for i in range(len(listapartiti)):
@@ -229,8 +230,8 @@ listapartiti = list(set(listapartiti))
 #print("valori comuni")
 #print(comuni)
 #print("la lista")
-print(len(listapartiti))
-print(listapartiti)
+#print(len(listapartiti))
+#print(listapartiti)
 # Crea un nuovo DataFrame con la colonna dei partiti modificati
 #df_modificato = pd.DataFrame({'Partito Modificato': nuova_lista_partiti})
 #part = df_modificato["Partito Modificato"].tolist()
@@ -352,17 +353,18 @@ partiti_non_trovati = [partito for partito in listapartiti if partito not in par
 
 # Creazione del dataframe
 df_non_trovati = pd.DataFrame({'Partito': partiti_non_trovati})
-print("partiti non trovati")
-print(df_non_trovati)
-print(len(df_non_trovati))
-print("partiti trovati")
-print(df)
+#print("partiti non trovati")
+#print(df_non_trovati)
+#print(len(df_non_trovati))
+#print("partiti trovati")
+#print(df)
+
 #print(len(df))
 partiti_trovati = df['Partito'].tolist()
 partiti_non_trovati = [partito for partito in listapartiti if partito not in partiti_trovati]
 df_filtered = df[df['Partito'].isin(listapartiti)]
-print("df_filtered")
-print(df_filtered)
+#print("df_filtered")
+print(df_filtered.columns)
 print(len(df_filtered))
 
 
@@ -453,6 +455,41 @@ print(df_risultati2.columns)
 partiti_trovati = df_risultati2['Partito'].tolist()
 partiti_non_trovati = [partito for partito in listapartiti if partito not in partiti_trovati]
 df_filtered2 = df_risultati2[df_risultati2['Partito'].isin(listapartiti)]
-print("df_filtered2")
-print(df_filtered2)
+#print("df_filtered2")
+#print(df_filtered2)
+print(len(df_filtered2))
+
+df_alignment_partiti = pd.concat([df_filtered, df_filtered2])
+#print(len(df_alignment_partiti))
+#print(df_alignment_partiti) 
+
+print(df_excel.columns)
+print(df_partito_totale.columns)
+df_merged = df_partito_totale.merge(df_excel.assign(A=df_excel['A'].str.lower(), B=df_excel['B'].str.upper()), left_on=df_partito_totale['partito'].str.lower(), right_on='A', how='left')
+df_merged['partito'] = df_merged['B'].combine_first(df_merged['partito']).str.upper()
+df_merged = df_merged.drop(['A', 'B'], axis=1)
+#print(df_merged) #questo è il df con una colonna per il partito e una per il gender 
+print(df_alignment_partiti.columns)
+print(df_merged.columns)
+#df_completo_alignment = df_merged.merge(df_alignment_partiti, left_on='partito', right_on='Partito', how='left')
+
+df_merged['partito'] = df_merged['partito'].str.upper()
+df_alignment_partiti['Partito'] = df_alignment_partiti['Partito'].str.upper()
+
+df_completo_alignment = df_merged.merge(df_alignment_partiti, left_on='partito', right_on='Partito', how='left')
+df_completo_alignment.drop(columns=['Partito'], inplace=True)
+
+
+keyword_mapping = {
+    "Democrazia Cristiana per le autonomie": "centro",
+    "Partito d'Azione": "centro",
+    "Partito Socialista Italiano di Unità Proletaria": "sinistra",
+    "Partito Nazionale Monarchico": "destra",
+    "Centro Cristiano Democratico": "centro"
+}
+
+df_completo_alignment['Allineamento Politico'] = df_completo_alignment['Allineamento Politico'].apply(lambda x: keyword_mapping.get(x, x))
+df_completo_alignment = df_completo_alignment[df_completo_alignment['partito'] != 'Misto']
+
+print(df_completo_alignment)
 
