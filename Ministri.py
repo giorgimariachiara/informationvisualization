@@ -71,9 +71,21 @@ WHERE { ?legislatura rdf:type ocd:legislatura;
 df_ministri_legislature = get(endpoint, queryministri)
 
 df_ministri_legislature["legislaturaLabel"] = df_ministri_legislature["legislaturaLabel"].str.split(" ", n=1).str[0]
-df_ministri_legislature["governoLabel"] = df_ministri_legislature["governoLabel"].str.split(" ", n=1).str[0]
+#df_ministri_legislature["governoLabel"] = df_ministri_legislature["governoLabel"].str.split(" ", n=1).str[0]
+df_governi = df_ministri_legislature[['governoLabel']].copy()
+df_governi['Governo'] = df_governi['governoLabel'].str.extract(r'^(.*?)\s*\(')
+df_governi['data inizio'] =df_governi['governoLabel'].str.extract(r'\((.*?)\s*-\s*')
+df_governi['data fine'] = df_governi['governoLabel'].str.extract(r'\-\s*(.*?)\)$')
 
-#print(df_ministri_legislature)
+# Rimuovi eventuali spazi iniziali e finali
+df_governi['Governo'] = df_governi['Governo'].str.strip()
+df_governi['data inizio'] = df_governi['data inizio'].str.strip()
+df_governi['data fine'] = df_governi['data fine'].str.strip()
+
+# Rimuovi la colonna originale se non più necessaria
+df_governi = df_governi.drop('governoLabel', axis=1)
+df_governi = df_governi.drop_duplicates()
+print(len(df_governi)) #68 precisi precisi 
 #print(len(df_ministri_legislature))
 
 
