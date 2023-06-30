@@ -1,12 +1,7 @@
 import pandas as pd
-import requests
-import pandas as pd
 from SPARQLWrapper import SPARQLWrapper, JSON
 import requests
 import time
-
-
-from SPARQLWrapper import SPARQLWrapper, JSON
 import sparql_dataframe
 from sparql_dataframe import get
 pd.set_option('display.max_rows', None)
@@ -76,9 +71,21 @@ WHERE { ?legislatura rdf:type ocd:legislatura;
 df_ministri_legislature = get(endpoint, queryministri)
 
 df_ministri_legislature["legislaturaLabel"] = df_ministri_legislature["legislaturaLabel"].str.split(" ", n=1).str[0]
-df_ministri_legislature["governoLabel"] = df_ministri_legislature["governoLabel"].str.split(" ", n=1).str[0]
+#df_ministri_legislature["governoLabel"] = df_ministri_legislature["governoLabel"].str.split(" ", n=1).str[0]
+df_governi = df_ministri_legislature[['governoLabel']].copy()
+df_governi['Governo'] = df_governi['governoLabel'].str.extract(r'^(.*?)\s*\(')
+df_governi['data inizio'] =df_governi['governoLabel'].str.extract(r'\((.*?)\s*-\s*')
+df_governi['data fine'] = df_governi['governoLabel'].str.extract(r'\-\s*(.*?)\)$')
 
-#print(df_ministri_legislature)
+# Rimuovi eventuali spazi iniziali e finali
+df_governi['Governo'] = df_governi['Governo'].str.strip()
+df_governi['data inizio'] = df_governi['data inizio'].str.strip()
+df_governi['data fine'] = df_governi['data fine'].str.strip()
+
+# Rimuovi la colonna originale se non più necessaria
+df_governi = df_governi.drop('governoLabel', axis=1)
+df_governi = df_governi.drop_duplicates()
+print(len(df_governi)) #68 precisi precisi 
 #print(len(df_ministri_legislature))
 
 
@@ -200,7 +207,7 @@ df_partito_totale_no_duplicati = df_partito_totale[["partito"]].drop_duplicates(
 #print(df_partito_totale)
 #print(len(df_partito_totale))
 listapartiti = df_partito_totale_no_duplicati["partito"].tolist()
-#print(listapartiti)
+
 
 import pandas as pd
 
@@ -221,7 +228,7 @@ listapartiti = list(set(listapartiti))
 # Visualizza il DataFrame modificato
 #print(len(listapartiti.drop_duplicates()))
 #listapartiti = [partito.replace("'", "").replace('"', '') for partito in listapartiti]
-
+#print(len(listapartiti))
 #comuni = list(set(listapartiti) & set(df['A']))
 #non_comuni = list(set(listapartiti) - set(df['A']))
 #print("valori non comuni")
@@ -244,13 +251,11 @@ listapartiti = list(set(listapartiti))
 #print(df_partito_totale)
 
 
-import pandas as pd
+
 from wikidataintegrator import wdi_core
-import requests
-import json
 from urllib.parse import quote
 from SPARQLWrapper import SPARQLWrapper, JSON
-import requests
+
 from ratelimit import limits, sleep_and_retry
 import re 
 from requests.exceptions import RequestException, TooManyRedirects
@@ -364,13 +369,11 @@ partiti_trovati = df['Partito'].tolist()
 partiti_non_trovati = [partito for partito in listapartiti if partito not in partiti_trovati]
 df_filtered = df[df['Partito'].isin(listapartiti)]
 #print("df_filtered")
-print(df_filtered.columns)
-print(len(df_filtered))
+#print(df_filtered)
+#print(len(df_filtered))
 
 
 
-
-import pandas as pd
 from urllib.parse import urlencode
 @sleep_and_retry
 @limits(calls=1, period=2)
@@ -389,8 +392,6 @@ def run_sparql_query(query):
         print(f'Errore nella richiesta HTTP: {str(e)}')
     except json.JSONDecodeError as e:
         print(f'Errore nella decodifica della risposta JSON: {str(e)}')
-
-import pandas as pd
 
 # Definizione del template della query
 query_template2 = '''
@@ -448,7 +449,7 @@ for partito in partiti_non_trovati:
         print("Nessun risultato trovato")
 # Creazione del dataframe con i risultati dei partiti senza allineamenti politici
 df_risultati2 = pd.DataFrame(results_list2)
-print(df_risultati2.columns)
+#print(df_risultati2.columns)
 
 # Creazione del dataframe con i risultati trovati
 
@@ -457,20 +458,20 @@ partiti_non_trovati = [partito for partito in listapartiti if partito not in par
 df_filtered2 = df_risultati2[df_risultati2['Partito'].isin(listapartiti)]
 #print("df_filtered2")
 #print(df_filtered2)
-print(len(df_filtered2))
+#print(len(df_filtered2))
 
 df_alignment_partiti = pd.concat([df_filtered, df_filtered2])
 #print(len(df_alignment_partiti))
 #print(df_alignment_partiti) 
 
-print(df_excel.columns)
-print(df_partito_totale.columns)
+#print(df_excel.columns)
+#print(df_partito_totale.columns)
 df_merged = df_partito_totale.merge(df_excel.assign(A=df_excel['A'].str.lower(), B=df_excel['B'].str.upper()), left_on=df_partito_totale['partito'].str.lower(), right_on='A', how='left')
 df_merged['partito'] = df_merged['B'].combine_first(df_merged['partito']).str.upper()
 df_merged = df_merged.drop(['A', 'B'], axis=1)
 #print(df_merged) #questo è il df con una colonna per il partito e una per il gender 
-print(df_alignment_partiti.columns)
-print(df_merged.columns)
+#print(df_alignment_partiti.columns)
+#print(df_merged.columns)
 #df_completo_alignment = df_merged.merge(df_alignment_partiti, left_on='partito', right_on='Partito', how='left')
 
 df_merged['partito'] = df_merged['partito'].str.upper()
@@ -489,7 +490,8 @@ keyword_mapping = {
 }
 
 df_completo_alignment['Allineamento Politico'] = df_completo_alignment['Allineamento Politico'].apply(lambda x: keyword_mapping.get(x, x))
-df_completo_alignment = df_completo_alignment[df_completo_alignment['partito'] != 'Misto']
-
+#df_completo_alignment = df_completo_alignment[df_completo_alignment['partito'] != 'Misto']
+df_completo_alignment.to_csv("partyspettro.csv",  index=False, index_label=False)
 print(df_completo_alignment)
 
+#print(df_alignment_partiti)
