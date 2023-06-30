@@ -76,8 +76,9 @@ laureati = df_laurea_uomini[masklaurea]
 laureati = laureati.assign(gender='male')
 uominilaureati = laureati[["nome", "cognome", "gender"]]
 def capitalize_name(name):
-    parts = re.split(r"([ '-])", name)
-    return "_".join([part.capitalize() for part in parts])
+    parts = re.findall(r"[\w'-]+", name)
+    capitalized_parts = [part.capitalize() for part in parts]
+    return "_".join(capitalized_parts)
 
 for index, row in uominilaureati.iterrows():
     nome = row['nome']
@@ -87,6 +88,7 @@ for index, row in uominilaureati.iterrows():
 
 # Seleziona solo le colonne desiderate
 uominilaureati = uominilaureati[['Persona', 'gender']]
+print(uominilaureati)
 
 masknonlaurea =~df_laurea_uomini['info'].str.contains('Laurea|laurea|Master|LAUREA', na=False) & df_laurea_uomini['info'].ne('')
 uomininonlaureati = df_laurea_uomini[masknonlaurea]
@@ -95,9 +97,11 @@ uomininonlaureati = uomininonlaureati.assign(gender='male')
 uomininonlaureati = uomininonlaureati[["nome","cognome", "gender"]]
 
 
+
 def capitalize_name(name):
-    parts = re.split(r"([ '-])", name)
-    return "_".join([part.capitalize() for part in parts])
+    parts = re.findall(r"[\w'-]+", name)
+    capitalized_parts = [part.capitalize() for part in parts]
+    return "_".join(capitalized_parts)
 
 for index, row in uomininonlaureati.iterrows():
     nome = row['nome']
@@ -107,7 +111,7 @@ for index, row in uomininonlaureati.iterrows():
 
 # Seleziona solo le colonne desiderate
 uomininonlaureati = uomininonlaureati[['Persona', 'gender']]
-
+print(uomininonlaureati)
 
 print("UOMINI TOTALE 5204")
 print(len(df_laurea_uomini)) #5204
@@ -437,9 +441,9 @@ def check_birth_date_in_url(df):
         birth_date = row['Data di nascita']
         corrisponde = check_birth_date(url, birth_date)
         if corrisponde:
-            df_with_birthdate = df_with_birthdate.append(row)
+            df_with_birthdate = pd.concat([df_with_birthdate, pd.DataFrame(row).transpose()], ignore_index=True)
         else:
-            df_without_birthdate = df_without_birthdate.append(row)
+            df_without_birthdate = pd.concat([df_without_birthdate, pd.DataFrame(row).transpose()], ignore_index=True)
 
     return df_with_birthdate, df_without_birthdate
 
@@ -675,14 +679,14 @@ print(df_filtprofessione)
 df_da_escludere = df_filtprofessione[["url"]]
 url_senza_professione = final_df[~final_df['url'].isin(df_da_escludere['url'])]
 url_senza_professione = url_senza_professione.drop_duplicates(subset=['url'])
-prova= pd.concat([df_filtprofessione, url_senza_professione])
-listacheck = prova["url"].tolist()
+url_senza_professione = url_senza_professione.rename(columns={"th": "Persona"})
 
-#lista3 = list(set(listacheckprofessione) ^ set(listacheck))
-#print(df_senzaprofessione)
-#print(lista3)
-#print("url senza professione")
-#print(len(url_senza_professione))
+# Unire le parole della colonna "Persona" con "_"
+url_senza_professione["Persona"] = url_senza_professione["Persona"].apply(lambda x: "_".join(x.split()))
+
+# Selezionare solo le colonne desiderate nel dataframe "url_senza_professione"
+url_senza_professione = url_senza_professione[['Persona']]
+print(url_senza_professione)
 
 
 df_avvocato_professore = pd.DataFrame(columns=df.columns)
@@ -717,8 +721,7 @@ df_avvocato_professore = df_avvocato_professore[['Persona', 'gender']]
 #print(len(df_ingegnere))
 #print(df_ingegnere)
 
-#df_altro['nome'] = df_altro['url'].str.split('/').str[-1].str.replace('_', ' ')
-#df_altro['cognome'] = df_altro['nome'].str.split().str[-1]
+
 #df_altro['nome'] = df_altro['nome'].str.split().str[0]
 df_altro = df_altro.assign(gender='male')
 
@@ -729,24 +732,39 @@ df_altro= df_altro[['Persona', 'gender']]
 df_con_parola = df_con_parola[['Persona', 'gender']]
 
 df_uominilaureati_f = pd.concat([df_filt_con_laurea, uominilaureati, df_con_parola, df_avvocato_professore])
+df_uominilaureati_f = df_uominilaureati_f.assign(graduated='yes')
 #print("Uomini laureati totale:")
 #print(df_uominilaureati_f)
 #print(len(df_uominilaureati_f))
-df_uomininonlaureati_f = pd.concat([df_filt_senza_laurea, uomininonlaureati, df_altro])
+df_uomininonlaureati_f = pd.concat([df_filt_senza_laurea,uomininonlaureati, df_altro])
+df_uomininonlaureati_f = df_uomininonlaureati_f.assign(graduated='no')
 df_uomini_senza_url  = df_uomini_senza_url["Persona e Data di nascita"].apply(lambda x: x[0])
 df_uomini_senza_url  = pd.DataFrame(df_uomini_senza_url , columns=["Persona"])
 df_uomini_senza_url = df_uomini_senza_url.assign(gender='male')
+df_without_url = df_without_url[["Nome"]]
+df_without_url = df_without_url.rename(columns={'Nome': 'Persona'})
 df_uomini_senza_info_f = pd.concat([df_without_url, url_senza_professione])
+df_uomini_senza_info_f = df_uomini_senza_info_f.assign(gender='male')
+df_uomini_senza_info_f = df_uomini_senza_info_f.assign(graduated='NaN')
+df_uomini_senza_info_f = df_uomini_senza_info_f[["Persona", "gender", "graduated"]]
+
+#print(df_without_url)
+#print(url_senza_professione)
 #print(url_senza_professione)
 #print("Uomini senza info totale:")
-#print(df_uomini_senza_info_f)
+print(df_uomini_senza_info_f)
 
-
+"""
 print("Uomini non laureati totale:")
 print(len(df_uomininonlaureati_f))
 print(df_uomininonlaureati_f)
+"""
+
+df_laurea_uomini_f = pd.concat([df_uomininonlaureati_f,df_uomini_senza_info_f, df_uominilaureati_f])
 
 
-df_laurea_uomini_f = pd.concat([df_uomini_senza_info_f, df_uomininonlaureati_f, df_uominilaureati_f])
+#print(len(df_laurea_uomini_f))
+#df_laurea_uomini_f.to_csv("graduation.csv",  index=False, index_label=False)
+#print(df_laurea_uomini.columns)
 #print(df_laurea_uomini_f)
 #print(len(df_laurea_uomini_f))

@@ -640,8 +640,13 @@ print(len(df_filtprofessione))
 df_da_escludere = df_filtprofessione[["url"]]
 url_senza_professione = final_df[~final_df['url'].isin(df_da_escludere['url'])]
 url_senza_professione = url_senza_professione.drop_duplicates(subset=['url'])
-prova= pd.concat([df_filtprofessione, url_senza_professione])
-listacheck = prova["url"].tolist()
+url_senza_professione = url_senza_professione.rename(columns={"th": "Persona"})
+
+# Unire le parole della colonna "Persona" con "_"
+url_senza_professione["Persona"] = url_senza_professione["Persona"].apply(lambda x: "_".join(x.split()))
+
+# Selezionare solo le colonne desiderate nel dataframe "url_senza_professione"
+url_senza_professione = url_senza_professione[['Persona']]
 #lista3 = list(set(listacheckprofessione) ^ set(listacheck))
 #print(df_senzaprofessione)
 #print(lista3)
@@ -683,7 +688,12 @@ df_donnenonlaureate_f = pd.concat([df_filt_senza_laurea, donnenonlaureate, df_al
 df_donne_senza_url  = df_donne_senza_url["Persona e Data di nascita"].apply(lambda x: x[0])
 df_donne_senza_url  = pd.DataFrame(df_donne_senza_url , columns=["Persona"])
 df_donne_senza_url = df_donne_senza_url.assign(gender='female')
+df_without_url = df_without_url[["Nome"]]
+df_without_url = df_without_url.rename(columns={'Nome': 'Persona'})
 df_donne_senza_info_f = pd.concat([df_without_url, url_senza_professione])
+df_donne_senza_info_f = df_donne_senza_info_f.assign(gender='female')
+df_donne_senza_info_f = df_donne_senza_info_f.assign(graduated='NaN')
+df_donne_senza_info_f = df_donne_senza_info_f[["Persona", "gender", "graduated"]]
 print(df_donne_senza_url)
 print("Donne non laureate totale:")
 print(len(df_donnenonlaureate_f))

@@ -3,6 +3,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import sparql_dataframe
 from sparql_dataframe import get
+
 pd.set_option('display.max_rows', None)
 endpoint = "https://dati.camera.it/sparql"
 
@@ -37,43 +38,45 @@ df_governi['data fine'] = df_governi['data fine'].str.strip()
 # Rimuovi la colonna originale se non più necessaria
 df_governi = df_governi.drop('governoLabel', axis=1)
 df_governi = df_governi.drop_duplicates()
-#print(len(df_governi)) #68 precisi precisi 
+lista_governi = df_governi["Governo"].to_list()
+print(lista_governi)
 
+import re
+
+nuova_lista = []
+
+for governo in lista_governi:
+    parti = governo.split()
+    nuovo_nome = "Governo_" + "_".join(parti[2:]) + "_" + parti[0]
+    nuova_lista.append(nuovo_nome)
+
+print(nuova_lista)
+
+
+url_governi = []
+
+
+url_governi = []
+
+base_url = "https://it.wikipedia.org/wiki/"
+
+for governo in nuova_lista:
+    formatted_governo = governo
+    url = base_url + formatted_governo
+
+    response = requests.get(url)
+    if response.status_code == 200:
+        url_governi.append(url)
+    else:
+        url_governi.append(None)
+
+print(url_governi)
+
+#print(len(df_governi)) #68 precisi precisi 
+#print(df_governi)
 import requests
 from bs4 import BeautifulSoup
 
-url_list = [
-    "https://www.governo.it/it/i-governi-dal-1943-ad-oggi/xiii-legislatura-9-maggio-1996-9-marzo-2001/governo-prodi/2944"
-    
-    # Aggiungi altri URL se necessario
-]
-
-# Liste per i dati dei governi
-governi = []
-coalizioni = []
-
-# Itera attraverso gli URL
-for url in url_list:
-    # Effettua la richiesta GET al sito web
-    response = requests.get(url)
-
-    # Parsing del contenuto HTML
-    soup = BeautifulSoup(response.content, 'html.parser')
-
-    # Trova il blocco di informazioni del governo
-    info_block = soup.find('div', class_='field-items')
-
-    # Estrai il nome del governo
-    nome_governo = info_block.find('p').text.strip().split('\n')[0]
-    governi.append(nome_governo)
-
-    # Estrai la coalizione politica
-    coalizione = info_block.find('blockquote').text.strip().split('\n')[1].split(':')[1].strip()
-    coalizioni.append(coalizione)
-
-# Crea il dataframe
-data = {'Governo': governi, 'Coalizione politica': coalizioni}
-df = pd.DataFrame(data)
 
 # Stampa il dataframe
 
@@ -100,7 +103,41 @@ for link in links:
 df = pd.DataFrame(hrefs, columns=['URL'])
 
 # Stampa il dataframe
-print(df)
+df_filtered = df[df['URL'].str.contains('www.governo.it/it/i-governi-dal-1943-ad-oggi')]
+lista_url = df_filtered["URL"].to_list()
+
+print(df_filtered)
+print(len(df_filtered))
+
+
+# Liste per i dati dei governi
+governi = []
+coalizioni = []
+
+for url in lista_url:
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    info_block = soup.find('div', class_='field-items')
+    
+    nome_governo = ''
+    if info_block.find('p'):
+        nome_governo = info_block.find('p').text.strip().split('\n')[0]
+    governi.append(nome_governo)
+
+    blockquote = info_block.find('blockquote')
+    coalizione = ''
+    if blockquote:
+        text_parts = blockquote.text.strip().split('\n')
+        if len(text_parts) > 1:
+            coalizione_parts = text_parts[1].split(':')
+            if len(coalizione_parts) > 1:
+                coalizione = coalizione_parts[1].strip()
+
+    coalizioni.append(coalizione)
+
+data = {'Governo': governi, 'Coalizione politica': coalizioni}
+df_ = pd.DataFrame(data)
+
 
 
 
