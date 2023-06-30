@@ -2,6 +2,7 @@ from SPARQLWrapper import SPARQLWrapper, JSON
 import sparql_dataframe 
 import pandas as pd 
 from sparql_dataframe import get
+import re
 endpoint = "https://dati.camera.it/sparql"
 pd.set_option('display.max_rows', None)
 
@@ -361,6 +362,21 @@ df_totale_uomini_per_legislatura = df_totale_uomini_per_legislatura[["nome", "co
 df_totale_deputati_per_legislatura = pd.concat([df_totale_uomini_per_legislatura, df_totale_donne_per_legislatura])
 #df_totale_deputati_per_legislatura.to_csv("totaledeputatiperlegislatura.csv",  index=False, index_label=False)
 
+import pandas as pd
+
+def capitalize_name(name):
+    parts = re.findall(r"[\w'-]+", name)
+    capitalized_parts = [part.capitalize() for part in parts]
+    return "_".join(capitalized_parts)
+
+df_totale_deputati_per_legislatura['Persona'] =df_totale_deputati_per_legislatura[['nome', 'cognome']].apply(lambda x: '_'.join([capitalize_name(name) for name in x]), axis=1)
+
+# Rimuovi le colonne 'nome' e 'cognome'
+df_totale_deputati_per_legislatura2 =df_totale_deputati_per_legislatura.drop(['nome', 'cognome'], axis=1)
+
+# Stampa il DataFrame aggiornato
+print(df_totale_deputati_per_legislatura2)
+df_totale_deputati_per_legislatura2.to_csv("deputatiperlegislatura.csv",  index=False, index_label=False)
 #QUERY PER CITTà NASCITA 
 uomini_nascita = """
 SELECT DISTINCT ?persona ?cognome ?nome ?luogoNascita ?regione

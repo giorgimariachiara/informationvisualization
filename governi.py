@@ -51,9 +51,7 @@ for governo in lista_governi:
     nuova_lista.append(nuovo_nome)
 
 print(nuova_lista)
-
-
-url_governi = []
+print(len(nuova_lista))
 
 
 url_governi = []
@@ -61,17 +59,25 @@ url_governi = []
 base_url = "https://it.wikipedia.org/wiki/"
 
 for governo in nuova_lista:
-    formatted_governo = governo
+    formatted_governo = governo.replace("_", " ")
     url = base_url + formatted_governo
 
     response = requests.get(url)
     if response.status_code == 200:
         url_governi.append(url)
     else:
-        url_governi.append(None)
+        # Prova a cercare l'URL senza il numero romano
+        formatted_governo_no_roman = " ".join(formatted_governo.split()[:-1])
+        url_no_roman = base_url + formatted_governo_no_roman
+
+        response_no_roman = requests.get(url_no_roman)
+        if response_no_roman.status_code == 200:
+            url_governi.append(url_no_roman)
+        else:
+            url_governi.append(None)
 
 print(url_governi)
-
+"""
 #print(len(df_governi)) #68 precisi precisi 
 #print(df_governi)
 import requests
@@ -141,5 +147,68 @@ df_ = pd.DataFrame(data)
 
 
 
+"""
 
+
+#print(urldaesaminare)
+# Inizializza una lista per i dataframe
+dataframes = []
+
+# Itera sugli URL
+for url in url_governi:
+    response = requests.get(url)
+    html_content = response.text
+
+    # Analizzare l'HTML con BeautifulSoup
+    soup = BeautifulSoup(html_content, "html.parser")
+
+    # Trovare tutti gli elementi <tr>
+    tr_elements = soup.find_all("tr")
+
+    # Inizializza le liste per i valori di <th> e <td>
+    th_values = []
+    td_values = []
+
+    # Scorrere gli elementi <tr> e controllare i valori di <th> e <td>
+    for tr_element in tr_elements:
+        th_elements = tr_element.find_all("th")
+        td_elements = tr_element.find_all("td")
+
+        for th_element in th_elements:
+            th_value = th_element.text.strip()
+            th_values.append(th_value)
+
+            # Se esiste un elemento <td> associato, aggiungi il suo valore alla lista
+            if td_elements:
+                td_value = td_elements[0].text.strip()
+                td_values.append(td_value)
+            else:
+                td_values.append("")
+
+    # Crea il dataframe utilizzando le liste di valori
+    data = {"th": th_values, "td": td_values, "url": [url] * len(th_values)}
+    df = pd.DataFrame(data)
+    df_filt = df[df['th'].str.contains('Coalizione')]
+
+    # Aggiungi il dataframe filtrato alla lista di dataframes
+    dataframes.append(df_filt)
+
+# Concatena tutti i dataframes della lista in un unico dataframe finale
+df_finale = pd.concat(dataframes)
+
+td_unique_values = df_finale['td'].unique().tolist()
+
+lunga_stringa = ", ".join(td_unique_values)
+
+# Inizializza una lista vuota per i valori separati
+valori_separati = []
+
+# Dividi la lunga stringa usando la virgola come separatore
+valori_divisi = lunga_stringa.split(',')
+
+# Estendi la lista dei valori separati con i valori divisi
+valori_separati.extend(valori_divisi)
+
+# Stampa i valori separati
+print(valori_separati)
 
