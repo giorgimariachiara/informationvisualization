@@ -39,7 +39,7 @@ df_governi['data fine'] = df_governi['data fine'].str.strip()
 df_governi = df_governi.drop('governoLabel', axis=1)
 df_governi = df_governi.drop_duplicates()
 lista_governi = df_governi["Governo"].to_list()
-print(lista_governi)
+#print(lista_governi)
 
 import re
 
@@ -50,8 +50,8 @@ for governo in lista_governi:
     nuovo_nome = "Governo_" + "_".join(parti[2:]) + "_" + parti[0]
     nuova_lista.append(nuovo_nome)
 
-print(nuova_lista)
-print(len(nuova_lista))
+#print(nuova_lista)
+#print(len(nuova_lista))
 
 
 url_governi = []
@@ -76,7 +76,7 @@ for governo in nuova_lista:
         else:
             url_governi.append(None)
 
-print(url_governi)
+#print(url_governi)
 """
 #print(len(df_governi)) #68 precisi precisi 
 #print(df_governi)
@@ -196,6 +196,8 @@ for url in url_governi:
 # Concatena tutti i dataframes della lista in un unico dataframe finale
 df_finale = pd.concat(dataframes)
 
+print(df_finale)
+
 td_unique_values = df_finale['td'].unique().tolist()
 
 lunga_stringa = ", ".join(td_unique_values)
@@ -208,7 +210,27 @@ valori_divisi = lunga_stringa.split(',')
 
 # Estendi la lista dei valori separati con i valori divisi
 valori_separati.extend(valori_divisi)
+#print(valori_separati)
 
 # Stampa i valori separati
+
+
+parole_chiave_da_rimuovere = ["con l'appoggio esterno di", "con ľappoggio esterno di", "con l'astensione di", "l'appoggio esterno di:", "con l'appoggio esterno del"]
+
+# Rimuovi le parole chiave
+valori_separati = [valore.strip() for valore in valori_separati]
+valori_separati = [re.sub(r'\[\d+\]', '', valore) for valore in valori_separati]
+valori_separati = [re.sub(r'\bcon.*?\b', '', valore).strip() for valore in valori_separati]
+valori_separati = [valore.replace("Appoggio esterno:", "").strip() for valore in valori_separati]
+
+# Rimuovi le date tra parentesi
+valori_separati = [re.sub(r'\([^)]*\)', '', valore).strip() for valore in valori_separati]
+
+# Rimuovi valori basati su parole chiave
+valori_separati = [valore for valore in valori_separati if not any(parola_chiave in valore for parola_chiave in parole_chiave_da_rimuovere)]
+
+valori_separati = list(set(valori_separati))
+
 print(valori_separati)
+
 
