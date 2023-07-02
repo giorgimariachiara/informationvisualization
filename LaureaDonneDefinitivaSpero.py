@@ -43,7 +43,7 @@ from datetime import datetime
 #Modifica della formattazione dei nomi per permettere la ricerca degli URL wikipedia 
 locale.setlocale(locale.LC_TIME, 'it_IT.UTF-8')
 
-lista_politici_data = []
+lista_politici_data_nascita = []
 
 def capitalize_name(name):
     parts = re.split(r"([ '-])", name)
@@ -60,9 +60,9 @@ for index, row in df_donne_noinfo_data.iterrows():
         mese = data.strftime("%B")  # Ottiene il nome completo del mese
         anno = str(data.year)  # Converte l'anno in stringa
         data_formattata = f"{giorno} {mese} {anno}"
-        lista_politici_data.append((nome_cognome, data_formattata))
+        lista_politici_data_nascita.append((nome_cognome, data_formattata))
     else:
-        lista_politici_data.append((nome_cognome, ""))
+        lista_politici_data_nascita.append((nome_cognome, ""))
 
 
 
@@ -81,7 +81,7 @@ for index, row in donnelaureate.iterrows():
     nome = row['nome']
     cognome = row['cognome']
     persona = capitalize_name(nome) + "_" + capitalize_name(cognome)
-    donnelaureate.at[index, 'Persona'] = persona
+    donnelaureate.loc[index, 'Persona'] = persona
 
 # Seleziona solo le colonne desiderate
 donnelaureate = donnelaureate[['Persona', 'gender']]
@@ -101,7 +101,7 @@ for index, row in donnenonlaureate.iterrows():
     nome = row['nome']
     cognome = row['cognome']
     persona = capitalize_name(nome) + "_" + capitalize_name(cognome)
-    donnenonlaureate.at[index, 'Persona'] = persona
+    donnenonlaureate.loc[index, 'Persona'] = persona
 
 # Seleziona solo le colonne desiderate
 donnenonlaureate = donnenonlaureate[['Persona', 'gender']]
@@ -141,7 +141,7 @@ url_lista = []
 donne_con_url = []
 donne_senza_url = []
 
-for nome_cognome, data_nascita in lista_politici_data:
+for nome_cognome, data_nascita in lista_politici_data_nascita:
     url_politico_data = None
     for anno_iniziale in [1952, 1940, 1929]:
         url_politico_data = f"https://it.wikipedia.org/wiki/{nome_cognome}_(politico_{anno_iniziale})"
@@ -198,7 +198,7 @@ for nome_cognome, data_nascita in lista_politici_data:
 df_donne_con_url = pd.DataFrame({"Persona": donne_con_url, "URL": url_lista})
 for index, row in df_donne_con_url.iterrows():
     persona = row["Persona"]
-    for nome_cognome, data_nascita in lista_politici_data:
+    for nome_cognome, data_nascita in lista_politici_data_nascita:
         if nome_cognome == persona:
             df_donne_con_url.at[index, "Data di nascita"] = data_nascita
             break
@@ -206,12 +206,12 @@ for index, row in df_donne_con_url.iterrows():
 df_donne_senza_url = pd.DataFrame({"Persona e Data di nascita": donne_senza_url})
 pd.set_option('display.max_colwidth', None)
 
-"""
+
 print("Donne che hanno url subito 30")
 print(len(df_donne_con_url))
 print("Donne senza url subito 19")
 print(len(df_donne_senza_url))
-"""
+
 lista_donne_senza_url = df_donne_senza_url['Persona e Data di nascita'].values.tolist()
 
 import pandas as pd
@@ -290,13 +290,14 @@ for item in lista_donne_senza_url:
         df_without_url = pd.concat([df_without_url, pd.DataFrame({'Nome': [nome_cognome], 'Data di nascita': [data_nascita]})], ignore_index=True)
 
 pd.set_option('display.max_colwidth', None)
-"""
+
 print("DONNE CON URL DOPO IL PRIMO TENT 5:")
-#print(df_with_url)
+print(df_with_url)
 print(len(df_with_url))
 print("DONNE SENZA URL ANCHE DOPO QUESTO TENT 14:")
+print(df_without_url)
 print(len(df_without_url))
-"""
+
 
 #Trovare quelli che hanno dei secondi nomi su wiki ecc
 
@@ -358,13 +359,14 @@ for index, row in df_without_url.iterrows():
 
 df_donne_con_url2 = pd.DataFrame({"Persona": donne_con_url2, "URL": url_lista, "Data di nascita": date_nascita_con_url2})
 df_donne_senza_url2 = pd.DataFrame({"Persona": donne_senza_url2, "Data di nascita": date_nascita_senza_url2})
-"""
-print("Lunghezza dataframe uomini con URL 14:")
+
+print("Lunghezza dataframe donne con URL 14:")
 print(len(df_donne_con_url2))
 print(df_donne_con_url2)
-print("Lunghezza dataframe uomini senza URL 0:")
+print("Lunghezza dataframe donne senza URL 0:")
 print(len(df_donne_senza_url2))
-"""
+print(df_donne_senza_url2)
+
 #Controlliamo se nell'url c'è effettivamente il nome o il cognome 
 corresponding_rows = []
 non_corresponding_rows = []
@@ -389,20 +391,21 @@ for _, row in df_donne_con_url2 .iterrows():
 corresponding_url_df = pd.DataFrame(corresponding_rows, columns=df_donne_con_url2 .columns)
 non_corresponding_url_df = pd.DataFrame(non_corresponding_rows, columns=df_donne_con_url2 .columns)
 
-"""
+
 pd.set_option('display.max_colwidth', None)
-print("URL corrispondenti:")
+print("URL corrispondenti di quelli della ricerca del nome:")
 print(corresponding_url_df)
 print(len(corresponding_url_df))
 
 print("\nURL non corrispondenti:")
 print(non_corresponding_url_df)
 print(len(non_corresponding_url_df))
-"""
+
 
 import re
 from bs4 import BeautifulSoup
 import requests
+
 
 def check_birth_date_in_url(df):
     def check_birth_date(url, birth_date):
@@ -426,14 +429,14 @@ def check_birth_date_in_url(df):
         birth_date = row['Data di nascita']
         corrisponde = check_birth_date(url, birth_date)
         if corrisponde:
-            df_with_birthdate = df_with_birthdate.append(row)
+            df_with_birthdate = pd.concat([df_with_birthdate, row.to_frame().T])
         else:
-            df_without_birthdate = df_without_birthdate.append(row)
+            df_without_birthdate = pd.concat([df_without_birthdate, row.to_frame().T])
 
     return df_with_birthdate, df_without_birthdate
 
 df_with_birthdate, df_without_birthdate = check_birth_date_in_url(corresponding_url_df)
-"""
+
 print("DataFrame con corrispondenza di data di nascita:")
 print(df_with_birthdate)
 print(len(df_with_birthdate))
@@ -441,12 +444,14 @@ print(len(df_with_birthdate))
 print("DataFrame senza corrispondenza di data di nascita:")
 print(df_without_birthdate)
 print(len(df_without_birthdate))
-"""
+
 df_with_url = df_with_url.rename(columns={"Nome": "Persona"})
 df_controllo_wiki = pd.concat([df_with_url, df_donne_con_url, df_with_birthdate])
-print("numero di tutti gli url che ho ottenuto")
+print("numero di tutti gli url che ho ottenuto 41")
 print(df_controllo_wiki)
 print(len(df_controllo_wiki))
+print("numero di quelli di cui già non ho info adesso 8 ")
+print(len(df_without_birthdate))
 
 #CONTROLLO CHE NELLE PAGINE DI WIKIPEDIA CI SIA LA SEZIONE TITOLO DI STUDIO 
 urldaesaminare= df_controllo_wiki["URL"].tolist()
@@ -634,7 +639,7 @@ final_df = pd.concat(dataframes, ignore_index=True)
 df_filtprofessione = final_df[final_df['th'].str.contains('Professione')]
 df_filtprofessione = df_filtprofessione.merge(df_senza_parola[['URL', 'Persona']], left_on='url', right_on='URL', how='left')
 print("URL con sezione professione")
-print(df_filtprofessione)
+#print(df_filtprofessione)
 print(len(df_filtprofessione))
 
 df_da_escludere = df_filtprofessione[["url"]]
@@ -675,7 +680,7 @@ print(df_altro)
 df_medico = df_medico.assign(gender='female')
 df_medico = df_medico[['Persona', 'gender']]
 
-df_altro = df_altro.assign(gender='male')
+df_altro = df_altro.assign(gender='female')
 df_altro= df_altro[['Persona', 'gender']]
 
 df_con_parola = df_con_parola[['Persona', 'gender']]
@@ -690,7 +695,7 @@ df_donne_senza_url  = pd.DataFrame(df_donne_senza_url , columns=["Persona"])
 df_donne_senza_url = df_donne_senza_url.assign(gender='female')
 df_without_url = df_without_url[["Nome"]]
 df_without_url = df_without_url.rename(columns={'Nome': 'Persona'})
-df_donne_senza_info_f = pd.concat([df_without_url, url_senza_professione])
+df_donne_senza_info_f = pd.concat([non_corresponding_url_df, url_senza_professione])
 df_donne_senza_info_f = df_donne_senza_info_f.assign(gender='female')
 df_donne_senza_info_f = df_donne_senza_info_f.assign(graduated='NaN')
 df_donne_senza_info_f = df_donne_senza_info_f[["Persona", "gender", "graduated"]]

@@ -304,14 +304,14 @@ for item in lista_uomini_senza_url:
         df_without_url = pd.concat([df_without_url, pd.DataFrame({'Nome': [nome_cognome], 'Data di nascita': [data_nascita]})], ignore_index=True)
 
 pd.set_option('display.max_colwidth', None)
-"""
+
 print("UOMINI CON URL DOPO IL PRIMO TENT 15:")
 print(df_with_url)
 print(len(df_with_url))
 print("UOMINI SENZA URL ANCHE DOPO QUESTO TENT 36:")
 print(df_without_url)
-print(len(df_without_url))
-"""
+print(len(df_without_url)) 
+
 
 
 #Trovare quelli che hanno dei secondi nomi su wiki ecc
@@ -743,7 +743,7 @@ df_uomini_senza_url  = pd.DataFrame(df_uomini_senza_url , columns=["Persona"])
 df_uomini_senza_url = df_uomini_senza_url.assign(gender='male')
 df_without_url = df_without_url[["Nome"]]
 df_without_url = df_without_url.rename(columns={'Nome': 'Persona'})
-df_uomini_senza_info_f = pd.concat([df_without_url, url_senza_professione])
+df_uomini_senza_info_f = pd.concat([non_corresponding_url_df, url_senza_professione])
 df_uomini_senza_info_f = df_uomini_senza_info_f.assign(gender='male')
 df_uomini_senza_info_f = df_uomini_senza_info_f.assign(graduated='NaN')
 df_uomini_senza_info_f = df_uomini_senza_info_f[["Persona", "gender", "graduated"]]
@@ -767,4 +767,4 @@ df_laurea_uomini_f = pd.concat([df_uomininonlaureati_f,df_uomini_senza_info_f, d
 #df_laurea_uomini_f.to_csv("graduation.csv",  index=False, index_label=False)
 #print(df_laurea_uomini.columns)
 #print(df_laurea_uomini_f)
-#print(len(df_laurea_uomini_f))
+print(len(df_laurea_uomini_f))
