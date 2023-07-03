@@ -65,7 +65,7 @@ for index, row in df_uomini_noinfo_data.iterrows():
     else:
         lista_politici_data_nascita.append((nome_cognome, ""))
 
-print(lista_politici_data_nascita)
+#print(lista_politici_data_nascita)
 
 
 df_laurea_uomini['info'] = df_laurea_uomini['info'].fillna('') 
@@ -88,7 +88,7 @@ for index, row in uominilaureati.iterrows():
 
 # Seleziona solo le colonne desiderate
 uominilaureati = uominilaureati[['Persona', 'gender']]
-print(uominilaureati)
+#print(uominilaureati)
 
 masknonlaurea =~df_laurea_uomini['info'].str.contains('Laurea|laurea|Master|LAUREA', na=False) & df_laurea_uomini['info'].ne('')
 uomininonlaureati = df_laurea_uomini[masknonlaurea]
@@ -111,7 +111,7 @@ for index, row in uomininonlaureati.iterrows():
 
 # Seleziona solo le colonne desiderate
 uomininonlaureati = uomininonlaureati[['Persona', 'gender']]
-print(uomininonlaureati)
+#print(uomininonlaureati)
 
 print("UOMINI TOTALE 5204")
 print(len(df_laurea_uomini)) #5204
@@ -123,12 +123,6 @@ print("UOMINI NON LAUREATI 1749")
 #print(uomininonlaureati) #1749
 print(len(uomininonlaureati))
 
-"""
-lista_uomini_noinfo= df_uomini_noinfo['nome'] + ' ' + df_uomini_noinfo['cognome'] #posso toglierlo misa
-lista_uomini_noinfo = lista_uomini_noinfo.to_list()
-lista_uomini_noinfo= [nome_cognome.title() for nome_cognome in lista_uomini_noinfo]
-lista_uomini_noinfo = [nome_cognome.replace(' ', '_') for nome_cognome in lista_uomini_noinfo]
-"""
 
 #CERCA PAGINA WIKIPEDIA DELLE PERSONE SENZA INFORMAZIONI SUL TITOLO DI STUDIO 
 
@@ -220,11 +214,11 @@ for index, row in df_uomini_con_url.iterrows():
 
 df_uomini_senza_url = pd.DataFrame({"Persona e Data di nascita": uomini_senza_url})
 pd.set_option('display.max_colwidth', None)
-#print("Uomini che hanno url subito 111")
+print("Uomini che hanno url subito 111")
 #print(df_uomini_con_url)
-#print(len(df_uomini_con_url))
-#print("Uomini senza url subito 51")
-#print(len(df_uomini_senza_url))
+print(len(df_uomini_con_url))
+print("Uomini senza url subito 51")
+print(len(df_uomini_senza_url))
 
 lista_uomini_senza_url = df_uomini_senza_url['Persona e Data di nascita'].values.tolist()
 
@@ -306,12 +300,11 @@ for item in lista_uomini_senza_url:
 pd.set_option('display.max_colwidth', None)
 
 print("UOMINI CON URL DOPO IL PRIMO TENT 15:")
-print(df_with_url)
+#print(df_with_url)
 print(len(df_with_url))
 print("UOMINI SENZA URL ANCHE DOPO QUESTO TENT 36:")
-print(df_without_url)
+#print(df_without_url)
 print(len(df_without_url)) 
-
 
 
 #Trovare quelli che hanno dei secondi nomi su wiki ecc
@@ -374,14 +367,14 @@ for index, row in df_without_url.iterrows():
 
 df_uomini_con_url2 = pd.DataFrame({"Persona": uomini_con_url2, "URL": url_lista, "Data di nascita": date_nascita_con_url2})
 df_uomini_senza_url2 = pd.DataFrame({"Persona": uomini_senza_url2, "Data di nascita": date_nascita_senza_url2})
-"""
+
 print("Lunghezza dataframe uomini con URL 34:")
-print(df_uomini_con_url2)
+#print(df_uomini_con_url2)
 print(len(df_uomini_con_url2))
 print("Lunghezza dataframe uomini senza URL 2:")
-print(df_uomini_senza_url2)
+#print(df_uomini_senza_url2)
 print(len(df_uomini_senza_url2))
-"""
+
 #Controlliamo se nell'url c'è effettivamente il nome o il cognome 
 corresponding_rows = []
 non_corresponding_rows = []
@@ -407,14 +400,14 @@ corresponding_url_df = pd.DataFrame(corresponding_rows, columns=df_uomini_con_ur
 non_corresponding_url_df = pd.DataFrame(non_corresponding_rows, columns=df_uomini_con_url2 .columns)
 
 pd.set_option('display.max_colwidth', None)
-"""
-print("URL corrispondenti:")
-print(corresponding_url_df)
+
+print("URL corrispondenti 23:")
+#print(corresponding_url_df)
 print(len(corresponding_url_df))
 
-print("\nURL non corrispondenti:")
+print("\nURL non corrispondenti 11:")
 print(non_corresponding_url_df)
-"""
+
 import re
 from bs4 import BeautifulSoup
 import requests
@@ -449,16 +442,14 @@ def check_birth_date_in_url(df):
 
 df_with_birthdate, df_without_birthdate = check_birth_date_in_url(corresponding_url_df)
 
-#print("DataFrame con corrispondenza di data di nascita:")
+print("DataFrame con corrispondenza di data di nascita:")
 #print(df_with_birthdate)
-#print(len(df_with_birthdate))
+print(len(df_with_birthdate))
 
-#print("DataFrame senza corrispondenza di data di nascita:")
+print("DataFrame senza corrispondenza di data di nascita:")
 #print(df_without_birthdate)
-#print(len(df_without_birthdate))
+print(len(df_without_birthdate))
 
-#df_with_url2 = df_with_birthdate[df_with_birthdate["Corrisponde"] == True].copy()
-#df_with_url2 = df_with_url2[["Persona", "URL", "Data di nascita"]]
 df_with_url = df_with_url.rename(columns={"Nome": "Persona"})
 pd.set_option('display.max_colwidth', None)
 #print("URL trovati dopo check secondo nome 3")
@@ -472,9 +463,9 @@ pd.set_option('display.max_colwidth', None)
 
 df_controllo_wiki = pd.concat([df_with_url, df_uomini_con_url, df_with_birthdate])
 
-#print("numero di tutti gli url che ho ottenuto")
+print("numero di tutti gli url che ho ottenuto")
 #print(df_controllo_wiki)
-#print(len(df_controllo_wiki))
+print(len(df_controllo_wiki))
 #print(df_controllo_wiki)
 
 #CONTROLLO CHE NELLE PAGINE DI WIKIPEDIA CI SIA LA SEZIONE TITOLO DI STUDIO 
@@ -528,7 +519,8 @@ final_df = pd.concat(dataframes, ignore_index=True)
 df_filt = final_df[final_df['th'].str.contains('studio')]
 #print(len(df_filt))
 df_filt = df_filt.merge(df_controllo_wiki[['URL', 'Persona']], left_on='url', right_on='URL', how='left')
-#print(len(df_filt))
+print("df_filt")
+print(len(df_filt))
 #print(df_filt)
 #df_filt = df_filt.drop('url', axis=1)
 #print(df_filt)
@@ -556,17 +548,17 @@ df_filt_con_laurea = df_filt_con_laurea[['Persona', 'gender']]
 df_filt_senza_laurea = df_filt_senza_laurea.assign(gender='male')
 df_filt_senza_laurea = df_filt_senza_laurea[['Persona', 'gender']]
 
-#print("df_filt_con_laurea")
-#print(df_filt_con_laurea)
-#print("df_filt_senza_laurea")
-#print(df_filt_senza_laurea)
+print("df_filt_con_laurea")
+print(len(df_filt_con_laurea))
+print("df_filt_senza_laurea")
+print(len(df_filt_senza_laurea))
 
 urlconsezionetitolodistudio = df_filt["URL"].tolist()
 #print(len(urlconsezionetitolodistudio))
 valori_non_comuni = list(set(urldaesaminare) - set(urlconsezionetitolodistudio))
 #print(valori_non_comuni)
-#print("Valori non comuni, ovvero url senza la sezione titolo di studio ")
-#print(len(valori_non_comuni)) #url senza sezione titolo di studio   67
+print("Valori non comuni, ovvero url senza la sezione titolo di studio ")
+print(len(valori_non_comuni)) #url senza sezione titolo di studio   67
 #print(valori_non_comuni)
 #print(df_filt)
 
@@ -610,7 +602,7 @@ df_senza_parola = df_senza_parola.assign(gender='male')
 df_senza_parola = df_senza_parola[['Persona', 'gender', 'URL']]
 
 # Stampa dei DataFrame
-"""
+
 print("Pagine con almeno una delle parole:")
 print(df_con_parola)
 print(len(df_con_parola))
@@ -618,7 +610,7 @@ print(len(df_con_parola))
 print("Pagine senza nessuna delle parole:")
 print(df_senza_parola)
 print(len(df_senza_parola))
-"""
+
 
 #Controllo della professione per quelli che non hanno nè titolo di studio nè parola 
 
@@ -674,7 +666,7 @@ df_filtprofessione = final_df[final_df['th'].str.contains('Professione')]
 
 df_filtprofessione = df_filtprofessione.merge(df_senza_parola[['URL', 'Persona']], left_on='url', right_on='URL', how='left')
 print("URL con sezione professione")
-print(df_filtprofessione)
+print(len(df_filtprofessione))
 
 df_da_escludere = df_filtprofessione[["url"]]
 url_senza_professione = final_df[~final_df['url'].isin(df_da_escludere['url'])]
@@ -686,7 +678,8 @@ url_senza_professione["Persona"] = url_senza_professione["Persona"].apply(lambda
 
 # Selezionare solo le colonne desiderate nel dataframe "url_senza_professione"
 url_senza_professione = url_senza_professione[['Persona']]
-print(url_senza_professione)
+print("url senza professione")
+print(len(url_senza_professione))
 
 
 df_avvocato_professore = pd.DataFrame(columns=df.columns)
@@ -704,11 +697,11 @@ for index, row in df_filtprofessione.iterrows():
         df_altro = pd.concat([df_altro, row.to_frame().transpose()], ignore_index=True)
 
 # Stampa dei tre DataFrame risultanti
-#print("DataFrame Avvocato/Professore Universitario:")
-#print(len(df_avvocato_professore))
+print("DataFrame Avvocato/Professore Universitario:")
+print(len(df_avvocato_professore))
 #print(df_avvocato_professore)
-#print("DataFrame altro:")
-#print(len(df_altro))
+print("DataFrame altro:")
+print(len(df_altro))
 #print(df_altro)
 
 # Estrazione del nome e del cognome dall'URL
@@ -717,8 +710,10 @@ df_avvocato_professore = df_avvocato_professore.assign(gender='male')
 df_avvocato_professore = df_avvocato_professore[['Persona', 'gender']]
 
 #print(df_avvocato_professore)
-#print("DataFrame Ingegnere:")
-#print(len(df_ingegnere))
+print("DataFrame Ingegnere:")
+
+df_ingegnere= df_ingegnere[['Persona', 'gender']]
+print(len(df_ingegnere))
 #print(df_ingegnere)
 
 
@@ -731,7 +726,7 @@ df_altro= df_altro[['Persona', 'gender']]
 
 df_con_parola = df_con_parola[['Persona', 'gender']]
 
-df_uominilaureati_f = pd.concat([df_filt_con_laurea, uominilaureati, df_con_parola, df_avvocato_professore])
+df_uominilaureati_f = pd.concat([df_filt_con_laurea, uominilaureati, df_con_parola, df_avvocato_professore, df_ingegnere])
 df_uominilaureati_f = df_uominilaureati_f.assign(graduated='yes')
 #print("Uomini laureati totale:")
 #print(df_uominilaureati_f)
@@ -743,7 +738,7 @@ df_uomini_senza_url  = pd.DataFrame(df_uomini_senza_url , columns=["Persona"])
 df_uomini_senza_url = df_uomini_senza_url.assign(gender='male')
 df_without_url = df_without_url[["Nome"]]
 df_without_url = df_without_url.rename(columns={'Nome': 'Persona'})
-df_uomini_senza_info_f = pd.concat([non_corresponding_url_df, url_senza_professione])
+df_uomini_senza_info_f = pd.concat([df_uomini_senza_url2, df_without_birthdate, non_corresponding_url_df, url_senza_professione])
 df_uomini_senza_info_f = df_uomini_senza_info_f.assign(gender='male')
 df_uomini_senza_info_f = df_uomini_senza_info_f.assign(graduated='NaN')
 df_uomini_senza_info_f = df_uomini_senza_info_f[["Persona", "gender", "graduated"]]
@@ -752,7 +747,7 @@ df_uomini_senza_info_f = df_uomini_senza_info_f[["Persona", "gender", "graduated
 #print(url_senza_professione)
 #print(url_senza_professione)
 #print("Uomini senza info totale:")
-print(df_uomini_senza_info_f)
+#print(df_uomini_senza_info_f)
 
 """
 print("Uomini non laureati totale:")
@@ -763,8 +758,8 @@ print(df_uomininonlaureati_f)
 df_laurea_uomini_f = pd.concat([df_uomininonlaureati_f,df_uomini_senza_info_f, df_uominilaureati_f])
 
 
-#print(len(df_laurea_uomini_f))
-#df_laurea_uomini_f.to_csv("graduation.csv",  index=False, index_label=False)
+print(len(df_laurea_uomini_f))
+df_laurea_uomini_f.to_csv("graduation.csv",  index=False, index_label=False)
 #print(df_laurea_uomini.columns)
 #print(df_laurea_uomini_f)
-print(len(df_laurea_uomini_f))
+#print(len(df_laurea_uomini_f))

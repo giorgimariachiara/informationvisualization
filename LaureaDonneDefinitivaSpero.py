@@ -451,7 +451,7 @@ print("numero di tutti gli url che ho ottenuto 41")
 print(df_controllo_wiki)
 print(len(df_controllo_wiki))
 print("numero di quelli di cui già non ho info adesso 8 ")
-print(len(df_without_birthdate))
+print(len(df_without_birthdate)) #5 più quelli di non_corresponding_urldf
 
 #CONTROLLO CHE NELLE PAGINE DI WIKIPEDIA CI SIA LA SEZIONE TITOLO DI STUDIO 
 urldaesaminare= df_controllo_wiki["URL"].tolist()
@@ -686,16 +686,19 @@ df_altro= df_altro[['Persona', 'gender']]
 df_con_parola = df_con_parola[['Persona', 'gender']]
 
 df_donnelaureate_f = pd.concat([df_filt_con_laurea, donnelaureate, df_con_parola, df_medico])
+df_donnelaureate_f = df_donnelaureate_f.assign(graduated='yes')
 print("Donne laureate totale:")
 print(len(df_donnelaureate_f))
 
 df_donnenonlaureate_f = pd.concat([df_filt_senza_laurea, donnenonlaureate, df_altro])
+df_donnenonlaureate_f = df_donnenonlaureate_f.assign(graduated='no')
+
 df_donne_senza_url  = df_donne_senza_url["Persona e Data di nascita"].apply(lambda x: x[0])
 df_donne_senza_url  = pd.DataFrame(df_donne_senza_url , columns=["Persona"])
 df_donne_senza_url = df_donne_senza_url.assign(gender='female')
 df_without_url = df_without_url[["Nome"]]
 df_without_url = df_without_url.rename(columns={'Nome': 'Persona'})
-df_donne_senza_info_f = pd.concat([non_corresponding_url_df, url_senza_professione])
+df_donne_senza_info_f = pd.concat([non_corresponding_url_df, df_without_birthdate, url_senza_professione])
 df_donne_senza_info_f = df_donne_senza_info_f.assign(gender='female')
 df_donne_senza_info_f = df_donne_senza_info_f.assign(graduated='NaN')
 df_donne_senza_info_f = df_donne_senza_info_f[["Persona", "gender", "graduated"]]
@@ -706,3 +709,5 @@ print(len(df_donne_senza_info_f))
 
 df_laurea_donne_f = pd.concat([df_donne_senza_info_f, df_donnenonlaureate_f, df_donnelaureate_f])
 print(len(df_laurea_donne_f))
+
+df_laurea_donne_f.to_csv("graduationfemale.csv",  index=False, index_label=False)
