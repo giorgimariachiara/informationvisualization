@@ -2,11 +2,11 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load the CSV dataset using Pandas
-data = pd.read_csv('party.csv')
+data = pd.read_csv('partytotal.csv')
 
 
 # Group the data by party and gender, and count the number of deputies
-party_gender_counts = data.groupby(['gruppoPar', 'gender']).size().unstack().fillna(0)
+party_gender_counts = data.groupby(['partito', 'gender']).size().unstack().fillna(0)
 
 # Sort parties based on the total number of deputies
 party_gender_counts['Total'] = party_gender_counts.sum(axis=1)
