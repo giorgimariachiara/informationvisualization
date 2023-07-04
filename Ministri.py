@@ -75,9 +75,12 @@ df_ministri_legislature['membroLabel'] = df_ministri_legislature['membroLabel'].
 df_ministri_legislature = df_ministri_legislature.rename(columns={'governoLabel': 'Governo'})
 df_ministri_legislature = df_ministri_legislature.rename(columns={'membroLabel': 'Ministro'})
 
-print(df_ministri_legislature)
+df_ministri = df_ministri_legislature[["Governo", "Ministro", "nome","cognome"]].drop_duplicates()
+print(len(df_ministri))
+#print(df_ministri_legislature)
 print(len(df_ministri_legislature))
-df_ministri_legislature.to_csv("ministri.csv",  index=False, index_label=False)
+#df_ministri.to_csv("ministri.csv",  index=False, index_label=False)
+#df_ministri_legislature.to_csv("ministrilegislature.csv",  index=False, index_label=False)
 #df_ministri_legislature["governoLabel"] = df_ministri_legislature["governoLabel"].str.split(" ", n=1).str[0]
 df_governi = df_ministri_legislature[['governoLabel']].copy()
 df_governi['Governo'] = df_governi['governoLabel'].str.extract(r'^(.*?)\s*\(')
