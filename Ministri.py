@@ -55,23 +55,29 @@ WHERE { ?legislatura rdf:type ocd:legislatura;
 df_info_lesiglature = get(endpoint, querylegislature)
 #print(df_info_lesiglature)
 
-queryministri = """SELECT DISTINCT ?legislaturaLabel ?governoLabel ?membroLabel ?nome ?cognome 
+queryministri = """SELECT DISTINCT ?legislatura ?governoLabel ?membroLabel ?nome ?cognome 
  
 WHERE { ?legislatura rdf:type ocd:legislatura;
                       rdfs:label ?legislaturaLabel;
                      ocd:rif_governo ?governo.
               ?governo rdfs:label ?governoLabel;
-                     ocd:rif_membroGoverno  ?membro.
+                     ocd:rif_membroGoverno ?membro.
        ?membro rdfs:label ?membroLabel;
               foaf:firstName ?nome;
             foaf:surname ?cognome . 
         FILTER(contains(lcase(str(?membroLabel)), "ministro"))
 } """
 
-df_ministri_legislature = get(endpoint, queryministri)
+df_ministri_legislature = get(endpoint, queryministri) 
 
-df_ministri_legislature["legislaturaLabel"] = df_ministri_legislature["legislaturaLabel"].str.split(" ", n=1).str[0]
+df_ministri_legislature['governoLabel'] = df_ministri_legislature['governoLabel'].str.split('(', n=1).str[0].str.strip()
+df_ministri_legislature['membroLabel'] = df_ministri_legislature['membroLabel'].str.split('(', n=1).str[0].str.strip()
+df_ministri_legislature = df_ministri_legislature.rename(columns={'governoLabel': 'Governo'})
+df_ministri_legislature = df_ministri_legislature.rename(columns={'membroLabel': 'Ministro'})
+
 print(df_ministri_legislature)
+print(len(df_ministri_legislature))
+df_ministri_legislature.to_csv("ministri.csv",  index=False, index_label=False)
 #df_ministri_legislature["governoLabel"] = df_ministri_legislature["governoLabel"].str.split(" ", n=1).str[0]
 df_governi = df_ministri_legislature[['governoLabel']].copy()
 df_governi['Governo'] = df_governi['governoLabel'].str.extract(r'^(.*?)\s*\(')

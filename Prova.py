@@ -129,7 +129,7 @@ ocd:rif_mandatoCamera ?mandato.
 df_incarico_donne = get(endpoint, queryincaricodeputatedonne)
 df_incarico_donne = df_incarico_donne[["nome", "cognome", "legislatura", "ufficio"]]
 df_incarico_donne = df_incarico_donne.rename(columns={'ufficio': 'incarico'})
-df_incarico_donne.to_csv("incaricodonne.csv",  index=False, index_label=False)
+#df_incarico_donne.to_csv("incaricodonne.csv",  index=False, index_label=False)
 #df_incarico_donne = df_incarico_donne.drop_duplicates()
 #print(len(df_incarico_donne))
 #conteggio_female = df_incarico_donne['gender'].value_counts()['female']
