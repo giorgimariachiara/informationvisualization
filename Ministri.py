@@ -71,6 +71,7 @@ WHERE { ?legislatura rdf:type ocd:legislatura;
 df_ministri_legislature = get(endpoint, queryministri)
 
 df_ministri_legislature["legislaturaLabel"] = df_ministri_legislature["legislaturaLabel"].str.split(" ", n=1).str[0]
+print(df_ministri_legislature)
 #df_ministri_legislature["governoLabel"] = df_ministri_legislature["governoLabel"].str.split(" ", n=1).str[0]
 df_governi = df_ministri_legislature[['governoLabel']].copy()
 df_governi['Governo'] = df_governi['governoLabel'].str.extract(r'^(.*?)\s*\(')
@@ -177,6 +178,8 @@ rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
 ?luogoNascitaUri dc:title ?luogoNascita.
 
 }}"""
+
+
 #dataprova1 = dataprova[["nome", "cognome"]]
 df_partito_donne = get(endpoint, query_partito_donne)
 df_partito_donne['gruppoPar'] = df_partito_donne['gruppoPar'].str.extract(r'^(.*?) \(')
@@ -373,7 +376,6 @@ df_filtered = df[df['Partito'].isin(listapartiti)]
 #print(len(df_filtered))
 
 
-
 from urllib.parse import urlencode
 @sleep_and_retry
 @limits(calls=1, period=2)
@@ -491,7 +493,7 @@ keyword_mapping = {
 
 df_completo_alignment['Allineamento Politico'] = df_completo_alignment['Allineamento Politico'].apply(lambda x: keyword_mapping.get(x, x))
 #df_completo_alignment = df_completo_alignment[df_completo_alignment['partito'] != 'Misto']
-df_completo_alignment.to_csv("partyspettro.csv",  index=False, index_label=False)
+#df_completo_alignment.to_csv("partyspettro.csv",  index=False, index_label=False)
 print(df_completo_alignment)
 
 #print(df_alignment_partiti)

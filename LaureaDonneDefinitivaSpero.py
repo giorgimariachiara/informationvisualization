@@ -74,14 +74,15 @@ laureate = df_laurea_donne[masklaurea]
 laureate = laureate.assign(gender='female')
 donnelaureate = laureate[["nome", "cognome", "gender"]]
 def capitalize_name(name):
-    parts = re.split(r"([ '-])", name)
-    return "_".join([part.capitalize() for part in parts])
+    parts = re.findall(r"[\w'-]+", name)
+    capitalized_parts = [part.capitalize() for part in parts]
+    return "_".join(capitalized_parts)
 
 for index, row in donnelaureate.iterrows():
     nome = row['nome']
     cognome = row['cognome']
     persona = capitalize_name(nome) + "_" + capitalize_name(cognome)
-    donnelaureate.loc[index, 'Persona'] = persona
+    donnelaureate.at[index, 'Persona'] = persona
 
 # Seleziona solo le colonne desiderate
 donnelaureate = donnelaureate[['Persona', 'gender']]
@@ -94,14 +95,15 @@ donnenonlaureate = donnenonlaureate.assign(gender='female')
 donnenonlaureate = donnenonlaureate[["nome", "cognome", "gender"]]
 
 def capitalize_name(name):
-    parts = re.split(r"([ '-])", name)
-    return "_".join([part.capitalize() for part in parts])
+    parts = re.findall(r"[\w'-]+", name)
+    capitalized_parts = [part.capitalize() for part in parts]
+    return "_".join(capitalized_parts)
 
 for index, row in donnenonlaureate.iterrows():
     nome = row['nome']
     cognome = row['cognome']
     persona = capitalize_name(nome) + "_" + capitalize_name(cognome)
-    donnenonlaureate.loc[index, 'Persona'] = persona
+    donnenonlaureate.at[index, 'Persona'] = persona
 
 # Seleziona solo le colonne desiderate
 donnenonlaureate = donnenonlaureate[['Persona', 'gender']]
@@ -687,8 +689,8 @@ df_con_parola = df_con_parola[['Persona', 'gender']]
 
 df_donnelaureate_f = pd.concat([df_filt_con_laurea, donnelaureate, df_con_parola, df_medico])
 df_donnelaureate_f = df_donnelaureate_f.assign(graduated='yes')
-print("Donne laureate totale:")
-print(len(df_donnelaureate_f))
+#print("Donne laureate totale:")
+#print(len(df_donnelaureate_f))
 
 df_donnenonlaureate_f = pd.concat([df_filt_senza_laurea, donnenonlaureate, df_altro])
 df_donnenonlaureate_f = df_donnenonlaureate_f.assign(graduated='no')
@@ -702,12 +704,20 @@ df_donne_senza_info_f = pd.concat([non_corresponding_url_df, df_without_birthdat
 df_donne_senza_info_f = df_donne_senza_info_f.assign(gender='female')
 df_donne_senza_info_f = df_donne_senza_info_f.assign(graduated='NaN')
 df_donne_senza_info_f = df_donne_senza_info_f[["Persona", "gender", "graduated"]]
-print(df_donne_senza_url)
-print("Donne non laureate totale:")
-print(len(df_donnenonlaureate_f))
-print(len(df_donne_senza_info_f))
+#print(df_donne_senza_url)
+#print("Donne non laureate totale:")
+#print(len(df_donnenonlaureate_f))
+#print(len(df_donne_senza_info_f))
 
 df_laurea_donne_f = pd.concat([df_donne_senza_info_f, df_donnenonlaureate_f, df_donnelaureate_f])
-print(len(df_laurea_donne_f))
+#print(len(df_laurea_donne_f))
 
-df_laurea_donne_f.to_csv("graduationfemale.csv",  index=False, index_label=False)
+#df_laurea_donne_f.to_csv("graduationfemale.csv",  index=False, index_label=False)
+#print(df_filt_senza_laurea)
+#print(df_altro)
+#print(df_filt_con_laurea)
+#print(df_medico)
+#print(df_con_parola)
+#print(df_with_birthdate)
+#print(non_corresponding_url_df)
+print(donnenonlaureate)

@@ -80,41 +80,7 @@ df_presidentesse_consiglio = df_presidentesse_consiglio.assign(gender="female")
 df_presidenti_consiglio_totale = pd.concat([df_presidenti_consiglio, df_presidentesse_consiglio])
 #df_presidenti_consiglio_totale.to_csv("presidenticonsigliototale.csv",  index=False, index_label=False)
 
-#print(df_presidenti_consiglio_totale)
-
-"""
-import pandas as pd
-import matplotlib.pyplot as plt
-
-# Carica il file CSV
-df = pd.read_csv('presidenticonsigliototale.csv')
-
-# Calcola il numero di donne e uomini ministri
-conteggio_generi = df['gender'].value_counts()
-
-# Crea la pie chart
-labels = conteggio_generi.index
-sizes = conteggio_generi.values
-colors = ['skyblue', 'lightcoral']
-
-plt.pie(sizes, labels=labels, colors=colors, autopct='%1.1f%%')
-plt.axis('equal')  # Rende il grafico un cerchio
-plt.title('Distribuzione dei ministri per genere')
-plt.show()
-
-"""
-"""
-SELECT DISTINCT ?person ?labelNome ?labelCognome WHERE {
-  ?person wdt:P31 wd:Q5 .
-  ?person wdt:P735 ?nome. 
-  ?person wdt:P734 ?cognome.
-  ?nome rdfs:label ?labelNome . 
-  ?cognome rdfs:label ?labelCognome . 
-   FILTER (STRENDS(?labelNome, "Dino"))
-  FILTER (STRENDS(?labelCognome, "Secco"))
-} 
-"""
-queryincaricodonne = """SELECT DISTINCT ?persona ?cognome ?nome ?luogoNascita ?ufficio 
+queryincaricodonneee = """SELECT DISTINCT ?persona ?cognome ?nome ?luogoNascita ?ufficio 
 WHERE {
 ?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
 ## deputato
@@ -137,84 +103,7 @@ OPTIONAL{
 
 } """
 
-qqq = """ SELECT DISTINCT ?d ?persona ?cognome ?nome ?gender ?luogoNascita ?ufficio 
-WHERE {
-?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
-## deputato
-?d a ocd:deputato; ocd:aderisce ?aderisce;
-ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_17>;
-ocd:rif_mandatoCamera ?mandato.
-
-##anagrafica
-?d foaf:surname ?cognome; foaf:gender "male" ;foaf:firstName ?nome.
-OPTIONAL{
-?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-?nascita rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri. 
-?luogoNascitaUri dc:title ?luogoNascita. 
-}
- 
-## uffici parlamentari
-?d ocd:rif_ufficioParlamentare ?ufficioUri.
-?ufficioUri ocd:rif_organo ?organoUri; ocd:carica ?ufficio.
-
-
-}   """
-
-querycontocarichedonna = """ SELECT DISTINCT ?inca ?d ?nome
-WHERE {
-?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
-## deputato
-?d a ocd:deputato; ocd:aderisce ?aderisce;
-ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_17>;
-ocd:rif_mandatoCamera ?mandato.
-
-##anagrafica
-?d foaf:surname ?cognome; foaf:gender "female" ;foaf:firstName ?nome.
-OPTIONAL{
-?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-?nascita rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri. 
-?luogoNascitaUri dc:title ?luogoNascita. 
-}
- 
-## uffici parlamentari
-?d ocd:rif_ufficioParlamentare ?ufficioUri.
-?ufficioUri ocd:rif_organo ?organoUri; ocd:carica ?inca.
-
-
-}  """
-
-df_incarico_donne = get(endpoint, qqq)
-#df_incarico_donne = df_incarico_donne.drop_duplicates()
-#print(len(df_incarico_donne))
-#conteggio_female = df_incarico_donne['gender'].value_counts()['female']
-#print(conteggio_female)
-#print(df_incarico_donne)
-""" SELECT DISTINCT ?ruolo (COUNT(DISTINCT ?persona) as ?numeroPersone)
-WHERE {
-?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
-## deputato
-?d a ocd:deputato; ocd:aderisce ?aderisce;
-ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_17>;
-ocd:rif_mandatoCamera ?mandato.
-
-##anagrafica
-?d foaf:surname ?cognome; foaf:gender "male" ;foaf:firstName ?nome.
-OPTIONAL{
-?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita.
-?nascita rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri. 
-?luogoNascitaUri dc:title ?luogoNascita. 
-}
- 
-## uffici parlamentari
-?d ocd:rif_ufficioParlamentare ?ufficioUri.
-  ?d ocd:rif_incarico ?incarico.
-  ?incarico ocd:ruolo ?ruolo. 
-
-
-} group by ?ruolo  """
-
-queryincaricodeputatedonne = """
-SELECT ?d ?cognome ?nome 
+queryincaricodeputatedonne = """ SELECT DISTINCT ?d ?legislatura ?cognome ?nome 
   ?ufficio
  
 WHERE {
@@ -235,11 +124,48 @@ ocd:rif_mandatoCamera ?mandato.
 ?ufficioUri ocd:rif_organo ?organoUri; ocd:carica ?ufficio.
 
 
-}   """
+}    """
 
 df_incarico_donne = get(endpoint, queryincaricodeputatedonne)
-df_incarico_donne = df_incarico_donne.drop_duplicates()
+df_incarico_donne = df_incarico_donne[["nome", "cognome", "legislatura", "ufficio"]]
+df_incarico_donne = df_incarico_donne.rename(columns={'ufficio': 'incarico'})
+df_incarico_donne.to_csv("incaricodonne.csv",  index=False, index_label=False)
+#df_incarico_donne = df_incarico_donne.drop_duplicates()
 #print(len(df_incarico_donne))
+#conteggio_female = df_incarico_donne['gender'].value_counts()['female']
+#print(conteggio_female)
+#print(df_incarico_donne)
+
+queryincaricodeputatiuomini = """
+SELECT DISTINCT ?d ?legislatura ?cognome ?nome 
+  ?ufficio
+ 
+WHERE {
+?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
+## deputato
+?d a ocd:deputato; ocd:aderisce ?aderisce;
+ocd:rif_leg ?legislatura;
+ocd:rif_mandatoCamera ?mandato.
+
+##anagrafica
+?d foaf:surname ?cognome; foaf:gender "male" ;foaf:firstName ?nome.
+
+## mandato
+?mandato ocd:rif_elezione ?elezione.   
+ 
+## uffici parlamentari
+?d ocd:rif_ufficioParlamentare ?ufficioUri.
+?ufficioUri ocd:rif_organo ?organoUri; ocd:carica ?ufficio.
+
+
+}   """
+
+df_incarico_uomini = get(endpoint, queryincaricodeputatiuomini)
+df_incarico_uomini = df_incarico_uomini[["nome", "cognome", "legislatura", "ufficio"]]
+df_incarico_uomini = df_incarico_uomini.rename(columns={'ufficio': 'incarico'})
+df_incarico_uomini.to_csv("incaricouomini.csv",  index=False, index_label=False)
+print(len(df_incarico_donne))
+print(len(df_incarico_uomini))
 queryincaricodeputatiuomini = """
 SELECT ?d ?cognome ?nome ?gender ?legislatura
   ?ufficio

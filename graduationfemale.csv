@@ -7,15 +7,15 @@ Daniela_Romani,female,NaN
 Maria_Galli,female,NaN
 Anna_Maria_De_Luca,female,NaN
 Ida_Matarazzo,female,NaN
+Patrizia_Arnaboldi,female,NaN
 Renata_Marchionni_Zanchi,female,NaN
 Franca_Bassi,female,NaN
 Francesca_Gerardi,female,NaN
+Anna_Milva_Boselli,female,NaN
+Olga_Giannini,female,NaN
 Ottavia_Penna_Buscemi,female,NaN
 Marilena_Parenti,female,NaN
-Patrizia_Arnaboldi,female,NaN
-Olga_Giannini,female,NaN
 Cristina_Bevilacqua,female,NaN
-Anna_Milva_Boselli,female,NaN
 Veronica_Giannone,male,no
 Leda_Colombini,male,no
 Giuseppina_Bertone,male,no
@@ -25,53 +25,53 @@ Anna_Lucia_Lisa_Pannarale,male,no
 Vittoria_Titomanlio,female,no
 Romana_Bianchi,female,no
 Carla_Rocchi,female,no
-Maria_ _Antonietta_Sartori,female,no
-Maria_ _Adelaide_Aglietta,female,no
+Maria_Antonietta_Sartori,female,no
+Maria_Adelaide_Aglietta,female,no
 Angela_Francese,female,no
 Rossella_Artioli,female,no
-Maria_ _Teresa_Capecchi,female,no
+Maria_Teresa_Capecchi,female,no
 Giovanna_Filippini,female,no
 Natalia_Levi,female,no
-Anna_Mainardi_ _Fava,female,no
+Anna_Mainardi_Fava,female,no
 Teresa_Migliasso,female,no
 Rosanna_Minozzi,female,no
-Nanda_Montanari_ _Fornari,female,no
-Anna_ _Maria_Pedrazzi,female,no
+Nanda_Montanari_Fornari,female,no
+Anna_Maria_Pedrazzi,female,no
 Neide_Umidi,female,no
 Roberta_Breda,female,no
 Elena_Montecchi,female,no
 Liliana_Albertini,female,no
-Elisabetta_Di_ _Prisco,female,no
+Elisabetta_Di_Prisco,female,no
 Anna_Donati,female,no
 Rosa_Filippini,female,no
 Marina_Sereni,female,no
 Rosella_Ottone,female,no
 Lorena_Milanato,female,no
 Viviana_Beccalossi,female,no
-Olga_Di_ _Serio,female,no
+Olga_Di_Serio,female,no
 Margherita_Coluccini,female,no
 Katia_Zanotti,female,no
 Graziella_Mascia,female,no
-Caterina_De_ _Simone,female,no
+Caterina_De_Simone,female,no
 Carla_Mazzuca,female,no
 Marilde_Provera,female,no
-Manuela_Di_ _Centa,female,no
-Emilia_ _Grazia_De_ _Biasi,female,no
-Stefania_ _Gabriella_ _Anastasia_Craxi,female,no
+Manuela_Di_Centa,female,no
+Emilia_Grazia_De_Biasi,female,no
+Stefania_Gabriella_Anastasia_Craxi,female,no
 Flavia_Perina,female,no
 Giuseppina_Fasciani,female,no
 Marisa_Nicchi,female,no
-Maria_ _Emilia_Intrieri,female,no
+Maria_Emilia_Intrieri,female,no
 Elisa_Tripodi,female,no
 Marialucia_Lorefice,female,no
 Maria_Marzana,female,no
 Stella_Vecchio,female,no
 Dolores_Abbiati,female,no
-Carla_Capponi_ _Bentivegna,female,no
+Carla_Capponi_Bentivegna,female,no
 Carmen_Casapieri,female,no
 Eletta_Bertani,female,no
-Angela_ _Maria_Bottari,female,no
-Maria_ _Luigia_Buro,female,no
+Angela_Maria_Bottari,female,no
+Maria_Luigia_Buro,female,no
 Amelia_Casadei,female,no
 Maria_Cocco,female,no
 Cristina_Conchiglia,female,no
@@ -79,33 +79,33 @@ Nadia_Corradi,female,no
 Angela_Giovagnoli,female,no
 Enza_Marchi,female,no
 Cecilia_Chiovini,female,no
-Angela_ _Maria_Rosolen,female,no
+Angela_Maria_Rosolen,female,no
 Milena_Sarri,female,no
-Anna_ _Maria_Ciai,female,no
-Maria_ _Lisa_Cinciari,female,no
+Anna_Maria_Ciai,female,no
+Maria_Lisa_Cinciari,female,no
 Ilia_Coppi,female,no
-Ada_Del_ _Vecchio,female,no
-Baldina_Di_ _Vittorio_ _Berti,female,no
+Ada_Del_Vecchio,female,no
+Baldina_Di_Vittorio_Berti,female,no
 Elisabetta_Gallo,female,no
 Maria_Miccolis,female,no
 Giuliana_Nenni,female,no
-Carmen_ _Paola_Zanti,female,no
+Carmen_Paola_Zanti,female,no
 Piera_Bonetti,female,no
 Paola_Buttazzoni,female,no
 Lucia_Cominato,female,no
 Rosalba_Molineri,female,no
-Maria_ _Santa_Piccoli,female,no
+Maria_Santa_Piccoli,female,no
 Ivanne_Trebbi,female,no
 Carla_Gravina,female,no
 Rosella_Palmini,female,no
-Maria_ _Chiara_Rosso,female,no
+Maria_Chiara_Rosso,female,no
 Malgari_Amadei,female,no
-Maria_ _Teresa_Di_ _Lascia,female,no
+Maria_Teresa_Di_Lascia,female,no
 Giulietta_Fibbi,female,no
 Luciana_Fittaioli,female,no
-Erisia_Gennai_ _Tonietti,female,no
-Nella_Marcellino_ _Colombi,female,no
-Maddalena_ __Perquis_ _Moretti,female,no
+Erisia_Gennai_Tonietti,female,no
+Nella_Marcellino_Colombi,female,no
+Maddalena_Perquis_Moretti,female,no
 Susanna_Agnelli,female,no
 Elisabetta_Rampi,female,no
 Silvana_Mura,female,no
@@ -126,11 +126,11 @@ Erica_Rivolta,female,no
 Beatrice_Lorenzin,female,no
 Manuela_Lanzarin,female,no
 Emanuela_Munerato,female,no
-Anna_ _Margherita_Miotto,female,no
+Anna_Margherita_Miotto,female,no
 Daniela_Sbrollini,female,no
 Anna_Sanna,female,no
 Gianna_Serra,female,no
-Giovanna_ _Maria_Tealdi,female,no
+Giovanna_Maria_Tealdi,female,no
 Livia_Turco,female,no
 Elisabetta_Bertotti,female,no
 Maura_Camoirano,female,no
@@ -138,11 +138,11 @@ Alda_Grassi,female,no
 Tiziana_Maiolo,female,no
 Alfonsina_Rinaldi,female,no
 Adriana_Lodi,female,no
-Angela_Bellei_ _Trenti,female,no
+Angela_Bellei_Trenti,female,no
 Emanuela_Cabrini,female,no
-Mariella_ _Maria_ _Rita_Cavanna_ _Scirea,female,no
+Mariella_Maria_Rita_Cavanna_Scirea,female,no
 Francesca_Chiavacci,female,no
-Elena_ _Emma_Cordoni,female,no
+Elena_Emma_Cordoni,female,no
 Daniela_Lauber,female,no
 Rosaria_Lopedote,female,no
 Maria_Mafai,female,no
@@ -154,12 +154,12 @@ Marialuisa_Gnecchi,female,no
 Consolata_Golfo,female,no
 Barbara_Saltamartini,female,no
 Rita_Bernardini,female,no
-Maria_ _Antonietta_Farina,female,no
+Maria_Antonietta_Farina,female,no
 Susanna_Cenni,female,no
 Mariarosaria_Rossi,female,no
 Giovanna_Negro,female,no
 Maria_Antezza,female,no
-Franca_ _Maria_ _Grazia_Biondelli,female,no
+Franca_Maria_Grazia_Biondelli,female,no
 Tamara_Blazina,female,no
 Tea_Albini,female,no
 Sabina_Fabi,female,no
@@ -173,7 +173,7 @@ Floriana_Casellato,female,no
 Sandra_Savino,female,no
 Roberta_Oliaro,female,no
 Patrizia_Maestri,female,no
-Maria_ _Valentina_Vezzali,female,no
+Maria_Valentina_Vezzali,female,no
 Renata_Polverini,female,no
 Federica_Daga,female,no
 Carla_Ruocco,female,no
@@ -187,21 +187,21 @@ Vanna_Iori,female,no
 Irene_Tinagli,female,no
 Chiara_Gribaudo,female,no
 Emanuela_Corda,female,no
-Chiara_Di_ _Benedetto,female,no
-Azzurra_ _Pia_ _Maria_Cancelleri,female,no
+Chiara_Di_Benedetto,female,no
+Azzurra_Pia_Maria_Cancelleri,female,no
 Luisella_Albanella,female,no
 Rosanna_Scopelliti,female,no
 Martina_Nardi,female,no
-Daniela_ _Matilde_ _Maria_Gasparini,female,no
+Daniela_Matilde_Maria_Gasparini,female,no
 Renata_Bueno,female,no
 Angela_Nissoli,female,no
 Maria_Iacono,female,no
 Maruzza_Astolfi,female,no
-Franca_ _Maria_Marino_ _Buccellato,female,no
-Maria_ _Cristina_Matranga,female,no
+Franca_Maria_Marino_Buccellato,female,no
+Maria_Cristina_Matranga,female,no
 Rosanna_Moroni,female,no
-Maria_ _Gabriella_Pinto,female,no
-Elisa_Pozza_ _Tasca,female,no
+Maria_Gabriella_Pinto,female,no
+Elisa_Pozza_Tasca,female,no
 Antonietta_Rizza,female,no
 Tomasa_Salvo,female,no
 Giuseppina_Servodio,female,no
@@ -211,16 +211,16 @@ Antonietta_Vascon,female,no
 Tiziana_Valpiana,female,no
 Ombretta_Comelli,female,no
 Patrizia_Toia,female,no
-Maria_ _Agostina_Pellegatta,female,no
+Maria_Agostina_Pellegatta,female,no
 Elena_Ciapusci,female,no
-Argia_ _Valeria_Albanese,female,no
+Argia_Valeria_Albanese,female,no
 Franca_Gambato,female,no
 Assunta_Malavenda,female,no
 Daniela_Santandrea,female,no
 Emiliana_Santoli,female,no
 Marisa_Abbondanzieri,female,no
-Luciana_Sgarbi_ _Bompani,female,no
-Renata_Talassi_ _Giorgi,female,no
+Luciana_Sgarbi_Bompani,female,no
+Renata_Talassi_Giorgi,female,no
 Emilia_Calini,female,no
 Maria_Alessi,female,no
 Maria_Badaloni,female,no
@@ -245,25 +245,25 @@ Camilla_Ravera,female,no
 Giuseppina_Re,female,no
 Vittoria_Baldino,female,no
 Monica_Ciaburro,female,no
-Pasqua_L_'_Abbate,female,no
+Pasqua_L'abbate,female,no
 Elena_Bonetti,female,no
 Vannia_Gava,female,no
-Rita_Dalla_ _Chiesa,female,no
+Rita_Dalla_Chiesa,female,no
 Federica_Onori,female,no
-Carmela_Di_ _Lauro,female,no
+Carmela_Di_Lauro,female,no
 Daniela_Morfino,female,no
 Rachele_Silvestri,female,no
 Barbara_Polo,female,no
 Tiziana_Nisini,female,no
 Immacolata_Zurzolo,female,no
 Silvana_Snider,female,no
-Anna_ _Maria_Carloni,female,no
+Anna_Maria_Carloni,female,no
 Sara_Foscolo,female,no
-Rosalba_De_ _Giorgi,female,no
-Francesca_ _Anna_Ruggiero,female,no
-Iolanda_Di_ _Stasio,female,no
-Sabrina_De_ _Carlo,female,no
-Sara_De_ _Angelis,female,no
+Rosalba_De_Giorgi,female,no
+Francesca_Anna_Ruggiero,female,no
+Iolanda_Di_Stasio,female,no
+Sabrina_De_Carlo,female,no
+Sara_De_Angelis,female,no
 Carmela_Grippa,female,no
 Elisabetta_Ripani,female,no
 Carla_Cantone,female,no
@@ -271,8 +271,8 @@ Doriana_Sarli,female,no
 Silvana_Nappi,female,no
 Carla_Giuliano,female,no
 Erica_Mazzetti,female,no
-Maria_ _Soave_Alemanno,female,no
-Emanuela_ _Claudia_Del_ _Re,female,no
+Maria_Soave_Alemanno,female,no
+Emanuela_Claudia_Del_Re,female,no
 Teresa_Manzo,female,no
 Laura_Cavandoli,female,no
 Antonella_Papiro,female,no
@@ -281,41 +281,41 @@ Marica_Fantuz,female,no
 Giuseppina_Versace,female,no
 Cristina_Patelli,female,no
 Ketty_Fogliani,female,no
-Maria_ _Cristina_Caretta,female,no
+Maria_Cristina_Caretta,female,no
 Eva_Lorenzoni,female,no
 Arianna_Lazzarini,female,no
 Daniela_Ruffino,female,no
 Patrizia_Marrocco,female,no
 Simona_Bordonali,female,no
 Antonietta_Giacometti,female,no
-Anna_ _Lisa_Baroni,female,no
+Anna_Lisa_Baroni,female,no
 Iolanda_Nanni,female,no
 Claudia_Gobbato,female,no
 Stefania_Segnana,female,no
 Vania_Valbusa,female,no
-Celeste_D_'_Arrando,female,no
+Celeste_D'arrando,female,no
 Chiara_Tenerini,female,no
 Marina_Marchetto,female,no
 Elisa_Montemagni,female,no
-Chiara_La_ _Porta,female,no
+Chiara_La_Porta,female,no
 Francesca_Ghirra,female,no
-Maria_ _Grazia_Frijia,female,no
-Maria_ _Immacolata_Vietri,female,no
-Maria_ _Cecilia_Guerra,female,no
+Maria_Grazia_Frijia,female,no
+Maria_Immacolata_Vietri,female,no
+Maria_Cecilia_Guerra,female,no
 Enrica_Alifano,female,no
 Marianna_Ricciardi,female,no
 Laura_Cantini,female,no
-Valentina_La_ _Terza,female,no
+Valentina_La_Terza,female,no
 Tiziana_Piccolo,female,no
-Marina_Romano_'_,female,no
+Marina_Romano',female,no
 Emma_Pavanelli,female,no
-Ivana_Pellegatti,female,no
-Elena_Anna_Staller,female,no
-Maria_Teresa_Grosso,female,no
-Luana_Angeloni,female,no
-Luigia_Cordati,female,no
-Maria_Taddei,female,no
 Silvia_Barbieri,female,no
+Maria_Teresa_Grosso,female,no
+Elena_Anna_Staller,female,no
+Maria_Taddei,female,no
+Luana_Angeloni,female,no
+Ivana_Pellegatti,female,no
+Luigia_Cordati,female,no
 Luigina_Bernocco,male,yes
 Laura_Conti,male,yes
 Dalila_Nesci,male,yes
@@ -332,7 +332,7 @@ Agata_Lucia_Alma_Cappiello,male,yes
 Gigliola_Lo_Cascio,male,yes
 Alessandra_Cecchetto,male,yes
 Simona_Bonafe',male,yes
-Maria_ _Maddalena_Rossi,female,yes
+Maria_Maddalena_Rossi,female,yes
 Maria_Jervolino,female,yes
 Emma_Bonino,female,yes
 Luciana_Castellina,female,yes
@@ -343,7 +343,7 @@ Angiola_Minella,female,yes
 Margherita_Boniver,female,yes
 Carla_Castellani,female,yes
 Edda_Fagni,female,yes
-Maria_ _Grazia_Siliquini,female,yes
+Maria_Grazia_Siliquini,female,yes
 Mariapia_Garavaglia,female,yes
 Laura_Balbo,female,yes
 Flora_Calvanese,female,yes
@@ -352,20 +352,20 @@ Vanda_Dignani,female,yes
 Laura_Fincato,female,yes
 Bianca_Gelli,female,yes
 Anna_Nenna,female,yes
-Anna_ _Maria_Nucci,female,yes
-Adriana_Poli_ _Bortone,female,yes
+Anna_Maria_Nucci,female,yes
+Adriana_Poli_Bortone,female,yes
 Silvia_Costa,female,yes
 Elisabetta_Conci,female,yes
 Tina_Anselmi,female,yes
-Carole_ _Jane_Beebe,female,yes
+Carole_Jane_Beebe,female,yes
 Laura_Cima,female,yes
 Anna_Finocchiaro,female,yes
 Lucia_Fronza,female,yes
-Battistina_Fumagalli_ _Carulli,female,yes
-Maria_ _Rita_Lorenzetti,female,yes
+Battistina_Fumagalli_Carulli,female,yes
+Maria_Rita_Lorenzetti,female,yes
 Nadia_Masini,female,yes
 Katia_Bellillo,female,yes
-Anna_ _Maria_Leone,female,yes
+Anna_Maria_Leone,female,yes
 Francesca_Martini,female,yes
 Carmen_Motta,female,yes
 Dorina_Bianchi,female,yes
@@ -376,14 +376,14 @@ Roberta_Pinotti,female,yes
 Jole_Santelli,female,yes
 Gabriella_Carlucci,female,yes
 Erminia_Mazzoni,female,yes
-Monica_ _Stefania_Baldi,female,yes
+Monica_Stefania_Baldi,female,yes
 Isabella_Bertolini,female,yes
-Beatrice_ _Maria_Magnolfi,female,yes
+Beatrice_Maria_Magnolfi,female,yes
 Silvana_Pisa,female,yes
-Simonetta_Licastro_ _Scardino,female,yes
+Simonetta_Licastro_Scardino,female,yes
 Carolina_Lussana,female,yes
 Chiara_Moroni,female,yes
-Patrizia_Paoletti_ _Tangheroni,female,yes
+Patrizia_Paoletti_Tangheroni,female,yes
 Luana_Zanella,female,yes
 Elettra_Deiana,female,yes
 Giuliana_Reduzzi,female,yes
@@ -391,7 +391,7 @@ Alba_Sasso,female,yes
 Osvalda_Trupia,female,yes
 Cinzia_Dato,female,yes
 Daniela_Mazzuconi,female,yes
-Daniela_Garnero_ _Santanche_'_,female,yes
+Daniela_Garnero_Santanche',female,yes
 Amalia_Schirru,female,yes
 Laura_Froner,female,yes
 Mariastella_Gelmini,female,yes
@@ -400,17 +400,17 @@ Paola_Frassinetti,female,yes
 Laura_Ravetto,female,yes
 Linda_Lanzillotta,female,yes
 Rosalba_Benzoni,female,yes
-Maria_ _Paola_Merloni,female,yes
+Maria_Paola_Merloni,female,yes
 Donata_Lenzi,female,yes
 Manuela_Ghizzoni,female,yes
-Maria_ _Ida_Germontani,female,yes
+Maria_Ida_Germontani,female,yes
 Silvia_Velo,female,yes
-Mariza_ _Antonietta_ _Giuditta_Bafile,female,yes
+Mariza_Antonietta_Giuditta_Bafile,female,yes
 Rosa_Suppa,female,yes
-Mercedes_ _Lourdes_Frias,female,yes
-Maria_ _Cristina_Perugia,female,yes
+Mercedes_Lourdes_Frias,female,yes
+Maria_Cristina_Perugia,female,yes
 Giulia_Bongiorno,female,yes
-Maria_ _Laura_Paxia,female,yes
+Maria_Laura_Paxia,female,yes
 Vita_Martinciglio,female,yes
 Roberta_Alaimo,female,yes
 Mara_Lapia,female,yes
@@ -423,157 +423,157 @@ Piera_Aiello,female,yes
 Emanuela_Savio,female,yes
 Gigliola_Valandro,female,yes
 Luciana_Viviani,female,yes
-Maria_ _Luisa_Cassanmagnago,female,yes
-Maria_ _Immacolata_Barbarossa,female,yes
-Ivana_Bernini_ _Lavezzo,female,yes
+Maria_Luisa_Cassanmagnago,female,yes
+Maria_Immacolata_Barbarossa,female,yes
+Ivana_Bernini_Lavezzo,female,yes
 Giovanna_Bosi,female,yes
 Rosanna_Branciforti,female,yes
-Maria_ _Teresa_Carloni,female,yes
+Maria_Teresa_Carloni,female,yes
 Giancarla_Codrignani,female,yes
 Giannina_Cattaneo,female,yes
-Maria_ _Teresa_Granati,female,yes
+Maria_Teresa_Granati,female,yes
 Francesca_Lodolini,female,yes
 Vanda_Milano,female,yes
-Carla_ _Federica_Nespolo,female,yes
-Morena_ _Amabile_Pagliai,female,yes
+Carla_Federica_Nespolo,female,yes
+Morena_Amabile_Pagliai,female,yes
 Adriana_Palomby,female,yes
 Cristina_Papa,female,yes
-Maria_ _Augusta_Pecchia,female,yes
+Maria_Augusta_Pecchia,female,yes
 Vittoria_Quarenghi,female,yes
 Alba_Scaramucci,female,yes
-Alessandra_Vaccaro_ _Melucco,female,yes
-Ida_D_'_Este,female,yes
-Maria_ _Giulia_Cocco,female,yes
-Angiola_ _Maria_Costa_ _Massucco,female,yes
-Maria_ _Pia_Dal_ _Canton,female,yes
-Elena_Gatti_ _Caporaso,female,yes
+Alessandra_Vaccaro_Melucco,female,yes
+Ida_D'este,female,yes
+Maria_Giulia_Cocco,female,yes
+Angiola_Maria_Costa_Massucco,female,yes
+Maria_Pia_Dal_Canton,female,yes
+Elena_Gatti_Caporaso,female,yes
 Grazia_Giuntoli,female,yes
 Rossana_Rossanda,female,yes
 Ersilia_Salvato,female,yes
-Maria_ _Luisa_Galli,female,yes
+Maria_Luisa_Galli,female,yes
 Marcella_Balconi,female,yes
 Aurelia_Benco,female,yes
-Anna_ _Maria_Castelli,female,yes
+Anna_Maria_Castelli,female,yes
 Valentina_Lanfranchi,female,yes
-Maria_ _Antonietta_Macciocchi,female,yes
-Vera_Squarcialupi_ _Giuffrida,female,yes
-Anna_ _Maria_Vietti,female,yes
+Maria_Antonietta_Macciocchi,female,yes
+Vera_Squarcialupi_Giuffrida,female,yes
+Anna_Maria_Vietti,female,yes
 Licia_Badesi,female,yes
 Giovanna_Bochicchio,female,yes
 Adriana_Fabbri,female,yes
-Mary_Chiesa_ _Tibaldi,female,yes
+Mary_Chiesa_Tibaldi,female,yes
 Lina_Cecchini,female,yes
-Gina_Martini_ _Fanoli,female,yes
+Gina_Martini_Fanoli,female,yes
 Maria_Pucci,female,yes
-Maria_ _Rosaria_Carfagna,female,yes
+Maria_Rosaria_Carfagna,female,yes
 Giulia_Cosenza,female,yes
 Maria_Leddi,female,yes
-Cinzia_ _Maria_Fontana,female,yes
+Cinzia_Maria_Fontana,female,yes
 Angela_Filipponio,female,yes
-Maria_ _Fortuna_Incostante,female,yes
+Maria_Fortuna_Incostante,female,yes
 Giuseppina_Castiello,female,yes
-Teresa_ _Maria_Di_ _Salvo,female,yes
+Teresa_Maria_Di_Salvo,female,yes
 Paola_Goisis,female,yes
-Grazia_ _Carla_Francescato,female,yes
+Grazia_Carla_Francescato,female,yes
 Daniela_Dioguardi,female,yes
 Angela_Lombardi,female,yes
 Maria_Samperi,female,yes
-Anna_ _Teresa_Formisano,female,yes
+Anna_Teresa_Formisano,female,yes
 Patrizia_Sentinelli,female,yes
 Donatella_Mungo,female,yes
-Maria_ _Letizia_De_ _Torre,female,yes
+Maria_Letizia_De_Torre,female,yes
 Sandra_Cioffi,female,yes
 Sabina_Siniscalchi,female,yes
-Cayetana_De_ _Zulueta_ _Owtram,female,yes
+Cayetana_De_Zulueta_Owtram,female,yes
 Federica_Rossi,female,yes
-Maria_ _Grazia_Lagana_'_,female,yes
+Maria_Grazia_Lagana',female,yes
 Paola_Binetti,female,yes
 Sabina_Rossa,female,yes
 Simonetta_Rubinato,female,yes
-Rosa_ _Maria_Villecco,female,yes
+Rosa_Maria_Villecco,female,yes
 Daniela_Melchiorre,female,yes
-Anna_ _Maria_Cardano,female,yes
+Anna_Maria_Cardano,female,yes
 Paola_Balducci,female,yes
-Alessia_ _Maria_Mosca,female,yes
-Eugenia_ _Maria_Roccella,female,yes
+Alessia_Maria_Mosca,female,yes
+Eugenia_Maria_Roccella,female,yes
 Donatella_Ferranti,female,yes
 Chiara_Braga,female,yes
-Silvana_ _Andreina_Comaroli,female,yes
+Silvana_Andreina_Comaroli,female,yes
 Fiamma_Nirensztejn,female,yes
 Manuela_Repetti,female,yes
 Anna_Rossomando,female,yes
-Melania_De_ _Nichilo,female,yes
-Nunzia_De_ _Girolamo,female,yes
-Maria_ _Anna_Madia,female,yes
+Melania_De_Nichilo,female,yes
+Nunzia_De_Girolamo,female,yes
+Maria_Anna_Madia,female,yes
 Ileana_Argentin,female,yes
 Maria_Coscia,female,yes
 Giuseppina_Picierno,female,yes
 Luisa_Bossa,female,yes
 Luciana_Pedoto,female,yes
-Manuela_Dal_ _Lago,female,yes
+Manuela_Dal_Lago,female,yes
 Federica_Mogherini,female,yes
-Maria_ _Piera_Pastore,female,yes
+Maria_Piera_Pastore,female,yes
 Caterina_Pes,female,yes
-Anna_ _Maria_Bernini,female,yes
-Sabrina_De_ _Camillis,female,yes
+Anna_Maria_Bernini,female,yes
+Sabrina_De_Camillis,female,yes
 Sandra_Zampa,female,yes
 Elisa_Marchioni,female,yes
-Paola_De_ _Micheli,female,yes
+Paola_De_Micheli,female,yes
 Annamaria_Procacci,female,yes
-Maria_ _Luisa_Sangiorgio,female,yes
-Anna_ _Maria_Serafini,female,yes
+Maria_Luisa_Sangiorgio,female,yes
+Anna_Maria_Serafini,female,yes
 Leonilde_Iotti,female,yes
-Anna_ _Maria_Biricotti,female,yes
+Anna_Maria_Biricotti,female,yes
 Marida_Bolognesi,female,yes
-Maria_ _Simona_Dalla_ _Chiesa,female,yes
+Maria_Simona_Dalla_Chiesa,female,yes
 Chiara_Ingrao,female,yes
 Claudia_Mancina,female,yes
 Mariella_Mazzetto,female,yes
 Maria_Moioli,female,yes
 Alessandra_Mussolini,female,yes
 Irene_Pivetti,female,yes
-Barbara_ _Maria_ _Simonetta_Pollastrini,female,yes
-Maria_ _Cristina_Rossi,female,yes
+Barbara_Maria_Simonetta_Pollastrini,female,yes
+Maria_Cristina_Rossi,female,yes
 Laura_Rozza,female,yes
 Luciana_Sbarbati,female,yes
-Maria_ _Grazia_Sestero,female,yes
+Maria_Grazia_Sestero,female,yes
 Adriana_Vigneri,female,yes
 Gabriella_Zanferrari,female,yes
-Elisabetta_ _Simona_Castellazzi,female,yes
-Maria_ _Teresa_Amici,female,yes
+Elisabetta_Simona_Castellazzi,female,yes
+Maria_Teresa_Amici,female,yes
 Valentina_Aprea,female,yes
 Fulvia_Bandoli,female,yes
 Adria_Bartolich,female,yes
-Augusta_Bassi_ _Lagostena,female,yes
+Augusta_Bassi_Lagostena,female,yes
 Diana_Battaggia,female,yes
-Alida_Benetto_ _Ravetto,female,yes
+Alida_Benetto_Ravetto,female,yes
 Rosaria_Bindi,female,yes
 Daria_Bonfietti,female,yes
 Alessandra_Bonsanti,female,yes
 Lia_Bracci,female,yes
-Maria_ _Gloria_Bracci_ _Marinai,female,yes
-Maria_Burani_ _Procaccini,female,yes
-Maria_ _Anna_Calabretta,female,yes
+Maria_Gloria_Bracci_Marinai,female,yes
+Maria_Burani_Procaccini,female,yes
+Maria_Anna_Calabretta,female,yes
 Maria_Carazzi,female,yes
 Fiordelisa_Cartelli,female,yes
 Luisella_Cavallini,female,yes
 Franca_Chiaromonte,female,yes
 Rita_Commisso,female,yes
 Magda_Cornacchione,female,yes
-Alberta_De_ _Simone,female,yes
-Simonetta_ _Maria_Faverio,female,yes
-Luciana_Frosio_ _Roncalli,female,yes
+Alberta_De_Simone,female,yes
+Simonetta_Maria_Faverio,female,yes
+Luciana_Frosio_Roncalli,female,yes
 Stefania_Fuscagni,female,yes
-Paola_De_ _Biase_ _Gaiotti,female,yes
+Paola_De_Biase_Gaiotti,female,yes
 Giovanna_Grignaffini,female,yes
-Angela_ _Maria_ _Marta_Gritta_ _Grainer,female,yes
-Rosa_Jervolino_ _Russo,female,yes
+Angela_Maria_Marta_Gritta_Grainer,female,yes
+Rosa_Jervolino_Russo,female,yes
 Maria_Lenti,female,yes
-Marianna_Li_ _Calzi,female,yes
+Marianna_Li_Calzi,female,yes
 Colomba_Mongiello,female,yes
 Elisabetta_Zamparutti,female,yes
-Rosa_De_ _Pasquale,female,yes
-Maria_ _Grazia_Gatti,female,yes
+Rosa_De_Pasquale,female,yes
+Maria_Grazia_Gatti,female,yes
 Deborah_Bergamini,female,yes
 Monica_Faenzi,female,yes
 Alessandra_Siragusa,female,yes
@@ -581,19 +581,19 @@ Daniela_Cardinale,female,yes
 Elvira_Savino,female,yes
 Souad_Sbai,female,yes
 Barbara_Mannucci,female,yes
-Margherita_ _Angela_Mastromauro,female,yes
+Margherita_Angela_Mastromauro,female,yes
 Cinzia_Capano,female,yes
-Anna_ _Paola_Concia,female,yes
+Anna_Paola_Concia,female,yes
 Laura_Garavini,female,yes
-Doris_Lo_ _Moro,female,yes
-Vittoria_D_'_Incecco,female,yes
+Doris_Lo_Moro,female,yes
+Vittoria_D'incecco,female,yes
 Elena_Centemero,female,yes
 Gabriella_Giammanco,female,yes
 Giovanna_Petrenga,female,yes
 Catia_Polidori,female,yes
-Maria_ _Elena_Stasi,female,yes
+Maria_Elena_Stasi,female,yes
 Elena_Maccanti,female,yes
-Anita_Di_ _Giuseppe,female,yes
+Anita_Di_Giuseppe,female,yes
 Annagrazia_Calabria,female,yes
 Francesca_Cilluffo,female,yes
 Milena_Santerini,female,yes
@@ -602,7 +602,7 @@ Silvia_Chimienti,female,yes
 Elena_Carnevali,female,yes
 Paola_Bragantini,female,yes
 Veronica_Tentori,female,yes
-Maria_ _Chiara_Gadda,female,yes
+Maria_Chiara_Gadda,female,yes
 Francesca_Bonomo,female,yes
 Silvia_Fregolent,female,yes
 Renate_Gebhard,female,yes
@@ -617,7 +617,7 @@ Alessia_Rotta,female,yes
 Sara_Moretto,female,yes
 Arianna_Spessotto,female,yes
 Gianna_Malisani,female,yes
-Adriana_ _Eden_ _Susanna_Galgano,female,yes
+Adriana_Eden_Susanna_Galgano,female,yes
 Tiziana_Ciprini,female,yes
 Antonella_Incerti,female,yes
 Anna_Ascani,female,yes
@@ -650,72 +650,72 @@ Valentina_Paris,female,yes
 Sabrina_Capozzolo,female,yes
 Giulia_Sarti,female,yes
 Mara_Mucci,female,yes
-Maria_ _Edera_Spadoni,female,yes
+Maria_Edera_Spadoni,female,yes
 Mirella_Liuzzi,female,yes
-Gea_Schiro_'_,female,yes
+Gea_Schiro',female,yes
 Magda_Culotta,female,yes
 Flavia_Piccoli,female,yes
 Cristina_Bargero,female,yes
 Teresa_Piccione,female,yes
 Fabiana_Dadone,female,yes
 Paola_Pinna,female,yes
-Giulia_Di_ _Vita,female,yes
+Giulia_Di_Vita,female,yes
 Loredana_Lupo,female,yes
 Romina_Mura,female,yes
 Claudia_Mannino,female,yes
 Giovanna_Sanna,female,yes
 Maria_Amato,female,yes
 Chiara_Gagnarli,female,yes
-Maria_ _Gaetana_Greco,female,yes
-Maria_ _Chiara_Carrozza,female,yes
-Maria_ _Tindara_Gullo,female,yes
+Maria_Gaetana_Greco,female,yes
+Maria_Chiara_Carrozza,female,yes
+Maria_Tindara_Gullo,female,yes
 Federica_Dieni,female,yes
 Elisa_Simoni,female,yes
-Vincenza_Bruno_ _Bossio,female,yes
-Maria_ _Grazia_Rocchi,female,yes
+Vincenza_Bruno_Bossio,female,yes
+Maria_Grazia_Rocchi,female,yes
 Caterina_Bini,female,yes
 Stefania_Covello,female,yes
-Maria_ _Elena_Boschi,female,yes
+Maria_Elena_Boschi,female,yes
 Maria_Marzano,female,yes
-Lia_Quartapelle_ _Procopio,female,yes
+Lia_Quartapelle_Procopio,female,yes
 Eleonora_Cimbro,female,yes
 Fabrizia_Giuliani,female,yes
-Pia_ _Elda_Locatelli,female,yes
-Simona_ _Flavia_Malpezzi,female,yes
-Ilaria_ _Carla_ _Anna_Borletti_ _Dell_'_Acqua,female,yes
+Pia_Elda_Locatelli,female,yes
+Simona_Flavia_Malpezzi,female,yes
+Ilaria_Carla_Anna_Borletti_Dell'acqua,female,yes
 Paola_Carinelli,female,yes
-Francesca_La_ _Marca,female,yes
+Francesca_La_Marca,female,yes
 Serena_Pellegrino,female,yes
 Lara_Ricciatti,female,yes
-Ileana_ _Cathia_Piazzoni,female,yes
+Ileana_Cathia_Piazzoni,female,yes
 Sofia_Amoddio,female,yes
-Maria_Magnani_ _Noya,female,yes
+Maria_Magnani_Noya,female,yes
 Marilena_Marin,female,yes
 Paola_Martinelli,female,yes
 Giovanna_Melandri,female,yes
 Angela_Napoli,female,yes
-Maria_ _Celeste_Nardini,female,yes
+Maria_Celeste_Nardini,female,yes
 Magda_Negri,female,yes
 Tiziana_Parenti,female,yes
-Laura_ _Maria_Pennacchi,female,yes
-Maria_ _Eletta_Martini,female,yes
+Laura_Maria_Pennacchi,female,yes
+Maria_Eletta_Martini,female,yes
 Gabriella_Pistone,female,yes
 Roberta_Pizzicara,female,yes
 Stefania_Prestigiacomo,female,yes
-Maria_ _Concetta_Scoca,female,yes
+Maria_Concetta_Scoca,female,yes
 Franca_Valenti,female,yes
 Sonia_Viale,female,yes
 Angiola_Zilli,female,yes
-Elsa_ _Giuseppina_Signorino,female,yes
+Elsa_Giuseppina_Signorino,female,yes
 Giuseppa_Mendola,female,yes
 Amalia_Miotti,female,yes
-Maria_ _Chiara_Acciarini,female,yes
-Maria_ _Teresa_ _Giovanna_Armosino,female,yes
+Maria_Chiara_Acciarini,female,yes
+Maria_Teresa_Giovanna_Armosino,female,yes
 Marcella_Lucidi,female,yes
-Maria_ _Pia_Valetto_ _Bitelli,female,yes
-Giovanna_Bianchi_ _Clerici,female,yes
-Grazia_ _Luciana_Labate,female,yes
-Luisa_Debiasio_ _Calimani,female,yes
+Maria_Pia_Valetto_Bitelli,female,yes
+Giovanna_Bianchi_Clerici,female,yes
+Grazia_Luciana_Labate,female,yes
+Luisa_Debiasio_Calimani,female,yes
 Antonina_Dedoni,female,yes
 Silvana_Dameri,female,yes
 Gloria_Buffo,female,yes
@@ -723,37 +723,37 @@ Piera_Capitelli,female,yes
 Sandra_Fei,female,yes
 Francesca_Izzo,female,yes
 Maura_Cossutta,female,yes
-Ida_D_'_Ippolito,female,yes
+Ida_D'ippolito,female,yes
 Grazia_Riga,female,yes
 Eirene_Sbriziolo,female,yes
 Rosalia_Vagli,female,yes
 Helga_Thaler,female,yes
 Bianca_Bianchi,female,yes
 Laura_Bianchini,female,yes
-Irene_Chini_ _Coccoli,female,yes
-Anna_De_ _Lauro,female,yes
-Filomena_Delli_ _Castelli,female,yes
+Irene_Chini_Coccoli,female,yes
+Anna_De_Lauro,female,yes
+Filomena_Delli_Castelli,female,yes
 Rosa_Fazio,female,yes
 Maria_Federici,female,yes
-Jole_Giugni_ _Lattari,female,yes
+Jole_Giugni_Lattari,female,yes
 Angela_Gotelli,female,yes
-Anna_Nicolosi_ _Grasso,female,yes
+Anna_Nicolosi_Grasso,female,yes
 Angela_Guidi,female,yes
 Giorgina_Levi,female,yes
-Maria_ _Vittoria_Mezza,female,yes
-Elsa_Mole_'_,female,yes
+Maria_Vittoria_Mezza,female,yes
+Elsa_Mole',female,yes
 Ada_Natali,female,yes
-Maria_ _Flavia_Timbro,female,yes
-Maria_ _Rosa_Sessa,female,yes
+Maria_Flavia_Timbro,female,yes
+Maria_Rosa_Sessa,female,yes
 Chiara_Appendino,female,yes
 Giorgia_Andreuzza,female,yes
-Elisa_Scutella_'_,female,yes
+Elisa_Scutella',female,yes
 Stefania_Ascari,female,yes
 Naike_Gruppioni,female,yes
 Giulia_Pastorella,female,yes
-Lucrezia_ _Maria_ _Benedetta_Mantovani,female,yes
+Lucrezia_Maria_Benedetta_Mantovani,female,yes
 Alice_Buonguerrieri,female,yes
-Elena_ _Ethel_Schlein,female,yes
+Elena_Ethel_Schlein,female,yes
 Susanna_Cherchi,female,yes
 Rachele_Scarpa,female,yes
 Gaetana_Russo,female,yes
@@ -764,7 +764,7 @@ Valentina_Grippo,female,yes
 Elisabetta_Piccolotti,female,yes
 Marta_Schifone,female,yes
 Carmela_Auriemma,female,yes
-Paola_ _Maria_Chiesa,female,yes
+Paola_Maria_Chiesa,female,yes
 Ylenja_Lucaselli,female,yes
 Paola_Boldrini,female,yes
 Camilla_Sgambato,female,yes
@@ -778,9 +778,9 @@ Lucia_Scanu,female,yes
 Benedetta_Fiorini,female,yes
 Elena_Raffaelli,female,yes
 Carmela_Bucalo,female,yes
-Anna_ _Rita_Tateo,female,yes
+Anna_Rita_Tateo,female,yes
 Flora_Frate,female,yes
-Valentina_D_'_Orso,female,yes
+Valentina_D'orso,female,yes
 Simona_Vietina,female,yes
 Debora_Serracchiani,female,yes
 Rosalba_Cimino,female,yes
@@ -795,7 +795,7 @@ Alessandra_Ermellino,female,yes
 Marialuisa_Faro,female,yes
 Nadia_Aprile,female,yes
 Gilda_Sportiello,female,yes
-Maria_ _Carolina_Varchi,female,yes
+Maria_Carolina_Varchi,female,yes
 Rossella_Muroni,female,yes
 Gloria_Vizzini,female,yes
 Maria_Spena,female,yes
@@ -807,16 +807,16 @@ Angela_Salafia,female,yes
 Giuseppina_Occhionero,female,yes
 Angela_Raffa,female,yes
 Alessandra_Carbonaro,female,yes
-Yana_ _Chiara_Ehm,female,yes
+Yana_Chiara_Ehm,female,yes
 Caterina_Licatini,female,yes
 Giusi_Bartolozzi,female,yes
-Maria_ _Teresa_Bellucci,female,yes
-Marta_ _Antonia_Fascina,female,yes
-Rosa_ _Alba_Testamento,female,yes
+Maria_Teresa_Bellucci,female,yes
+Marta_Antonia_Fascina,female,yes
+Rosa_Alba_Testamento,female,yes
 Annaelsa_Tartaglione,female,yes
 Elena_Murelli,female,yes
 Anna_Macina,female,yes
-Rina_De_ _Lorenzo,female,yes
+Rina_De_Lorenzo,female,yes
 Lucia_Ciampi,female,yes
 Francesca_Galizia,female,yes
 Maura_Tomasi,female,yes
@@ -834,14 +834,14 @@ Gloria_Saccani,female,yes
 Sara_Cunial,female,yes
 Emanuela_Rossini,female,yes
 Enrica_Segneri,female,yes
-Stefania_Mammi_'_,female,yes
+Stefania_Mammi',female,yes
 Cristina_Rossello,female,yes
 Lucia_Azzolina,female,yes
-Elisabetta_ _Maria_Barbuto,female,yes
+Elisabetta_Maria_Barbuto,female,yes
 Silvia_Covolo,female,yes
 Anna_Bilotti,female,yes
 Giulia_Zanotelli,female,yes
-Anna_ _Laura_Orrico,female,yes
+Anna_Laura_Orrico,female,yes
 Leda_Volpi,female,yes
 Lisa_Noja,female,yes
 Augusta_Montaruli,female,yes
@@ -852,17 +852,17 @@ Wanda_Ferro,female,yes
 Rebecca_Frassini,female,yes
 Ingrid_Bisa,female,yes
 Alessandra_Locatelli,female,yes
-Claudia_ _Maria_Terzi,female,yes
+Claudia_Maria_Terzi,female,yes
 Vanessa_Cattoi,female,yes
 Fabiola_Bologna,female,yes
-Margherita_Del_ _Sesto,female,yes
+Margherita_Del_Sesto,female,yes
 Maria_Pallini,female,yes
 Ilaria_Fontana,female,yes
 Martina_Loss,female,yes
-Elisabetta_ _Christiana_Lancellotta,female,yes
+Elisabetta_Christiana_Lancellotta,female,yes
 Eliana_Longi,female,yes
-Isabella_De_ _Monte,female,yes
-Maria_ _Stefania_Marino,female,yes
+Isabella_De_Monte,female,yes
+Maria_Stefania_Marino,female,yes
 Martina_Semenzato,female,yes
 Ilaria_Cavo,female,yes
 Maddalena_Morgante,female,yes
@@ -870,25 +870,25 @@ Giovanna_Iacono,female,yes
 Eleonora_Evi,female,yes
 Simona_Loizzo,female,yes
 Simonetta_Matone,female,yes
-Grazia_Di_ _Maggio,female,yes
+Grazia_Di_Maggio,female,yes
 Valentina_Barzotti,female,yes
 Antonella_Forattini,female,yes
 Nicole_Matteoni,female,yes
-Valeria_ _Carmela_ _Maria_Sudano,female,yes
+Valeria_Carmela_Maria_Sudano,female,yes
 Rosaria_Tassinari,female,yes
 Sara_Kelany,female,yes
-Carmen_ _Letizia_Giorgianni,female,yes
+Carmen_Letizia_Giorgianni,female,yes
 Alessia_Ambrosi,female,yes
 Maria_Tripodi,female,yes
-Cecilia_D_'_Elia,female,yes
-Michaela_Di_ _Donna,female,yes
+Cecilia_D'elia,female,yes
+Michaela_Di_Donna,female,yes
 Stefania_Pezzopane,female,yes
-Rossana_ _Lidia_Boldi,female,yes
+Rossana_Lidia_Boldi,female,yes
 Eva_Avossa,female,yes
-Graziella_ _Leyla_Ciaga_'_,female,yes
-Angela_Schiro_'_,female,yes
+Graziella_Leyla_Ciaga',female,yes
+Angela_Schiro',female,yes
 Elisa_Siragusa,female,yes
-Maria_ _Teresa_Baldini,female,yes
+Maria_Teresa_Baldini,female,yes
 Annarita_Patriarca,female,yes
 Ilenia_Malavasi,female,yes
 Valentina_Ghio,female,yes
@@ -900,7 +900,7 @@ Cristina_Almici,female,yes
 Daniela_Dondi,female,yes
 Mariangela_Matera,female,yes
 Ida_Carmina,female,yes
-Rosa_ _Maria_Di_ _Giorgi,female,yes
-Ada_Becchi,female,yes
+Rosa_Maria_Di_Giorgi,female,yes
 Grazia_Sestini,female,yes
+Ada_Becchi,female,yes
 Anna_Maria_Bernasconi,female,yes

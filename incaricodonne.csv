@@ -1,0 +1,864 @@
+nome,cognome,legislatura,incarico
+VITA,MARTINCIGLIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ROBERTA,ALAIMO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ELISA,TRIPODI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+MARA,LAPIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+MARA,LAPIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MARIALUCIA,LOREFICE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+MARIALUCIA,LOREFICE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+VITTORIA,CASA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+MIRELLA,EMILIOZZI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+MIRELLA,EMILIOZZI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+PATRIZIA,TERZONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+SIMONA,SURIANO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+SIMONA,SURIANO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+GIULIA,GRILLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+LUCIANA,VIVIANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_02,SEGRETARIO
+LUCIANA,VIVIANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_03,SEGRETARIO
+LUCIANA,VIVIANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_04,VICEPRESIDENTE
+DOLORES,ABBIATI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_06,SEGRETARIO
+DOLORES,ABBIATI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,VICEPRESIDENTE
+CARMEN,CASAPIERI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,SEGRETARIO
+ELETTA,BERTANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,SEGRETARIO
+ELETTA,BERTANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,SEGRETARIO
+ROMANA,BIANCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,SEGRETARIO
+EMMA,BONINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,SEGRETARIO
+EMMA,BONINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_11,SEGRETARIO
+EMMA,BONINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,SEGRETARIO
+EMMA,BONINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,SEGRETARIO
+GIOVANNA,BOSI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,VICEPRESIDENTE
+GIOVANNA,BOSI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,SEGRETARIO
+GIOVANNA,BOSI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_09,VICEPRESIDENTE
+ANGELA MARIA,BOTTARI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,SEGRETARIO
+MARIA TERESA,CARLONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,SEGRETARIO
+PAOLA,CAVIGLIASSO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,SEGRETARIO
+MARIA,COCCO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_09,VICEPRESIDENTE
+MARIA,COCCO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_09,SEGRETARIO
+GIANCARLA,CODRIGNANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,SEGRETARIO
+GIANCARLA,CODRIGNANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_09,SEGRETARIO
+CRISTINA,CONCHIGLIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,SEGRETARIO
+ANGELA,GIOVAGNOLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_09,SEGRETARIO
+MARIA TERESA,GRANATI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,VICEPRESIDENTE
+FRANCESCA,LODOLINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,SEGRETARIO
+ENZA,MARCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,SEGRETARIO
+CARLA FEDERICA,NESPOLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,SEGRETARIO
+MARIA AUGUSTA,PECCHIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,SEGRETARIO
+CECILIA,CHIOVINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,VICEPRESIDENTE
+VITTORIA,QUARENGHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,SEGRETARIO
+VITTORIA,QUARENGHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,SEGRETARIO
+ANNA MARIA,CIAI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,VICEPRESIDENTE
+ALBA,SCARAMUCCI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_09,SEGRETARIO
+IDA,D'ESTE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_02,SEGRETARIO
+MARIA LISA,CINCIARI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_04,VICEPRESIDENTE
+ELENA,GATTI CAPORASO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_02,SEGRETARIO
+TERESA,MATTEI,http://dati.camera.it/ocd/legislatura.rdf/costituente,SEGRETARIO
+ANGIOLA,MINELLA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_03,VICEPRESIDENTE
+GIULIANA,NENNI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_01,SEGRETARIO
+SILVIA,BARBIERI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,VICEPRESIDENTE
+MARGHERITA,BONIVER,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,VICEPRESIDENTE
+MARGHERITA,BONIVER,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,VICEPRESIDENTE
+MARGHERITA,BONIVER,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,PRESIDENTE
+CARLA,CASTELLANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+EDDA,FAGNI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,VICEPRESIDENTE
+EDDA,FAGNI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_09,SEGRETARIO
+CARLA,ROCCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+CARLA,ROCCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+ERSILIA,SALVATO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,SEGRETARIO
+MARIA GRAZIA,SILIQUINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+CARMEN PAOLA,ZANTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_04,SEGRETARIO
+CARMEN PAOLA,ZANTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_05,SEGRETARIO
+PIERA,BONETTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_09,VICEPRESIDENTE
+ANNA MARIA,CASTELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,SEGRETARIO
+ANGELA,FRANCESE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,SEGRETARIO
+ANGELA,FRANCESE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_09,SEGRETARIO
+VALENTINA,LANFRANCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_09,SEGRETARIO
+ANNA MARIA,VIETTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,SEGRETARIO
+ROSSELLA,ARTIOLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,SEGRETARIO
+ROSSELLA,ARTIOLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,VICEPRESIDENTE
+ROSSELLA,ARTIOLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_11,VICEPRESIDENTE
+FLORA,CALVANESE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,SEGRETARIO
+MARIA TERESA,CAPECCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,SEGRETARIO
+ADRIANA,CECI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,VICEPRESIDENTE
+LEDA,COLOMBINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,SEGRETARIO
+LAURA,FINCATO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+LAURA,FINCATO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_09,VICEPRESIDENTE
+BIANCA,GELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,VICEPRESIDENTE
+TERESA,MIGLIASSO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_09,SEGRETARIO
+ROSANNA,MINOZZI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,SEGRETARIO
+ANNA MARIA,NUCCI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_09,SEGRETARIO
+ADRIANA,POLI BORTONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,VICEPRESIDENTE
+NEIDE,UMIDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,SEGRETARIO
+SILVIA,COSTA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_11,SEGRETARIO
+ROBERTA,BREDA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,VICEPRESIDENTE
+ROBERTA,BREDA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_11,VICEPRESIDENTE
+ELENA,MONTECCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_11,QUESTORE
+ELENA,MONTECCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,SEGRETARIO
+ELENA,MONTECCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,SEGRETARIO
+ELISABETTA,CONCI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_03,SEGRETARIO
+ERISIA,GENNAI TONIETTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_03,SEGRETARIO
+TINA,ANSELMI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,PRESIDENTE
+TINA,ANSELMI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_09,PRESIDENTE
+PATRIZIA,ARNABOLDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,SEGRETARIO
+CAROLE JANE,BEEBE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_11,VICEPRESIDENTE
+CRISTINA,BEVILACQUA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,VICEPRESIDENTE
+LAURA,CIMA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+ELISABETTA,DI PRISCO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_11,SEGRETARIO
+ANNA,FINOCCHIARO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,VICEPRESIDENTE
+ANNA,FINOCCHIARO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_11,SEGRETARIO
+ANNA,FINOCCHIARO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,PRESIDENTE
+ANNA,FINOCCHIARO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+BATTISTINA,FUMAGALLI CARULLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,PRESIDENTE
+BATTISTINA,FUMAGALLI CARULLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_11,PRESIDENTE
+MARIA TERESA,GROSSO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,VICEPRESIDENTE
+BIANCA,GUIDETTI SERRA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,SEGRETARIO
+MARIA RITA,LORENZETTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_11,SEGRETARIO
+MARIA RITA,LORENZETTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,PRESIDENTE
+SUSANNA,AGNELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,SEGRETARIO
+KATIA,BELLILLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+KATIA,BELLILLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+KATIA,BELLILLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+MARINA,SERENI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,PRESIDENTE
+MARINA,SERENI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+ANNA MARIA,LEONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+ANNA MARIA,LEONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+ANNA MARIA,LEONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,VICEPRESIDENTE
+FRANCESCA,MARTINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+FRANCESCA,MARTINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+CARMEN,MOTTA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,VICEPRESIDENTE
+CARMEN,MOTTA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,VICEPRESIDENTE
+ROSELLA,OTTONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+DORINA,BIANCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+DORINA,BIANCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,VICEPRESIDENTE
+DORINA,BIANCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+FRANCA,BIMBI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,PRESIDENTE
+RAFFAELLA,MARIANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+RAFFAELLA,MARIANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+RAFFAELLA,MARIANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+LORENA,MILANATO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+LORENA,MILANATO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,PRESIDENTE
+LORENA,MILANATO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+GABRIELLA,MONDELLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+GABRIELLA,MONDELLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+ROBERTA,PINOTTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,PRESIDENTE
+JOLE,SANTELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,VICEPRESIDENTE
+JOLE,SANTELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+GABRIELLA,CARLUCCI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+GABRIELLA,CARLUCCI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,VICEPRESIDENTE
+ERMINIA,MAZZONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+ERMINIA,MAZZONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+VIVIANA,BECCALOSSI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+OLGA,DI SERIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+MONICA STEFANIA,BALDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+ISABELLA,BERTOLINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,VICEPRESIDENTE
+SIMONETTA,LICASTRO SCARDINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+CAROLINA,LUSSANA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+CAROLINA,LUSSANA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,VICEPRESIDENTE
+CAROLINA,LUSSANA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+CAROLINA,LUSSANA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,PRESIDENTE
+CAROLINA,LUSSANA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,VICEPRESIDENTE
+CAROLINA,LUSSANA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+CAROLINA,LUSSANA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+CHIARA,MORONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+CHIARA,MORONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+PATRIZIA,PAOLETTI TANGHERONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+PATRIZIA,PAOLETTI TANGHERONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+LUANA,ZANELLA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+KATIA,ZANOTTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+GRAZIELLA,MASCIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+GRAZIELLA,MASCIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+CATERINA,DE SIMONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+CATERINA,DE SIMONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+CATERINA,DE SIMONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+CATERINA,DE SIMONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,PRESIDENTE
+ELETTRA,DEIANA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+ELETTRA,DEIANA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,VICEPRESIDENTE
+CARLA,MAZZUCA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,PRESIDENTE
+CARLA,MAZZUCA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+CARLA,MAZZUCA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+ALBA,SASSO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+ALBA,SASSO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+ALBA,SASSO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,VICEPRESIDENTE
+OSVALDA,TRUPIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_11,SEGRETARIO
+OSVALDA,TRUPIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+OSVALDA,TRUPIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,PRESIDENTE
+OSVALDA,TRUPIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+CINZIA,DATO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+CINZIA,DATO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+MARILDE,PROVERA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+MARILDE,PROVERA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+MARILDE,PROVERA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+LAURA,FRONER,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,VICEPRESIDENTE
+MANUELA,DI CENTA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+MARIASTELLA,GELMINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+EMILIA GRAZIA,DE BIASI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+LUISA,CAPITANIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,VICEPRESIDENTE
+LUISA,CAPITANIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+LUISA,CAPITANIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+PAOLA,FRASSINETTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,VICEPRESIDENTE
+PAOLA,FRASSINETTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,PRESIDENTE
+LAURA,RAVETTO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,PRESIDENTE
+LAURA,RAVETTO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,PRESIDENTE
+LINDA,LANZILLOTTA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+LINDA,LANZILLOTTA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+DONATA,LENZI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+DONATA,LENZI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+DONATA,LENZI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+MANUELA,GHIZZONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+MANUELA,GHIZZONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+MANUELA,GHIZZONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,PRESIDENTE
+MANUELA,GHIZZONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+SILVIA,VELO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,VICEPRESIDENTE
+MARIZA ANTONIETTA GIUDITTA,BAFILE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+MARIZA ANTONIETTA GIUDITTA,BAFILE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,PRESIDENTE
+MARISA,NICCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+MARISA,NICCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+ROSA,SUPPA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+MARIA CRISTINA,PERUGIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+GIULIA,BONGIORNO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,PRESIDENTE
+MARIA ROSARIA,CARFAGNA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+MARIA,LEDDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+SILVANA,MURA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+SILVANA,MURA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+SILVANA,MURA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+ELISABETTA,GARDINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+GIUSEPPINA,CASTIELLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+GIUSEPPINA,CASTIELLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+GIUSEPPINA,CASTIELLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+GIUSEPPINA,CASTIELLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+TERESA MARIA,DI SALVO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+TERESA MARIA,DI SALVO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+TERESA MARIA,DI SALVO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+PAOLA,GOISIS,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+PAOLA,GOISIS,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+PAOLA,GOISIS,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+GRAZIA CARLA,FRANCESCATO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+DANIELA,DIOGUARDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+ANGELA,LOMBARDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+DONATELLA,DURANTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+DONATELLA,DURANTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+DONATELLA,DURANTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+MARIA,SAMPERI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,PRESIDENTE
+MARIA,SAMPERI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+PAOLA,PELINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+ANNA TERESA,FORMISANO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+ANNA TERESA,FORMISANO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+DONATELLA,PORETTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+DONATELLA,PORETTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+ROSALBA,CESINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+GIORGIA,MELONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,VICEPRESIDENTE
+GIORGIA,MELONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,PRESIDENTE
+GIORGIA,MELONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+DONATELLA,MUNGO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+DONATELLA,MUNGO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+MARIA LETIZIA,DE TORRE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+SANDRA,CIOFFI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+SANDRA,CIOFFI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+MICHAELA,BIANCOFIORE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+CAYETANA,DE ZULUETA OWTRAM,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+CAYETANA,DE ZULUETA OWTRAM,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,VICEPRESIDENTE
+FEDERICA,ROSSI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+GIUSTINA,MISTRELLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+PAOLA,BINETTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+PAOLA,BINETTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+COLOMBA,MONGIELLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+SIMONETTA,RUBINATO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+ROSA MARIA,VILLECCO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+ROSA MARIA,VILLECCO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+DANIELA,MELCHIORRE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+DANIELA,MELCHIORRE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+PAOLA,BALDUCCI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+LAURA,MOLTENI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+ALESSIA MARIA,MOSCA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+ALESSIA MARIA,MOSCA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+EUGENIA MARIA,ROCCELLA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+EUGENIA MARIA,ROCCELLA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+DONATELLA,FERRANTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+DONATELLA,FERRANTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,PRESIDENTE
+CHIARA,BRAGA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,PRESIDENTE
+FIAMMA,NIRENSZTEJN,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,VICEPRESIDENTE
+ERICA,RIVOLTA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+ANNA,ROSSOMANDO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+ANNA,ROSSOMANDO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+BEATRICE,LORENZIN,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+NUNZIA,DE GIROLAMO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+MARIA,COSCIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+MARIA,COSCIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+MARIA,COSCIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+LUISA,BOSSA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+MANUELA,DAL LAGO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,PRESIDENTE
+MANUELA,LANZARIN,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+ANNA MARGHERITA,MIOTTO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+ANNA MARGHERITA,MIOTTO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+FEDERICA,MOGHERINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+FEDERICA,MOGHERINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,PRESIDENTE
+DANIELA,SBROLLINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+MARIA PIERA,PASTORE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+MARIA PIERA,PASTORE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+MICHELA VITTORIA,BRAMBILLA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,PRESIDENTE
+CATERINA,PES,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+SANDRA,ZAMPA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+SANDRA,ZAMPA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+MARIALUISA,GNECCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+DEBORAH,BERGAMINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+DEBORAH,BERGAMINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,VICEPRESIDENTE
+DEBORAH,BERGAMINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+DEBORAH,BERGAMINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,PRESIDENTE
+DEBORAH,BERGAMINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+MONICA,FAENZI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+ELVIRA,SAVINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+ELVIRA,SAVINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+SOUAD,SBAI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+LAURA,GARAVINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+DORIS,LO MORO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,PRESIDENTE
+DORIS,LO MORO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,VICEPRESIDENTE
+DORIS,LO MORO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+BARBARA,SALTAMARTINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+BARBARA,SALTAMARTINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+MARIA ANTONIETTA,FARINA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+ELENA,CENTEMERO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+ELENA,CENTEMERO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+GABRIELLA,GIAMMANCO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+GABRIELLA,GIAMMANCO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+GIOVANNA,PETRENGA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+GIOVANNA,PETRENGA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+CATIA,POLIDORI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+CATIA,POLIDORI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+MARIA ELENA,STASI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+ANITA,DI GIUSEPPE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+MARIA,ANTEZZA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+ANNAGRAZIA,CALABRIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+MARIA LUISA,SANGIORGIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,SEGRETARIO
+MARIA LUISA,SANGIORGIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_11,SEGRETARIO
+MILENA,SANTERINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+TATIANA,BASILIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+LAURA,CASTELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+LAURA,CASTELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+SILVIA,CHIMIENTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+ELEONORA,BECHIS,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+ELEONORA,BECHIS,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+ELENA,CARNEVALI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+MARIA CHIARA,GADDA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+MARINA,BERLINGHIERI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+RENATE,GEBHARD,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+RENATE,GEBHARD,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+CELESTINA,COSTANTINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+CELESTINA,COSTANTINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+FRANCESCA,BUSINAROLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+SILVIA,BENEDETTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+GESSICA,ROSTELLATO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+ILARIA,CAPUA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+ILARIA,CAPUA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+GIOVANNA,MARTELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+ARIANNA,SPESSOTTO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+ARIANNA,SPESSOTTO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+SANDRA,SAVINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+ADRIANA EDEN SUSANNA,GALGANO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+ADRIANA EDEN SUSANNA,GALGANO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+TIZIANA,CIPRINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+MARILENA,FABBRI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+ROBERTA,OLIARO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+LAURA,VENITTELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+MARIA VALENTINA,VEZZALI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+LAURA,BOLDRINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,PRESIDENTE
+RENATA,POLVERINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+RENATA,POLVERINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+IRENE,MANZI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+FEDERICA,DAGA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+MARTA,GRANDE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+PATRIZIA,TERZONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+PATRIZIA,TERZONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+CARLA,RUOCCO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+MONICA,GREGORI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+ROBERTA,AGOSTINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+VALERIA,VALENTE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+VALERIA,VALENTE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,PRESIDENTE
+VINCENZA,LABRIOLA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+ANNA LUCIA LISA,PANNARALE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+ANNA LUCIA LISA,PANNARALE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+VEGA,COLONNESE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+SILVIA,GIORDANO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+SILVIA,GIORDANO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+VANNA,IORI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+MARA,MUCCI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+MARA,MUCCI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+MARIA EDERA,SPADONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,PRESIDENTE
+MIRELLA,LIUZZI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+IRENE,TINAGLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+FLAVIA,PICCOLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,PRESIDENTE
+FLAVIA,PICCOLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+FLAVIA,PICCOLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+FABIANA,DADONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+EMANUELA,CORDA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+PAOLA,PINNA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+PAOLA,PINNA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+CHIARA,DI BENEDETTO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+LOREDANA,LUPO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+AZZURRA PIA MARIA,CANCELLERI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+CLAUDIA,MANNINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+CLAUDIA,MANNINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+GIULIA,GRILLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+MARIA,MARZANA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+MARIALUCIA,LOREFICE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+CHIARA,GAGNARLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+MARIA GAETANA,GRECO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+DALILA,NESCI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+DALILA,NESCI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+MARIA CHIARA,CARROZZA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+MARIA TINDARA,GULLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+FEDERICA,DIENI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+ELISA,SIMONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+VINCENZA,BRUNO BOSSIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+ROSANNA,SCOPELLITI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+MARIA ELENA,BOSCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+LIA,QUARTAPELLE PROCOPIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+LIA,QUARTAPELLE PROCOPIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+MARTINA,NARDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+ELEONORA,CIMBRO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+ELEONORA,CIMBRO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+ELEONORA,CIMBRO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+DANIELA MATILDE MARIA,GASPARINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+ANNA MARIA,SERAFINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,VICEPRESIDENTE
+PIA ELDA,LOCATELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+PIA ELDA,LOCATELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,PRESIDENTE
+PIA ELDA,LOCATELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+PAOLA,CARINELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+PAOLA,CARINELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+RENATA,BUENO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+RENATA,BUENO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+ANGELA,NISSOLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+ANGELA,NISSOLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+SERENA,PELLEGRINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+SERENA,PELLEGRINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+LARA,RICCIATTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+ILEANA CATHIA,PIAZZONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+SOFIA,AMODDIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,PRESIDENTE
+GIANNA,SERRA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_11,VICEPRESIDENTE
+MARIA,TADDEI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,SEGRETARIO
+LIVIA,TURCO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+LEONILDE,IOTTI,http://dati.camera.it/ocd/legislatura.rdf/costituente,SEGRETARIO
+LEONILDE,IOTTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_01,SEGRETARIO
+LEONILDE,IOTTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,PRESIDENTE
+LEONILDE,IOTTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_11,PRESIDENTE
+LEONILDE,IOTTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,PRESIDENTE
+LEONILDE,IOTTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_06,VICEPRESIDENTE
+LEONILDE,IOTTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,PRESIDENTE
+LEONILDE,IOTTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,PRESIDENTE
+LEONILDE,IOTTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_09,PRESIDENTE
+ELISABETTA,BERTOTTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_11,SEGRETARIO
+ELISABETTA,BERTOTTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,SEGRETARIO
+ANNA MARIA,BIRICOTTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,VICEPRESIDENTE
+MARIDA,BOLOGNESI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_11,SEGRETARIO
+MARIDA,BOLOGNESI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,QUESTORE
+MARIDA,BOLOGNESI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,PRESIDENTE
+MAURA,CAMOIRANO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,QUESTORE
+MARIA SIMONA,DALLA CHIESA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,VICEPRESIDENTE
+TIZIANA,MAIOLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_11,VICEPRESIDENTE
+TIZIANA,MAIOLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,PRESIDENTE
+TIZIANA,MAIOLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,SEGRETARIO
+ALESSANDRA,MUSSOLINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,VICEPRESIDENTE
+ALESSANDRA,MUSSOLINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,PRESIDENTE
+IRENE,PIVETTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,PRESIDENTE
+BARBARA MARIA SIMONETTA,POLLASTRINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,VICEPRESIDENTE
+ALFONSINA,RINALDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_11,VICEPRESIDENTE
+ADRIANA,LODI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_10,VICEPRESIDENTE
+ADRIANA,LODI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_06,SEGRETARIO
+ADRIANA,LODI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,SEGRETARIO
+ADRIANA,LODI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_09,VICEPRESIDENTE
+LUCIANA,SBARBATI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,VICEPRESIDENTE
+MARIA TERESA,AMICI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+MARIA TERESA,AMICI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+MARIA TERESA,AMICI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+MARIA TERESA,AMICI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,VICEPRESIDENTE
+MARIA TERESA,AMICI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+VALENTINA,APREA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,SEGRETARIO
+VALENTINA,APREA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+VALENTINA,APREA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,PRESIDENTE
+VALENTINA,APREA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+VALENTINA,APREA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,PRESIDENTE
+ADRIA,BARTOLICH,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,SEGRETARIO
+DIANA,BATTAGGIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,SEGRETARIO
+ROSARIA,BINDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+ROSARIA,BINDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,VICEPRESIDENTE
+ROSARIA,BINDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,PRESIDENTE
+ROSARIA,BINDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,DELEGATO AL COORDINAMENTO DELLE ATTIVITA'
+ROSARIA,BINDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,PRESIDENTE
+DARIA,BONFIETTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,SEGRETARIO
+MARIA,BURANI PROCACCINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,SEGRETARIO
+MARIA,BURANI PROCACCINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+MARIA,BURANI PROCACCINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,PRESIDENTE
+MARIA,CARAZZI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,SEGRETARIO
+MARIELLA MARIA RITA,CAVANNA SCIREA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,PRESIDENTE
+MARIA,MAGNANI NOYA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,SEGRETARIO
+FRANCESCA,CHIAVACCI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,VICEPRESIDENTE
+ELENA EMMA,CORDONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+ELENA EMMA,CORDONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+ELENA EMMA,CORDONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,SEGRETARIO
+ELENA EMMA,CORDONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,PRESIDENTE
+ALBERTA,DE SIMONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,SEGRETARIO
+ALBERTA,DE SIMONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+GIOVANNA,GRIGNAFFINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+ROSA,JERVOLINO RUSSO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,VICEPRESIDENTE
+ROSA,JERVOLINO RUSSO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,PRESIDENTE
+ROSA,JERVOLINO RUSSO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,PRESIDENTE
+PAOLA,MANZINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,QUESTORE
+PAOLA,MARIANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+FRANCA MARIA,MARINO BUCCELLATO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,SEGRETARIO
+ROSANNA,MORONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,SEGRETARIO
+ANGELA,NAPOLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,VICEPRESIDENTE
+ANGELA,NAPOLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
+MARIA CELESTE,NARDINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,PRESIDENTE
+MARIA CELESTE,NARDINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+TIZIANA,PARENTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,PRESIDENTE
+TIZIANA,PARENTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,VICEPRESIDENTE
+MARIA ELETTA,MARTINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_06,SEGRETARIO
+MARIA ELETTA,MARTINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,VICEPRESIDENTE
+MARIA ELETTA,MARTINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,PRESIDENTE
+MARIA ELETTA,MARTINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,VICEPRESIDENTE
+MARIA ELETTA,MARTINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,PRESIDENTE
+GABRIELLA,PISTONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,SEGRETARIO
+GABRIELLA,PISTONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+GABRIELLA,PISTONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+GABRIELLA,PISTONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,DELEGATO ALLA PRESIDENZA
+ROBERTA,PIZZICARA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,SEGRETARIO
+STEFANIA,PRESTIGIACOMO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+STEFANIA,PRESTIGIACOMO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,VICEPRESIDENTE
+TOMASA,SALVO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,SEGRETARIO
+MARIA CONCETTA,SCOCA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,VICEPRESIDENTE
+GIUSEPPINA,SERVODIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,SEGRETARIO
+GIUSEPPINA,SERVODIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,VICEPRESIDENTE
+ANTONIETTA,VASCON,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,SEGRETARIO
+SONIA,VIALE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,SEGRETARIO
+TIZIANA,VALPIANA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,SEGRETARIO
+TIZIANA,VALPIANA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+TIZIANA,VALPIANA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+PATRIZIA,TOIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_12,SEGRETARIO
+MARIA AGOSTINA,PELLEGATTA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_06,SEGRETARIO
+MARIA CHIARA,ACCIARINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,SEGRETARIO
+ANNA MARIA,DE LUCA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,VICEPRESIDENTE
+MARCELLA,LUCIDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+GIOVANNA,BIANCHI CLERICI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+GIOVANNA,BIANCHI CLERICI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,VICEPRESIDENTE
+GRAZIA LUCIANA,LABATE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+SILVANA,DAMERI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,SEGRETARIO
+GLORIA,BUFFO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
+GLORIA,BUFFO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,PRESIDENTE
+PIERA,CAPITELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
+SANDRA,FEI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_13,SEGRETARIO
+MAURA,COSSUTTA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
+IDA,D'IPPOLITO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+LUCIANA,SGARBI BOMPANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_06,VICEPRESIDENTE
+MARIA,ALESSI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_04,SEGRETARIO
+MARIA,BADALONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_02,SEGRETARIO
+MARIA,BADALONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_05,SEGRETARIO
+ERNESTA,BELUSSI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,SEGRETARIO
+ERNESTA,BELUSSI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,VICEPRESIDENTE
+ERNESTA,BELUSSI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_08,SEGRETARIO
+ADELE,BEI,http://dati.camera.it/ocd/legislatura.rdf/costituente,SEGRETARIO
+BIANCA,BIANCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_01,SEGRETARIO
+MARGHERITA,BONTADE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_01,SEGRETARIO
+MARGHERITA,BONTADE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_02,SEGRETARIO
+MARGHERITA,BONTADE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_03,SEGRETARIO
+ANNA,DE LAURO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_02,SEGRETARIO
+FILOMENA,DELLI CASTELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_01,SEGRETARIO
+ROSA,FAZIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_01,SEGRETARIO
+GISELLA,FLOREANINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_02,SEGRETARIO
+NADIA,GALLICO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_01,SEGRETARIO
+NIVES,GESSI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_05,SEGRETARIO
+OLGA,GIANNINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_01,SEGRETARIO
+ANGELA,GOTELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_02,VICEPRESIDENTE
+ANGELA,GOTELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_02,SEGRETARIO
+GIORGINA,LEVI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_04,SEGRETARIO
+GIORGINA,LEVI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_05,SEGRETARIO
+INES,BOFFARDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,SEGRETARIO
+MARIA VITTORIA,MEZZA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_04,VICEPRESIDENTE
+MARIA VITTORIA,MEZZA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_05,VICEPRESIDENTE
+GIUSEPPINA,RE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_03,SEGRETARIO
+GIUSEPPINA,RE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_04,SEGRETARIO
+GIUSEPPINA,RE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_05,SEGRETARIO
+VINCENZA,BRUNO BOSSIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+MICHAELA,BIANCOFIORE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+MICHAELA,BIANCOFIORE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+JOLE,SANTELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+MARIA,TRIPODI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MARIA FLAVIA,TIMBRO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+VITTORIA,BALDINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+GIORGIA,ANDREUZZA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+MONICA,CIABURRO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+PASQUA,L'ABBATE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+ELENA,BONETTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+RITA,DALLA CHIESA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+MARIA CHIARA,GADDA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+ELISA,SCUTELLA',http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+STEFANIA,ASCARI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+MARIA ANNA,MADIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+MARIA ANNA,MADIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+NAIKE,GRUPPIONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+FEDERICA,ONORI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+FEDERICA,ONORI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+GIULIA,PASTORELLA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+LUCREZIA MARIA BENEDETTA,MANTOVANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+LIA,QUARTAPELLE PROCOPIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+ELISABETTA,GARDINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,PRESIDENTE
+VALENTINA,GRIPPO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+ELISABETTA,PICCOLOTTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+MARTA,SCHIFONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+CARMELA,AURIEMMA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,COORDINATORE INELEGGIBILITA' E DECADENZE
+CARMELA,AURIEMMA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+PAOLA MARIA,CHIESA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+YLENJA,LUCASELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+YLENJA,LUCASELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,PRESIDENTE
+YLENJA,LUCASELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+CHIARA,COLOSIMO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+CHIARA,COLOSIMO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,PRESIDENTE
+TIZIANA,NISINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+MARIA ELENA,BOSCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+MARIA ELENA,BOSCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+PAOLA,BOLDRINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,SEGRETARIO
+BEATRICE,BRIGNONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+SARA,FOSCOLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MANUELA,GAGLIARDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MANUELA,GAGLIARDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+ANGELA,MASI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+LUCIA,SCANU,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+BENEDETTA,FIORINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+ANNA RITA,TATEO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+FLORA,FRATE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+STEFANIA,ASCARI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+STEFANIA,ASCARI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+ANTONELLA,INCERTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+VALENTINA,D'ORSO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+FRANCESCA ANNA,RUGGIERO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+IOLANDA,DI STASIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+IOLANDA,DI STASIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+SABRINA,DE CARLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+SIMONA,VIETINA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+DEBORA,SERRACCHIANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+DEBORA,SERRACCHIANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+DEBORA,SERRACCHIANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+CATIA,POLIDORI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+RACHELE,SILVESTRI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+RACHELE,SILVESTRI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+CARMELA,GRIPPA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MARTINA,PARISSE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+DANIELA,TORTO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MARIA ROSARIA,CARFAGNA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+MARIA ROSARIA,CARFAGNA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+FEDERICA,DAGA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+CARLA,RUOCCO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+CARLA,RUOCCO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+BEATRICE,LORENZIN,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+BARBARA,SALTAMARTINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+ELISABETTA,RIPANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+DONATELLA,LEGNAIOLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+ALESSANDRA,ERMELLINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ALESSANDRA,ERMELLINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+MARIALUISA,FARO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+STEFANIA,PRESTIGIACOMO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+MICHELA,ROSTAN,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MICHELA,ROSTAN,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+TIZIANA,CIPRINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+AZZURRA PIA MARIA,CANCELLERI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+GILDA,SPORTIELLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MARIA CAROLINA,VARCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+VITTORIA,BALDINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MARIA EDERA,SPADONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+MARIA EDERA,SPADONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+ROSSELLA,MURONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ROSSELLA,MURONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+GLORIA,VIZZINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MARIA,SPENA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MARIA,SPENA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+CARLA,CANTONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+CARLA,CANTONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+ANNAGRAZIA,CALABRIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+ANNAGRAZIA,CALABRIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+PAOLA,DEIANA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+GIORGIA,LATINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+ROSA,MENGA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ANGELA,SALAFIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+ANGELA,SALAFIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+CHIARA,GAGNARLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+EMANUELA,CORDA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+EMANUELA,CORDA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+GIUSEPPINA,OCCHIONERO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ANGELA,RAFFA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+ALESSANDRA,CARBONARO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+YANA CHIARA,EHM,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+YANA CHIARA,EHM,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+CATERINA,LICATINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ALESSIA,ROTTA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+GIUSI,BARTOLOZZI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+GIUSI,BARTOLOZZI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MARIA TERESA,BELLUCCI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MARTA ANTONIA,FASCINA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+CARLA,GIULIANO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ELENA,MURELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ROMINA,MURA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+FLAVIA,PICCOLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MARIA SOAVE,ALEMANNO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+GIUSEPPINA,CASTIELLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+EMANUELA CLAUDIA,DEL RE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+VERONICA,GIANNONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+VERONICA,GIANNONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ANNA,MACINA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+TERESA,MANZO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+TERESA,MANZO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+MIRELLA,LIUZZI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+RINA,DE LORENZO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ANNA,ASCANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+STEFANIA,PEZZOPANE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+LUCIA,CIAMPI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+LAURA,CAVANDOLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+LAURA,CAVANDOLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+FRANCESCA,GALIZIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ANTONELLA,PAPIRO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MAURA,TOMASI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+MAURA,TOMASI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+MARTINA,NARDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+MARTINA,NARDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+PATRIZIA,PRESTIPINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+GIULIA,SARTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+GIULIA,SARTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+RENATE,GEBHARD,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+GIORGIA,ANDREUZZA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+GIORGIA,ANDREUZZA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+CHIARA,BRAGA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+FRANCESCA,BUSINAROLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+ANGELA,COLMELLERE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+SILVIA,FREGOLENT,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+SILVIA,FREGOLENT,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+SILVANA ANDREINA,COMAROLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+RENATA,POLVERINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+RENATA,POLVERINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+LUCIA,ANNIBALI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ROSSANA LIDIA,BOLDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+RAFFAELLA,PAITA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+RAFFAELLA,PAITA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+RAFFAELLA,PAITA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+MARICA,FANTUZ,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+JESSICA,COSTANZO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+LAURA,CASTELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+GUIA,TERMINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+MARIA ELENA,BOSCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+SILVIA,BENEDETTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MARIA CRISTINA,CARETTA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+EVA,LORENZONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+FEDERICA,ZANELLA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MIRELLA,CRISTINA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+LAURA,RAVETTO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ELENA,LUCCHINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+FEDERICA,DIENI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+FEDERICA,DIENI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+FEDERICA,DIENI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+ARIANNA,LAZZARINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+MARIASTELLA,GELMINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+EMANUELA,ROSSINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+EMANUELA,ROSSINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+DANIELA,RUFFINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+CRISTINA,ROSSELLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+LAURA,BOLDRINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+LAURA,BOLDRINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+SIMONA,BORDONALI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+VALENTINA,APREA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MARIA CHIARA,GADDA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+LIA,QUARTAPELLE PROCOPIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+LIA,QUARTAPELLE PROCOPIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+LISA,NOJA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+LISA,NOJA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+AUGUSTA,MONTARULI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ANGELA,IANARO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ELENA,MACCANTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+WANDA,FERRO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+WANDA,FERRO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MARINA,BERLINGHIERI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+SARA,MORETTO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+SARA,MORETTO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+FRANCESCA,BONOMO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+INGRID,BISA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+INGRID,BISA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+MARTA,GRANDE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MARTA,GRANDE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+FABIANA,DADONE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,PRESIDENTE
+CLAUDIA,GOBBATO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+FRANCESCA,GERARDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+FRANCESCA,GERARDI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+FABIOLA,BOLOGNA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+FABIOLA,BOLOGNA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+CELESTE,D'ARRANDO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+PAOLA,FRASSINETTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+MARIA,PALLINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ILARIA,FONTANA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+MONICA,CIABURRO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+ELENA,CARNEVALI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ELISA,SIRAGUSA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ELISA,SIRAGUSA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+ELISA,SIRAGUSA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+FRANCESCA,LA MARCA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+ANGELA,NISSOLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
+MARIA TERESA,BALDINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+LUCREZIA MARIA BENEDETTA,MANTOVANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+CHIARA,TENERINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+PAOLA,DE MICHELI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+LUANA,ZANELLA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+LUANA,ZANELLA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+ISABELLA,DE MONTE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+ISABELLA,DE MONTE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+ISABELLA,DE MONTE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+MARTINA,SEMENZATO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+CHIARA,BRAGA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+CHIARA,BRAGA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+SIMONA,BORDONALI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+ILARIA,CAVO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+ILARIA,CAVO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+MADDALENA,MORGANTE,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+PATRIZIA,MARROCCO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+GIOVANNA,IACONO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+ELEONORA,EVI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+ELEONORA,EVI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+LAURA,CAVANDOLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+ILARIA,FONTANA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+MARIA CAROLINA,VARCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+MARIA CAROLINA,VARCHI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+MARTA ANTONIA,FASCINA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+GIORGIA,LATINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+RENATE,GEBHARD,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+VALENTINA,BARZOTTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+VALENTINA,BARZOTTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+ANTONELLA,FORATTINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+GILDA,SPORTIELLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+GILDA,SPORTIELLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+ANNA,ASCANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+ANNA,ASCANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,PRESIDENTE
+FRANCESCA,GHIRRA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+DANIELA,TORTO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+DANIELA,TORTO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+MARIA IMMACOLATA,VIETRI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+MARIA CECILIA,GUERRA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+ANNA LAURA,ORRICO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+AUGUSTA,MONTARULI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+SIMONA,BONAFE',http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+DEBORAH,BERGAMINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+IRENE,MANZI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+ANNARITA,PATRIARCA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+ANNARITA,PATRIARCA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+MICHELA VITTORIA,BRAMBILLA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+ILENIA,MALAVASI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+DANIELA,RUFFINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+DANIELA,RUFFINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+CRISTINA,ROSSELLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+MARIA CRISTINA,CARETTA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+ELENA,MACCANTI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+OUIDAD,BAKKALI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+VALENTINA,D'ORSO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+CARLA,GIULIANO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+DEBORA,SERRACCHIANI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+CHIARA,GRIBAUDO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+CHIARA,GRIBAUDO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,PRESIDENTE
+EMMA,PAVANELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+INGRID,BISA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+INGRID,BISA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+SILVANA ANDREINA,COMAROLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
+SILVANA ANDREINA,COMAROLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
+SUSANNA,CENNI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+DEBORAH,BERGAMINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
+ROSA MARIA,DI GIORGI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
