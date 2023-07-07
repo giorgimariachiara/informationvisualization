@@ -195,7 +195,6 @@ for url in url_governi:
 
 # Concatena tutti i dataframes della lista in un unico dataframe finale
 df_finale = pd.concat(dataframes)
-
 print(df_finale)
 
 td_unique_values = df_finale['td'].unique().tolist()
@@ -211,15 +210,76 @@ valori_divisi = lunga_stringa.split(',')
 # Estendi la lista dei valori separati con i valori divisi
 valori_separati.extend(valori_divisi)
 #print(valori_separati)
-
+#print(df_finale)
 # Stampa i valori separati
 
+parole_chiave_da_rimuovere = [
+    "con l'appoggio esterno di",
+    "con ľappoggio esterno di",
+    "con l'astensione di",
+    "l'appoggio esterno di:",
+    "con l'appoggio esterno del",
+    "con l'appoggio esterno di:",
+    "con l'appoggio esterno di:",
+    "Appoggio esterno:",
+    "e l'astensione di",
+    "ľappoggio esterno di:",
+    "l'appoggio esterno di",
+    "l'appoggio esterno del"
+]
 
-parole_chiave_da_rimuovere = ["con l'appoggio esterno di", "con ľappoggio esterno di", "con l'astensione di", "l'appoggio esterno di:", "con l'appoggio esterno del"]
+# Crea una nuova lista di righe
+nuove_righe = []
+
+# Verifica se la colonna 'td' esiste nel DataFrame
+if 'td' not in df_finale.columns:
+    raise KeyError("Column 'td' not found in the DataFrame.")
+
+# Itera su ogni riga del dataframe originale
+for _, riga in df_finale.iterrows():
+    coalizione = riga['th']
+    link = riga['url']
+    td = riga['td']
+    
+    # Separa i partiti usando la virgola come delimitatore
+    partiti = td.split(',')
+    
+    # Rimuovi spazi vuoti iniziali e finali da ciascun partito
+    partiti = [partito.strip() for partito in partiti]
+    
+    # Rimuovi numeri all'interno delle parentesi quadre
+    partiti = [re.sub(r'\[\d+\]', '', partito) for partito in partiti]
+    
+    # Rimuovi frasi contenenti le parole chiave
+    partiti = [re.sub(r'\bcon.*?\b', '', partito).strip() for partito in partiti]
+    
+    # Rimuovi "Appoggio esterno:" dai partiti
+    partiti = [partito.replace("Appoggio esterno:", "").strip() for partito in partiti]
+    
+    # Rimuovi testo tra parentesi tonde
+    partiti = [re.sub(r'\([^)]*\)', '', partito).strip() for partito in partiti]
+    
+    # Rimuovi valori basati su parole chiave
+    partiti = [partito for partito in partiti if not any(parola_chiave in partito for parola_chiave in parole_chiave_da_rimuovere)]
+    
+    # Aggiungi ogni partito come una nuova riga nella lista
+    for partito in partiti:
+        nuove_righe.append({'Coalizione': coalizione, 'Partito': partito, 'Link': link})
+
+# Crea un nuovo DataFrame con le nuove righe
+df_separati = pd.DataFrame(nuove_righe)
+
+# Stampa il DataFrame risultante
+print(df_separati)
+
+# Stampa il DataFrame risultante
+#print(df_separati)
+
+"""
+parole_chiave_da_rimuovere = ["con l'appoggio esterno di", "con ľappoggio esterno di", "con l'astensione di", "l'appoggio esterno di:", "con l'appoggio esterno del", "con l'appoggio esterno di:", "con l'appoggio esterno di:", "Appoggio esterno:"]
 
 # Rimuovi le parole chiave
 valori_separati = [valore.strip() for valore in valori_separati]
-valori_separati = [re.sub(r'\[\d+\]', '', valore) for valore in valori_separati]
 valori_separati = [re.sub(r'\bcon.*?\b', '', valore).strip() for valore in valori_separati]
 valori_separati = [valore.replace("Appoggio esterno:", "").strip() for valore in valori_separati]
 
@@ -230,7 +290,19 @@ valori_separati = [re.sub(r'\([^)]*\)', '', valore).strip() for valore in valori
 valori_separati = [valore for valore in valori_separati if not any(parola_chiave in valore for parola_chiave in parole_chiave_da_rimuovere)]
 
 valori_separati = list(set(valori_separati))
+#print(valori_separati)
+df_allineamento_partiti = pd.read_excel('Partitiii.xlsx')
+print(df_allineamento_partiti.columns)
+print(df_finale.columns)
 
-print(valori_separati)
+df_finale['td'] = df_finale['td'].str.split(', ')
+df_expanded = df_finale.explode('td')
+df_expanded['td'] = df_expanded['td'].str.replace(r'\[\d+\]', '')
+print(df_expanded)
 
+# Effettua la fusione dei DataFrame in base alle colonne corrispondenti
+#df_merged = df_finale.merge(df_allineamento_partiti, left_on='td', right_on='A')
+# Stampa il risultato
+#print(df_merged)
 
+"""
