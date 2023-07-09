@@ -55,7 +55,7 @@ WHERE { ?legislatura rdf:type ocd:legislatura;
 df_info_lesiglature = get(endpoint, querylegislature)
 #print(df_info_lesiglature)
 
-queryministri = """SELECT DISTINCT ?legislatura ?governoLabel ?membroLabel ?nome ?cognome 
+queryministri = """SELECT DISTINCT ?legislatura ?governoLabel ?membroLabel ?nome ?cognome ?gender
  
 WHERE { ?legislatura rdf:type ocd:legislatura;
                       rdfs:label ?legislaturaLabel;
@@ -64,7 +64,9 @@ WHERE { ?legislatura rdf:type ocd:legislatura;
                      ocd:rif_membroGoverno ?membro.
        ?membro rdfs:label ?membroLabel;
               foaf:firstName ?nome;
-            foaf:surname ?cognome . 
+            foaf:surname ?cognome;
+               ocd:rif_persona ?persona.
+       ?persona foaf:gender ?gender. 
         FILTER(contains(lcase(str(?membroLabel)), "ministro"))
 } """
 
@@ -74,12 +76,13 @@ df_ministri_legislature['governoLabel'] = df_ministri_legislature['governoLabel'
 df_ministri_legislature['membroLabel'] = df_ministri_legislature['membroLabel'].str.split('(', n=1).str[0].str.strip()
 df_ministri_legislature = df_ministri_legislature.rename(columns={'governoLabel': 'Governo'})
 df_ministri_legislature = df_ministri_legislature.rename(columns={'membroLabel': 'Ministro'})
-
-df_ministri = df_ministri_legislature[["Governo", "Ministro", "nome","cognome"]].drop_duplicates()
-print(len(df_ministri))
 #print(df_ministri_legislature)
-print(len(df_ministri_legislature))
-#df_ministri.to_csv("ministri.csv",  index=False, index_label=False)
+#df_ministri = df_ministri_legislature[["Governo", "Ministro", "nome","cognome", "gender"]].drop_duplicates()
+df_ministri_legislature = df_ministri_legislature[["Governo", "Ministro", "nome","cognome", "gender", "legislatura"]].drop_duplicates()
+print(df_ministri_legislature)
+#print(df_ministri_legislature)
+#print(len(df_ministri_legislature))
+df_ministri_legislature.to_csv("ministrigenderlegislatura.csv",  index=False, index_label=False)
 #df_ministri_legislature.to_csv("ministrilegislature.csv",  index=False, index_label=False)
 #df_ministri_legislature["governoLabel"] = df_ministri_legislature["governoLabel"].str.split(" ", n=1).str[0]
 df_governi = df_ministri_legislature[['governoLabel']].copy()
