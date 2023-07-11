@@ -40,6 +40,7 @@ df_governi = df_governi.drop('governoLabel', axis=1)
 df_governi = df_governi.drop_duplicates()
 lista_governi = df_governi["Governo"].to_list()
 #print(lista_governi)
+#print(len(lista_governi))
 
 import re
 
@@ -77,78 +78,6 @@ for governo in nuova_lista:
             url_governi.append(None)
 
 #print(url_governi)
-"""
-#print(len(df_governi)) #68 precisi precisi 
-#print(df_governi)
-import requests
-from bs4 import BeautifulSoup
-
-
-# Stampa il dataframe
-
-import requests
-from bs4 import BeautifulSoup
-import pandas as pd
-
-url = "https://www.governo.it/it/i-governi-dal-1943-ad-oggi/governo-meloni/20727"
-
-response = requests.get(url)
-soup = BeautifulSoup(response.content, 'html.parser')
-
-# Trova tutti gli elementi "a" nel documento HTML
-links = soup.find_all('a')
-
-# Estrai gli attributi "href" dagli elementi "a"
-hrefs = []
-for link in links:
-    href = link.get('href')
-    if href and (href.startswith('http://') or href.startswith('https://')):
-        hrefs.append(href)
-
-# Crea il dataframe con i risultati
-df = pd.DataFrame(hrefs, columns=['URL'])
-
-# Stampa il dataframe
-df_filtered = df[df['URL'].str.contains('www.governo.it/it/i-governi-dal-1943-ad-oggi')]
-lista_url = df_filtered["URL"].to_list()
-
-print(df_filtered)
-print(len(df_filtered))
-
-
-# Liste per i dati dei governi
-governi = []
-coalizioni = []
-
-for url in lista_url:
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
-    info_block = soup.find('div', class_='field-items')
-    
-    nome_governo = ''
-    if info_block.find('p'):
-        nome_governo = info_block.find('p').text.strip().split('\n')[0]
-    governi.append(nome_governo)
-
-    blockquote = info_block.find('blockquote')
-    coalizione = ''
-    if blockquote:
-        text_parts = blockquote.text.strip().split('\n')
-        if len(text_parts) > 1:
-            coalizione_parts = text_parts[1].split(':')
-            if len(coalizione_parts) > 1:
-                coalizione = coalizione_parts[1].strip()
-
-    coalizioni.append(coalizione)
-
-data = {'Governo': governi, 'Coalizione politica': coalizioni}
-df_ = pd.DataFrame(data)
-
-
-
-
-"""
-
 
 #print(urldaesaminare)
 # Inizializza una lista per i dataframe
@@ -195,7 +124,7 @@ for url in url_governi:
 
 # Concatena tutti i dataframes della lista in un unico dataframe finale
 df_finale = pd.concat(dataframes)
-print(df_finale)
+#print(df_finale)
 
 td_unique_values = df_finale['td'].unique().tolist()
 
@@ -211,22 +140,6 @@ valori_divisi = lunga_stringa.split(',')
 valori_separati.extend(valori_divisi)
 #print(valori_separati)
 #print(df_finale)
-# Stampa i valori separati
-
-parole_chiave_da_rimuovere = [
-    "con l'appoggio esterno di",
-    "con ľappoggio esterno di",
-    "con l'astensione di",
-    "l'appoggio esterno di:",
-    "con l'appoggio esterno del",
-    "con l'appoggio esterno di:",
-    "con l'appoggio esterno di:",
-    "Appoggio esterno:",
-    "e l'astensione di",
-    "ľappoggio esterno di:",
-    "l'appoggio esterno di",
-    "l'appoggio esterno del"
-]
 
 # Crea una nuova lista di righe
 nuove_righe = []
@@ -254,17 +167,29 @@ for _, riga in df_finale.iterrows():
     partiti = [re.sub(r'\bcon.*?\b', '', partito).strip() for partito in partiti]
     
     # Rimuovi "Appoggio esterno:" dai partiti
-    partiti = [partito.replace("Appoggio esterno:", "").strip() for partito in partiti]
-    
+
+    partiti = [partito.replace("con l'appoggio esterno del:", ",").strip() for partito in partiti]
+    partiti = [partito.replace("con l'appoggio esterno di:", ",").strip() for partito in partiti]
+    partiti = [partito.replace("l'appoggio esterno del", ",").strip() for partito in partiti]
+    partiti = [partito.replace("con l'appoggio esterno di", ",").strip() for partito in partiti]
+    partiti = [partito.replace("con l'appoggio esterno di:", ",").strip() for partito in partiti]
+    partiti = [partito.replace("Appoggio esterno:", ",").strip() for partito in partiti]
+    partiti = [partito.replace("ľappoggio esterno di:", ",").strip() for partito in partiti]
+    partiti = [partito.replace("l'appoggio esterno di:", ",").strip() for partito in partiti]
+    partiti = [partito.replace("e l'astensione di", ",").strip() for partito in partiti]
+    partiti = [partito.replace("l'appoggio esterno di", ",").strip() for partito in partiti]
+    partiti = [partito.replace("con l'astensione di:", ",").strip() for partito in partiti]
     # Rimuovi testo tra parentesi tonde
     partiti = [re.sub(r'\([^)]*\)', '', partito).strip() for partito in partiti]
     
-    # Rimuovi valori basati su parole chiave
-    partiti = [partito for partito in partiti if not any(parola_chiave in partito for parola_chiave in parole_chiave_da_rimuovere)]
-    
     # Aggiungi ogni partito come una nuova riga nella lista
     for partito in partiti:
-        nuove_righe.append({'Coalizione': coalizione, 'Partito': partito, 'Link': link})
+        if ',' in partito:
+            partiti_divisi = partito.split(',')
+            for partito_diviso in partiti_divisi:
+                nuove_righe.append({'Coalizione': coalizione, 'Partito': partito_diviso.strip(), 'Link': link})
+        else:
+            nuove_righe.append({'Coalizione': coalizione, 'Partito': partito, 'Link': link})
 
 # Crea un nuovo DataFrame con le nuove righe
 df_separati = pd.DataFrame(nuove_righe)
@@ -272,37 +197,36 @@ df_separati = pd.DataFrame(nuove_righe)
 # Stampa il DataFrame risultante
 print(df_separati)
 
-# Stampa il DataFrame risultante
+path_file_excel = 'PartitiFinito.xlsx'
+
+# Leggi il file Excel e crea un DataFrame
+df_partiti_Edo = pd.read_excel(path_file_excel)
+
+df_merge = df_separati.merge(df_partiti_Edo, left_on="Partito", right_on="A", how="left")
+df_merge = df_merge.drop('Unnamed: 3', axis=1)
+df_merge = df_merge.drop('Unnamed: 4', axis=1)
+df_merge = df_merge.drop('A', axis=1)
+df_merge = df_merge.drop('B', axis=1)
+df_merge = df_merge.drop('Coalizione', axis=1)
+df_merge['Link'] = df_merge['Link'].str.split('wiki/').str[1]
+df_merge = df_merge.rename(columns={'Link': 'Governo', 'C': 'Allineamento'})
+#print(df_merge)
+#conto i valori presenti nella colonna allineamento
+alignment_counts = df_merge.groupby('Governo')['Allineamento'].value_counts().unstack().fillna(0)
+alignment_result = alignment_counts.idxmax(axis=1)
+result_df = pd.DataFrame({'Governo': alignment_result.index, 'Allineamento Risultante': alignment_result.values})
+#print(df_merge)
+#print(result_df)# Stampa il DataFrame risultante
+values_not_in_common = pd.concat([df_separati['Link'], df_finale['url']]).drop_duplicates(keep=False) 
+#print(result_df)
+#print(df_merge)
+unique_values = df_merge['Partito'].unique()
+num_unique_values = len(unique_values)
+#print(len(unique_values))
+#print(df_finale)
+#print(values_not_in_common)
+#print(df_separati.columns)
 #print(df_separati)
+#print(num_unique_values)
 
-"""
-parole_chiave_da_rimuovere = ["con l'appoggio esterno di", "con ľappoggio esterno di", "con l'astensione di", "l'appoggio esterno di:", "con l'appoggio esterno del", "con l'appoggio esterno di:", "con l'appoggio esterno di:", "Appoggio esterno:"]
 
-# Rimuovi le parole chiave
-valori_separati = [valore.strip() for valore in valori_separati]
-valori_separati = [re.sub(r'\bcon.*?\b', '', valore).strip() for valore in valori_separati]
-valori_separati = [valore.replace("Appoggio esterno:", "").strip() for valore in valori_separati]
-
-# Rimuovi le date tra parentesi
-valori_separati = [re.sub(r'\([^)]*\)', '', valore).strip() for valore in valori_separati]
-
-# Rimuovi valori basati su parole chiave
-valori_separati = [valore for valore in valori_separati if not any(parola_chiave in valore for parola_chiave in parole_chiave_da_rimuovere)]
-
-valori_separati = list(set(valori_separati))
-#print(valori_separati)
-df_allineamento_partiti = pd.read_excel('Partitiii.xlsx')
-print(df_allineamento_partiti.columns)
-print(df_finale.columns)
-
-df_finale['td'] = df_finale['td'].str.split(', ')
-df_expanded = df_finale.explode('td')
-df_expanded['td'] = df_expanded['td'].str.replace(r'\[\d+\]', '')
-print(df_expanded)
-
-# Effettua la fusione dei DataFrame in base alle colonne corrispondenti
-#df_merged = df_finale.merge(df_allineamento_partiti, left_on='td', right_on='A')
-# Stampa il risultato
-#print(df_merged)
-
-"""

@@ -79,25 +79,24 @@ df_ministri_legislature = df_ministri_legislature.rename(columns={'membroLabel':
 #print(df_ministri_legislature)
 #df_ministri = df_ministri_legislature[["Governo", "Ministro", "nome","cognome", "gender"]].drop_duplicates()
 df_ministri_legislature = df_ministri_legislature[["Governo", "Ministro", "nome","cognome", "gender", "legislatura"]].drop_duplicates()
-print(df_ministri_legislature)
+#print(df_ministri_legislature.columns)
 #print(df_ministri_legislature)
 #print(len(df_ministri_legislature))
-df_ministri_legislature.to_csv("ministrigenderlegislatura.csv",  index=False, index_label=False)
+#df_ministri_legislature.to_csv("ministrigenderlegislatura.csv",  index=False, index_label=False)
 #df_ministri_legislature.to_csv("ministrilegislature.csv",  index=False, index_label=False)
 #df_ministri_legislature["governoLabel"] = df_ministri_legislature["governoLabel"].str.split(" ", n=1).str[0]
-df_governi = df_ministri_legislature[['governoLabel']].copy()
-df_governi['Governo'] = df_governi['governoLabel'].str.extract(r'^(.*?)\s*\(')
-df_governi['data inizio'] =df_governi['governoLabel'].str.extract(r'\((.*?)\s*-\s*')
-df_governi['data fine'] = df_governi['governoLabel'].str.extract(r'\-\s*(.*?)\)$')
+df_governi = df_ministri_legislature[["Governo"]].copy()
+df_governi = df_governi['Governo'].str.extract(r'^(.*?)\s*\(')
+df_governi['data inizio'] =df_governi['Governo'].str.extract(r'\((.*?)\s*-\s*')
+df_governi['data fine'] = df_governi['Governo'].str.extract(r'\-\s*(.*?)\)$')
 
 # Rimuovi eventuali spazi iniziali e finali
 df_governi['Governo'] = df_governi['Governo'].str.strip()
 df_governi['data inizio'] = df_governi['data inizio'].str.strip()
 df_governi['data fine'] = df_governi['data fine'].str.strip()
 
-# Rimuovi la colonna originale se non più necessaria
-df_governi = df_governi.drop('governoLabel', axis=1)
 df_governi = df_governi.drop_duplicates()
+print(df_governi.columns)
 print(len(df_governi)) #68 precisi precisi 
 #print(len(df_ministri_legislature))
 
@@ -506,6 +505,6 @@ keyword_mapping = {
 df_completo_alignment['Allineamento Politico'] = df_completo_alignment['Allineamento Politico'].apply(lambda x: keyword_mapping.get(x, x))
 #df_completo_alignment = df_completo_alignment[df_completo_alignment['partito'] != 'Misto']
 #df_completo_alignment.to_csv("partyspettro.csv",  index=False, index_label=False)
-print(df_completo_alignment)
+#print(df_completo_alignment)
 
 #print(df_alignment_partiti)
