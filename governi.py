@@ -22,7 +22,7 @@ WHERE { ?legislatura rdf:type ocd:legislatura;
 } """
 
 df_ministri_legislature = get(endpoint, queryministri)
-
+#print(df_ministri_legislature)
 df_ministri_legislature["legislaturaLabel"] = df_ministri_legislature["legislaturaLabel"].str.split(" ", n=1).str[0]
 #df_ministri_legislature["governoLabel"] = df_ministri_legislature["governoLabel"].str.split(" ", n=1).str[0]
 df_governi = df_ministri_legislature[['governoLabel']].copy()
@@ -39,7 +39,7 @@ df_governi['data fine'] = df_governi['data fine'].str.strip()
 df_governi = df_governi.drop('governoLabel', axis=1)
 df_governi = df_governi.drop_duplicates()
 lista_governi = df_governi["Governo"].to_list()
-#print(lista_governi)
+#print(df_governi)
 #print(len(lista_governi))
 
 import re
@@ -170,15 +170,17 @@ for _, riga in df_finale.iterrows():
 
     partiti = [partito.replace("con l'appoggio esterno del:", ",").strip() for partito in partiti]
     partiti = [partito.replace("con l'appoggio esterno di:", ",").strip() for partito in partiti]
-    partiti = [partito.replace("l'appoggio esterno del", ",").strip() for partito in partiti]
     partiti = [partito.replace("con l'appoggio esterno di", ",").strip() for partito in partiti]
-    partiti = [partito.replace("con l'appoggio esterno di:", ",").strip() for partito in partiti]
-    partiti = [partito.replace("Appoggio esterno:", ",").strip() for partito in partiti]
     partiti = [partito.replace("ľappoggio esterno di:", ",").strip() for partito in partiti]
+    partiti = [partito.replace("Appoggio esterno:", ",").strip() for partito in partiti]
+    partiti = [partito.replace("e l'astensione di:", ",").strip() for partito in partiti]
+    partiti = [partito.replace("con l'appoggio esterno del", ",").strip() for partito in partiti]
+    partiti = [partito.replace("l'appoggio esterno del", ",").strip() for partito in partiti]
     partiti = [partito.replace("l'appoggio esterno di:", ",").strip() for partito in partiti]
-    partiti = [partito.replace("e l'astensione di", ",").strip() for partito in partiti]
-    partiti = [partito.replace("l'appoggio esterno di", ",").strip() for partito in partiti]
     partiti = [partito.replace("con l'astensione di:", ",").strip() for partito in partiti]
+    partiti = [partito.replace("l'appoggio esterno di", ",").strip() for partito in partiti]
+    
+   
     # Rimuovi testo tra parentesi tonde
     partiti = [re.sub(r'\([^)]*\)', '', partito).strip() for partito in partiti]
     
@@ -195,7 +197,7 @@ for _, riga in df_finale.iterrows():
 df_separati = pd.DataFrame(nuove_righe)
 
 # Stampa il DataFrame risultante
-print(df_separati)
+#print(df_separati)
 
 path_file_excel = 'PartitiFinito.xlsx'
 
@@ -215,14 +217,14 @@ df_merge = df_merge.rename(columns={'Link': 'Governo', 'C': 'Allineamento'})
 alignment_counts = df_merge.groupby('Governo')['Allineamento'].value_counts().unstack().fillna(0)
 alignment_result = alignment_counts.idxmax(axis=1)
 result_df = pd.DataFrame({'Governo': alignment_result.index, 'Allineamento Risultante': alignment_result.values})
-#print(df_merge)
+#print(result_df)
 #print(result_df)# Stampa il DataFrame risultante
 values_not_in_common = pd.concat([df_separati['Link'], df_finale['url']]).drop_duplicates(keep=False) 
-#print(result_df)
+print(result_df)
 #print(df_merge)
 unique_values = df_merge['Partito'].unique()
 num_unique_values = len(unique_values)
-#print(len(unique_values))
+print(len(unique_values))
 #print(df_finale)
 #print(values_not_in_common)
 #print(df_separati.columns)
