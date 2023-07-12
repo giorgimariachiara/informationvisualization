@@ -201,11 +201,12 @@ for _, riga in df_finale.iterrows():
 # Crea un nuovo DataFrame con le nuove righe
 df_separati = pd.DataFrame(nuove_righe)
 #print(df_separati)
-valori_da_eliminare = ["Indipendenti","Fareitalia", "RD", "USEI", "PeC", "AISA", "èV", "MAIE","Rin", "IaC", "NcI", "CI", "UdC", "MA", "SVP", "CN", "MRE"]
+valori_da_eliminare = ["Indipendenti","Fareitalia", "RD", "USEI", "PeC", "AISA", "èV", "MAIE","Rin", "IaC", "NcI", "CI", "UdC", "MA", "SVP", "CN", "MRE", "US"]
 
 # Rimuovi le righe che contengono i valori specificati nella colonna "Partito"
 df_separati= df_separati[~df_separati['Partito'].isin(valori_da_eliminare)]
 df_separati['Partito'] = df_separati['Partito'].str.replace('Ind.', '')
+df_separati['Partito'] = df_separati['Partito'].str.replace(' e ', ',')
 df_separati = df_separati.dropna(subset=['Partito'])
 # Stampa il DataFrame risultante
 #print(df_separati)
@@ -222,12 +223,12 @@ df_merge = df_merge.drop('B', axis=1)
 df_merge = df_merge.drop('Coalizione', axis=1)
 df_merge['Link'] = df_merge['Link'].str.split('wiki/').str[1]
 df_merge = df_merge.rename(columns={'Link': 'Governo', 'C': 'Allineamento'})
-print(df_merge)
+#print(df_merge)
 #conto i valori presenti nella colonna allineamento
 alignment_counts = df_merge.groupby('Governo')['Allineamento'].value_counts().unstack().fillna(0)
 alignment_result = alignment_counts.idxmax(axis=1)
 result_df = pd.DataFrame({'Governo': alignment_result.index, 'Allineamento Risultante': alignment_result.values})
-#print(result_df)
+print(result_df)
 #print(result_df)# Stampa il DataFrame risultante
 #values_not_in_common = pd.concat([result_df['Governo'], df_governi['Governo']]).drop_duplicates(keep=False) 
 #print(result_df)
