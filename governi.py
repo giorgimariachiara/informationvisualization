@@ -201,7 +201,7 @@ for _, riga in df_finale.iterrows():
 # Crea un nuovo DataFrame con le nuove righe
 df_separati = pd.DataFrame(nuove_righe)
 #print(df_separati)
-valori_da_eliminare = ["Indipendenti","Fareitalia", "RD", "USEI", "PeC", "AISA", "èV", "MAIE","Rin", "IaC", "NcI", "CI", "UdC", "MA", "SVP"]
+valori_da_eliminare = ["Indipendenti","Fareitalia", "RD", "USEI", "PeC", "AISA", "èV", "MAIE","Rin", "IaC", "NcI", "CI", "UdC", "MA", "SVP", "CN", "MRE"]
 
 # Rimuovi le righe che contengono i valori specificati nella colonna "Partito"
 df_separati= df_separati[~df_separati['Partito'].isin(valori_da_eliminare)]
@@ -217,8 +217,6 @@ df_partiti_finito = pd.read_excel(path_file_excel)
 #print(df_partiti_finito)
 #print(df_separati)
 df_merge = df_separati.merge(df_partiti_finito, left_on="Partito", right_on="A", how="left")
-df_merge = df_merge.drop('Unnamed: 3', axis=1)
-df_merge = df_merge.drop('Unnamed: 4', axis=1)
 df_merge = df_merge.drop('A', axis=1)
 df_merge = df_merge.drop('B', axis=1)
 df_merge = df_merge.drop('Coalizione', axis=1)
