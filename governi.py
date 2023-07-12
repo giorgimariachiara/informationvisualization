@@ -38,9 +38,13 @@ df_governi['data fine'] = df_governi['data fine'].str.strip()
 # Rimuovi la colonna originale se non più necessaria
 df_governi = df_governi.drop('governoLabel', axis=1)
 df_governi = df_governi.drop_duplicates()
-lista_governi = df_governi["Governo"].to_list()
 #print(df_governi)
-#print(len(lista_governi))
+lista_governi = df_governi["Governo"].to_list()
+lista_governi.append("I Governo Meloni")
+
+#lista_governi = lista_governi.append("Governo_Meloni")
+#print(df_governi)
+#print(lista_governi)
 
 import re
 
@@ -50,11 +54,7 @@ for governo in lista_governi:
     parti = governo.split()
     nuovo_nome = "Governo_" + "_".join(parti[2:]) + "_" + parti[0]
     nuova_lista.append(nuovo_nome)
-
 #print(nuova_lista)
-#print(len(nuova_lista))
-
-
 url_governi = []
 
 base_url = "https://it.wikipedia.org/wiki/"
@@ -79,7 +79,6 @@ for governo in nuova_lista:
 
 #print(url_governi)
 
-#print(urldaesaminare)
 # Inizializza una lista per i dataframe
 dataframes = []
 
@@ -139,7 +138,8 @@ valori_divisi = lunga_stringa.split(',')
 # Estendi la lista dei valori separati con i valori divisi
 valori_separati.extend(valori_divisi)
 #print(valori_separati)
-#print(df_finale)
+#print(len(valori_separati))
+print(df_finale)
 
 # Crea una nuova lista di righe
 nuove_righe = []
@@ -162,9 +162,12 @@ for _, riga in df_finale.iterrows():
     
     # Rimuovi numeri all'interno delle parentesi quadre
     partiti = [re.sub(r'\[\d+\]', '', partito) for partito in partiti]
-    
-    # Rimuovi frasi contenenti le parole chiave
+
     partiti = [re.sub(r'\bcon.*?\b', '', partito).strip() for partito in partiti]
+
+    # Rimuovi testo tra parentesi tonde
+    partiti = [re.sub(r'\([^)]*\)', '', partito).strip() for partito in partiti]
+
     
     # Rimuovi "Appoggio esterno:" dai partiti
 
@@ -179,11 +182,12 @@ for _, riga in df_finale.iterrows():
     partiti = [partito.replace("l'appoggio esterno di:", ",").strip() for partito in partiti]
     partiti = [partito.replace("con l'astensione di:", ",").strip() for partito in partiti]
     partiti = [partito.replace("l'appoggio esterno di", ",").strip() for partito in partiti]
-    
-   
-    # Rimuovi testo tra parentesi tonde
+
     partiti = [re.sub(r'\([^)]*\)', '', partito).strip() for partito in partiti]
+    partiti = [re.sub(r'\[[^\]]*\]', '', partito).strip() for partito in partiti]
+    partiti = [re.sub(r'[()\[\]]', '', partito).strip() for partito in partiti]
     
+    #print(partiti)
     # Aggiungi ogni partito come una nuova riga nella lista
     for partito in partiti:
         if ',' in partito:
@@ -192,19 +196,27 @@ for _, riga in df_finale.iterrows():
                 nuove_righe.append({'Coalizione': coalizione, 'Partito': partito_diviso.strip(), 'Link': link})
         else:
             nuove_righe.append({'Coalizione': coalizione, 'Partito': partito, 'Link': link})
+    
 
 # Crea un nuovo DataFrame con le nuove righe
 df_separati = pd.DataFrame(nuove_righe)
+#print(df_separati)
+valori_da_eliminare = ["Indipendenti","Fareitalia", "RD", "USEI", "PeC", "AISA", "èV", "MAIE","Rin", "IaC", "NcI", "CI", "UdC", "MA", "SVP"]
 
+# Rimuovi le righe che contengono i valori specificati nella colonna "Partito"
+df_separati= df_separati[~df_separati['Partito'].isin(valori_da_eliminare)]
+df_separati['Partito'] = df_separati['Partito'].str.replace('Ind.', '')
+df_separati = df_separati.dropna(subset=['Partito'])
 # Stampa il DataFrame risultante
 #print(df_separati)
 
 path_file_excel = 'PartitiFinito.xlsx'
 
 # Leggi il file Excel e crea un DataFrame
-df_partiti_Edo = pd.read_excel(path_file_excel)
-
-df_merge = df_separati.merge(df_partiti_Edo, left_on="Partito", right_on="A", how="left")
+df_partiti_finito = pd.read_excel(path_file_excel)
+#print(df_partiti_finito)
+#print(df_separati)
+df_merge = df_separati.merge(df_partiti_finito, left_on="Partito", right_on="A", how="left")
 df_merge = df_merge.drop('Unnamed: 3', axis=1)
 df_merge = df_merge.drop('Unnamed: 4', axis=1)
 df_merge = df_merge.drop('A', axis=1)
@@ -212,19 +224,22 @@ df_merge = df_merge.drop('B', axis=1)
 df_merge = df_merge.drop('Coalizione', axis=1)
 df_merge['Link'] = df_merge['Link'].str.split('wiki/').str[1]
 df_merge = df_merge.rename(columns={'Link': 'Governo', 'C': 'Allineamento'})
-#print(df_merge)
+print(df_merge)
 #conto i valori presenti nella colonna allineamento
 alignment_counts = df_merge.groupby('Governo')['Allineamento'].value_counts().unstack().fillna(0)
 alignment_result = alignment_counts.idxmax(axis=1)
 result_df = pd.DataFrame({'Governo': alignment_result.index, 'Allineamento Risultante': alignment_result.values})
 #print(result_df)
 #print(result_df)# Stampa il DataFrame risultante
-values_not_in_common = pd.concat([df_separati['Link'], df_finale['url']]).drop_duplicates(keep=False) 
-print(result_df)
+#values_not_in_common = pd.concat([result_df['Governo'], df_governi['Governo']]).drop_duplicates(keep=False) 
+#print(result_df)
+#print(len(result_df))
+#print(df_governi)
+#print(len(df_governi))
 #print(df_merge)
 unique_values = df_merge['Partito'].unique()
 num_unique_values = len(unique_values)
-print(len(unique_values))
+#print(len(unique_values))
 #print(df_finale)
 #print(values_not_in_common)
 #print(df_separati.columns)
