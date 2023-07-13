@@ -8,24 +8,22 @@ pd.set_option('display.max_rows', None)
 endpoint = "https://dati.camera.it/sparql"
 
 
-queryministri = """SELECT DISTINCT ?legislaturaLabel ?governoLabel ?membroLabel ?nome ?cognome 
- 
-WHERE { ?legislatura rdf:type ocd:legislatura;
-                      rdfs:label ?legislaturaLabel;
-                     ocd:rif_governo ?governo.
-              ?governo rdfs:label ?governoLabel;
-                     ocd:rif_membroGoverno  ?membro.
-       ?membro rdfs:label ?membroLabel;
-              foaf:firstName ?nome;
-            foaf:surname ?cognome . 
-        FILTER(contains(lcase(str(?membroLabel)), "ministro"))
+querygoverni = """SELECT DISTINCT ?nome ?cognome ?persona ?governoLabel WHERE {
+  ?legislatura ocd:rif_governo ?governo.
+     ?governo rdfs:label ?governoLabel.
+ ?governo ocd:rif_presidenteConsiglioMinistri ?presidente.
+  ?presidente dc:title ?label.
+  ?presidente ocd:startDate ?startDate.
+  FILTER (xsd:dateTime(?startDate) >= xsd:dateTime("1946-06-2T00:00:00Z"))
+  ?presidente ocd:rif_persona ?persona.
+  ?persona foaf:firstName ?nome.
+  ?persona foaf:surname ?cognome.
+  ?persona foaf:gender "male".
 } """
 
-df_ministri_legislature = get(endpoint, queryministri)
-#print(df_ministri_legislature)
-df_ministri_legislature["legislaturaLabel"] = df_ministri_legislature["legislaturaLabel"].str.split(" ", n=1).str[0]
-#df_ministri_legislature["governoLabel"] = df_ministri_legislature["governoLabel"].str.split(" ", n=1).str[0]
-df_governi = df_ministri_legislature[['governoLabel']].copy()
+df_governi = get(endpoint, querygoverni)
+
+df_governi = df_governi[['governoLabel']].copy()
 df_governi['Governo'] = df_governi['governoLabel'].str.extract(r'^(.*?)\s*\(')
 df_governi['data inizio'] =df_governi['governoLabel'].str.extract(r'\((.*?)\s*-\s*')
 df_governi['data fine'] = df_governi['governoLabel'].str.extract(r'\-\s*(.*?)\)$')
@@ -42,10 +40,6 @@ df_governi = df_governi.drop_duplicates()
 lista_governi = df_governi["Governo"].to_list()
 lista_governi.append("I Governo Meloni")
 
-#lista_governi = lista_governi.append("Governo_Meloni")
-#print(df_governi)
-#print(lista_governi)
-
 import re
 
 nuova_lista = []
@@ -54,7 +48,7 @@ for governo in lista_governi:
     parti = governo.split()
     nuovo_nome = "Governo_" + "_".join(parti[2:]) + "_" + parti[0]
     nuova_lista.append(nuovo_nome)
-#print(nuova_lista)
+
 url_governi = []
 
 base_url = "https://it.wikipedia.org/wiki/"
@@ -139,7 +133,7 @@ valori_divisi = lunga_stringa.split(',')
 valori_separati.extend(valori_divisi)
 #print(valori_separati)
 #print(len(valori_separati))
-print(df_finale)
+#print(df_finale)
 
 # Crea una nuova lista di righe
 nuove_righe = []
@@ -182,10 +176,11 @@ for _, riga in df_finale.iterrows():
     partiti = [partito.replace("l'appoggio esterno di:", ",").strip() for partito in partiti]
     partiti = [partito.replace("con l'astensione di:", ",").strip() for partito in partiti]
     partiti = [partito.replace("l'appoggio esterno di", ",").strip() for partito in partiti]
+    partiti = [partito.replace(" e ", ",").strip() for partito in partiti]
 
     partiti = [re.sub(r'\([^)]*\)', '', partito).strip() for partito in partiti]
     partiti = [re.sub(r'\[[^\]]*\]', '', partito).strip() for partito in partiti]
-    partiti = [re.sub(r'[()\[\]]', '', partito).strip() for partito in partiti]
+    partiti = [re.sub(r'[()\[\]]', ',', partito).strip() for partito in partiti]
     
     #print(partiti)
     # Aggiungi ogni partito come una nuova riga nella lista
@@ -201,13 +196,13 @@ for _, riga in df_finale.iterrows():
 # Crea un nuovo DataFrame con le nuove righe
 df_separati = pd.DataFrame(nuove_righe)
 #print(df_separati)
-valori_da_eliminare = ["Indipendenti","Fareitalia", "RD", "USEI", "PeC", "AISA", "èV", "MAIE","Rin", "IaC", "NcI", "CI", "UdC", "MA", "SVP", "CN", "MRE", "US"]
+#print(df_separati)
+valori_da_eliminare = ["Indipendenti","Fareitalia", "RD", "USEI", "PeC", "AISA", "èV", "MAIE","Rin", "NcI", "CI", "UdC", "MA", "SVP", "CN", "MRE", "US", "IaC"]
 
 # Rimuovi le righe che contengono i valori specificati nella colonna "Partito"
 df_separati= df_separati[~df_separati['Partito'].isin(valori_da_eliminare)]
 df_separati['Partito'] = df_separati['Partito'].str.replace('Ind.', '')
-df_separati['Partito'] = df_separati['Partito'].str.replace(' e ', ',')
-df_separati = df_separati.dropna(subset=['Partito'])
+df_separati['Partito'] = df_separati['Partito'].str.strip()
 # Stampa il DataFrame risultante
 #print(df_separati)
 
@@ -215,6 +210,7 @@ path_file_excel = 'PartitiFinito.xlsx'
 
 # Leggi il file Excel e crea un DataFrame
 df_partiti_finito = pd.read_excel(path_file_excel)
+df_partiti_finito['A'] = df_partiti_finito['A'].str.strip()
 #print(df_partiti_finito)
 #print(df_separati)
 df_merge = df_separati.merge(df_partiti_finito, left_on="Partito", right_on="A", how="left")
@@ -223,26 +219,18 @@ df_merge = df_merge.drop('B', axis=1)
 df_merge = df_merge.drop('Coalizione', axis=1)
 df_merge['Link'] = df_merge['Link'].str.split('wiki/').str[1]
 df_merge = df_merge.rename(columns={'Link': 'Governo', 'C': 'Allineamento'})
+df_merge = df_merge.drop(df_merge[df_merge['Partito'] == ''].index)
 #print(df_merge)
 #conto i valori presenti nella colonna allineamento
 alignment_counts = df_merge.groupby('Governo')['Allineamento'].value_counts().unstack().fillna(0)
+#print(alignment_counts)
 alignment_result = alignment_counts.idxmax(axis=1)
-result_df = pd.DataFrame({'Governo': alignment_result.index, 'Allineamento Risultante': alignment_result.values})
-print(result_df)
-#print(result_df)# Stampa il DataFrame risultante
-#values_not_in_common = pd.concat([result_df['Governo'], df_governi['Governo']]).drop_duplicates(keep=False) 
+result_df = pd.DataFrame({'Governo': alignment_result.index, 'Allineamento': alignment_result.values})
 #print(result_df)
-#print(len(result_df))
-#print(df_governi)
-#print(len(df_governi))
-#print(df_merge)
+#result_df.to_csv("orientamentoGoverni.csv",  index=False, index_label=False)
 unique_values = df_merge['Partito'].unique()
 num_unique_values = len(unique_values)
-#print(len(unique_values))
 #print(df_finale)
-#print(values_not_in_common)
-#print(df_separati.columns)
-#print(df_separati)
-#print(num_unique_values)
+
 
 
