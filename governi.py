@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import sparql_dataframe
 from sparql_dataframe import get
 
+#qui abbiamo le query e il codice per avere i governi a partire dalla prima repubblica e anche i presidenti del cosniglio che ci sono stati 
 pd.set_option('display.max_rows', None)
 endpoint = "https://dati.camera.it/sparql"
 
@@ -201,7 +202,7 @@ valori_da_eliminare = ["Indipendenti","Fareitalia", "RD", "USEI", "PeC", "AISA",
 
 # Rimuovi le righe che contengono i valori specificati nella colonna "Partito"
 df_separati= df_separati[~df_separati['Partito'].isin(valori_da_eliminare)]
-df_separati['Partito'] = df_separati['Partito'].str.replace('Ind.', '')
+df_separati['Partito'] = df_separati['Partito'].str.replace('Ind.', '', regex=False)
 df_separati['Partito'] = df_separati['Partito'].str.strip()
 # Stampa il DataFrame risultante
 #print(df_separati)
@@ -234,3 +235,48 @@ num_unique_values = len(unique_values)
 
 
 
+#PARTE DEI PRESIDENTI E PRESIDENTESSE DEL CONSIGLIO
+
+#QUERY PRESIDENTI DEL CONSIGLIO
+
+querypresidenticonsiglio = """
+SELECT DISTINCT ?nome ?cognome ?persona WHERE {
+  ?legislatura ocd:rif_governo ?governo.
+  ?governo ocd:rif_presidenteConsiglioMinistri ?presidente.
+  ?presidente dc:title ?label.
+  ?presidente ocd:startDate ?startDate.
+  FILTER (xsd:dateTime(?startDate) >= xsd:dateTime("1946-07-13T00:00:00Z"))
+  ?presidente ocd:rif_persona ?persona.
+  ?persona foaf:firstName ?nome.
+  ?persona foaf:surname ?cognome.
+  ?persona foaf:gender "male".
+}"""
+df_presidenti_consiglio = sparql_dataframe.get(endpoint, querypresidenticonsiglio)
+df_presidenti_consiglio = df_presidenti_consiglio.drop_duplicates(subset=['nome', 'cognome'])
+df_presidenti_consiglio['nome'] = df_presidenti_consiglio['nome'] + ' ' + df_presidenti_consiglio['cognome']
+df_presidenti_consiglio = df_presidenti_consiglio[["nome"]]
+df_presidenti_consiglio = df_presidenti_consiglio.assign(gender="male")
+
+#QUERY PRESIDENTESSE DEL CONSIGLIO
+
+querypresidentesseconsiglio = """
+SELECT DISTINCT ?nome ?cognome ?persona WHERE {
+  ?legislatura ocd:rif_governo ?governo.
+  ?governo ocd:rif_presidenteConsiglioMinistri ?presidente.
+  ?presidente dc:title ?label.
+  ?presidente ocd:startDate ?startDate.
+  FILTER (xsd:dateTime(?startDate) >= xsd:dateTime("1946-07-13T00:00:00Z"))
+  ?presidente ocd:rif_persona ?persona.
+  ?persona foaf:firstName ?nome.
+  ?persona foaf:surname ?cognome.
+  ?persona foaf:gender "female".
+}"""
+df_presidentesse_consiglio = sparql_dataframe.get(endpoint, querypresidentesseconsiglio)
+df_presidentesse_consiglio = df_presidentesse_consiglio.drop_duplicates(subset=['nome', 'cognome'])
+df_presidentesse_consiglio['nome'] = df_presidentesse_consiglio['nome'] + ' ' + df_presidentesse_consiglio['cognome']
+df_presidentesse_consiglio = df_presidentesse_consiglio[["nome"]]
+df_presidentesse_consiglio = df_presidentesse_consiglio.assign(gender="female")
+
+df_presidenti_consiglio_totale = pd.concat([df_presidenti_consiglio, df_presidentesse_consiglio])
+#df_presidenti_consiglio_totale.to_csv("presidenticonsigliototale.csv",  index=False, index_label=False)
+print(df_presidenti_consiglio_totale)

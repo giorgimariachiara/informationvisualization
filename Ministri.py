@@ -4,8 +4,12 @@ import requests
 import time
 import sparql_dataframe
 from sparql_dataframe import get
+import json
 pd.set_option('display.max_rows', None)
+
 endpoint = "https://dati.camera.it/sparql"
+
+"""
 def getdatafromwiki(query):
     url = 'https://query.wikidata.org/sparql'
     r = requests.get(url, params={'format': 'json', 'query': query})
@@ -42,6 +46,8 @@ persons = getdatafromwiki(query)
 df = pd.DataFrame(persons, columns=['URI', 'Name', 'Surname', 'Position'])
 #print(df)
 #print(len(df.drop_duplicates()))
+"""
+
 
 #INFORMAZIONI SULLE DIVERSE LEGISLATURE E I LORO INIZI E FINE 
 querylegislature = """SELECT DISTINCT ?legislatura ?start ?end 
@@ -76,15 +82,14 @@ df_ministri_legislature['governoLabel'] = df_ministri_legislature['governoLabel'
 df_ministri_legislature['membroLabel'] = df_ministri_legislature['membroLabel'].str.split('(', n=1).str[0].str.strip()
 df_ministri_legislature = df_ministri_legislature.rename(columns={'governoLabel': 'Governo'})
 df_ministri_legislature = df_ministri_legislature.rename(columns={'membroLabel': 'Ministro'})
-#print(df_ministri_legislature)
-#df_ministri = df_ministri_legislature[["Governo", "Ministro", "nome","cognome", "gender"]].drop_duplicates()
+print(len(df_ministri_legislature))
 df_ministri_legislature = df_ministri_legislature[["Governo", "Ministro", "nome","cognome", "gender", "legislatura"]].drop_duplicates()
 #print(df_ministri_legislature.columns)
 #print(df_ministri_legislature)
-#print(len(df_ministri_legislature))
+print(df_ministri_legislature)
 #df_ministri_legislature.to_csv("ministrigenderlegislatura.csv",  index=False, index_label=False)
 #df_ministri_legislature.to_csv("ministrilegislature.csv",  index=False, index_label=False)
-#df_ministri_legislature["governoLabel"] = df_ministri_legislature["governoLabel"].str.split(" ", n=1).str[0]
+"""
 df_governi = df_ministri_legislature[["Governo"]].copy()
 df_governi = df_governi['Governo'].str.extract(r'^(.*?)\s*\(')
 df_governi['data inizio'] =df_governi['Governo'].str.extract(r'\((.*?)\s*-\s*')
@@ -99,7 +104,7 @@ df_governi = df_governi.drop_duplicates()
 print(df_governi.columns)
 print(len(df_governi)) #68 precisi precisi 
 #print(len(df_ministri_legislature))
-
+"""
 
 #QUERY PER TROVARE PARTITO 
 query_partito_uomini1 = """SELECT DISTINCT ?persona ?cognome ?nome ?luogoNascita ?gruppoPar
@@ -239,32 +244,6 @@ for i in range(len(listapartiti)):
     if partito in mappa_partiti:
         listapartiti[i] = mappa_partiti[partito]
 listapartiti = list(set(listapartiti))
-# Visualizza il DataFrame modificato
-#print(len(listapartiti.drop_duplicates()))
-#listapartiti = [partito.replace("'", "").replace('"', '') for partito in listapartiti]
-#print(len(listapartiti))
-#comuni = list(set(listapartiti) & set(df['A']))
-#non_comuni = list(set(listapartiti) - set(df['A']))
-#print("valori non comuni")
-#print(len(non_comuni))
-#print(non_comuni)
-#print("valori comuni")
-#print(comuni)
-#print("la lista")
-#print(len(listapartiti))
-#print(listapartiti)
-# Crea un nuovo DataFrame con la colonna dei partiti modificati
-#df_modificato = pd.DataFrame({'Partito Modificato': nuova_lista_partiti})
-#part = df_modificato["Partito Modificato"].tolist()
-#print(nuova_lista_partiti)
-#print(len(nuova_lista_partiti))
-#print(part)
-# Visualizza il DataFrame risultante
-#print(df_modificato)
-# Leggi il file Excel con la mappatura dei partiti
-#print(df_partito_totale)
-
-
 
 from wikidataintegrator import wdi_core
 from urllib.parse import quote
@@ -479,13 +458,11 @@ df_alignment_partiti = pd.concat([df_filtered, df_filtered2])
 
 #print(df_excel.columns)
 #print(df_partito_totale.columns)
+#print(df_partito_totale)
 df_merged = df_partito_totale.merge(df_excel.assign(A=df_excel['A'].str.lower(), B=df_excel['B'].str.upper()), left_on=df_partito_totale['partito'].str.lower(), right_on='A', how='left')
 df_merged['partito'] = df_merged['B'].combine_first(df_merged['partito']).str.upper()
 df_merged = df_merged.drop(['A', 'B'], axis=1)
-#print(df_merged) #questo è il df con una colonna per il partito e una per il gender 
-#print(df_alignment_partiti.columns)
-#print(df_merged.columns)
-#df_completo_alignment = df_merged.merge(df_alignment_partiti, left_on='partito', right_on='Partito', how='left')
+
 
 df_merged['partito'] = df_merged['partito'].str.upper()
 df_alignment_partiti['Partito'] = df_alignment_partiti['Partito'].str.upper()
@@ -495,16 +472,13 @@ df_completo_alignment.drop(columns=['Partito'], inplace=True)
 
 
 keyword_mapping = {
-    "Democrazia Cristiana per le autonomie": "centro",
-    "Partito d'Azione": "centro",
-    "Partito Socialista Italiano di Unità Proletaria": "sinistra",
-    "Partito Nazionale Monarchico": "destra",
-    "Centro Cristiano Democratico": "centro"
+    "repubblicanesimo": "centro",
+    "socialismo": "sinistra",
+    "conservatorismo": "destra",
+    "cristianesimo democratico": "centro"
 }
 
 df_completo_alignment['Allineamento Politico'] = df_completo_alignment['Allineamento Politico'].apply(lambda x: keyword_mapping.get(x, x))
-#df_completo_alignment = df_completo_alignment[df_completo_alignment['partito'] != 'Misto']
-#df_completo_alignment.to_csv("partyspettro.csv",  index=False, index_label=False)
 #print(df_completo_alignment)
-
-#print(df_alignment_partiti)
+df_completo_alignment = df_completo_alignment[df_completo_alignment['partito'] != 'MISTO']
+#df_completo_alignment.to_csv("partyspettro.csv",  index=False, index_label=False)
