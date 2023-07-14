@@ -192,7 +192,7 @@ for _, riga in df_finale.iterrows():
                 nuove_righe.append({'Coalizione': coalizione, 'Partito': partito_diviso.strip(), 'Link': link})
         else:
             nuove_righe.append({'Coalizione': coalizione, 'Partito': partito, 'Link': link})
-    
+print("ciao")
 
 # Crea un nuovo DataFrame con le nuove righe
 df_separati = pd.DataFrame(nuove_righe)
@@ -224,16 +224,16 @@ df_merge = df_merge.drop(df_merge[df_merge['Partito'] == ''].index)
 #print(df_merge)
 #conto i valori presenti nella colonna allineamento
 alignment_counts = df_merge.groupby('Governo')['Allineamento'].value_counts().unstack().fillna(0)
-#print(alignment_counts)
+print(alignment_counts)
 alignment_result = alignment_counts.idxmax(axis=1)
 result_df = pd.DataFrame({'Governo': alignment_result.index, 'Allineamento': alignment_result.values})
-print(result_df)
+#print(result_df)
 #result_df.to_csv("orientamentoGoverni.csv",  index=False, index_label=False)
 unique_values = df_merge['Partito'].unique()
 num_unique_values = len(unique_values)
 #print(df_finale)
 
-
+print("ciao")
 
 #PARTE DEI PRESIDENTI E PRESIDENTESSE DEL CONSIGLIO
 
