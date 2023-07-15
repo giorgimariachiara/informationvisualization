@@ -90,7 +90,7 @@ ocd:rif_leg ?legislatura;
 ocd:rif_mandatoCamera ?mandato.
 
 ##anagrafica
-?d foaf:surname ?cognome; foaf:gender "male" ;foaf:firstName ?nome.
+?d foaf:surname ?cognome; foaf:gender "male"; foaf:firstName ?nome.
 
 ## mandato
 ?mandato ocd:rif_elezione ?elezione.   
@@ -98,15 +98,65 @@ ocd:rif_mandatoCamera ?mandato.
 ## uffici parlamentari
 ?d ocd:rif_ufficioParlamentare ?ufficioUri.
 ?ufficioUri ocd:rif_organo ?organoUri; ocd:carica ?ufficio.
-
-
 }   """
 
 df_incarico_uomini = get(endpoint, queryincaricodeputatiuomini)
 df_incarico_uomini = df_incarico_uomini[["nome", "cognome", "legislatura", "ufficio"]]
 df_incarico_uomini = df_incarico_uomini.rename(columns={'ufficio': 'incarico'})
-#df_incarico_uomini.to_csv("incaricouomini.csv",  index=False, index_label=False)
-print(len(df_incarico_uomini))
+
+queryincaricodeputatiuominigp = """
+SELECT DISTINCT ?d ?cognome ?nome ?legislatura ?gruppoParlamentare
+ 
+WHERE {
+?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
+## deputato
+?d a ocd:deputato; ocd:aderisce ?aderisce;
+ocd:rif_leg ?legislatura;
+ocd:rif_mandatoCamera ?mandato.
+
+##anagrafica
+?d foaf:surname ?cognome; foaf:gender "male" ;foaf:firstName ?nome.
+
+## mandato
+?mandato ocd:rif_elezione ?elezione.   
+ 
+##gruppo parlamentari
+?d ocd:rif_incarico ?incarico.
+  ?incarico ocd:ruolo ?gruppoParlamentare. 
+
+
+}  """
+df_incarico_uomini_gp = get(endpoint, queryincaricodeputatiuominigp)
+df_incarico_uomini_gp.to_csv("incaricouominigp.csv",  index=False, index_label=False)
+print(len(df_incarico_uomini_gp))
+
+queryincaricodeputatidonnegp = """
+SELECT DISTINCT ?d ?cognome ?nome ?legislatura ?gruppoParlamentare
+ 
+WHERE {
+?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
+## deputato
+?d a ocd:deputato; ocd:aderisce ?aderisce;
+ocd:rif_leg ?legislatura;
+ocd:rif_mandatoCamera ?mandato.
+
+##anagrafica
+?d foaf:surname ?cognome; foaf:gender "female" ;foaf:firstName ?nome.
+
+## mandato
+?mandato ocd:rif_elezione ?elezione.   
+ 
+##gruppo parlamentari
+?d ocd:rif_incarico ?incarico.
+  ?incarico ocd:ruolo ?gruppoParlamentare. 
+
+
+}  """
+df_incarico_donne_gp = get(endpoint, queryincaricodeputatidonnegp)
+df_incarico_donne_gp.to_csv("incaricodonnegp.csv",  index=False, index_label=False)
+print(len(df_incarico_donne_gp)) 
+
+
 
 queryincaricodeputatiuomini = """
 SELECT DISTINCT ?d ?cognome ?nome ?gender ?legislatura
@@ -131,18 +181,15 @@ ocd:rif_mandatoCamera ?mandato.
 ?d ocd:rif_incarico ?incarico.
   ?incarico ocd:ruolo ?ruolo. 
 
+} """
 
-}   """
 df_incarico_uomini = get(endpoint, queryincaricodeputatiuomini)
 df_incarico_uomini = df_incarico_uomini.drop_duplicates()
-#print(len(df_incarico_uomini))
 #df_female = df_incarico_totale[df_incarico_totale['genere'] == 'female']
-#print(len(df_incarico_uomini))
- #print(df_incarico_uomini)
+
 # Filtra le righe con genere "male"
 df_male = df_incarico_uomini[df_incarico_uomini['gender'] == 'male']
-#print(len(df_male))
-#print(len(df_female))
+
 #df_incarico_finale = pd.concat([df_female, df_male])
 #print(len(df_incarico_totale))
 #print(df_incarico_totale)
