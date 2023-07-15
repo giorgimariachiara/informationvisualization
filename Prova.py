@@ -1,20 +1,8 @@
-import csv
-from logging import raiseExceptions
 import pandas as pd
 from json import load
 from pandas import DataFrame
-import os.path
-from sqlite3 import connect
-from rdflib.plugins.stores.sparqlstore import SPARQLUpdateStore
 from pandas import concat, read_sql
 import csv
-import seaborn as sns
-import matplotlib.pyplot as plt
-from sqlalchemy import create_engine
-import sys
-import time
-import chart_studio
-chart_studio.tools.set_credentials_file(username='DemoAccount', api_key='lr1c37zw')
 pd.set_option('display.max_rows', None)
 
 from SPARQLWrapper import SPARQLWrapper, JSON
@@ -159,34 +147,3 @@ df_male = df_incarico_uomini[df_incarico_uomini['gender'] == 'male']
 #print(len(df_incarico_totale))
 #print(df_incarico_totale)
 #df_incarico_totale.to_csv("incaricodeputati.csv",  index=False, index_label=False)
-
-
-import pandas as pd
-import requests
-
-def getdatafromwiki(parties):
-    for party in parties:
-        query = '''
-        SELECT distinct ?party ?partyLabel ?alignment ?al WHERE {
-          ?party wdt:P31 wd:Q7278;
-                 rdfs:label ?partyLabel;
-                 wdt:P17 wd:Q38;
-                 wdt:P1387 ?alignment.
-          ?alignment rdfs:label ?al. 
-          FILTER(LANG(?partyLabel) = "it" && CONTAINS(LCASE(?partyLabel), "''' + party.lower() + '''")).
-          FILTER(LANG(?al) = "it")
-        }
-        '''
-        url = 'https://query.wikidata.org/sparql'
-        r = requests.get(url, params={'format': 'json', 'query': query})
-        data = r.json()
-        bindings = data['results']['bindings']
-        politicalalignment = [binding['al']['value'] for binding in bindings]
-        print(f"Partito: {party}")
-        print(f"Political alignment: {', '.join(politicalalignment)}")
-        print()
-
-# Esempio di utilizzo
-parties = ['Partito socialista italiano', 'Movimento 5 stelle']
-getdatafromwiki(parties)
-
