@@ -27,340 +27,86 @@ rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
 }}"""
 df_totale_donne_per_legislatura = get(endpoint, totale_donne_per_legislatura)
 df_totale_donne_per_legislatura = df_totale_donne_per_legislatura[['nome', 'cognome', 'gender', 'legislatura']]
-#df_totale_donne_per_legislatura.to_csv("donneperlegislatura.csv",  index=False, index_label=False)
 
-#QUERY UOMINI ASSEMBLEA COSTITUENTE 
-query_uomini0 = """
-prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-prefix foaf:<http://xmlns.com/foaf/0.1/>
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/costituente" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-  ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/costituente>.
- }
-     
-"""
-dfmale0 = get(endpoint, query_uomini0)
+df_totale_donne_per_legislatura.to_csv("donneperlegislatura.csv",  index=False, index_label=False)
 
-
-#QUERY UOMINI LEGISLATURA 1  
+#QUERY UOMINI PER LEGISLATURA DA 0 A 10 
 query_uomini1 = """
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_01" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_01>.
- }
-  
+SELECT DISTINCT ?d ?nome ?cognome ?legislatura "male" as ?gender 
+WHERE {
+  ?d a ocd:deputato;
+    ocd:rif_leg ?legislatura;
+    ocd:rif_mandatoCamera ?mandato.
+  OPTIONAL { ?d dc:description ?info }
+  ?d foaf:surname ?cognome;
+    foaf:gender "male";
+    foaf:firstName ?nome.
+  OPTIONAL {
+    ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita;
+      <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+      rdfs:label ?nato;
+      ocd:rif_luogo ?luogoNascitaUri.
+    ?luogoNascitaUri dc:title ?luogoNascita.
+  }
+  FILTER (?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/costituente> ||
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_01> ||
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_02> ||
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_03> ||
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_04> ||
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_05> ||
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_06> ||
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_07> ||
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_08> ||
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_09> ||
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_10>)
+}
+
+     
 """
+dfmale_legislature1 = get(endpoint, query_uomini1)
 
-dfmale1 = get(endpoint, query_uomini1)
 
-
-#QUERY UOMINI LEGISLATURA 2  
+#QUERY UOMINI LEGISLATURA DA 11 A 19 
 query_uomini2 = """
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_02" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_02>.
- }
-     
+SELECT DISTINCT ?d ?nome ?cognome ?legislatura "male" as ?gender 
+WHERE {
+  ?d a ocd:deputato;
+    ocd:rif_leg ?legislatura;
+    ocd:rif_mandatoCamera ?mandato.
+  OPTIONAL { ?d dc:description ?info }
+  ?d foaf:surname ?cognome;
+    foaf:gender "male";
+    foaf:firstName ?nome.
+  OPTIONAL {
+    ?persona <http://purl.org/vocab/bio/0.1/Birth> ?nascita;
+      <http://purl.org/vocab/bio/0.1/date> ?dataNascita;
+      rdfs:label ?nato;
+      ocd:rif_luogo ?luogoNascitaUri.
+    ?luogoNascitaUri dc:title ?luogoNascita.
+  }
+  FILTER (
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_11> ||
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_12> ||
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_13> ||
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_14> ||
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_15> ||
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_16> ||
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_17> ||
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_18> ||
+          ?legislatura = <http://dati.camera.it/ocd/legislatura.rdf/repubblica_19>
+  )
+}
+
 """
 
-dfmale2 = get(endpoint, query_uomini2)
+dfmale_legislature2 = get(endpoint, query_uomini2)
 
+df_totale_uomini_per_legislatura = pd.concat([dfmale_legislature1, dfmale_legislature2])
+df_totale_uomini_per_legislatura.to_csv("uominiperlegislatura.csv",  index=False, index_label=False)
 
-#QUERY UOMINI LEGISLATURA 3  
-query_uomini3 = """
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_03" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-  ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_03>.
- }
-     
-"""
-
-dfmale3 = get(endpoint, query_uomini3)
-
-#QUERY UOMINI LEGISLATURA 4  
-query_uomini4 = """
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_04" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_04>.
- }
-     
-"""
-
-dfmale4 = get(endpoint, query_uomini4)
-
-#QUERY UOMINI LEGISLATURA 5  
-query_uomini5 = """
-prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-prefix foaf:<http://xmlns.com/foaf/0.1/>
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_05" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-  ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_05>.
- }
-     
-"""
-
-dfmale5 = get(endpoint, query_uomini5)
-
-#QUERY UOMINI LEGISLATURA 6  
-query_uomini6 = """
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_06" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-  ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_06>.
- }
-     
-"""
-dfmale6 = get(endpoint, query_uomini6)
-
-#QUERY UOMINI LEGISLATURA 7 
-query_uomini7 = """
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_07" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_07>.
- }
-     
-"""
-
-dfmale7 = get(endpoint, query_uomini7)
-
-#QUERY UOMINI LEGISLATURA 8  
-query_uomini8 = """
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_08" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_08>.
- }
-     
-"""
-
-dfmale8 = sparql_dataframe.get(endpoint, query_uomini8)
-
-#QUERY UOMINI LEGISLATURA 9  
-query_uomini9 = """
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_09" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_09>.
- }
-     
-"""
-
-dfmale9 = get(endpoint, query_uomini9)
-
-#QUERY UOMINI LEGISLATURA 10 
-query_uomini10 = """
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_10" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_10>.
- }
-     
-"""
-
-dfmale10 = get(endpoint, query_uomini10)
-
-#QUERY UOMINI LEGISLATURA 11  
-query_uomini11 = """
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_11" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_11>.
- }
-     
-"""
-
-dfmale11 = get(endpoint, query_uomini11)
-
-#QUERY UOMINI LEGISLATURA 12  
-query_uomini12 = """
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_12" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_12>.
- }
-     
-"""
-
-dfmale12 = get(endpoint, query_uomini12)
-
-#QUERY UOMINI LEGISLATURA 13 
-query_uomini13 = """
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_13" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_13>.
- }
-     
-"""
-
-dfmale13 = get(endpoint, query_uomini13)
-
-#QUERY UOMINI LEGISLATURA 14 
-query_uomini14 = """
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_14" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_14>.
- }
-     
-"""
-
-dfmale14 = get(endpoint, query_uomini14)
-
-#QUERY UOMINI LEGISLATURA 15  
-query_uomini15 = """
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_15" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_15>.
- }
-     
-"""
-
-dfmale15 = get(endpoint, query_uomini15)
-
-#QUERY UOMINI LEGISLATURA 16  
-query_uomini16 = """
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_16" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_16>.
- }
-"""
-
-dfmale16 = get(endpoint, query_uomini16)
-
-
-#QUERY UOMINI LEGISLATURA 17 
-query_uomini17 = """
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_17" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_17>.
- }
-     
-"""
-
-dfmale17 = get(endpoint, query_uomini17)
-
-
-#QUERY UOMINI LEGISLATURA 18 
-query_uomini18 = """
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_18" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_18>.
- }
- 
-"""
-
-dfmale18 = get(endpoint, query_uomini18)
-
-
-#QUERY UOMINI LEGISLATURA 19 
-query_uomini19 = """
-SELECT distinct ?persona ?nome ?cognome "http://dati.camera.it/ocd/legislatura.rdf/repubblica_19" as ?legislatura where {
-  
-  ?persona foaf:gender "male".
-   ?persona rdf:type ocd:deputato.
-  ?persona foaf:firstName ?nome. 
-  ?persona foaf:surname ?cognome . 
-  ?persona ocd:rif_mandatoCamera ?mandato. 
-  ?mandato ocd:rif_leg <http://dati.camera.it/ocd/legislatura.rdf/repubblica_19>.
- }
-     
-"""
-
-dfmale19 = get(endpoint, query_uomini19)
-
-totale_uomini_per_legislatura = pd.concat([dfmale0, dfmale1, dfmale2, dfmale3, dfmale4, dfmale5, dfmale6, dfmale7, dfmale8, dfmale9, dfmale10, dfmale11, dfmale12, dfmale13, dfmale14, dfmale15, dfmale16, dfmale17, dfmale18, dfmale19], axis=0)
-df_totale_uomini_per_legislatura = totale_uomini_per_legislatura.assign(gender="male")
-df_totale_uomini_per_legislatura = df_totale_uomini_per_legislatura[["nome", "cognome", "gender", "legislatura"]]
 df_totale_deputati_per_legislatura = pd.concat([df_totale_uomini_per_legislatura, df_totale_donne_per_legislatura])
-#df_totale_deputati_per_legislatura.to_csv("totaledeputatiperlegislatura.csv",  index=False, index_label=False)
+df_totale_deputati_per_legislatura = df_totale_deputati_per_legislatura[["nome", "cognome", "gender", "legislatura"]]
+df_totale_deputati_per_legislatura.to_csv("totaledeputatiperlegislatura.csv",  index=False, index_label=False)
 
 import pandas as pd
 
@@ -375,8 +121,8 @@ df_totale_deputati_per_legislatura['Persona'] =df_totale_deputati_per_legislatur
 df_totale_deputati_per_legislatura2 =df_totale_deputati_per_legislatura.drop(['nome', 'cognome'], axis=1)
 
 # Stampa il DataFrame aggiornato
-print(df_totale_deputati_per_legislatura2)
-df_totale_deputati_per_legislatura2.to_csv("deputatiperlegislatura.csv",  index=False, index_label=False)
+#print(df_totale_deputati_per_legislatura2)
+#df_totale_deputati_per_legislatura2.to_csv("deputatiperlegislatura.csv",  index=False, index_label=False)
 
 #QUERY PER CITTà NASCITA 
 uomini_nascita = """
@@ -402,6 +148,7 @@ rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
 df_uomini_nascita = get(endpoint, uomini_nascita)
 df_uomini_nascita.rename(columns={"luogoNascita": "città"}, inplace=True)
 df_uomini_nascita = df_uomini_nascita[["città", "regione"]]
+print(len(df_uomini_nascita))
 #df_uomini_nascita.to_csv("uominimappa.csv",  index=False, index_label=False)
 
 
@@ -678,7 +425,7 @@ querygruppoparuomini19 = """SELECT DISTINCT ?nome ?cognome ?gruppoPar where {
 
 dfgruppoparuomini19 = sparql_dataframe.get(endpoint, querygruppoparuomini19)
 
-print(dfgruppoparuomini0)
+#print(dfgruppoparuomini0)
 
 #QUERY STUDI UOMO 
 

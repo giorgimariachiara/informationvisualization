@@ -216,7 +216,7 @@ df_uomini_senza_url = pd.DataFrame({"Persona e Data di nascita": uomini_senza_ur
 pd.set_option('display.max_colwidth', None)
 print("Uomini che hanno url subito 111")
 #print(df_uomini_con_url)
-print(len(df_uomini_con_url))
+print(df_uomini_con_url)
 print("Uomini senza url subito 51")
 print(len(df_uomini_senza_url))
 

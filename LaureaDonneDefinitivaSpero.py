@@ -12,7 +12,7 @@ import urllib.parse
 endpoint = "https://dati.camera.it/sparql"
 pd.set_option('display.max_rows', None)
 
-querydefinitivalaureauomini ="""SELECT DISTINCT ?persona ?cognome ?nome ?info
+querylaureadonne ="""SELECT DISTINCT ?persona ?cognome ?nome ?info
 ?dataNascita ?luogoNascita 
 WHERE {
 ?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
@@ -31,16 +31,16 @@ rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
 ?luogoNascitaUri dc:title ?luogoNascita.
 }}"""
 
-df_laurea_donne = get(endpoint, querydefinitivalaureauomini)
-df_laurea_donne = df_laurea_donne.drop_duplicates(["persona","nome", "cognome", "luogoNascita"]) 
-df_laurea_donne_data = df_laurea_donne.drop_duplicates(["persona","nome", "cognome", "dataNascita","luogoNascita"])
+df_laurea_donne = get(endpoint, querylaureadonne)
+df_laurea_donne = df_laurea_donne.drop_duplicates(["persona","nome", "cognome", "dataNascita"])
+
 df_donne_noinfo = df_laurea_donne[df_laurea_donne['info'].isna()] 
 df_donne_noinfo_data = df_donne_noinfo[["nome", "cognome", "dataNascita"]]
 
 import locale
 from datetime import datetime
 
-#Modifica della formattazione dei nomi per permettere la ricerca degli URL wikipedia 
+# Modifica della formattazione dei nomi per permettere la ricerca degli URL wikipedia 
 locale.setlocale(locale.LC_TIME, 'it_IT.UTF-8')
 
 lista_politici_data_nascita = []
@@ -64,8 +64,6 @@ for index, row in df_donne_noinfo_data.iterrows():
     else:
         lista_politici_data_nascita.append((nome_cognome, ""))
 
-
-
 df_laurea_donne['info'] = df_laurea_donne['info'].fillna('') 
 masklaurea = df_laurea_donne['info'].str.contains('Laurea|laurea|Master|LAUREA')
 
@@ -87,10 +85,8 @@ for index, row in donnelaureate.iterrows():
 # Seleziona solo le colonne desiderate
 donnelaureate = donnelaureate[['Persona', 'gender']]
 
-
 masknonlaurea =~df_laurea_donne['info'].str.contains('Laurea|laurea|Master|LAUREA', na=False) & df_laurea_donne['info'].ne('')
 donnenonlaureate = df_laurea_donne[masknonlaurea]
-#uomininonlaureati = uomininonlaureati.assign(info="no")
 donnenonlaureate = donnenonlaureate.assign(gender='female')
 donnenonlaureate = donnenonlaureate[["nome", "cognome", "gender"]]
 
@@ -111,7 +107,7 @@ donnenonlaureate = donnenonlaureate[['Persona', 'gender']]
 print("DONNE TOTALE 905")
 print(len(df_laurea_donne)) 
 print("DONNE LAUREATE 569")
-print(len(donnelaureate)) 
+print(len(donnelaureate))
 print("DONNE NO INFO 49")
 print(len(df_donne_noinfo)) 
 print("DONNE NON LAUREATE 287")
@@ -210,9 +206,9 @@ pd.set_option('display.max_colwidth', None)
 
 
 print("Donne che hanno url subito 30")
-print(len(df_donne_con_url))
+print(df_donne_con_url)
 print("Donne senza url subito 19")
-print(len(df_donne_senza_url))
+print(df_donne_senza_url)
 
 lista_donne_senza_url = df_donne_senza_url['Persona e Data di nascita'].values.tolist()
 

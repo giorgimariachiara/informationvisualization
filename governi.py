@@ -220,7 +220,7 @@ df_merge = df_merge.drop('Coalizione', axis=1)
 df_merge['Link'] = df_merge['Link'].str.split('wiki/').str[1]
 df_merge = df_merge.rename(columns={'Link': 'Governo', 'C': 'Allineamento'})
 df_merge = df_merge.drop(df_merge[df_merge['Partito'] == ''].index)
-print(df_merge)
+#print(df_merge)
 #conto i valori presenti nella colonna allineamento
 alignment_counts = df_merge.groupby('Governo')['Allineamento'].value_counts().unstack().fillna(0)
 #print(alignment_counts)
@@ -278,3 +278,81 @@ df_presidentesse_consiglio = df_presidentesse_consiglio.assign(gender="female")
 df_presidenti_consiglio_totale = pd.concat([df_presidenti_consiglio, df_presidentesse_consiglio])
 #df_presidenti_consiglio_totale.to_csv("presidenticonsigliototale.csv",  index=False, index_label=False)
 #print(df_presidenti_consiglio_totale)
+
+
+import requests
+from bs4 import BeautifulSoup
+
+# Ottieni il contenuto HTML della pagina Wikipedia
+url = "https://it.wikipedia.org/wiki/Ministero_(Italia)"
+response = requests.get(url)
+html_content = response.text
+
+# Analizza l'HTML con BeautifulSoup
+soup = BeautifulSoup(html_content, "html.parser")
+
+# Trova la tabella dei ministeri
+table = soup.find("table", {"class": "wikitable"})
+
+# Trova tutte le righe della tabella tranne l'intestazione
+rows = table.findAll("tr")[1:]
+
+# Estrai i nomi dei ministeri con portafoglio e salvali in una lista
+ministries = []
+for row in rows:
+    ministry_name = row.find("td").find("a").text
+    ministries.append(ministry_name)
+
+# Stampa i nomi dei ministeri
+#print(ministries)
+
+def run_sparql_query(query):
+    url = 'https://query.wikidata.org/sparql'
+    params = {'format': 'json', 'query': query}
+    try:
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        data = response.json()
+        if 'results' in data and 'bindings' in data['results']:
+            return data['results']['bindings']
+        else:
+            print('Risposta JSON non valida: dati mancanti.')
+    except (requests.RequestException, requests.TooManyRedirects) as e:
+        print(f'Errore nella richiesta HTTP: {str(e)}')
+
+# Definizione della query SPARQL
+query = '''
+SELECT ?ministero ?ministeroLabel WHERE {
+  ?ministero wdt:P31 wd:Q1112537.
+ SERVICE wikibase:label {
+    bd:serviceParam wikibase:language "[AUTO_LANGUAGE],it".
+    ?ministero rdfs:label ?ministeroLabel.
+  }
+}
+'''
+
+# Esecuzione della query
+results = run_sparql_query(query)
+
+# Creazione del dataframe con i risultati
+df_ministeri_wikidata = pd.DataFrame([(result['ministero']['value'], result['ministeroLabel']['value']) for result in results], columns=['URI', 'Ministero'])
+
+
+common_values = []
+
+# Controllo se i valori sono presenti nella colonna 'Ministero' del DataFrame
+for ministry in ministries:
+    if ministry in df_ministeri_wikidata['Ministero'].tolist():
+        common_values.append(ministry)
+
+# Controllo se i valori sono contenuti in una delle celle della colonna 'Ministero' del DataFrame
+for ministry in ministries:
+    if not any(ministry in value for value in df_ministeri_wikidata['Ministero']):
+        common_values.append(ministry)
+
+# Creazione del DataFrame dei valori comuni
+df_common_values = pd.DataFrame({'Ministero': common_values})
+
+# Stampa del DataFrame dei valori comuni
+#print(df_common_values)
+#print(ministries)

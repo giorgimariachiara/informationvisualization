@@ -9,46 +9,6 @@ pd.set_option('display.max_rows', None)
 
 endpoint = "https://dati.camera.it/sparql"
 
-"""
-def getdatafromwiki(query):
-    url = 'https://query.wikidata.org/sparql'
-    r = requests.get(url, params={'format': 'json', 'query': query})
-    data = r.json()
-    bindings = data['results']['bindings']
-    persons = [(binding['person']['value'], binding['nameLabel']['value'], binding['surnameLabel']['value'], binding['positionLabel']['value']) for binding in bindings]
-    return persons
-
-# Esempio di utilizzo
-query = '''
-SELECT ?person ?nameLabel ?surnameLabel ?positionLabel WHERE {
-  ?person wdt:P31 wd:Q5;
-          wdt:P735 ?name;
-          wdt:P734 ?surname.
-  {
-    ?person p:P39 ?statement.
-    ?statement ps:P39 ?position.
-    ?position wdt:P279* wd:Q83307.
-    ?position rdfs:label ?positionLabel.
-    FILTER(LANG(?positionLabel) = "it").
-    FILTER(?position IN (wd:Q27999166, wd:Q55044982, wd:Q33125109, wd:Q114953887, wd:Q55045585, wd:Q55053641, wd:Q55045454, wd:Q105541338, wd:Q55024178, wd:Q27991492, wd:Q1541071, wd:Q25973167, wd:Q1538785, wd:Q28002382, wd:Q27991508, wd:Q658082, wd:Q32137240, wd:Q6092845, wd:Q28000241, wd:Q34153264, wd:Q54879307, wd:Q55049421, wd:Q27795992, wd:Q55096606)).
-  }
-  SERVICE wikibase:label {
-    bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en".
-    ?name rdfs:label ?nameLabel.
-    ?surname rdfs:label ?surnameLabel.
-  }
-}
-'''
-
-persons = getdatafromwiki(query)
-
-# Creazione del DataFrame
-df = pd.DataFrame(persons, columns=['URI', 'Name', 'Surname', 'Position'])
-#print(df)
-#print(len(df.drop_duplicates()))
-"""
-
-
 #INFORMAZIONI SULLE DIVERSE LEGISLATURE E I LORO INIZI E FINE 
 querylegislature = """SELECT DISTINCT ?legislatura ?start ?end 
  
@@ -87,28 +47,12 @@ df_ministri_legislature = df_ministri_legislature[["Governo", "Ministro", "nome"
 numero_tipologie_ministri = df_ministri_legislature['Ministro'].drop_duplicates()
 #print(df_ministri_legislature.columns)
 #print(df_ministri_legislature)
-print(numero_tipologie_ministri)
+#print(numero_tipologie_ministri)
 #df_ministri_legislature.to_csv("ministrigenderlegislatura.csv",  index=False, index_label=False)
 #df_ministri_legislature.to_csv("ministrilegislature.csv",  index=False, index_label=False)
-"""
-df_governi = df_ministri_legislature[["Governo"]].copy()
-df_governi = df_governi['Governo'].str.extract(r'^(.*?)\s*\(')
-df_governi['data inizio'] =df_governi['Governo'].str.extract(r'\((.*?)\s*-\s*')
-df_governi['data fine'] = df_governi['Governo'].str.extract(r'\-\s*(.*?)\)$')
-
-# Rimuovi eventuali spazi iniziali e finali
-df_governi['Governo'] = df_governi['Governo'].str.strip()
-df_governi['data inizio'] = df_governi['data inizio'].str.strip()
-df_governi['data fine'] = df_governi['data fine'].str.strip()
-
-df_governi = df_governi.drop_duplicates()
-print(df_governi.columns)
-print(len(df_governi)) #68 precisi precisi 
-#print(len(df_ministri_legislature))
-"""
 
 #QUERY PER TROVARE PARTITO 
-query_partito_uomini1 = """SELECT DISTINCT ?persona ?cognome ?nome ?luogoNascita ?gruppoPar
+query_partito_uomini1 = """SELECT DISTINCT ?persona ?cognome ?nome ?dataNascita ?gruppoPar
 WHERE {
   ?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
   
@@ -142,7 +86,7 @@ WHERE {
 }
 """
 
-query_partito_uomini2 = """SELECT DISTINCT ?persona ?cognome ?nome ?luogoNascita ?gruppoPar
+query_partito_uomini2 = """SELECT DISTINCT ?persona ?cognome ?nome ?dataNascita ?gruppoPar
 WHERE {
   ?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
   
@@ -175,7 +119,7 @@ WHERE {
 }
 """
 query_partito_donne = """SELECT DISTINCT ?persona ?cognome ?nome
-?luogoNascita ?gruppoPar
+?dataNascita ?gruppoPar
 WHERE {
 ?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
 
@@ -197,39 +141,33 @@ rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
 }}"""
 
 
-#dataprova1 = dataprova[["nome", "cognome"]]
 df_partito_donne = get(endpoint, query_partito_donne)
 df_partito_donne['gruppoPar'] = df_partito_donne['gruppoPar'].str.extract(r'^(.*?) \(')
-df_partito_donne = df_partito_donne.drop_duplicates(["persona","nome", "cognome", "luogoNascita", "gruppoPar"])
-df_partito_donne = df_partito_donne[["nome", "cognome", "gruppoPar"]]
+df_partito_donne = df_partito_donne.drop_duplicates(["persona","nome", "cognome", "dataNascita", "gruppoPar"])
 df_partito_donne = df_partito_donne[["gruppoPar"]]
 df_partito_donne.rename(columns={"gruppoPar": "partito"}, inplace=True)
 df_partito_donne = df_partito_donne.assign(gender='female')
-#print(len(df_partito_donne))
+
 
 df_partito_uomini1 = get(endpoint, query_partito_uomini1)
 df_partito_uomini1['gruppoPar'] = df_partito_uomini1['gruppoPar'].str.extract(r'^(.*?) \(')
-df_partito_uomini1 = df_partito_uomini1.drop_duplicates(["persona","nome", "cognome", "luogoNascita", "gruppoPar"])
+df_partito_uomini1 = df_partito_uomini1.drop_duplicates(["persona","nome", "cognome", "dataNascita", "gruppoPar"])
 df_partito_uomini1 = df_partito_uomini1[["gruppoPar"]]
 df_partito_uomini1.rename(columns={"gruppoPar": "partito"}, inplace=True)
 df_partito_uomini1 = df_partito_uomini1.assign(gender='male')
 
 df_partito_uomini2 = get(endpoint, query_partito_uomini2)
 df_partito_uomini2['gruppoPar'] = df_partito_uomini2['gruppoPar'].str.extract(r'^(.*?) \(')
-df_partito_uomini2 = df_partito_uomini2.drop_duplicates(["persona","nome", "cognome", "luogoNascita", "gruppoPar"])
+df_partito_uomini2 = df_partito_uomini2.drop_duplicates(["persona","nome", "cognome", "dataNascita", "gruppoPar"])
 df_partito_uomini2 = df_partito_uomini2[["gruppoPar"]]
 df_partito_uomini2.rename(columns={"gruppoPar": "partito"}, inplace=True)
 df_partito_uomini2 = df_partito_uomini2.assign(gender='male')
 
 df_partito_totale = pd.concat([df_partito_uomini1, df_partito_uomini2, df_partito_donne])
-#print(df_partito_totale)
+
 df_partito_totale_no_duplicati = df_partito_totale[["partito"]].drop_duplicates()
-#print(df_partito_totale)
-#print(len(df_partito_totale))
+
 listapartiti = df_partito_totale_no_duplicati["partito"].tolist()
-
-
-import pandas as pd
 
 # Leggi il file Excel e crea il DataFrame
 df_excel = pd.read_excel('Partiti.xlsx')
@@ -246,10 +184,9 @@ for i in range(len(listapartiti)):
         listapartiti[i] = mappa_partiti[partito]
 listapartiti = list(set(listapartiti))
 
+#print(listapartiti)
 from wikidataintegrator import wdi_core
 from urllib.parse import quote
-from SPARQLWrapper import SPARQLWrapper, JSON
-
 from ratelimit import limits, sleep_and_retry
 import re 
 from requests.exceptions import RequestException, TooManyRedirects
@@ -311,7 +248,6 @@ SELECT DISTINCT ?party ?partyLabel ?al WHERE {
 
 
 '''
-
 processed_parties = set()
 results_list = []
 
@@ -349,23 +285,20 @@ partiti_trovati = [result['Partito'] for result in results_list]
 # Lista dei partiti di cui non si è trovata l'informazione
 partiti_non_trovati = [partito for partito in listapartiti if partito not in partiti_trovati]
 
-
 # Creazione del dataframe
 df_non_trovati = pd.DataFrame({'Partito': partiti_non_trovati})
-#print("partiti non trovati")
-#print(df_non_trovati)
-#print(len(df_non_trovati))
-#print("partiti trovati")
+print("partiti non trovati")
+print(df_non_trovati)
+print(len(df_non_trovati))
+print("partiti trovati")
 #print(df)
 
 #print(len(df))
 partiti_trovati = df['Partito'].tolist()
 partiti_non_trovati = [partito for partito in listapartiti if partito not in partiti_trovati]
 df_filtered = df[df['Partito'].isin(listapartiti)]
-#print("df_filtered")
-#print(df_filtered)
-#print(len(df_filtered))
-
+print("df_filtered")
+print(len(df_filtered))
 
 from urllib.parse import urlencode
 @sleep_and_retry
@@ -442,16 +375,16 @@ for partito in partiti_non_trovati:
         print("Nessun risultato trovato")
 # Creazione del dataframe con i risultati dei partiti senza allineamenti politici
 df_risultati2 = pd.DataFrame(results_list2)
-#print(df_risultati2.columns)
+#print(df_risultati2)
 
 # Creazione del dataframe con i risultati trovati
 
 partiti_trovati = df_risultati2['Partito'].tolist()
 partiti_non_trovati = [partito for partito in listapartiti if partito not in partiti_trovati]
 df_filtered2 = df_risultati2[df_risultati2['Partito'].isin(listapartiti)]
-#print("df_filtered2")
-#print(df_filtered2)
-#print(len(df_filtered2))
+print("df_filtered2")
+print(df_filtered2)
+print(len(df_filtered2))
 
 df_alignment_partiti = pd.concat([df_filtered, df_filtered2])
 #print(len(df_alignment_partiti))
@@ -471,7 +404,7 @@ df_alignment_partiti['Partito'] = df_alignment_partiti['Partito'].str.upper()
 df_completo_alignment = df_merged.merge(df_alignment_partiti, left_on='partito', right_on='Partito', how='left')
 df_completo_alignment.drop(columns=['Partito'], inplace=True)
 
-
+print(len(df_partito_totale))
 keyword_mapping = {
     "repubblicanesimo": "centro",
     "socialismo": "sinistra",

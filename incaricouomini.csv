@@ -1427,8 +1427,8 @@ FRANCO,GROTTO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
 ANDREA,LULLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_15,CAPOGRUPPO
 ANDREA,LULLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
 ROLANDO,NANNICINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,SEGRETARIO
+ANDREA GIORGIO FELICE MARIA,ORSINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,VICEPRESIDENTE
 ANDREA GIORGIO FELICE MARIA,ORSINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,CAPOGRUPPO
-ANDREA GIORGIO FELICE MARIA,ORSINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,COORDINATORE INELEGGIBILITA' E DECADENZE
 MICHELE,RANIELI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
 MICHELE,RANIELI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,SEGRETARIO
 ERMETE,REALACCI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_14,CAPOGRUPPO
@@ -1513,7 +1513,7 @@ LUIGI,GIRARDIN,http://dati.camera.it/ocd/legislatura.rdf/repubblica_06,SEGRETARI
 GIUSEPPE,GRAMEGNA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_07,VICEPRESIDENTE
 GIANPIERO,D'ALIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,PRESIDENTE
 GIANPIERO,D'ALIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
-ANDREA GIORGIO FELICE MARIA,ORSINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,VICEPRESIDENTE
+ANDREA GIORGIO FELICE MARIA,ORSINI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,COORDINATORE INELEGGIBILITA' E DECADENZE
 ERMETE,REALACCI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,PRESIDENTE
 MARINO,ZORZATO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,PRESIDENTE
 EDMONDO,CIRIELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_16,PRESIDENTE
@@ -3810,6 +3810,7 @@ ETTORE,ROSATO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
 ETTORE,ROSATO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
 PIERO,DE LUCA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
 FRANCESCO,BATTISTONI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,VICEPRESIDENTE
+MARCELLO,COPPO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
 MAURO,ROTELLI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,PRESIDENTE
 MASSIMILIANO,PANIZZUT,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,CAPOGRUPPO
 LUCA,PASTORINO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_19,SEGRETARIO
@@ -4077,8 +4078,6 @@ LUCA,CARABETTA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESI
 IGOR GIANCARLO,IEZZI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
 GREGORIO,FONTANA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,QUESTORE
 GREGORIO,FONTANA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
-ALBRECHT,PLANGGER,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
-ALBRECHT,PLANGGER,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
 CIRO,MASCHIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
 CIRO,MASCHIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
 CIRO,MASCHIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
@@ -4148,6 +4147,8 @@ EUGENIO,SANGREGORIO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPO
 DOMENICO,MENORELLO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
 ANDREA,FRAILIS,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
 MASSIMO,VERRECCHIA,http://dati.camera.it/ocd/legislatura.rdf/repubblica_17,CAPOGRUPPO
+ALBRECHT,PLANGGER,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
+ALBRECHT,PLANGGER,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,SEGRETARIO
 GUIDO,CROSETTO,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
 NICOLA,FRATOIANNI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,VICEPRESIDENTE
 NICOLA,FRATOIANNI,http://dati.camera.it/ocd/legislatura.rdf/repubblica_18,CAPOGRUPPO
