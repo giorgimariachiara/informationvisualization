@@ -4,11 +4,14 @@ from bs4 import BeautifulSoup
 import sparql_dataframe
 from sparql_dataframe import get
 
+
+endpoint = "https://dati.camera.it/sparql"
+"""
 #qui abbiamo le query e il codice per avere i governi a partire dalla prima repubblica e anche i presidenti del cosniglio che ci sono stati 
 pd.set_option('display.max_rows', None)
 endpoint = "https://dati.camera.it/sparql"
 
-
+"""
 querygoverni = """SELECT DISTINCT ?nome ?cognome ?persona ?governoLabel WHERE {
   ?legislatura ocd:rif_governo ?governo.
      ?governo rdfs:label ?governoLabel.
@@ -21,7 +24,7 @@ querygoverni = """SELECT DISTINCT ?nome ?cognome ?persona ?governoLabel WHERE {
   ?persona foaf:surname ?cognome.
   ?persona foaf:gender "male".
 } """
-
+"""
 df_governi = get(endpoint, querygoverni)
 
 df_governi = df_governi[['governoLabel']].copy()
@@ -231,14 +234,14 @@ result_df = pd.DataFrame({'Governo': alignment_result.index, 'Allineamento': ali
 unique_values = df_merge['Partito'].unique()
 num_unique_values = len(unique_values)
 #print(df_finale)
-
+"""
 
 #PARTE DEI PRESIDENTI E PRESIDENTESSE DEL CONSIGLIO
 
 #QUERY PRESIDENTI DEL CONSIGLIO
 
 querypresidenticonsiglio = """
-SELECT DISTINCT ?nome ?cognome ?persona WHERE {
+SELECT ?nome ?cognome ?persona (COUNT(DISTINCT ?presidente) AS ?mandato) ?gender WHERE {
   ?legislatura ocd:rif_governo ?governo.
   ?governo ocd:rif_presidenteConsiglioMinistri ?presidente.
   ?presidente dc:title ?label.
@@ -248,17 +251,21 @@ SELECT DISTINCT ?nome ?cognome ?persona WHERE {
   ?persona foaf:firstName ?nome.
   ?persona foaf:surname ?cognome.
   ?persona foaf:gender "male".
-}"""
+  ?persona foaf:gender ?gender.  }
+GROUP BY ?nome ?cognome ?persona ?gender
+ORDER BY ?nome ?cognome ?persona
+"""
+
 df_presidenti_consiglio = sparql_dataframe.get(endpoint, querypresidenticonsiglio)
-df_presidenti_consiglio = df_presidenti_consiglio.drop_duplicates(subset=['nome', 'cognome'])
 df_presidenti_consiglio['nome'] = df_presidenti_consiglio['nome'] + ' ' + df_presidenti_consiglio['cognome']
-df_presidenti_consiglio = df_presidenti_consiglio[["nome"]]
-df_presidenti_consiglio = df_presidenti_consiglio.assign(gender="male")
+df_presidenti_consiglio = df_presidenti_consiglio[["nome","gender", "mandato"]]
+print(df_presidenti_consiglio)
+
 
 #QUERY PRESIDENTESSE DEL CONSIGLIO
 
 querypresidentesseconsiglio = """
-SELECT DISTINCT ?nome ?cognome ?persona WHERE {
+SELECT ?nome ?cognome ?persona (COUNT(DISTINCT ?presidente) AS ?mandato) ?gender WHERE {
   ?legislatura ocd:rif_governo ?governo.
   ?governo ocd:rif_presidenteConsiglioMinistri ?presidente.
   ?presidente dc:title ?label.
@@ -268,15 +275,15 @@ SELECT DISTINCT ?nome ?cognome ?persona WHERE {
   ?persona foaf:firstName ?nome.
   ?persona foaf:surname ?cognome.
   ?persona foaf:gender "female".
-}"""
+  ?persona foaf:gender ?gender.  }
+GROUP BY ?nome ?cognome ?persona ?gender
+ORDER BY ?nome ?cognome ?persona"""
 df_presidentesse_consiglio = sparql_dataframe.get(endpoint, querypresidentesseconsiglio)
-df_presidentesse_consiglio = df_presidentesse_consiglio.drop_duplicates(subset=['nome', 'cognome'])
 df_presidentesse_consiglio['nome'] = df_presidentesse_consiglio['nome'] + ' ' + df_presidentesse_consiglio['cognome']
-df_presidentesse_consiglio = df_presidentesse_consiglio[["nome"]]
-df_presidentesse_consiglio = df_presidentesse_consiglio.assign(gender="female")
+df_presidentesse_consiglio = df_presidentesse_consiglio[["nome", "gender", "mandato"]]
 
 df_presidenti_consiglio_totale = pd.concat([df_presidenti_consiglio, df_presidentesse_consiglio])
-#df_presidenti_consiglio_totale.to_csv("presidenticonsigliototale.csv",  index=False, index_label=False)
+df_presidenti_consiglio_totale.to_csv("presidenti.csv",  index=False, index_label=False)
 #print(df_presidenti_consiglio_totale)
 
 
