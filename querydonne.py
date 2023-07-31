@@ -53,11 +53,12 @@ rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
 ?luogoNascitaUri dc:title ?luogoNascita.
 }}"""
 df_totale_uomini = sparql_dataframe.get(endpoint, totale_uomini)
-df_totale_uomini = df_totale_uomini[['nome', 'cognome', 'gender', "dataNascita"]]
+df_totale_uomini = df_totale_uomini[['persona','nome', 'cognome', 'gender']]
 df_totale_uomini = df_totale_uomini.drop_duplicates()
-print(len(df_totale_uomini))
+#print(len(df_totale_uomini))
 df_totale = pd.concat([df_totale_uomini, df_totale_donne])
-#df_totale.to_csv("totaledeputati.csv",  index=False, index_label=False)  #6109
+df_totale.to_csv("totaledeputati2.csv",  index=False, index_label=False)  #6109
+
 
 #QUERY PER CITTà NASCITA 
 donne_nascita = """

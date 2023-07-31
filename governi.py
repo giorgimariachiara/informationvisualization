@@ -283,8 +283,8 @@ df_presidentesse_consiglio['nome'] = df_presidentesse_consiglio['nome'] + ' ' + 
 df_presidentesse_consiglio = df_presidentesse_consiglio[["nome", "gender", "mandato"]]
 
 df_presidenti_consiglio_totale = pd.concat([df_presidenti_consiglio, df_presidentesse_consiglio])
-df_presidenti_consiglio_totale.to_csv("presidenti.csv",  index=False, index_label=False)
-#print(df_presidenti_consiglio_totale)
+#df_presidenti_consiglio_totale.to_csv("presidenti.csv",  index=False, index_label=False)
+print(df_presidenti_consiglio_totale)
 
 
 import requests

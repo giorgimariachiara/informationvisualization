@@ -12,12 +12,12 @@ pd.set_option('display.max_rows', None)
 #QUERY NUMERO TOTALE DONNE
 
 totale_donne = """
-SELECT DISTINCT ?d ?legislatura ?cognome ?nome
-?dataNascita ?luogoNascita "female" as ?gender
+SELECT DISTINCT ?persona ?cognome ?nome
+?dataNascita ?luogoNascita "female" as ?gender 
 WHERE {
 ?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
 
-?d a ocd:deputato;
+?d a ocd:deputato; 
 ocd:rif_leg ?legislatura;
 ocd:rif_mandatoCamera ?mandato.
 OPTIONAL{?d dc:description ?info}
@@ -31,17 +31,16 @@ rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
 ?luogoNascitaUri dc:title ?luogoNascita.
 }}"""
 df_totale_donne = sparql_dataframe.get(endpoint, totale_donne)
-df_totale_donne = df_totale_donne.rename(columns={'d': 'persona'})
-df_totale_donne = df_totale_donne[['persona','nome', 'cognome', 'gender']]
+df_totale_donne = df_totale_donne[['nome', 'cognome', 'gender', 'persona']]
 
-#QUERY NUMERO TOTALE UOMINI
+#QUERY NUMERO TOTALE UOMINI 5204 
 totale_uomini = """
-SELECT DISTINCT ?d ?legislatura ?cognome ?nome
-?dataNascita ?luogoNascita "male" as ?gender
+SELECT DISTINCT ?persona ?cognome ?nome
+?dataNascita ?luogoNascita "male" as ?gender 
 WHERE {
 ?persona ocd:rif_mandatoCamera ?mandato; a foaf:Person.
 
-?d a ocd:deputato;
+?d a ocd:deputato; 
 ocd:rif_leg ?legislatura;
 ocd:rif_mandatoCamera ?mandato.
 OPTIONAL{?d dc:description ?info}
@@ -55,11 +54,12 @@ rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
 ?luogoNascitaUri dc:title ?luogoNascita.
 }}"""
 df_totale_uomini = sparql_dataframe.get(endpoint, totale_uomini)
-df_totale_uomini = df_totale_uomini.rename(columns={'d': 'persona'})
 df_totale_uomini = df_totale_uomini[['persona','nome', 'cognome', 'gender']]
+df_totale_uomini.to_csv("totaledeputatieeeeee.csv",  index=False, index_label=False)
 
 df_totale = pd.concat([df_totale_uomini, df_totale_donne])
-#df_totale.to_csv("totaledeputati.csv",  index=False, index_label=False)
+
+
 #print(df_totale)
 
 import pandas as pd
@@ -105,9 +105,7 @@ presidenti_camera_dei_deputati['Fine'] = combined_table[('Mandato', 'Fine')]
 presidenti_camera_dei_deputati[['Nome', 'Cognome']] = presidenti_camera_dei_deputati['Presidenti Camera'].str.split(n=1, expand=True)
 presidenti_camera_dei_deputati = presidenti_camera_dei_deputati.drop(columns=['Presidenti Camera'])
 # Stampa il DataFrame finale
-print(presidenti_camera_dei_deputati)
-
-
+#print(presidenti_camera_dei_deputati)
 
 import pandas as pd
 
@@ -167,15 +165,12 @@ for index, row in presidenti_camera_dei_deputati.iterrows():
 risultato_corrispondenze = pd.DataFrame(corrispondenze)
 
 # Creiamo un DataFrame per le persone non trovate
-persone_non_trovate = pd.DataFrame(nomi_non_trovati, columns=['Nome', 'Cognome'])
-
+persone_non_trovate = pd.DataFrame(nomi_non_trovati)
+"""
 # Stampa del DataFrame con le corrispondenze trovate
 print("\nDataFrame con le corrispondenze trovate:")
 print(risultato_corrispondenze)
-
-print(df_totale.columns)
-print(persone_non_trovate.columns)
-
+"""
 import pandas as pd
 from fuzzywuzzy import fuzz
 
@@ -194,38 +189,58 @@ def normalize_name(name):
 # Normalizziamo i nomi nei dataframe
 df_totale['nome'] = df_totale['nome'].apply(normalize_name)
 df_totale['cognome'] = df_totale['cognome'].apply(normalize_name)
-
+#("ciao")
+#print(df_totale)
 persone_non_trovate['Nome'] = persone_non_trovate['Nome'].apply(normalize_name)
 persone_non_trovate['Cognome'] = persone_non_trovate['Cognome'].apply(normalize_name)
 
+
+#print(persone_non_trovate)
+# Funzione per normalizzare il nome nel formato "Nome Cognome"
+def normalize_name(name):
+    name_parts = name.split()
+    name_parts = [part.capitalize() for part in name_parts]  # Capitalizziamo ogni parola
+    return " ".join(name_parts)
+
+# Normalizziamo i nomi nei dataframe
+df_totale['nome'] = df_totale['nome'].apply(normalize_name)
+df_totale['cognome'] = df_totale['cognome'].apply(normalize_name)
+persone_non_trovate['Nome'] = persone_non_trovate['Nome'].apply(normalize_name)
+persone_non_trovate['Cognome'] = persone_non_trovate['Cognome'].apply(normalize_name)
+
+# Uniamo nome e cognome in un'unica colonna "nome_cognome" nei dataframe
+df_totale['nome_cognome'] = df_totale['nome'] + " " + df_totale['cognome']
+persone_non_trovate['nome_cognome'] = persone_non_trovate['Nome'] + " " + persone_non_trovate['Cognome']
+print("personeeee")
+print(persone_non_trovate)
 # Lista per le corrispondenze trovate
 corrispondenze = []
 
 # Effettuiamo il confronto tra i nomi normalizzati nei due dataframe
 for index, row in persone_non_trovate.iterrows():
-    nome_cognome = row['Nome'] + " " + row['Cognome']
+    nome_cognome = row['nome_cognome']
     
     # Troviamo il miglior match per il nome_cognome nel DataFrame df_totale
     best_match = None
-    best_ratio = 0
+    best_name_ratio = 0
     
     for _, df_row in df_totale.iterrows():
-        df_nome_cognome = df_row['nome'] + " " + df_row['cognome']
-        ratio = fuzz.token_sort_ratio(nome_cognome, df_nome_cognome)
+        df_nome_cognome = df_row['nome_cognome']
+        name_ratio = fuzz.token_set_ratio(nome_cognome, df_nome_cognome)
 
-        if ratio > best_ratio:
-            best_ratio = ratio
+        if name_ratio > best_name_ratio:
+            best_name_ratio = name_ratio
             best_match = df_row
 
-    if best_match is not None and best_ratio >= 70:
-        # Abbiamo trovato una corrispondenza, quindi aggiungiamo i valori corrispondenti al DataFrame delle corrispondenze
+    if best_match is not None and best_name_ratio >= 80:
+        # Abbiamo trovato una corrispondenza per il nome, quindi aggiungiamo i valori corrispondenti al DataFrame delle corrispondenze
         corrispondenze.append({
-            'nome': row['Nome'],
-            'cognome': row['Cognome'],
-            'gender': best_match['gender'],
-            'persona': best_match['persona'],
-            'Nome': best_match['nome'],
-            'Cognome': best_match['cognome'],
+            'Nome': row['Nome'],
+            'Cognome': row['Cognome'],
+            'Gender': best_match['gender'],
+            'Persona': best_match['persona'],
+            'Nome Presidente': best_match['nome'],
+            'Cognome Presidente': best_match['cognome'],
             'Inizio': row['Inizio'],
             'Fine': row['Fine']
         })
@@ -233,22 +248,27 @@ for index, row in persone_non_trovate.iterrows():
 # Creiamo un DataFrame per le corrispondenze trovate
 risultato_corrispondenze2 = pd.DataFrame(corrispondenze)
 
+# Stampa del DataFrame con le corrispondenze trovate
+print("\nRisultato corrispondenze 2:")
+print(risultato_corrispondenze2)
+
+
 # Rimuoviamo eventuali corrispondenze duplicate
-risultato_corrispondenze2.drop_duplicates(subset=['nome', 'cognome'], keep='first', inplace=True)
-risultato_corrispondenze2 = risultato_corrispondenze2.rename(columns={'Nome': 'Nome Presidente'})
+#risultato_corrispondenze2.drop_duplicates(subset=['nome', 'cognome'], keep='first', inplace=True)
+#risultato_corrispondenze2 = risultato_corrispondenze2.rename(columns={'Nome': 'Nome Presidente'})
 risultato_corrispondenze2 = risultato_corrispondenze2.rename(columns={'gender': 'Gender'})
 risultato_corrispondenze2 = risultato_corrispondenze2.rename(columns={'persona': 'Persona'})
-risultato_corrispondenze2 = risultato_corrispondenze2.rename(columns={'Cognome': 'Cognome Presidente'})
-risultato_corrispondenze2.drop(columns=['nome', 'cognome'], inplace=True)
+#risultato_corrispondenze2 = risultato_corrispondenze2.rename(columns={'Cognome': 'Cognome Presidente'})
+risultato_corrispondenze2.drop(columns=['Nome', 'Cognome'], inplace=True)
 # Stampa del DataFrame con le corrispondenze trovate
-"""
-print("\nDataFrame con le corrispondenze trovate:")
+
+print("\nDataFrame2 con le corrispondenze trovate:")
 print(risultato_corrispondenze2)
 print("\nDataFrame con le corrispondenze trovate:")
 print(risultato_corrispondenze)
-"""
+
 presidenti_camera_dei_deputati_df = pd.concat([risultato_corrispondenze2, risultato_corrispondenze], ignore_index=True)
 print(presidenti_camera_dei_deputati_df)
-#print(merged_df)
-#presidenti_camera_dei_deputati_df.to_csv("presidenticamera.csv",  index=False, index_label=False)
+colonne = ['Nome Presidente', 'Cognome Presidente', 'Inizio', 'Fine', 'Gender']
+presidenti_camera_dei_deputati_df[colonne].to_csv("presidenticamera.csv", index=False)
 
