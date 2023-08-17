@@ -5,6 +5,7 @@ import pandas as pd
 from sparql_dataframe import get
 import requests
 import numpy as np
+import json
 
 endpoint = "https://dati.camera.it/sparql"
 pd.set_option('display.max_rows', None)
@@ -55,7 +56,6 @@ rdfs:label ?nato; ocd:rif_luogo ?luogoNascitaUri.
 }}"""
 df_totale_uomini = sparql_dataframe.get(endpoint, totale_uomini)
 df_totale_uomini = df_totale_uomini[['persona','nome', 'cognome', 'gender']]
-df_totale_uomini.to_csv("totaledeputatieeeeee.csv",  index=False, index_label=False)
 
 df_totale = pd.concat([df_totale_uomini, df_totale_donne])
 
@@ -272,3 +272,19 @@ print(presidenti_camera_dei_deputati_df)
 colonne = ['Nome Presidente', 'Cognome Presidente', 'Inizio', 'Fine', 'Gender']
 presidenti_camera_dei_deputati_df[colonne].to_csv("presidenticamera.csv", index=False)
 
+dfs = pd.read_csv("presidenticamera.csv")
+data_dict = {
+    "presidenti": [
+        {
+            "nome": row["Nome Presidente"],
+            "cognome": row["Cognome Presidente"],
+            "inizio_mandato": row["Inizio"],
+            "fine_mandato": row["Fine"],
+            "genere": row["Gender"]
+        }
+        for _, row in dfs.iterrows()
+    ]
+}
+
+with open('presidenticamera.json', 'w') as json_file:
+    json.dump(data_dict, json_file)
