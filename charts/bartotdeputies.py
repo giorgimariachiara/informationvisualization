@@ -20,4 +20,6 @@ plt.ylabel('Count')
 # Show the chart
 plt.show()
 
+
+
 # bar chart totale deputati maschi e femmine presenti in generale nella camera
