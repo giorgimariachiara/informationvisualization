@@ -31,7 +31,7 @@
     "pdfjs": "^2.5.0",
     "set-value": "^4.1.0",
     "shelljs": "^0.8.5",
-    "three": "^0.153.0",
+    "three": "^0.157.0",
     "turn.js": "^1.0.2"
   },
   "devDependencies": {
